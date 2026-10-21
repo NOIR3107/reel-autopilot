@@ -10,7 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Instagram key works
-        run: node -e "import('./scripts/lib.mjs').then(async ({ig}) => { const me = await ig('/me', {params: {fields: 'user_id,username,account_type'}}); console.log(me.username, me.account_type); })"
+        run: |
+          node -e "import('./scripts/lib.mjs').then(async ({ig}) => { const me = await ig('/me', {params: {fields: 'user_id,username,account_type'}}); console.log(me.username, me.account_type); })"
         env: {IG_TOKEN: '${{ secrets.IG_TOKEN }}'}
       - name: GitHub key can manage secrets
         run: gh secret list --repo ${{ github.repository }}
