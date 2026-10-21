@@ -1,0 +1,16 @@
+name: Post stories
+on:
+  push: {paths: ['assets/stories/**']}
+  workflow_dispatch:
+concurrency: {group: reel-bot, cancel-in-progress: false}
+permissions: {contents: read}
+jobs:
+  stories:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: node scripts/stories.mjs
+        env: {IG_TOKEN: '${{ secrets.IG_TOKEN }}'}
