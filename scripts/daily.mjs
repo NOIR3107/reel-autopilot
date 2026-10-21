@@ -52,9 +52,13 @@ function soundtrack(script) {
 const script = read(queueFile, null);
 const entry = {date: now.date, slot, hour: now.hour, status: script ? 'failed' : 'skipped'};
 posts.push(entry);
+if (!script) {
+  // Logged once as skipped (no hourly retries, no red run); the weekly report shows it.
+  console.log(`no script for today: ${queueFile} is missing. The weekly writer may not have run.`);
+  if (!DRY) { write('data/posts.json', posts); write('data/state.json', state); gitCommit(`log ${now.date}: skipped`, ['data']); }
+  process.exit(0);
+}
 try {
-  // Logged once as skipped (no hourly retries); the weekly report shows it.
-  if (!script) throw new Error(`no script for today: ${queueFile} is missing. The weekly writer may not have run.`);
   const problems = validate(script);
   if (problems.length) throw new Error(`today's script fails the checks:\n- ${problems.join('\n- ')}`);
   Object.assign(entry, {style: script.style, trade: script.trade, topic: script.topic, hook: script.hook, formula: script.hook_formula, caption: script.caption});
