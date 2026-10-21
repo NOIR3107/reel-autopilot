@@ -1,0 +1,17 @@
+name: Check setup
+# Posts nothing. Confirms the keys work. Runs when this file changes, or from the Actions tab.
+on:
+  push: {paths: ['.github/workflows/check.yml']}
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instagram key works
+        run: node -e "import('./scripts/lib.mjs').then(async ({ig}) => { const me = await ig('/me', {params: {fields: 'user_id,username,account_type'}}); console.log(me.username, me.account_type); })"
+        env: {IG_TOKEN: '${{ secrets.IG_TOKEN }}'}
+      - name: GitHub key can manage secrets
+        run: gh secret list --repo ${{ github.repository }}
+        env: {GH_TOKEN: '${{ secrets.GH_PAT }}'}
