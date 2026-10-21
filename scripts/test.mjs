@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {slotFor, eastern, SLOTS} from './lib.mjs';
 import {validate} from './validate.mjs';
 import {score, groupMeans, bestSlot, ranks} from './weekly.mjs';
+import {wantsCheck} from './replies.mjs';
 
 // Time slots rotate, lock, and re-test the last 6 days of every 28.
 const st = {start: '2026-11-01', locked_slot: null};
@@ -39,5 +40,9 @@ score(ps);
 assert.ok(ps[5].score > ps[0].score);
 assert.deepEqual(groupMeans(ps, 'style').map((g) => g.style), ['kinetic', 'mike', 'ad']);
 assert.equal(bestSlot(ps.map((p, i) => ({...p, stats: {...p.stats, reach: i}}))), 17);
+
+// Comment keyword match.
+assert.ok(['WEBSITE', 'website pls', 'Website!', 'need a website'].every(wantsCheck));
+assert.ok(!['websites are dead', 'nice', '', undefined].some(wantsCheck));
 
 console.log('all checks passed');

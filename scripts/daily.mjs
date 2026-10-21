@@ -24,14 +24,14 @@ if (stop) {
   process.exit(0);
 }
 
-async function publish(file, caption) {
+async function publish(file, fields) {
   const {user_id} = await ig('/me', {params: {fields: 'user_id'}});
   const sha = sh('git', ['rev-parse', 'HEAD']).trim();
   const repo = process.env.GITHUB_REPOSITORY;
   // Instagram fetches the video itself. jsDelivr serves it as video/mp4; GitHub raw is the fallback.
   const urls = [`https://cdn.jsdelivr.net/gh/${repo}@${sha}/${file}`, `https://raw.githubusercontent.com/${repo}/${sha}/${file}`];
   for (const video_url of urls) {
-    const {id} = await ig(`/${user_id}/media`, {method: 'POST', params: {media_type: 'REELS', video_url, caption, share_to_feed: 'true', thumb_offset: '500'}});
+    const {id} = await ig(`/${user_id}/media`, {method: 'POST', params: {video_url, ...fields}});
     let status = 'IN_PROGRESS';
     for (let i = 0; i < 20 && status === 'IN_PROGRESS'; i++) {
       await sleep(30_000);
@@ -75,9 +75,12 @@ try {
   if (DRY) entry.status = 'dry-run';
   else {
     gitCommit(`reel ${now.date}`, [entry.file]);
-    entry.media_id = await publish(entry.file, script.caption);
+    entry.media_id = await publish(entry.file, {media_type: 'REELS', caption: script.caption, share_to_feed: 'true', thumb_offset: '500'});
     entry.permalink = (await ig(`/${entry.media_id}`, {params: {fields: 'permalink'}})).permalink;
     entry.status = 'posted';
+    // The same video as a story keeps the profile active daily. A failed story never fails the day.
+    try { entry.story_id = await publish(entry.file, {media_type: 'STORIES'}); }
+    catch (e) { entry.story_error = e.message.slice(0, 300); console.log(`story not posted: ${entry.story_error}`); }
   }
   console.log(`${entry.status}: ${script.style} "${script.hook}" ${entry.permalink ?? entry.file}`);
 } finally {
