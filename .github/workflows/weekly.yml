@@ -1,0 +1,21 @@
+name: Weekly report
+on:
+  schedule:
+    - cron: '0 15 * * 6' # Saturdays 15:00 UTC, so Sunday's writer sees fresh numbers
+  workflow_dispatch:
+concurrency: {group: reel-bot, cancel-in-progress: false}
+permissions: {contents: write, issues: write}
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: git config user.name "reel-bot" && git config user.email "reel-bot@users.noreply.github.com"
+      - run: node scripts/weekly.mjs
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ github.token }}

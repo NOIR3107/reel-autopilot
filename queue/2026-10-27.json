@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-27",
+  "style": "ad",
+  "trade": "HVAC",
+  "topic": "premium before and after: old HVAC site to a new one",
+  "hook_formula": 1,
+  "hook": "Your HVAC website loses you 3 jobs before anyone calls.",
+  "caption": "Comment WEBSITE and I'll show you what your site could look like, free.\n\nSame HVAC company, 2 websites. Brightline is made up, but you have seen the old one: tiny text, a number you have to hunt for, a layout built for a 2009 desktop.\n\nThe new one? What you fix, up top. A button that rings your phone.\n\nA homeowner in Houston with a dead AC at 3 PM wants 1 thing: a number to tap.\n\n#hvac #hvacbusiness #webdesign",
+  "props": {
+    "trade": "hvac"
+  }
+}

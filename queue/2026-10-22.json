@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-22",
+  "style": "kinetic",
+  "trade": "HVAC",
+  "topic": "no tap-to-call button on an HVAC site",
+  "hook_formula": 3,
+  "hook": "Your AC quit at 4 PM and your HVAC site wants 11 answers first.",
+  "caption": "Comment WEBSITE and I'll check your site for free, then DM you the first 3 things I'd fix.\n\nJuly, 4 PM. The AC quit and the house in Phoenix is at 88 and climbing. Nobody in that house wants to type an address into a 6-box form and wait.\n\nThey want to tap and hear a person.\n\nIf your HVAC site hides the phone behind a Contact page, they tap the next listing on Google instead. Put the number at the top. Make it 1 tap.\n\n#hvac #hvacbusiness #contractor",
+  "props": {
+    "cards": [
+      {
+        "beats": 5,
+        "bg": "ink",
+        "text": "AC out.\nHouse is\n*hot.*",
+        "hook": true
+      },
+      {
+        "beats": 3,
+        "bg": "paper",
+        "text": "They grab\ntheir *phone.*"
+      },
+      {
+        "beats": 3,
+        "bg": "cobalt",
+        "text": "Find your\nsite."
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "And see\na *form.*"
+      },
+      {
+        "beats": 3,
+        "bg": "ink",
+        "text": "Name."
+      },
+      {
+        "beats": 3,
+        "bg": "paper",
+        "text": "Address."
+      },
+      {
+        "beats": 3,
+        "bg": "cobalt",
+        "text": "Unit type."
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "Best time\nto *call?*"
+      },
+      {
+        "beats": 5,
+        "bg": "ink",
+        "text": "They don't\nwant to\n[type.]",
+        "turn": true
+      },
+      {
+        "beats": 3,
+        "bg": "paper",
+        "text": "They want\na *person.*"
+      },
+      {
+        "beats": 3,
+        "bg": "cobalt",
+        "text": "So they\ncall the\nnext guy."
+      },
+      {
+        "beats": 4,
+        "bg": "lime",
+        "text": "Number at\nthe *top.*",
+        "icon": "phone"
+      },
+      {
+        "beats": 3,
+        "bg": "ink",
+        "text": "One tap.\n*Ringing.*"
+      },
+      {
+        "beats": 5,
+        "bg": "paper",
+        "text": "Form or\nphone on\nyour *site?*"
+      },
+      {
+        "cta": true,
+        "bg": "ink"
+      }
+    ]
+  }
+}

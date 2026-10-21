@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-22",
+  "trade": "roofing",
+  "topic": "sample",
+  "hook_formula": 3,
+  "caption": "Comment WEBSITE and I'll check your site for free, then DM you the 3 fixes I'd make first.\n\nPicture it. Water dripping through a ceiling at 2 AM. A homeowner grabs their phone, finds you on Google, and your page just spins. Six seconds later they're calling the next roofer.\n\nYou never hear about that job. It just goes.\n\nI build fast, phone-first websites for roofing and other trade businesses. The check is free.\n\n#roofing #roofer #contractor",
+  "style": "mike",
+  "hook": "Your roofing site is losing you storm calls at 2 AM.",
+  "props": {
+    "scenes": [
+      {
+        "sec": 3.0,
+        "caption": "Mike's phone went quiet.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "silent"
+      },
+      {
+        "sec": 3.5,
+        "caption": "Mike runs Northpeak Roofing.",
+        "say": "Slow week. Must be the weather.",
+        "mood": "neutral",
+        "pose": "shrug",
+        "screen": "silent"
+      },
+      {
+        "sec": 4.0,
+        "caption": "Meanwhile, a homeowner opens his website...",
+        "mood": "happy",
+        "pose": "idle",
+        "screen": "loading",
+        "beat": "fail"
+      },
+      {
+        "sec": 3.5,
+        "caption": "...waits, gives up, and calls someone else.",
+        "mood": "happy",
+        "pose": "idle",
+        "screen": "competitor"
+      },
+      {
+        "sec": 3.5,
+        "say": "Wait. That was MY customer?",
+        "mood": "shocked",
+        "pose": "shrug",
+        "screen": "old",
+        "beat": "fail"
+      },
+      {
+        "sec": 4.0,
+        "caption": "New site: fast, clear, one tap to call.",
+        "mood": "happy",
+        "pose": "phoneLook",
+        "screen": "new",
+        "beat": "win"
+      },
+      {
+        "sec": 3.5,
+        "say": "Northpeak Roofing, Mike speaking!",
+        "mood": "happy",
+        "pose": "call",
+        "screen": "ringing",
+        "beat": "ring"
+      },
+      {
+        "sec": 5.0,
+        "cta": true
+      }
+    ]
+  }
+}

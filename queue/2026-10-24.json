@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-24",
+  "style": "kinetic",
+  "trade": "roofing",
+  "topic": "after a storm, the roofer whose site loads first gets the call",
+  "hook_formula": 5,
+  "hook": "Hail hit at 2 AM. Your roofing site loads slow, so you lose the call.",
+  "caption": "Comment WEBSITE and I'll test how fast your site opens on a phone, free.\n\n2 AM, hail in Dallas. By 7 the homeowner is in the yard looking up roofers on Google. 3 tabs open. 2 spin. 1 loads.\n\nGuess who gets the call.\n\nIt isn't about who does the better roof. It's whoever shows up first on a 6 inch screen with 1 bar of signal, so shrink those giant photos and test it on your own phone tonight.\n\n#roofing #roofer #roofingcontractor",
+  "props": {
+    "cards": [
+      {
+        "beats": 5,
+        "bg": "ink",
+        "text": "Hail hit\nlast *night.*",
+        "hook": true
+      },
+      {
+        "beats": 3,
+        "bg": "paper",
+        "text": "They search\n*roofers.*"
+      },
+      {
+        "beats": 3,
+        "bg": "cobalt",
+        "text": "Open three\n*tabs.*"
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "Tab one:\n*spinning.*"
+      },
+      {
+        "beats": 3,
+        "bg": "ink",
+        "text": "Tab two:\n*spinning.*"
+      },
+      {
+        "beats": 3,
+        "bg": "paper",
+        "text": "Tab three\n*loads.*"
+      },
+      {
+        "beats": 3,
+        "bg": "cobalt",
+        "text": "They call\ntab three."
+      },
+      {
+        "beats": 5,
+        "bg": "ink",
+        "text": "First to\nload gets\nthe [job.]",
+        "turn": true
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "Not the\n*best* one."
+      },
+      {
+        "beats": 3,
+        "bg": "paper",
+        "text": "The *fast*\none."
+      },
+      {
+        "beats": 4,
+        "bg": "cobalt",
+        "text": "Big photos\nslow you\n*down.*"
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "Shrink\nthem."
+      },
+      {
+        "beats": 4,
+        "bg": "ink",
+        "text": "Open your\nsite on\nyour *phone.*"
+      },
+      {
+        "beats": 4,
+        "bg": "paper",
+        "text": "Count.\nHow long\nis it?"
+      },
+      {
+        "cta": true,
+        "bg": "ink"
+      }
+    ]
+  }
+}

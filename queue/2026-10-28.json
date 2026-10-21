@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-28",
+  "style": "teardown",
+  "trade": "roofing",
+  "topic": "teardown of a fictional roofing site: headline, chat pop-up, long form",
+  "hook_formula": 7,
+  "hook": "This roofing site loses you 3 storm calls before anyone books.",
+  "caption": "Comment WEBSITE and I'll mark up your roofing site the same way, free.\n\nTallowbrook is a made-up roofer in Wichita. Real problems though.\n\nThe headline talks about family values and never says roof repair. The chat pop-up lands right on the phone number. And the quote form wants 11 answers from someone holding a bucket under a leak in April.\n\n3 small fixes. Same site, way more calls.\n\n#roofing #roofer #roofingbusiness",
+  "props": {
+    "shop": {
+      "name": "Tallowbrook Roofing",
+      "domain": "tallowbrookroofing.com",
+      "phone": "(555) 016-4108",
+      "trade": "roofing",
+      "photo": "np-house.jpg",
+      "accent": "#b45309",
+      "fixedHeadline": [
+        "Roof leak?",
+        "Fixed this week."
+      ],
+      "fixedSub": "Roof repair and replacement across Wichita.",
+      "about": "residential roofing",
+      "services": [
+        "Leak repair",
+        "New roofs",
+        "Inspections"
+      ],
+      "icons": "general"
+    },
+    "hook": [
+      "This roofing site loses calls in",
+      "3 places."
+    ],
+    "fixes": [
+      {
+        "problem": "Family values up top. Not one word about roofs.",
+        "fixed": "Say leak repair up top. Put the number next to it."
+      },
+      {
+        "problem": "The chat pop-up lands right on the phone number.",
+        "fixed": "Move the chat aside. Keep a call bar on screen."
+      },
+      {
+        "problem": "11 questions from someone holding a bucket.",
+        "fixed": "Ask 3: name, phone, where it leaks."
+      }
+    ]
+  }
+}

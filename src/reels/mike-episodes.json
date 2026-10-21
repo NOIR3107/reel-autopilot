@@ -1,0 +1,39 @@
+{
+  "story": {
+    "title": "Mike's phone went quiet",
+    "scenes": [
+      {"sec": 3.0, "caption": "Mike's phone went quiet.", "mood": "worried", "pose": "phoneLook", "screen": "silent"},
+      {"sec": 3.5, "caption": "Mike runs Northpeak Roofing.", "say": "Slow week. Must be the weather.", "mood": "neutral", "pose": "shrug", "screen": "silent"},
+      {"sec": 4.0, "caption": "Meanwhile, a homeowner opens his website...", "mood": "happy", "pose": "idle", "screen": "loading", "beat": "fail"},
+      {"sec": 3.5, "caption": "...waits, gives up, and calls someone else.", "mood": "happy", "pose": "idle", "screen": "competitor"},
+      {"sec": 3.5, "say": "Wait. That was MY customer?", "mood": "shocked", "pose": "shrug", "screen": "old", "beat": "fail"},
+      {"sec": 4.0, "caption": "New site: fast, clear, one tap to call.", "mood": "happy", "pose": "phoneLook", "screen": "new", "beat": "win"},
+      {"sec": 3.5, "say": "Northpeak Roofing, Mike speaking!", "mood": "happy", "pose": "call", "screen": "ringing", "beat": "ring"},
+      {"sec": 5.0, "cta": true}
+    ]
+  },
+  "skit": {
+    "title": "Mike tries to call himself",
+    "scenes": [
+      {"sec": 3.0, "caption": "Mike tries to call his own business. From his own website.", "mood": "neutral", "pose": "phoneLook", "screen": "old"},
+      {"sec": 3.5, "say": "Okay. Where's the number?", "mood": "squint", "pose": "phoneLook", "screen": "old"},
+      {"sec": 4.0, "say": "Scroll... scroll...", "mood": "worried", "pose": "phoneLook", "screen": "oldScroll"},
+      {"sec": 4.0, "caption": "Found it. In the footer. In tiny type.", "mood": "shocked", "pose": "phoneLook", "screen": "footer", "beat": "fail"},
+      {"sec": 4.0, "say": "Even I'd call the other guy.", "mood": "squint", "pose": "facepalm", "screen": "footer"},
+      {"sec": 5.0, "caption": "Put your number at the top. Make it one tap.", "mood": "happy", "pose": "fistPump", "screen": "new", "beat": "win"},
+      {"sec": 6.5, "cta": true}
+    ]
+  },
+  "myth": {
+    "title": "Mike's myth",
+    "scenes": [
+      {"sec": 3.5, "caption": "Mike's myth:", "say": "I don't need a website. I've got a page.", "mood": "smug", "pose": "phoneLook", "screen": "social", "stamp": "MYTH"},
+      {"sec": 4.0, "caption": "His page looks like every other roofer's page.", "mood": "neutral", "pose": "phoneLook", "screen": "social"},
+      {"sec": 4.0, "caption": "And the platform decides how it looks and who sees it.", "mood": "worried", "pose": "shrug", "screen": "social", "beat": "fail"},
+      {"sec": 5.0, "caption": "A website is yours. Your name, your layout, your call button.", "mood": "shocked", "pose": "idle", "screen": "new", "stamp": "TRUTH", "beat": "win"},
+      {"sec": 4.0, "caption": "Use the page to get seen. Use the site to get booked.", "mood": "happy", "pose": "phoneLook", "screen": "new"},
+      {"sec": 3.0, "say": "Fine. Let's build one.", "mood": "happy", "pose": "fistPump", "screen": "new"},
+      {"sec": 6.5, "cta": true}
+    ]
+  }
+}

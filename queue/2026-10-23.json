@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-23",
+  "style": "teardown",
+  "trade": "HVAC",
+  "topic": "teardown of a fictional HVAC site: headline, chat pop-up, long form",
+  "hook_formula": 7,
+  "hook": "This HVAC site loses you 3 calls before anyone can book.",
+  "caption": "Comment WEBSITE and I'll do this teardown on your site for free.\n\nBellcrest is made up. The problems are not.\n\nI see these 3 on real HVAC sites every week: a headline that says Welcome instead of what you fix, a chat bubble parked on top of the Call button, and a form with 11 boxes that nobody with a dead furnace in January is going to finish.\n\nFix all 3. Then the page does its 1 job, which is making your phone ring.\n\n#hvac #hvaccontractor #smallbusiness",
+  "props": {
+    "shop": {
+      "name": "Bellcrest Comfort Air",
+      "domain": "bellcrestcomfort.com",
+      "phone": "(555) 018-2264",
+      "trade": "HVAC",
+      "photo": "hvac-house.jpg",
+      "accent": "#0e7490",
+      "fixedHeadline": [
+        "No heat?",
+        "Warm by tonight."
+      ],
+      "fixedSub": "Furnace and AC repair across Columbus.",
+      "about": "home heating and cooling",
+      "services": [
+        "Furnace repair",
+        "AC repair",
+        "Tune-ups"
+      ],
+      "icons": "hvac"
+    },
+    "hook": [
+      "This HVAC site loses calls in",
+      "3 places."
+    ],
+    "fixes": [
+      {
+        "problem": "The headline says welcome. Welcome to what?",
+        "fixed": "Lead with the problem you fix, and the number."
+      },
+      {
+        "problem": "A chat bubble sits on top of the call button.",
+        "fixed": "Shrink the chat. Pin a call bar to the bottom."
+      },
+      {
+        "problem": "11 boxes to fill before anyone calls back.",
+        "fixed": "Name, phone, what broke. Done."
+      }
+    ]
+  }
+}

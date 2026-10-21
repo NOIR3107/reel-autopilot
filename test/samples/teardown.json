@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-22",
+  "trade": "roofing",
+  "topic": "sample",
+  "hook_formula": 3,
+  "caption": "Comment WEBSITE and I'll check your site for free, then DM you the 3 fixes I'd make first.\n\nPicture it. Water dripping through a ceiling at 2 AM. A homeowner grabs their phone, finds you on Google, and your page just spins. Six seconds later they're calling the next roofer.\n\nYou never hear about that job. It just goes.\n\nI build fast, phone-first websites for roofing and other trade businesses. The check is free.\n\n#roofing #roofer #contractor",
+  "style": "teardown",
+  "hook": "Your roofing site is losing you storm calls at 2 AM.",
+  "props": {
+    "shop": {
+      "name": "Ridgeway Roofing Co.",
+      "domain": "ridgewayroofs.com",
+      "phone": "(555) 016-7731",
+      "trade": "roofing",
+      "photo": "np-house.jpg",
+      "accent": "#b45309",
+      "fixedHeadline": [
+        "Roof leak?",
+        "Fixed this week."
+      ],
+      "fixedSub": "Roof repairs and replacements across Tulsa.",
+      "about": "residential roofing",
+      "services": [
+        "Repairs",
+        "Replacement",
+        "Inspections"
+      ],
+      "icons": "general"
+    },
+    "hook": [
+      "This roofing site loses calls in",
+      "3 places."
+    ],
+    "fixes": [
+      {
+        "problem": "The headline says hello. Not what you do.",
+        "fixed": "Say what you fix, and put the number right there."
+      },
+      {
+        "problem": "This chat pop-up covers half the page.",
+        "fixed": "Move it. Add a call bar that stays put."
+      },
+      {
+        "problem": "11 fields just to ask for help.",
+        "fixed": "Ask for 3: name, phone, what is wrong."
+      }
+    ]
+  }
+}

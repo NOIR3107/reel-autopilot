@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-25",
+  "style": "mike",
+  "trade": "roofing",
+  "topic": "Mike tries to find his own phone number on his old roofing site",
+  "hook_formula": 11,
+  "hook": "Never hide your number like Mike did. It cost him a roofing job.",
+  "caption": "Comment WEBSITE and I'll check where your number sits on your site, free.\n\nMike runs Northpeak Roofing. On Monday he tried to call himself from his own website, the way a customer would. 3 scrolls. Then he found it, in the footer, in tiny gray type.\n\nIf it takes the owner that long, the homeowner in Denver with a bucket under the leak is already calling somebody else.\n\nSend this to a contractor who never tried calling himself.\n\n#roofing #contractor #smallbusiness",
+  "props": {
+    "scenes": [
+      {
+        "sec": 3.0,
+        "caption": "Mike tries to call his own business. From his own website.",
+        "mood": "neutral",
+        "pose": "phoneLook",
+        "screen": "old"
+      },
+      {
+        "sec": 3.5,
+        "say": "Okay. Where's the number?",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "old"
+      },
+      {
+        "sec": 4.0,
+        "say": "Scroll... scroll...",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "oldScroll"
+      },
+      {
+        "sec": 4.0,
+        "caption": "Found it. In the footer. In tiny type.",
+        "mood": "shocked",
+        "pose": "phoneLook",
+        "screen": "footer",
+        "beat": "fail"
+      },
+      {
+        "sec": 4.0,
+        "say": "Even I'd call the other guy.",
+        "mood": "squint",
+        "pose": "facepalm",
+        "screen": "footer"
+      },
+      {
+        "sec": 5.0,
+        "caption": "Put your number at the top. Make it one tap.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "new",
+        "beat": "win"
+      },
+      {
+        "sec": 6.5,
+        "cta": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-26",
+  "style": "kinetic",
+  "trade": "plumbing",
+  "topic": "a Facebook page alone is not a website for a plumber",
+  "hook_formula": 2,
+  "hook": "Your plumbing Facebook page is not a website, and customers can tell.",
+  "caption": "Comment WEBSITE and I'll tell you what a simple site for your plumbing business needs, free.\n\nLots of plumbers run everything off a Facebook page. Fine for posting jobs. But Meta owns it, it looks like every other page, and the guy in Tampa with a burst pipe at 11 PM usually searches Google, not Facebook.\n\nKeep the page.\n\nUse it to get seen, then send people to a site with your name, your town and 1 big Call button that works.\n\n#plumbing #plumber #contractor",
+  "props": {
+    "cards": [
+      {
+        "beats": 5,
+        "bg": "ink",
+        "text": "Your\nFacebook\npage is *not*\na website.",
+        "hook": true
+      },
+      {
+        "beats": 3,
+        "bg": "paper",
+        "text": "It's *rented*\nland."
+      },
+      {
+        "beats": 3,
+        "bg": "cobalt",
+        "text": "Facebook\nsets the\n*rules.*"
+      },
+      {
+        "beats": 3,
+        "bg": "ink",
+        "text": "And can\nchange them\n*overnight.*"
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "Your page\nlooks like\nevery other\npage."
+      },
+      {
+        "beats": 2,
+        "bg": "paper",
+        "text": "Same\n*layout.*"
+      },
+      {
+        "beats": 2,
+        "bg": "cobalt",
+        "text": "Same\n*buttons.*"
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "Same as\nyour\n*competitor.*"
+      },
+      {
+        "beats": 5,
+        "bg": "ink",
+        "text": "A website\nis [yours.]",
+        "turn": true
+      },
+      {
+        "beats": 2,
+        "bg": "paper",
+        "text": "Your\n*name.*"
+      },
+      {
+        "beats": 2,
+        "bg": "cobalt",
+        "text": "Your\n*area.*"
+      },
+      {
+        "beats": 3,
+        "bg": "lime",
+        "text": "Your call\nbutton.",
+        "icon": "phone"
+      },
+      {
+        "beats": 4,
+        "bg": "ink",
+        "text": "Use\nFacebook\nto get *seen.*"
+      },
+      {
+        "beats": 4,
+        "bg": "paper",
+        "text": "Use your\nsite to get\n*booked.*"
+      },
+      {
+        "beats": 5,
+        "bg": "cobalt",
+        "text": "Page only,\nor a real\n*site?*"
+      },
+      {
+        "cta": true,
+        "bg": "ink"
+      }
+    ]
+  }
+}
