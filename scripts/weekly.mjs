@@ -87,7 +87,7 @@ async function main() {
   const head = '| date | style | trade | hook | views | reach | shares | saves | comments | score | |\n|---|---|---|---|---|---|---|---|---|---|---|';
   const body = [
     `**Followers:** ${followers_count}${prev !== undefined ? ` (${followers_count - prev >= 0 ? '+' : ''}${followers_count - prev} this week)` : ''}`,
-    `**This week:** ${count('posted')} posted, ${count('failed')} failed.`,
+    `**This week:** ${count('posted')} posted, ${count('failed')} failed, ${count('skipped')} skipped (no script).`,
     live.length < MIN_REELS
       ? `Learning starts once ${MIN_REELS} reels have been live 2+ days. So far: ${live.length}.\n\n${changes.map((c) => `- ${c}`).join('\n')}`
       : `### Best 3\n${head}\n${sorted.slice(0, 3).map(row).join('\n')}\n\n### Worst 3\n${head}\n${sorted.slice(-3).map(row).join('\n')}\n\n### What changed\n${changes.map((c) => `- ${c}`).join('\n') || '- nothing'}\n\nSunday's writer reads these numbers to plan next week.`,
