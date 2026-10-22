@@ -4,5 +4,22 @@
     "slot": 10,
     "hour": 13,
     "status": "skipped"
+  },
+  {
+    "date": "2026-10-22",
+    "slot": 13,
+    "hour": 13,
+    "status": "posted",
+    "style": "kinetic",
+    "trade": "HVAC",
+    "topic": "no tap-to-call button on an HVAC site",
+    "hook": "Your AC quit at 4 PM and your HVAC site wants 11 answers first.",
+    "formula": 3,
+    "caption": "Comment WEBSITE and I'll check your site for free, then DM you the first 3 things I'd fix.\n\nJuly, 4 PM. The AC quit and the house in Phoenix is at 88 and climbing. Nobody in that house wants to type an address into a 6-box form and wait.\n\nThey want to tap and hear a person.\n\nIf your HVAC site hides the phone behind a Contact page, they tap the next listing on Google instead. Put the number at the top. Make it 1 tap.\n\n#hvac #hvacbusiness #contractor",
+    "file": "media/2026-10-22.mp4",
+    "seconds": 30.016,
+    "media_id": "17921233407448718",
+    "permalink": "https://www.instagram.com/reel/DezkqGXjIPJ/",
+    "story_id": "18126798985855724"
   }
 ]
