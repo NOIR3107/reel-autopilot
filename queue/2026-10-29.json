@@ -2,42 +2,41 @@
   "date": "2026-10-29",
   "style": "story",
   "trade": "roofing",
-  "topic": "homeowners judge your roof by your website",
-  "hook": "Homeowners judge your roof by your website. Brutal, but true.",
+  "topic": "contact form sends leads to an old inbox nobody checks",
+  "hook": "Your contact form might be sending jobs to nowhere.",
   "hook_formula": 0,
-  "caption": "Comment WEBSITE and I'll tell you what your site says about your roofs. Free.\n\nMike is made up. The 3 tabs are real. After a hailstorm in Oklahoma, a homeowner opens 3 roofers at once and closes the oldest-looking one first.\n\nYour work might be the best in town. Your website has to show it.\n\n#roofing #roofingcontractor #roofer",
+  "caption": "Comment WEBSITE and I'll send a test request through your contact form and tell you where it lands. Free.\n\nMike and Karen are made up. The dead form is real. I find roofing sites in Ohio and Texas whose forms still email an address the owner stopped checking in 2019.\n\nEvery one of those is a homeowner who thinks you ignored them.\n\n#roofing #roofer #contractor",
   "props": {
     "trade": "roofing",
     "lead": "mike",
     "music": "suspense",
     "narrator": "am_adam",
     "ctaTitle": [
-      "Does your site",
-      "match your work?"
+      "Where do your",
+      "forms go?"
     ],
     "scenes": [
       {
-        "vo": "Homeowners judge your roof by your website. Brutal, but true.",
-        "key": "judge",
-        "layout": "closeup",
-        "who": "maya",
-        "mood": "squint",
-        "pose": "armsCrossed",
+        "vo": "Your contact form might be sending jobs to nowhere.",
+        "key": "nowhere",
+        "layout": "screen",
+        "screen": "oldScroll",
         "set": "storm",
         "cam": "push",
         "fx": [
-          "hail"
+          "hail",
+          "shake"
         ],
         "part": "hook"
       },
       {
-        "vo": "Hail just hit. Maya has three tabs open.",
-        "key": "three",
+        "vo": "Karen found a leak and filled out Mike's form.",
+        "key": "form",
         "layout": "phone",
-        "who": "maya",
+        "who": "karen",
         "mood": "worried",
         "pose": "phoneLook",
-        "screen": "search",
+        "screen": "old",
         "set": "storm",
         "cam": "dutch",
         "fx": [
@@ -46,39 +45,27 @@
         "part": "drop"
       },
       {
-        "vo": "Tab one looks like it's from two thousand nine.",
-        "key": "one",
-        "layout": "screen",
-        "screen": "old",
-        "set": "storm",
-        "cam": "push",
-        "fx": [
-          "hail"
-        ],
-        "part": "drop"
-      },
-      {
-        "vo": "If the website's this old, what about the roofs?",
-        "key": "old",
-        "layout": "phone",
-        "who": "maya",
-        "speaker": "maya",
-        "mood": "squint",
-        "pose": "shrug",
-        "screen": "old",
+        "vo": "Name, address, photos. Hit send.",
+        "key": "send",
+        "layout": "closeup",
+        "who": "karen",
+        "speaker": "karen",
+        "mood": "neutral",
+        "pose": "phoneLook",
         "set": "kitchen",
         "cam": "whip",
         "part": "drop"
       },
       {
-        "vo": "Closed in three seconds.",
-        "key": "closed",
-        "layout": "closeup",
-        "who": "maya",
+        "vo": "One day. Two days. Nothing.",
+        "key": "nothing",
+        "layout": "phone",
+        "who": "karen",
         "mood": "angry",
         "pose": "armsCrossed",
+        "screen": "silent",
         "set": "kitchen",
-        "cam": "whip",
+        "cam": "push",
         "fx": [
           "shake"
         ],
@@ -86,50 +73,69 @@
         "part": "drop"
       },
       {
-        "vo": "That was Mike's site. His roofs are great.",
-        "key": "great",
-        "layout": "closeup",
-        "who": "mike",
-        "mood": "worried",
-        "pose": "headHands",
-        "set": "night",
-        "cam": "pull",
-        "part": "break"
-      },
-      {
-        "vo": "She picked the roofer whose site looked newer.",
-        "key": "newer",
+        "vo": "Vince called her back in an hour.",
+        "key": "hour",
         "layout": "duo",
         "cast": [
           "vince",
-          "maya"
+          "karen"
         ],
         "speaker": "vince",
         "mood": "smug",
         "pose": "call",
         "set": "storm",
-        "cam": "still",
+        "cam": "whip",
         "fx": [
           "hail"
         ],
         "beat": "fail",
+        "part": "drop"
+      },
+      {
+        "vo": "Weeks later, Mike runs into her.",
+        "key": "weeks",
+        "layout": "duo",
+        "cast": [
+          "mike",
+          "karen"
+        ],
+        "speaker": "mike",
+        "mood": "happy",
+        "pose": "wave",
+        "set": "day",
+        "cam": "still",
         "part": "break"
       },
       {
-        "vo": "Great roofs. Old-looking site.",
-        "key": "site",
-        "layout": "phone",
-        "who": "mike",
+        "vo": "I sent your form. You never called.",
+        "key": "never",
+        "layout": "duo",
+        "cast": [
+          "mike",
+          "karen"
+        ],
+        "speaker": "karen",
         "mood": "squint",
-        "pose": "explain",
-        "screen": "oldScroll",
+        "pose": "shrug",
+        "set": "day",
+        "cam": "push",
+        "part": "break",
+        "say": "You never called."
+      },
+      {
+        "vo": "His form was emailing an inbox he quit using years ago.",
+        "key": "inbox",
+        "layout": "closeup",
+        "who": "mike",
+        "mood": "shocked",
+        "pose": "headHands",
         "set": "night",
-        "cam": "dutch",
+        "cam": "pull",
         "part": "rise"
       },
       {
-        "vo": "So Mike made his site look as good as his roofs.",
-        "key": "good",
+        "vo": "Now every form texts his phone in seconds.",
+        "key": "seconds",
         "layout": "split",
         "set": "day",
         "cam": "push",
@@ -140,8 +146,8 @@
         "part": "drop2"
       },
       {
-        "vo": "Now he's the tab that gets the call.",
-        "key": "call",
+        "vo": "Same storms. No more lost jobs.",
+        "key": "lost",
         "layout": "phone",
         "who": "mike",
         "mood": "happy",
@@ -159,7 +165,7 @@
       },
       {
         "cta": true,
-        "vo": "Does your site match your work? Comment website. I'll check it free.",
+        "vo": "Not sure where your form goes? Comment website and I'll test it for you, free.",
         "part": "outro"
       }
     ]

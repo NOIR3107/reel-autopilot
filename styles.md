@@ -47,6 +47,18 @@ Copy the shape of queue/2026-10-25.json. `props` = {"trade": roofing|hvac|plumbi
 - Story shape: a hook that accuses or surprises the viewer, the owner is good at the trade, a customer struggles with his site
   (show it), the rival wins, someone says the hard truth out loud, the fix (split), the win (ringing), then the ask.
   Change the trade, the lead, the customer, the music, the sets and the order of layouts every day. Never reuse a hook.
+- Website problem: every reel is about ONE problem from this bank. Use a different problem every day, and do not repeat one
+  within 3 weeks (check `topic` in the last 21 queue files). Slow loading is just one of them.
+  1. Looks outdated or closed (old design, old year in the footer)      2. Phone number hidden or not tap-to-call
+  3. Slow to load on a phone                                            4. Contact form goes to an inbox nobody checks
+  5. No reviews or proof on the site                                   6. No photos of real jobs, or one blurry photo
+  7. Facebook page only, no website at all                             8. Does not show up on Google for "trade near me"
+  9. Headline does not say what you do or where                       10. No service area or city named anywhere
+  11. Pop-ups and chat bubbles covering the call button               12. Broken links, buttons that go nowhere
+  13. Built for desktop: tiny text, pinch-zoom on a phone              14. No way to book or ask after hours
+  15. Long forms (10+ fields) nobody finishes                           16. No prices, ranges or "free estimate" anywhere
+  17. Stock photos that look fake                                       18. No license, insurance or warranty shown
+  19. Old site still shows a wrong phone number or address              20. No clear next step at the bottom of a page
 
 ## kinetic: bold words on color cards, 124 bpm
 

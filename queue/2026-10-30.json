@@ -2,27 +2,27 @@
   "date": "2026-10-30",
   "style": "story",
   "trade": "hvac",
-  "topic": "owner tries to call himself from his own site",
-  "hook": "Try calling your own business from your website. I'll wait.",
+  "topic": "great google reviews, none on the website",
+  "hook": "Great reviews on Google. Zero on your website.",
   "hook_formula": 0,
-  "caption": "Comment WEBSITE if calling yourself from your own site took more than 1 tap. I'll send you the fix. Free.\n\nRob is made up. Try it yourself right now on your phone: open your HVAC site, find your number, tap it.\n\nIf it took 3 scrolls and a Contact page, that's what every customer goes through in August.\n\n#hvac #hvaccontractor #smallbusiness",
+  "caption": "Comment WEBSITE and I'll show you where your reviews should sit on your site. Free.\n\nRob and Maya are made up. This one is everywhere: an HVAC company in Phoenix with 5 stars on Google and not a single review on its own website.\n\nA homeowner comparing 2 companies trusts the one that shows proof. Put your best 3 reviews near the top.\n\n#hvac #hvacbusiness #contractor",
   "props": {
     "trade": "hvac",
     "lead": "rob",
     "music": "trap",
     "narrator": "am_adam",
     "ctaTitle": [
-      "Try calling",
-      "yourself."
+      "Do your reviews",
+      "show up?"
     ],
     "scenes": [
       {
-        "vo": "Try calling your own business from your website. I'll wait.",
-        "key": "calling",
+        "vo": "Great reviews on Google. Zero on your website.",
+        "key": "zero",
         "layout": "closeup",
         "who": "rob",
         "mood": "smug",
-        "pose": "point",
+        "pose": "armsCrossed",
         "set": "office",
         "cam": "push",
         "fx": [
@@ -31,41 +31,44 @@
         "part": "hook"
       },
       {
-        "vo": "Rob's office manager dared him to.",
-        "key": "dared",
-        "layout": "duo",
-        "cast": [
-          "rob",
-          "maya"
-        ],
-        "speaker": "maya",
-        "mood": "smug",
+        "vo": "Rob does honest work. Customers love him.",
+        "key": "love",
+        "layout": "phone",
+        "who": "rob",
+        "mood": "happy",
         "pose": "explain",
+        "screen": "search",
         "set": "office",
+        "cam": "pull",
+        "part": "drop"
+      },
+      {
+        "vo": "Maya is comparing two HVAC companies.",
+        "key": "two",
+        "layout": "phone",
+        "who": "maya",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "search",
+        "set": "kitchen",
         "cam": "whip",
         "part": "drop"
       },
       {
-        "vo": "Two seconds, tops.",
-        "key": "two",
-        "layout": "duo",
-        "cast": [
-          "rob",
-          "maya"
-        ],
-        "speaker": "rob",
-        "mood": "smug",
-        "pose": "phoneLook",
-        "set": "office",
-        "cam": "still",
+        "vo": "Vince's site is full of happy customers.",
+        "key": "happy",
+        "layout": "screen",
+        "screen": "new",
+        "set": "kitchen",
+        "cam": "push",
         "part": "drop"
       },
       {
-        "vo": "Menu. Contact page. Still loading.",
-        "key": "loading",
+        "vo": "Rob's site? Just a phone number and a logo.",
+        "key": "logo",
         "layout": "screen",
-        "screen": "loading",
-        "set": "office",
+        "screen": "old",
+        "set": "kitchen",
         "cam": "dutch",
         "fx": [
           "shake"
@@ -74,51 +77,51 @@
         "part": "drop"
       },
       {
-        "vo": "Found it. Bottom of the page. Not even tappable.",
-        "key": "tappable",
-        "layout": "phone",
-        "who": "rob",
-        "mood": "shocked",
-        "pose": "facepalm",
-        "screen": "footer",
-        "set": "office",
-        "cam": "push",
-        "fx": [
-          "shake"
-        ],
-        "beat": "fail",
-        "part": "drop"
-      },
-      {
-        "vo": "Even I'd call the other guy.",
-        "key": "other",
+        "vo": "How do I know this guy is any good?",
+        "key": "good",
         "layout": "closeup",
-        "who": "rob",
-        "speaker": "rob",
-        "mood": "worried",
-        "pose": "headHands",
-        "set": "night",
-        "cam": "pull",
+        "who": "maya",
+        "speaker": "maya",
+        "mood": "squint",
+        "pose": "armsCrossed",
+        "set": "kitchen",
+        "cam": "push",
         "part": "break"
       },
       {
-        "vo": "That's what every customer goes through.",
-        "key": "every",
+        "vo": "She went with Vince.",
+        "key": "vince",
+        "layout": "duo",
+        "cast": [
+          "vince",
+          "maya"
+        ],
+        "speaker": "vince",
+        "mood": "smug",
+        "pose": "wave",
+        "set": "day",
+        "cam": "whip",
+        "beat": "fail",
+        "part": "break"
+      },
+      {
+        "vo": "My reviews are better than his!",
+        "key": "better",
         "layout": "duo",
         "cast": [
           "rob",
           "maya"
         ],
-        "speaker": "maya",
-        "mood": "squint",
-        "pose": "armsCrossed",
+        "speaker": "rob",
+        "mood": "angry",
+        "pose": "explain",
         "set": "office",
         "cam": "still",
         "part": "rise"
       },
       {
-        "vo": "Now his number sits right at the top. One tap.",
-        "key": "tap",
+        "vo": "So Rob put his best reviews right on the homepage.",
+        "key": "reviews",
         "layout": "split",
         "set": "day",
         "cam": "push",
@@ -129,8 +132,8 @@
         "part": "drop2"
       },
       {
-        "vo": "And the phone actually rings.",
-        "key": "rings",
+        "vo": "Now strangers trust him before they call.",
+        "key": "trust",
         "layout": "phone",
         "who": "rob",
         "mood": "happy",
@@ -147,7 +150,7 @@
       },
       {
         "cta": true,
-        "vo": "Tried it and didn't like it? Comment website and I'll send you the fix, free.",
+        "vo": "Hiding your best reviews? Comment website and I'll show you where they belong, free.",
         "part": "outro"
       }
     ]

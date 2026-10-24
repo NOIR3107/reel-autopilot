@@ -39,7 +39,7 @@ The weekly writer reads this file and styles.md before writing the week's script
 - Never name, show or mock a real business or person. Every business shown is fictional and labeled.
 - Never mention prices, discounts, deadlines or fake urgency, or promise rankings or a number of jobs.
 - Never use em dashes, "game-changer", "unlock", "level up", "in today's video", "stop scrolling", "follow for more".
-- Never repeat a topic used in the last 14 days.
+- Never repeat a topic used in the last 14 days. Rotate through the 20 website problems in styles.md, not just speed.
 
 ## What competitors are doing
 
