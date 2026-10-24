@@ -1,12 +1,121 @@
 {
   "date": "2026-10-27",
-  "style": "ad",
-  "trade": "HVAC",
-  "topic": "premium before and after: old HVAC site to a new one",
-  "hook_formula": 1,
-  "hook": "Your HVAC website loses you 3 jobs before anyone calls.",
-  "caption": "Comment WEBSITE and I'll show you what your site could look like, free.\n\nSame HVAC company, 2 websites. Brightline is made up, but you have seen the old one: tiny text, a number you have to hunt for, a layout built for a 2009 desktop.\n\nThe new one? What you fix, up top. A button that rings your phone.\n\nA homeowner in Houston with a dead AC at 3 PM wants 1 thing: a number to tap.\n\n#hvac #hvacbusiness #webdesign",
+  "style": "story",
+  "trade": "electrical",
+  "topic": "facebook page only, customers think the business is not real",
+  "hook": "Stop sending customers to your Facebook page.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE and I'll show you what a simple site for your electrical business could look like. Free.\n\nTony is made up. The doubt is real. A homeowner in Atlanta clicks a Facebook page, sees the last post was 8 months ago, and wonders if you're still open.\n\nKeep Facebook to get seen. A website is what makes you look real.\n\n#electrician #electrical #contractor",
   "props": {
-    "trade": "hvac"
+    "trade": "electrical",
+    "scenes": [
+      {
+        "vo": "Stop sending customers to your Facebook page.",
+        "mood": "squint",
+        "pose": "point",
+        "screen": "social",
+        "part": "hook",
+        "voice": "am_michael",
+        "key": "stop",
+        "fx": [
+          "shake"
+        ]
+      },
+      {
+        "vo": "Tony is a great electrician. Licensed. Careful.",
+        "mood": "happy",
+        "pose": "wave",
+        "screen": "social",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "great"
+      },
+      {
+        "vo": "But all he had was a Facebook page.",
+        "mood": "neutral",
+        "pose": "shrug",
+        "screen": "social",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "facebook"
+      },
+      {
+        "vo": "Is this guy even still in business?",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "social",
+        "part": "drop",
+        "voice": "af_heart",
+        "key": "business"
+      },
+      {
+        "vo": "Last post: eight months ago. No hours. No prices.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "social",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "months",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
+      },
+      {
+        "vo": "She called someone with a real website instead.",
+        "mood": "shocked",
+        "pose": "facepalm",
+        "screen": "competitor",
+        "part": "break",
+        "voice": "am_michael",
+        "key": "website",
+        "beat": "fail"
+      },
+      {
+        "vo": "To a homeowner, no website means no business.",
+        "mood": "worried",
+        "pose": "idle",
+        "screen": "silent",
+        "part": "rise",
+        "voice": "am_michael",
+        "key": "no"
+      },
+      {
+        "vo": "So Tony got a real site. Name, area, one call button.",
+        "mood": "happy",
+        "pose": "point",
+        "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "real",
+        "fx": [
+          "glow"
+        ],
+        "beat": "win"
+      },
+      {
+        "vo": "Same Tony. Way more calls.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "ringing",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "more",
+        "fx": [
+          "glow",
+          "shake"
+        ],
+        "beat": "ring"
+      },
+      {
+        "cta": true,
+        "vo": "Only on Facebook? Comment website and I'll show you what a simple site could look like.",
+        "part": "outro"
+      }
+    ],
+    "ctaTitle": [
+      "Only on",
+      "Facebook?"
+    ]
   }
 }

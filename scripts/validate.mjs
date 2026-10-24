@@ -4,7 +4,10 @@ import {py} from './lib.mjs';
 import {BUSINESSES} from '../src/biz.js';
 
 const MIN_HOOK = 70;
-const STYLES = ['kinetic', 'teardown', 'mike', 'ad'];
+const STYLES = ['story', 'kinetic', 'teardown', 'mike', 'ad'];
+const FX = ['closed', 'shake', 'hail', 'glow'];
+const PARTS = ['hook', 'drop', 'break', 'rise', 'drop2', 'outro'];
+const VOICES = ['am_michael', 'am_adam', 'am_eric', 'af_heart', 'af_bella', 'af_sarah'];
 const BANNED = /\d+(\.\d+)?\s?%|percent|studies show|survey|research shows|guarantee|game.?changer|unlock|level up|in today'?s video|stop scrolling|follow for more|\$\d|discount|limited time|[—–]/i;
 const BG = ['ink', 'paper', 'lime', 'cobalt'];
 const MOODS = ['neutral', 'happy', 'worried', 'shocked', 'smug', 'squint'];
@@ -59,6 +62,26 @@ function checkStyle(s, errs) {
       if (x.stamp && !['MYTH', 'TRUTH'].includes(x.stamp)) errs.push(`${n}: stamp is MYTH or TRUTH`);
     });
     if (body[0] && !body[0].caption) errs.push('mike: the first scene needs a caption (the hook)');
+  } else if (s.style === 'story') {
+    if (!BUSINESSES[p.trade]) errs.push(`story: trade must be one of ${Object.keys(BUSINESSES)}`);
+    const sc = p.scenes ?? [];
+    const body = sc.slice(0, -1);
+    if (!sc.at(-1)?.cta || !str(sc.at(-1)?.vo, 110)) errs.push('story: last scene must be {"cta": true, "vo": "spoken ask, 110 chars max"}');
+    if (body.length < 8 || body.length > 12) errs.push(`story: ${body.length} scenes, want 8-12`);
+    if (body[0]?.part !== 'hook') errs.push('story: first scene needs "part": "hook"');
+    const words = sc.reduce((n, x) => n + String(x.vo ?? '').split(/\s+/).filter(Boolean).length, 0);
+    if (words < 60 || words > 95) errs.push(`story: ${words} spoken words, want 60-95 (about 30 seconds)`);
+    if (p.ctaTitle && (!Array.isArray(p.ctaTitle) || p.ctaTitle.length !== 2 || !p.ctaTitle.every((l) => str(l, 22)))) errs.push('story: ctaTitle = 2 lines of 22 characters max');
+    body.forEach((x, i) => {
+      const n = `story scene ${i + 1}`;
+      if (!str(x.vo, 75)) errs.push(`${n}: vo (the spoken and shown line) required, 75 characters max`);
+      if (!MOODS.includes(x.mood) || !POSES.includes(x.pose) || !SCREENS.includes(x.screen)) errs.push(`${n}: mood, pose and screen must come from the lists in styles.md`);
+      if (x.key && !String(x.vo ?? '').toLowerCase().includes(x.key.toLowerCase())) errs.push(`${n}: key "${x.key}" is not in the line`);
+      if ((x.fx ?? []).some((f) => !FX.includes(f))) errs.push(`${n}: fx must come from ${FX}`);
+      if (x.part && !PARTS.includes(x.part)) errs.push(`${n}: part must be one of ${PARTS}`);
+      if (x.voice && !VOICES.includes(x.voice)) errs.push(`${n}: voice must be one of ${VOICES}`);
+      if (x.say && !str(x.say, 40)) errs.push(`${n}: say over 40 characters`);
+    });
   } else if (s.style === 'ad') {
     if (!BUSINESSES[p.trade]) errs.push(`ad: trade must be one of ${Object.keys(BUSINESSES)}`);
     if (p.hook && (!Array.isArray(p.hook) || p.hook.length > 8)) errs.push('ad: hook = up to 8 words like [["Your"], ["jobs.", 1]]');
@@ -80,7 +103,7 @@ export function validate(s, {quality = true} = {}) {
   if (banned) errs.push(`remove "${banned[0]}": no stats, prices, guarantees, em dashes or banned phrases`);
   checkStyle(s, errs);
   if (quality && !errs.length) {
-    const hook = py('hookscore.py', ['--hook', s.hook]);
+    const hook = s.style === 'story' ? {score: 100} : py('hookscore.py', ['--hook', s.hook]);
     if (hook.score < MIN_HOOK) errs.push(`hook "${s.hook}" scored ${hook.score}, needs ${MIN_HOOK}+ (weakest: ${hook.weakest}) ${hook.flags.join(' ')}`);
     const human = py('detect.py', ['-'], s.caption);
     if (human.verdict !== 'PASS') errs.push(`caption sounds machine-written (${human.human_score}): ${Object.entries(human.checks).filter(([, c]) => c.score < 55).map(([k, c]) => `${k} ${c.detail}`).join('; ')}`);

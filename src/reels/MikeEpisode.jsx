@@ -4,6 +4,7 @@ import '@fontsource-variable/bricolage-grotesque/opsz.css';
 import {Phone as PhoneIcon, PhoneDisconnect, UserCircle} from '@phosphor-icons/react';
 import {Phone, OldSite, NewSiteMobile} from '../ad/Sites.jsx';
 import {Mike} from './MikeCharacter.jsx';
+import {useBiz} from '../biz.js';
 import EPISODES from './mike-episodes.json';
 
 const FPS = 30;
@@ -39,6 +40,7 @@ const CallScreen = ({title, sub, local, incoming}) => (
 );
 
 const Screen = ({type, local}) => {
+  const biz = useBiz();
   if (type === 'silent') return (
     <div style={{width: 390, height: 844, background: 'linear-gradient(180deg, #3b4a6b, #151c2c)', fontFamily: FONT, color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <Status dark />
@@ -47,15 +49,15 @@ const Screen = ({type, local}) => {
     </div>
   );
   if (type === 'ringing') return <CallScreen incoming title="(555) 018-4471" sub="New customer" local={local} />;
-  if (type === 'competitor') return <CallScreen title="Another roofer" sub="from search results" local={local} />;
+  if (type === 'competitor') return <CallScreen title={biz.rival} sub="from search results" local={local} />;
   if (type === 'social') return (
     <div style={{width: 390, height: 844, background: '#f0f2f5', fontFamily: FONT}}>
       <Status url="social page" />
       <div style={{height: 130, background: 'linear-gradient(120deg, #b8c2d3, #d7dde7)'}} />
       <div style={{padding: '0 18px', marginTop: -40}}>
         <div style={{width: 84, height: 84, borderRadius: '50%', background: '#7a8496', border: '4px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: 36}}>N</div>
-        <div style={{fontWeight: 800, fontSize: 22, color: INK, marginTop: 8}}>Northpeak Roofing</div>
-        <div style={{fontSize: 14, color: '#667085'}}>Roofing contractor</div>
+        <div style={{fontWeight: 800, fontSize: 22, color: INK, marginTop: 8}}>{biz.fullName}</div>
+        <div style={{fontSize: 14, color: '#667085'}}>{biz.category}</div>
         <div style={{display: 'flex', gap: 8, marginTop: 12}}>{['Follow', 'Message'].map((b) => <div key={b} style={{flex: 1, height: 36, borderRadius: 8, background: '#dfe3ea', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: INK}}>{b}</div>)}</div>
         {[0, 1].map((i) => <div key={i} style={{marginTop: 14, height: 150, borderRadius: 12, background: '#fff', padding: 12, boxSizing: 'border-box'}}><div style={{height: 12, width: '60%', borderRadius: 6, background: '#e3e7ee'}} /><div style={{height: 90, borderRadius: 8, background: '#e9ecf2', marginTop: 12}} /></div>)}
       </div>
@@ -63,19 +65,19 @@ const Screen = ({type, local}) => {
   );
   if (type === 'loading') return (
     <div style={{width: 390, height: 844, background: '#fff'}}>
-      <Status url="northpeakroofing.com" />
+      <Status url={biz.domain} />
       <div style={{height: 4, width: `${Math.min(85, local * 0.8)}%`, background: '#9aa3b5'}} />
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: 650}}><div style={{width: 44, height: 44, borderRadius: '50%', border: '5px solid #e3e6ee', borderTopColor: '#9aa3b5', rotate: `${local * 14}deg`}} /></div>
     </div>
   );
-  if (type === 'new') return <div style={{width: 390, height: 844, background: '#2346d0'}}><Status url="northpeakroofing.com" /><NewSiteMobile /></div>;
+  if (type === 'new') return <div style={{width: 390, height: 844, background: '#2346d0'}}><Status url={biz.domain} /><NewSiteMobile /></div>;
   // old site, plain / scrolling / zoomed to the tiny footer number
   const z = type === 'footer' ? 3.2 : 1;
   const [fx, fy] = type === 'footer' ? [212, 304] : [195, 376];
   const scroll = type === 'oldScroll' ? Math.sin(local / 9) * 40 + local * 0.6 : 0;
   return (
     <div style={{width: 390, height: 844, background: '#fff', overflow: 'hidden'}}>
-      <Status url="northpeakroofing.com" />
+      <Status url={biz.domain} />
       <div style={{width: 390, height: 752, overflow: 'hidden', position: 'relative'}}>
         <div style={{position: 'absolute', transformOrigin: '0 0', translate: `${195 - fx * z}px ${376 - fy * z - scroll}px`, scale: String(z)}}>
           <OldSite />
@@ -100,7 +102,7 @@ const Stamp = ({text, p}) => (
 );
 
 // scenes: from the script; ep picks a built-in sample when no scenes are given.
-export const MikeEpisode = ({ep = 'story', scenes: given, music = true}) => {
+export const MikeEpisode = ({ep = 'story', scenes: given, music = true, ctaTitle = ['Be like Mike.', 'Get a site that rings.']}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const scenes = given ?? EPISODES[ep].scenes;
@@ -162,7 +164,7 @@ export const MikeEpisode = ({ep = 'story', scenes: given, music = true}) => {
       {/* CTA */}
       {sc.cta && (
         <div style={{position: 'absolute', top: 300, left: 70, width: 640, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 26, opacity: captionIn}}>
-          <div style={{fontWeight: 800, fontSize: 78, lineHeight: 1.04, letterSpacing: '-0.045em', color: INK}}>Be like Mike.<br />Get a site that rings.</div>
+          <div style={{fontWeight: 800, fontSize: 78, lineHeight: 1.04, letterSpacing: '-0.045em', color: INK}}>{ctaTitle[0]}<br />{ctaTitle[1]}</div>
           <div style={{fontWeight: 700, fontSize: 58, letterSpacing: '-0.03em', color: INK, marginTop: 20}}>Comment</div>
           <div style={{background: INK, color: LIME, fontWeight: 800, fontSize: 110, letterSpacing: '-0.03em', padding: '14px 56px', borderRadius: 999, scale: String(spring({frame: local - 14, fps, config: {damping: 11, stiffness: 150}}))}}>WEBSITE</div>
           <div style={{fontWeight: 600, fontSize: 38, color: '#3b4252', opacity: kf(local, [[30, 0], [44, 1]])}}>Free website check.</div>

@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-29",
+  "style": "story",
+  "trade": "roofing",
+  "topic": "homeowners judge your roof by your website",
+  "hook": "Homeowners judge your roof by your website. Brutal, but true.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE and I'll tell you what your site says about your roofs. Free.\n\nMike is made up. The 3 tabs are real. After a hailstorm in Oklahoma, a homeowner opens 3 roofers at once and closes the oldest-looking one first.\n\nYour work might be the best in town. Your website has to show it.\n\n#roofing #roofingcontractor #roofer",
+  "props": {
+    "trade": "roofing",
+    "scenes": [
+      {
+        "vo": "Homeowners judge your roof by your website. Brutal, but true.",
+        "mood": "shocked",
+        "pose": "idle",
+        "screen": "old",
+        "part": "hook",
+        "voice": "am_michael",
+        "key": "judge",
+        "fx": [
+          "shake"
+        ]
+      },
+      {
+        "vo": "Hail just hit. She has three tabs open.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "competitor",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "three",
+        "fx": [
+          "hail"
+        ]
+      },
+      {
+        "vo": "Tab one. A site from two thousand nine.",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "one",
+        "fx": [
+          "hail"
+        ]
+      },
+      {
+        "vo": "If the website's this old, what about the roofs?",
+        "mood": "squint",
+        "pose": "shrug",
+        "screen": "oldScroll",
+        "part": "drop",
+        "voice": "af_heart",
+        "key": "old"
+      },
+      {
+        "vo": "Gone in three seconds.",
+        "mood": "shocked",
+        "pose": "facepalm",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "gone",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
+      },
+      {
+        "vo": "That was Mike's site. His roofs are great.",
+        "mood": "worried",
+        "pose": "idle",
+        "screen": "silent",
+        "part": "break",
+        "voice": "am_michael",
+        "key": "great"
+      },
+      {
+        "vo": "She never got far enough to find out.",
+        "mood": "worried",
+        "pose": "shrug",
+        "screen": "silent",
+        "part": "rise",
+        "voice": "am_michael",
+        "key": "never"
+      },
+      {
+        "vo": "So Mike made his site look as good as his work.",
+        "mood": "happy",
+        "pose": "point",
+        "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "good",
+        "fx": [
+          "glow"
+        ],
+        "beat": "win"
+      },
+      {
+        "vo": "Now he's the tab that gets the call.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "ringing",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "call",
+        "fx": [
+          "glow",
+          "shake"
+        ],
+        "beat": "ring"
+      },
+      {
+        "cta": true,
+        "vo": "Does your site match your work? Comment website. I'll check it free.",
+        "part": "outro"
+      }
+    ],
+    "ctaTitle": [
+      "Does your site",
+      "match your work?"
+    ]
+  }
+}

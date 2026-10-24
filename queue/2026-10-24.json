@@ -1,88 +1,132 @@
 {
   "date": "2026-10-24",
-  "style": "kinetic",
+  "style": "story",
   "trade": "roofing",
-  "topic": "after a storm, the roofer whose site loads first gets the call",
-  "hook_formula": 5,
-  "hook": "Hail hit at 2 AM. Your roofing site loads slow, so you lose the call.",
-  "caption": "Comment WEBSITE and I'll test how fast your site opens on a phone, free.\n\n2 AM, hail in Dallas. By 7 the homeowner is in the yard looking up roofers on Google. 3 tabs open. 2 spin. 1 loads.\n\nGuess who gets the call.\n\nIt isn't about who does the better roof. It's whoever shows up first on a 6 inch screen with 1 bar of signal, so shrink those giant photos and test it on your own phone tonight.\n\n#roofing #roofer #roofingcontractor",
+  "topic": "website looks closed to storm customers",
+  "hook": "Your website is telling customers you're closed.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE and I'll tell you if your site looks closed. Free, no pitch.\n\nMike is made up. The problem is not. I open roofing sites every week from Texas to Ohio and see the same 3 things: tiny text, no tap-to-call button, a layout from 2009.\n\nA homeowner with a leak gives your site about 5 seconds. If it looks closed, they call the next roofer on Google.\n\n#roofing #roofer #contractor",
   "props": {
-    "cards": [
+    "trade": "roofing",
+    "scenes": [
       {
-        "beats": 5,
-        "bg": "ink",
-        "text": "Hail hit\nlast *night.*",
-        "hook": true
+        "vo": "Your website is telling customers you're closed.",
+        "mood": "neutral",
+        "pose": "phoneLook",
+        "screen": "old",
+        "part": "hook",
+        "voice": "am_michael",
+        "key": "closed",
+        "fx": [
+          "closed"
+        ]
       },
       {
-        "beats": 3,
-        "bg": "paper",
-        "text": "They search\n*roofers.*"
+        "vo": "Mike didn't believe it either.",
+        "mood": "smug",
+        "pose": "shrug",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "didn't"
       },
       {
-        "beats": 3,
-        "bg": "cobalt",
-        "text": "Open three\n*tabs.*"
+        "vo": "Best roofer in town. Fair prices.",
+        "mood": "happy",
+        "pose": "wave",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "best"
       },
       {
-        "beats": 3,
-        "bg": "lime",
-        "text": "Tab one:\n*spinning.*"
+        "vo": "But every storm, his phone stayed dead.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "silent",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "dead",
+        "fx": [
+          "hail"
+        ]
       },
       {
-        "beats": 3,
-        "bg": "ink",
-        "text": "Tab two:\n*spinning.*"
+        "vo": "While the worst roofer in town got every call.",
+        "mood": "shocked",
+        "pose": "phoneLook",
+        "screen": "competitor",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "worst",
+        "fx": [
+          "hail",
+          "shake"
+        ],
+        "beat": "fail"
       },
       {
-        "beats": 3,
-        "bg": "paper",
-        "text": "Tab three\n*loads.*"
+        "vo": "Then one customer told him the truth.",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "oldScroll",
+        "part": "break",
+        "voice": "am_michael",
+        "key": "truth"
       },
       {
-        "beats": 3,
-        "bg": "cobalt",
-        "text": "They call\ntab three."
+        "vo": "I almost called you. But your site looked closed.",
+        "mood": "shocked",
+        "pose": "facepalm",
+        "screen": "footer",
+        "part": "break",
+        "voice": "af_heart",
+        "key": "closed",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
       },
       {
-        "beats": 5,
-        "bg": "ink",
-        "text": "First to\nload gets\nthe [job.]",
-        "turn": true
+        "vo": "Tiny text. No call button. Built in two thousand nine.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "oldScroll",
+        "part": "rise",
+        "voice": "am_michael",
+        "key": "button"
       },
       {
-        "beats": 3,
-        "bg": "lime",
-        "text": "Not the\n*best* one."
+        "vo": "So he fixed it. One weekend.",
+        "mood": "happy",
+        "pose": "point",
+        "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "fixed",
+        "fx": [
+          "glow"
+        ],
+        "beat": "win"
       },
       {
-        "beats": 3,
-        "bg": "paper",
-        "text": "The *fast*\none."
-      },
-      {
-        "beats": 4,
-        "bg": "cobalt",
-        "text": "Big photos\nslow you\n*down.*"
-      },
-      {
-        "beats": 3,
-        "bg": "lime",
-        "text": "Shrink\nthem."
-      },
-      {
-        "beats": 4,
-        "bg": "ink",
-        "text": "Open your\nsite on\nyour *phone.*"
-      },
-      {
-        "beats": 4,
-        "bg": "paper",
-        "text": "Count.\nHow long\nis it?"
+        "vo": "Next storm? His phone would not stop.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "ringing",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "stop",
+        "fx": [
+          "glow",
+          "shake"
+        ],
+        "beat": "ring"
       },
       {
         "cta": true,
-        "bg": "ink"
+        "vo": "Want to know if your site looks closed? Comment website. I'll check it free.",
+        "part": "outro"
       }
     ]
   }

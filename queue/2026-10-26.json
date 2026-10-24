@@ -1,95 +1,125 @@
 {
   "date": "2026-10-26",
-  "style": "kinetic",
-  "trade": "plumbing",
-  "topic": "a Facebook page alone is not a website for a plumber",
-  "hook_formula": 2,
-  "hook": "Your plumbing Facebook page is not a website, and customers can tell.",
-  "caption": "Comment WEBSITE and I'll tell you what a simple site for your plumbing business needs, free.\n\nLots of plumbers run everything off a Facebook page. Fine for posting jobs. But Meta owns it, it looks like every other page, and the guy in Tampa with a burst pipe at 11 PM usually searches Google, not Facebook.\n\nKeep the page.\n\nUse it to get seen, then send people to a site with your name, your town and 1 big Call button that works.\n\n#plumbing #plumber #contractor",
+  "style": "story",
+  "trade": "hvac",
+  "topic": "missing call button costs an AC install",
+  "hook": "He lost a whole AC install because of one missing button.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE and I'll check how fast someone can find your number. Free.\n\nRob is made up. The footer is real. I see HVAC sites in Phoenix and Houston with the phone number buried at the bottom in light gray text, in July.\n\nSomeone sweating in a 98 degree house won't scroll. Put one big call button at the top.\n\n#hvac #hvacbusiness #contractor",
   "props": {
-    "cards": [
+    "trade": "hvac",
+    "scenes": [
       {
-        "beats": 5,
-        "bg": "ink",
-        "text": "Your\nFacebook\npage is *not*\na website.",
-        "hook": true
+        "vo": "He lost a whole AC install because of one missing button.",
+        "mood": "shocked",
+        "pose": "facepalm",
+        "screen": "old",
+        "part": "hook",
+        "voice": "am_michael",
+        "key": "button",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
       },
       {
-        "beats": 3,
-        "bg": "paper",
-        "text": "It's *rented*\nland."
+        "vo": "July. Ninety eight degrees. Her AC just died.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "silent",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "died",
+        "fx": [
+          "hail"
+        ]
       },
       {
-        "beats": 3,
-        "bg": "cobalt",
-        "text": "Facebook\nsets the\n*rules.*"
+        "vo": "She finds Rob's heating and air site.",
+        "mood": "neutral",
+        "pose": "phoneLook",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "Rob's"
       },
       {
-        "beats": 3,
-        "bg": "ink",
-        "text": "And can\nchange them\n*overnight.*"
+        "vo": "Where do I call? I can't find a number.",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "oldScroll",
+        "part": "drop",
+        "voice": "af_heart",
+        "key": "number"
       },
       {
-        "beats": 3,
-        "bg": "lime",
-        "text": "Your page\nlooks like\nevery other\npage."
+        "vo": "Scroll. Scroll. Still nothing.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "oldScroll",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "nothing",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
       },
       {
-        "beats": 2,
-        "bg": "paper",
-        "text": "Same\n*layout.*"
+        "vo": "She called the next guy. He installed it that day.",
+        "mood": "shocked",
+        "pose": "shrug",
+        "screen": "competitor",
+        "part": "break",
+        "voice": "am_michael",
+        "key": "next",
+        "beat": "fail"
       },
       {
-        "beats": 2,
-        "bg": "cobalt",
-        "text": "Same\n*buttons.*"
+        "vo": "Rob's number was there. In the footer. In tiny gray text.",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "footer",
+        "part": "rise",
+        "voice": "am_michael",
+        "key": "footer"
       },
       {
-        "beats": 3,
-        "bg": "lime",
-        "text": "Same as\nyour\n*competitor.*"
+        "vo": "One button at the top would have changed everything.",
+        "mood": "happy",
+        "pose": "point",
+        "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "button",
+        "fx": [
+          "glow"
+        ],
+        "beat": "win"
       },
       {
-        "beats": 5,
-        "bg": "ink",
-        "text": "A website\nis [yours.]",
-        "turn": true
-      },
-      {
-        "beats": 2,
-        "bg": "paper",
-        "text": "Your\n*name.*"
-      },
-      {
-        "beats": 2,
-        "bg": "cobalt",
-        "text": "Your\n*area.*"
-      },
-      {
-        "beats": 3,
-        "bg": "lime",
-        "text": "Your call\nbutton.",
-        "icon": "phone"
-      },
-      {
-        "beats": 4,
-        "bg": "ink",
-        "text": "Use\nFacebook\nto get *seen.*"
-      },
-      {
-        "beats": 4,
-        "bg": "paper",
-        "text": "Use your\nsite to get\n*booked.*"
-      },
-      {
-        "beats": 5,
-        "bg": "cobalt",
-        "text": "Page only,\nor a real\n*site?*"
+        "vo": "Now his phone rings before they finish scrolling.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "ringing",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "rings",
+        "fx": [
+          "glow",
+          "shake"
+        ],
+        "beat": "ring"
       },
       {
         "cta": true,
-        "bg": "ink"
+        "vo": "Can customers find your number in one second? Comment website. I'll check it free.",
+        "part": "outro"
       }
+    ],
+    "ctaTitle": [
+      "Can they find",
+      "your number?"
     ]
   }
 }

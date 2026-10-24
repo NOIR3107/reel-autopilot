@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-30",
+  "style": "story",
+  "trade": "hvac",
+  "topic": "owner tries to call himself from his own site",
+  "hook": "Try calling your own business from your website. I'll wait.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE if calling yourself from your own site took more than 1 tap. I'll send you the fix. Free.\n\nRob is made up. Try it yourself right now on your phone: open your HVAC site, find your number, tap it.\n\nIf it took 3 scrolls and a Contact page, that's what every customer goes through in August.\n\n#hvac #hvaccontractor #smallbusiness",
+  "props": {
+    "trade": "hvac",
+    "scenes": [
+      {
+        "vo": "Try calling your own business from your website. I'll wait.",
+        "mood": "smug",
+        "pose": "point",
+        "screen": "old",
+        "part": "hook",
+        "voice": "am_michael",
+        "key": "calling",
+        "fx": [
+          "shake"
+        ]
+      },
+      {
+        "vo": "Rob tried it. He was sure it'd take two seconds.",
+        "mood": "smug",
+        "pose": "phoneLook",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "sure"
+      },
+      {
+        "vo": "Okay. Where's my number?",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "number",
+        "say": "Okay. Where's my number?"
+      },
+      {
+        "vo": "Scroll. Menu. Contact page. Still loading.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "loading",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "loading",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
+      },
+      {
+        "vo": "Found it. Bottom of the page. Not even tappable.",
+        "mood": "shocked",
+        "pose": "facepalm",
+        "screen": "footer",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "tappable",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
+      },
+      {
+        "vo": "Even I'd call the other guy.",
+        "mood": "squint",
+        "pose": "shrug",
+        "screen": "competitor",
+        "part": "break",
+        "voice": "am_michael",
+        "key": "other",
+        "say": "Even I'd call the other guy."
+      },
+      {
+        "vo": "Every customer was going through this.",
+        "mood": "worried",
+        "pose": "idle",
+        "screen": "silent",
+        "part": "rise",
+        "voice": "am_michael",
+        "key": "every"
+      },
+      {
+        "vo": "Now his number sits right at the top. One tap.",
+        "mood": "happy",
+        "pose": "point",
+        "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "tap",
+        "fx": [
+          "glow"
+        ],
+        "beat": "win"
+      },
+      {
+        "vo": "And the phone actually rings.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "ringing",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "rings",
+        "fx": [
+          "glow",
+          "shake"
+        ],
+        "beat": "ring"
+      },
+      {
+        "cta": true,
+        "vo": "Tried it and didn't like it? Comment website and I'll send you the fix, free.",
+        "part": "outro"
+      }
+    ],
+    "ctaTitle": [
+      "Try calling",
+      "yourself."
+    ]
+  }
+}

@@ -3,7 +3,8 @@
 The weekly writer saves one script per day as `queue/YYYY-MM-DD.json` (US Eastern date). The daily robot
 renders it and posts it. `node scripts/validate.mjs queue/*.json` must pass before anything is committed.
 
-Weekly mix: 3 kinetic, 2 teardown, 1 mike, 1 ad. Never the same style two days in a row.
+Weekly mix: 7 story reels (the owner approved only this style). Rotate trades: roofing and HVAC 2 each, plumbing, electrical, landscaping 1 each.
+The other styles below still work but are off until the owner asks for them.
 Every reel is about 30 seconds and ends on "Comment WEBSITE". The full design rules live in rules.md.
 
 ## Fields every script has
@@ -20,6 +21,24 @@ Every reel is about 30 seconds and ends on "Comment WEBSITE". The full design ru
   "props": { "...": "style-specific, below" }
 }
 ```
+
+## story: a short drama with voiceover (the house style)
+
+Copy the shape of queue/2026-10-24.json. `props` = {"trade": roofing|hvac|plumbing|electrical|landscaping, "ctaTitle": ["line 1", "line 2"] (22 chars each), "scenes": [...]}.
+8-12 scenes, then {"cta": true, "vo": "spoken ask ending in comment website", "part": "outro"}. 60-95 spoken words in total (about 30s).
+
+```json
+{"vo": "Your website is telling customers you're closed.", "key": "closed", "mood": "neutral", "pose": "phoneLook", "screen": "old",
+ "fx": ["closed"], "part": "hook", "voice": "am_michael", "beat": "fail", "say": "optional speech bubble, 40 chars"}
+```
+
+- `vo` is spoken and shown one word at a time; 75 characters max. `key` = the word painted yellow (must be in the line).
+- `part` drives the music: hook (first scene only), drop, break (the twist), rise (build-up), drop2 (the win), outro.
+- `fx`: closed (red stamp slam), shake, hail (storm), glow (the win). `voice`: am_michael (narrator), af_heart (the customer).
+- Story shape: hook that accuses or surprises the viewer, the owner is good at the trade, he loses jobs, a customer says the hard truth
+  (in af_heart), the website problem, the fix, the win (ringing), then the ask. Give the owner a different first name each time
+  (Mike is only the roofer). Mood, pose and screen lists are in the mike section.
+- Hooks: say something about the viewer's own website or a concrete moment (2 AM, hail, July). Never a generic statement.
 
 ## kinetic: bold words on color cards, 124 bpm
 

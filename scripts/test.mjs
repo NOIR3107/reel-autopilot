@@ -17,7 +17,7 @@ assert.deepEqual(eastern(new Date('2026-12-01T03:30:00Z')), {date: '2026-11-30',
 
 // Every style's sample script passes; common mistakes are caught.
 const sample = (k) => JSON.parse(fs.readFileSync(new URL(`../test/samples/${k}.json`, import.meta.url)));
-for (const k of ['kinetic', 'teardown', 'mike', 'ad']) assert.deepEqual(validate(sample(k)), [], k);
+for (const k of ['story', 'kinetic', 'teardown', 'mike', 'ad']) assert.deepEqual(validate(sample(k)), [], k);
 const kin = sample('kinetic');
 assert.ok(validate({...kin, caption: kin.caption + ' 53% of homeowners leave'}, {quality: false}).some((e) => e.includes('53%')));
 assert.ok(validate({...kin, caption: kin.caption.replace('Picture it.', 'Picture it — now.')}, {quality: false}).some((e) => e.includes('—')));
@@ -29,7 +29,7 @@ const td = sample('teardown'); td.props.shop.phone = '(918) 555-0100';
 assert.ok(validate(td, {quality: false}).some((e) => e.includes('phone')));
 const mk = sample('mike'); mk.props.scenes[0].pose = 'dance';
 assert.ok(validate(mk, {quality: false}).some((e) => e.includes('mood, pose')));
-assert.ok(validate({...sample('ad'), props: {trade: 'plumbing'}}, {quality: false}).some((e) => e.includes('trade')));
+assert.ok(validate({...sample('ad'), props: {trade: 'pool'}}, {quality: false}).some((e) => e.includes('trade')));
 assert.ok(validate({...kin, hook: 'So today I want to talk about websites.'}).some((e) => e.includes('needs 70+')));
 
 // Scoring and summaries.

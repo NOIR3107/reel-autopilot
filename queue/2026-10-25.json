@@ -1,61 +1,130 @@
 {
   "date": "2026-10-25",
-  "style": "mike",
-  "trade": "roofing",
-  "topic": "Mike tries to find his own phone number on his old roofing site",
-  "hook_formula": 11,
-  "hook": "Never hide your number like Mike did. It cost him a roofing job.",
-  "caption": "Comment WEBSITE and I'll check where your number sits on your site, free.\n\nMike runs Northpeak Roofing. On Monday he tried to call himself from his own website, the way a customer would. 3 scrolls. Then he found it, in the footer, in tiny gray type.\n\nIf it takes the owner that long, the homeowner in Denver with a bucket under the leak is already calling somebody else.\n\nSend this to a contractor who never tried calling himself.\n\n#roofing #contractor #smallbusiness",
+  "style": "story",
+  "trade": "plumbing",
+  "topic": "burst pipe at night, the plumber with the faster site wins",
+  "hook": "A burst pipe at 2 AM. Two plumbers. Only one gets the call.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE and I'll test how fast your site opens on a phone. Free.\n\nDan is made up, but this happens every night. A pipe bursts in Tampa at 2 AM, the homeowner opens 2 plumbers on Google, and the first page that loads with a big call button wins the job.\n\nThe other plumber never even knows he lost it.\n\n#plumbing #plumber #contractor",
   "props": {
+    "trade": "plumbing",
     "scenes": [
       {
-        "sec": 3.0,
-        "caption": "Mike tries to call his own business. From his own website.",
+        "vo": "A burst pipe at 2 AM. Two plumbers. Only one gets the call.",
         "mood": "neutral",
-        "pose": "phoneLook",
-        "screen": "old"
+        "pose": "idle",
+        "screen": "loading",
+        "part": "hook",
+        "voice": "am_michael",
+        "key": "one",
+        "fx": [
+          "shake"
+        ]
       },
       {
-        "sec": 3.5,
-        "say": "Okay. Where's the number?",
-        "mood": "squint",
-        "pose": "phoneLook",
-        "screen": "old"
+        "vo": "This is Dan. Twenty years fixing pipes.",
+        "mood": "smug",
+        "pose": "wave",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "twenty"
       },
       {
-        "sec": 4.0,
-        "say": "Scroll... scroll...",
+        "vo": "Water's everywhere. I need someone now.",
         "mood": "worried",
         "pose": "phoneLook",
-        "screen": "oldScroll"
+        "screen": "loading",
+        "part": "drop",
+        "voice": "af_heart",
+        "key": "now"
       },
       {
-        "sec": 4.0,
-        "caption": "Found it. In the footer. In tiny type.",
-        "mood": "shocked",
+        "vo": "She finds Dan's site first. It just keeps loading.",
+        "mood": "worried",
         "pose": "phoneLook",
-        "screen": "footer",
+        "screen": "loading",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "loading",
         "beat": "fail"
       },
       {
-        "sec": 4.0,
-        "say": "Even I'd call the other guy.",
-        "mood": "squint",
-        "pose": "facepalm",
-        "screen": "footer"
+        "vo": "She hits back. Taps the next plumber.",
+        "mood": "shocked",
+        "pose": "shrug",
+        "screen": "competitor",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "next",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
       },
       {
-        "sec": 5.0,
-        "caption": "Put your number at the top. Make it one tap.",
+        "vo": "Dan never even knew she existed.",
+        "mood": "worried",
+        "pose": "idle",
+        "screen": "silent",
+        "part": "break",
+        "voice": "am_michael",
+        "key": "never"
+      },
+      {
+        "vo": "Slow site. Number hidden at the bottom.",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "footer",
+        "part": "rise",
+        "voice": "am_michael",
+        "key": "hidden"
+      },
+      {
+        "vo": "So Dan got a site that loads in a blink.",
         "mood": "happy",
-        "pose": "fistPump",
+        "pose": "point",
         "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "blink",
+        "fx": [
+          "glow"
+        ],
         "beat": "win"
       },
       {
-        "sec": 6.5,
-        "cta": true
+        "vo": "Big call button, right at the top.",
+        "mood": "happy",
+        "pose": "point",
+        "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "button"
+      },
+      {
+        "vo": "Now the 2 AM calls come to him.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "ringing",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "him",
+        "fx": [
+          "glow",
+          "shake"
+        ],
+        "beat": "ring"
+      },
+      {
+        "cta": true,
+        "vo": "Is your site the slow one? Comment website and I'll check it for free.",
+        "part": "outro"
       }
+    ],
+    "ctaTitle": [
+      "Is your site",
+      "the slow one?"
     ]
   }
 }

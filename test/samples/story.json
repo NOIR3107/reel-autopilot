@@ -1,0 +1,133 @@
+{
+  "date": "2026-10-24",
+  "style": "story",
+  "trade": "roofing",
+  "topic": "website looks closed to storm customers",
+  "hook": "Your website is telling customers you're closed.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE and I'll tell you if your site looks closed. Free, no pitch.\n\nMike is made up. The problem is not. I open roofing sites every week from Texas to Ohio and see the same 3 things: tiny text, no tap-to-call button, a layout from 2009.\n\nA homeowner with a leak gives your site about 5 seconds. If it looks closed, they call the next roofer on Google.\n\n#roofing #roofer #contractor",
+  "props": {
+    "trade": "roofing",
+    "scenes": [
+      {
+        "vo": "Your website is telling customers you're closed.",
+        "mood": "neutral",
+        "pose": "phoneLook",
+        "screen": "old",
+        "part": "hook",
+        "voice": "am_michael",
+        "key": "closed",
+        "fx": [
+          "closed"
+        ]
+      },
+      {
+        "vo": "Mike didn't believe it either.",
+        "mood": "smug",
+        "pose": "shrug",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "didn't"
+      },
+      {
+        "vo": "Best roofer in town. Fair prices.",
+        "mood": "happy",
+        "pose": "wave",
+        "screen": "old",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "best"
+      },
+      {
+        "vo": "But every storm, his phone stayed dead.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "silent",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "dead",
+        "fx": [
+          "hail"
+        ]
+      },
+      {
+        "vo": "While the worst roofer in town got every call.",
+        "mood": "shocked",
+        "pose": "phoneLook",
+        "screen": "competitor",
+        "part": "drop",
+        "voice": "am_michael",
+        "key": "worst",
+        "fx": [
+          "hail",
+          "shake"
+        ],
+        "beat": "fail"
+      },
+      {
+        "vo": "Then one customer told him the truth.",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "oldScroll",
+        "part": "break",
+        "voice": "am_michael",
+        "key": "truth"
+      },
+      {
+        "vo": "I almost called you. But your site looked closed.",
+        "mood": "shocked",
+        "pose": "facepalm",
+        "screen": "footer",
+        "part": "break",
+        "voice": "af_heart",
+        "key": "closed",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail"
+      },
+      {
+        "vo": "Tiny text. No call button. Built in two thousand nine.",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "oldScroll",
+        "part": "rise",
+        "voice": "am_michael",
+        "key": "button"
+      },
+      {
+        "vo": "So he fixed it. One weekend.",
+        "mood": "happy",
+        "pose": "point",
+        "screen": "new",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "fixed",
+        "fx": [
+          "glow"
+        ],
+        "beat": "win"
+      },
+      {
+        "vo": "Next storm? His phone would not stop.",
+        "mood": "happy",
+        "pose": "fistPump",
+        "screen": "ringing",
+        "part": "drop2",
+        "voice": "am_michael",
+        "key": "stop",
+        "fx": [
+          "glow",
+          "shake"
+        ],
+        "beat": "ring"
+      },
+      {
+        "cta": true,
+        "vo": "Want to know if your site looks closed? Comment website. I'll check it free.",
+        "part": "outro"
+      }
+    ]
+  }
+}

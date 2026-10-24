@@ -6,10 +6,7 @@ Budget: this whole job must stay small. No web searches, no rendering, no browsi
    (may not exist yet). Look at `queue/` to see which dates already have a script.
 2. Fill every missing date from tomorrow through 7 days out (US Eastern dates) with one script each, as
    `queue/YYYY-MM-DD.json`. Do not touch dates that already have a file.
-   - Mix per 7 days: 3 kinetic, 2 teardown, 1 mike, 1 ad. Never the same style two days in a row, including the
-     day before the first new date.
-   - Ad trade alternates week to week: look at the last ad in `queue/` and use the other one (roofing / hvac).
-   - Mike rotates formats: short story, funny skit, myth vs truth. Look at the last mike script and use the next.
+   - Mix per 7 days: 7 story reels, as styles.md says. Rotate trades and give each owner a different name.
    - No topic used in the last 14 days. HVAC and roofing in at least 4 of the 7; rotate other trades into the rest.
    - Once `data/insights.json` exists, lean toward the styles, trades and hook formulas at the top of each list,
      but keep the style mix above.
