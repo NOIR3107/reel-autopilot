@@ -8,118 +8,150 @@
   "caption": "Comment WEBSITE and I'll check how fast someone can find your number. Free.\n\nRob is made up. The footer is real. I see HVAC sites in Phoenix and Houston with the phone number buried at the bottom in light gray text, in July.\n\nSomeone sweating in a 98 degree house won't scroll. Put one big call button at the top.\n\n#hvac #hvacbusiness #contractor",
   "props": {
     "trade": "hvac",
+    "lead": "rob",
+    "music": "funk",
+    "narrator": "am_adam",
+    "ctaTitle": [
+      "Can they find",
+      "your number?"
+    ],
     "scenes": [
       {
         "vo": "He lost a whole AC install because of one missing button.",
+        "key": "button",
+        "layout": "closeup",
+        "who": "rob",
+        "mood": "shocked",
+        "pose": "headHands",
+        "set": "office",
+        "cam": "push",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail",
+        "part": "hook"
+      },
+      {
+        "vo": "July. Ninety eight degrees. Maya's AC just died.",
+        "key": "died",
+        "layout": "closeup",
+        "who": "maya",
+        "mood": "worried",
+        "pose": "headHands",
+        "set": "kitchen",
+        "cam": "dutch",
+        "part": "drop"
+      },
+      {
+        "vo": "I need someone today!",
+        "key": "today",
+        "layout": "phone",
+        "who": "maya",
+        "speaker": "maya",
+        "mood": "angry",
+        "pose": "phoneLook",
+        "screen": "search",
+        "set": "kitchen",
+        "cam": "whip",
+        "part": "drop"
+      },
+      {
+        "vo": "She opens Rob's heating and air site.",
+        "key": "rob's",
+        "layout": "screen",
+        "screen": "old",
+        "set": "kitchen",
+        "cam": "push",
+        "part": "drop"
+      },
+      {
+        "vo": "Where is the number? I can't find it.",
+        "key": "number",
+        "layout": "phone",
+        "who": "maya",
+        "speaker": "maya",
+        "mood": "squint",
+        "pose": "phoneLook",
+        "screen": "oldScroll",
+        "set": "kitchen",
+        "cam": "dutch",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail",
+        "part": "drop"
+      },
+      {
+        "vo": "She called Vince instead. Installed that day.",
+        "key": "vince",
+        "layout": "duo",
+        "cast": [
+          "vince",
+          "maya"
+        ],
+        "speaker": "vince",
+        "mood": "smug",
+        "pose": "call",
+        "set": "day",
+        "cam": "whip",
+        "beat": "fail",
+        "part": "break"
+      },
+      {
+        "vo": "Rob's number was there. In the footer. In gray.",
+        "key": "footer",
+        "layout": "screen",
+        "screen": "footer",
+        "set": "office",
+        "cam": "push",
+        "part": "rise"
+      },
+      {
+        "vo": "Wait. That's where my number is?",
+        "key": "where",
+        "layout": "closeup",
+        "who": "rob",
+        "speaker": "rob",
         "mood": "shocked",
         "pose": "facepalm",
-        "screen": "old",
-        "part": "hook",
-        "voice": "am_michael",
+        "set": "office",
+        "cam": "pull",
+        "part": "rise"
+      },
+      {
+        "vo": "Now it's a big button at the top.",
         "key": "button",
-        "fx": [
-          "shake"
-        ],
-        "beat": "fail"
-      },
-      {
-        "vo": "July. Ninety eight degrees. Her AC just died.",
-        "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "silent",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "died",
-        "fx": [
-          "hail"
-        ]
-      },
-      {
-        "vo": "She finds Rob's heating and air site.",
-        "mood": "neutral",
-        "pose": "phoneLook",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "Rob's"
-      },
-      {
-        "vo": "Where do I call? I can't find a number.",
-        "mood": "squint",
-        "pose": "phoneLook",
-        "screen": "oldScroll",
-        "part": "drop",
-        "voice": "af_heart",
-        "key": "number"
-      },
-      {
-        "vo": "Scroll. Scroll. Still nothing.",
-        "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "oldScroll",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "nothing",
-        "fx": [
-          "shake"
-        ],
-        "beat": "fail"
-      },
-      {
-        "vo": "She called the next guy. He installed it that day.",
-        "mood": "shocked",
-        "pose": "shrug",
-        "screen": "competitor",
-        "part": "break",
-        "voice": "am_michael",
-        "key": "next",
-        "beat": "fail"
-      },
-      {
-        "vo": "Rob's number was there. In the footer. In tiny gray text.",
-        "mood": "squint",
-        "pose": "phoneLook",
-        "screen": "footer",
-        "part": "rise",
-        "voice": "am_michael",
-        "key": "footer"
-      },
-      {
-        "vo": "One button at the top would have changed everything.",
-        "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
-        "key": "button",
+        "layout": "split",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "glow"
         ],
-        "beat": "win"
+        "beat": "win",
+        "part": "drop2"
       },
       {
-        "vo": "Now his phone rings before they finish scrolling.",
-        "mood": "happy",
-        "pose": "fistPump",
-        "screen": "ringing",
-        "part": "drop2",
-        "voice": "am_michael",
+        "vo": "And his phone rings before they finish scrolling.",
         "key": "rings",
+        "layout": "phone",
+        "who": "rob",
+        "mood": "happy",
+        "pose": "celebrate",
+        "screen": "ringing",
+        "set": "office",
+        "cam": "whip",
         "fx": [
           "glow",
           "shake"
         ],
-        "beat": "ring"
+        "beat": "ring",
+        "part": "drop2"
       },
       {
         "cta": true,
         "vo": "Can customers find your number in one second? Comment website. I'll check it free.",
         "part": "outro"
       }
-    ],
-    "ctaTitle": [
-      "Can they find",
-      "your number?"
     ]
   }
 }

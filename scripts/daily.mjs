@@ -69,7 +69,7 @@ try {
   // Story reels: the voiceover sets each scene's length, so the sound tool writes the props.
   if (script.style === 'story') sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
-  sh('npx', ['remotion', 'render', 'src/index.jsx', script.style === 'story' ? 'mikestory' : script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, ...browser], {stdio: 'inherit'});
+  sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, ...browser], {stdio: 'inherit'});
   entry.file = `media/${now.date}.mp4`;
   // The ad is designed at 36s and played 1.2x to land on 30s. Then re-encode to Instagram's spec:
   // standard-range 4:2:0 H.264, AAC 48 kHz, index at the front.

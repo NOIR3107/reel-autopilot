@@ -8,114 +8,156 @@
   "caption": "Comment WEBSITE and I'll look at how your work shows up online. Free.\n\nLuis is made up, but I see it every week. Landscapers in Dallas and Denver with 400 great photos in their camera roll and 1 blurry picture on their website.\n\nHomeowners hire what they can see. Put your best 10 jobs where they look.\n\n#landscaping #landscaper #smallbusiness",
   "props": {
     "trade": "landscaping",
+    "lead": "luis",
+    "music": "funk",
+    "narrator": "am_adam",
+    "ctaTitle": [
+      "Is your best work",
+      "hiding too?"
+    ],
     "scenes": [
       {
         "vo": "Your best work is hiding where nobody can see it.",
+        "key": "hiding",
+        "layout": "phone",
+        "who": "luis",
         "mood": "squint",
         "pose": "phoneLook",
         "screen": "social",
-        "part": "hook",
-        "voice": "am_michael",
-        "key": "hiding",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "shake"
-        ]
+        ],
+        "part": "hook"
       },
       {
         "vo": "Luis builds patios people stop and stare at.",
+        "key": "stare",
+        "layout": "closeup",
+        "who": "luis",
         "mood": "smug",
-        "pose": "wave",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "stare"
+        "pose": "armsCrossed",
+        "set": "day",
+        "cam": "pull",
+        "part": "drop"
       },
       {
-        "vo": "Hundreds of photos. All stuck in his camera roll.",
+        "vo": "Four hundred photos. All stuck in his camera roll.",
+        "key": "stuck",
+        "layout": "phone",
+        "who": "luis",
         "mood": "worried",
         "pose": "phoneLook",
         "screen": "social",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "stuck"
+        "set": "night",
+        "cam": "dutch",
+        "part": "drop"
       },
       {
         "vo": "Do you have pictures of your work?",
+        "key": "pictures",
+        "layout": "duo",
+        "cast": [
+          "luis",
+          "sarah"
+        ],
+        "speaker": "sarah",
         "mood": "neutral",
-        "pose": "phoneLook",
-        "screen": "old",
-        "part": "drop",
-        "voice": "af_heart",
-        "key": "pictures"
+        "pose": "explain",
+        "set": "day",
+        "cam": "whip",
+        "part": "drop"
       },
       {
-        "vo": "His website had one blurry photo from years ago.",
-        "mood": "shocked",
-        "pose": "facepalm",
-        "screen": "oldScroll",
-        "part": "drop",
-        "voice": "am_michael",
+        "vo": "Uh, check my website.",
+        "key": "website",
+        "layout": "duo",
+        "cast": [
+          "luis",
+          "sarah"
+        ],
+        "speaker": "luis",
+        "mood": "happy",
+        "pose": "point",
+        "set": "day",
+        "cam": "still",
+        "part": "drop"
+      },
+      {
+        "vo": "One blurry photo. From years ago.",
         "key": "blurry",
+        "layout": "screen",
+        "screen": "oldScroll",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "shake"
         ],
-        "beat": "fail"
+        "beat": "fail",
+        "part": "break"
       },
       {
         "vo": "She hired the guy with a gallery.",
-        "mood": "worried",
-        "pose": "shrug",
-        "screen": "competitor",
-        "part": "break",
-        "voice": "am_michael",
         "key": "gallery",
-        "beat": "fail"
+        "layout": "duo",
+        "cast": [
+          "sarah",
+          "vince"
+        ],
+        "speaker": "vince",
+        "mood": "smug",
+        "pose": "wave",
+        "set": "day",
+        "cam": "whip",
+        "beat": "fail",
+        "part": "break"
       },
       {
         "vo": "People buy what they can see.",
+        "key": "see",
+        "layout": "closeup",
+        "who": "luis",
         "mood": "squint",
-        "pose": "point",
-        "screen": "old",
-        "part": "rise",
-        "voice": "am_michael",
-        "key": "see"
+        "pose": "headHands",
+        "set": "night",
+        "cam": "pull",
+        "part": "rise"
       },
       {
         "vo": "So Luis put his best ten jobs on a new site.",
-        "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "best",
+        "layout": "split",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "glow"
         ],
-        "beat": "win"
+        "beat": "win",
+        "part": "drop2"
       },
       {
         "vo": "Now the photos sell for him while he works.",
-        "mood": "happy",
-        "pose": "fistPump",
-        "screen": "ringing",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "sell",
+        "layout": "phone",
+        "who": "luis",
+        "mood": "happy",
+        "pose": "celebrate",
+        "screen": "ringing",
+        "set": "day",
+        "cam": "whip",
         "fx": [
           "glow",
           "shake"
         ],
-        "beat": "ring"
+        "beat": "ring",
+        "part": "drop2"
       },
       {
         "cta": true,
         "vo": "Are your best jobs hiding too? Comment website and I'll check your site free.",
         "part": "outro"
       }
-    ],
-    "ctaTitle": [
-      "Is your best work",
-      "hiding too?"
     ]
   }
 }

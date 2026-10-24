@@ -8,114 +8,158 @@
   "caption": "Comment WEBSITE and I'll show you what a simple site for your electrical business could look like. Free.\n\nTony is made up. The doubt is real. A homeowner in Atlanta clicks a Facebook page, sees the last post was 8 months ago, and wonders if you're still open.\n\nKeep Facebook to get seen. A website is what makes you look real.\n\n#electrician #electrical #contractor",
   "props": {
     "trade": "electrical",
+    "lead": "tony",
+    "music": "lofi",
+    "narrator": "am_adam",
+    "ctaTitle": [
+      "Only on",
+      "Facebook?"
+    ],
     "scenes": [
       {
         "vo": "Stop sending customers to your Facebook page.",
+        "key": "stop",
+        "layout": "closeup",
+        "who": "tony",
         "mood": "squint",
         "pose": "point",
-        "screen": "social",
-        "part": "hook",
-        "voice": "am_michael",
-        "key": "stop",
+        "set": "office",
+        "cam": "push",
         "fx": [
           "shake"
-        ]
+        ],
+        "part": "hook"
       },
       {
         "vo": "Tony is a great electrician. Licensed. Careful.",
+        "key": "great",
+        "layout": "phone",
+        "who": "tony",
         "mood": "happy",
-        "pose": "wave",
+        "pose": "explain",
         "screen": "social",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "great"
+        "set": "day",
+        "cam": "pull",
+        "part": "drop"
       },
       {
         "vo": "But all he had was a Facebook page.",
-        "mood": "neutral",
-        "pose": "shrug",
+        "key": "facebook",
+        "layout": "screen",
         "screen": "social",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "facebook"
+        "set": "office",
+        "cam": "dutch",
+        "part": "drop"
       },
       {
         "vo": "Is this guy even still in business?",
+        "key": "business",
+        "layout": "phone",
+        "who": "karen",
+        "speaker": "karen",
         "mood": "squint",
         "pose": "phoneLook",
         "screen": "social",
-        "part": "drop",
-        "voice": "af_heart",
-        "key": "business"
+        "set": "kitchen",
+        "cam": "push",
+        "part": "drop"
       },
       {
-        "vo": "Last post: eight months ago. No hours. No prices.",
-        "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "social",
-        "part": "drop",
-        "voice": "am_michael",
+        "vo": "Last post eight months ago. No hours. No prices.",
         "key": "months",
+        "layout": "closeup",
+        "who": "karen",
+        "mood": "angry",
+        "pose": "armsCrossed",
+        "set": "kitchen",
+        "cam": "whip",
         "fx": [
           "shake"
         ],
-        "beat": "fail"
+        "beat": "fail",
+        "part": "drop"
       },
       {
-        "vo": "She called someone with a real website instead.",
-        "mood": "shocked",
-        "pose": "facepalm",
-        "screen": "competitor",
-        "part": "break",
-        "voice": "am_michael",
+        "vo": "She hired someone with a real website.",
         "key": "website",
-        "beat": "fail"
+        "layout": "duo",
+        "cast": [
+          "karen",
+          "vince"
+        ],
+        "speaker": "vince",
+        "mood": "smug",
+        "pose": "wave",
+        "set": "day",
+        "cam": "still",
+        "beat": "fail",
+        "part": "break"
       },
       {
-        "vo": "To a homeowner, no website means no business.",
+        "vo": "Tony asked her why.",
+        "key": "why",
+        "layout": "duo",
+        "cast": [
+          "tony",
+          "karen"
+        ],
+        "speaker": "tony",
         "mood": "worried",
-        "pose": "idle",
-        "screen": "silent",
+        "pose": "explain",
+        "set": "day",
+        "cam": "push",
+        "part": "break"
+      },
+      {
+        "vo": "No website? I thought you closed.",
+        "key": "closed",
+        "layout": "duo",
+        "cast": [
+          "tony",
+          "karen"
+        ],
+        "speaker": "karen",
+        "mood": "squint",
+        "pose": "shrug",
+        "set": "day",
+        "cam": "pull",
         "part": "rise",
-        "voice": "am_michael",
-        "key": "no"
+        "say": "I thought you closed."
       },
       {
         "vo": "So Tony got a real site. Name, area, one call button.",
-        "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "real",
+        "layout": "split",
+        "set": "office",
+        "cam": "push",
         "fx": [
           "glow"
         ],
-        "beat": "win"
+        "beat": "win",
+        "part": "drop2"
       },
       {
         "vo": "Same Tony. Way more calls.",
-        "mood": "happy",
-        "pose": "fistPump",
-        "screen": "ringing",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "more",
+        "layout": "phone",
+        "who": "tony",
+        "mood": "happy",
+        "pose": "celebrate",
+        "screen": "ringing",
+        "set": "night",
+        "cam": "whip",
         "fx": [
           "glow",
           "shake"
         ],
-        "beat": "ring"
+        "beat": "ring",
+        "part": "drop2"
       },
       {
         "cta": true,
         "vo": "Only on Facebook? Comment website and I'll show you what a simple site could look like.",
         "part": "outro"
       }
-    ],
-    "ctaTitle": [
-      "Only on",
-      "Facebook?"
     ]
   }
 }

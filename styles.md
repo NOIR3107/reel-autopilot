@@ -22,23 +22,31 @@ Every reel is about 30 seconds and ends on "Comment WEBSITE". The full design ru
 }
 ```
 
-## story: a short drama with voiceover (the house style)
+## story: a short drama with a cast, voiceover and music (the house style)
 
-Copy the shape of queue/2026-10-24.json. `props` = {"trade": roofing|hvac|plumbing|electrical|landscaping, "ctaTitle": ["line 1", "line 2"] (22 chars each), "scenes": [...]}.
-8-12 scenes, then {"cta": true, "vo": "spoken ask ending in comment website", "part": "outro"}. 60-95 spoken words in total (about 30s).
+Copy the shape of queue/2026-10-25.json. `props` = {"trade": roofing|hvac|plumbing|electrical|landscaping, "lead": the owner,
+"music": trap|funk|suspense|lofi, "narrator": "am_adam", "ctaTitle": ["line 1", "line 2"] (22 chars each), "scenes": [...]}.
+8-12 scenes, then {"cta": true, "vo": "spoken ask ending in comment website", "part": "outro"}. 60-95 spoken words (about 30s).
 
 ```json
-{"vo": "Your website is telling customers you're closed.", "key": "closed", "mood": "neutral", "pose": "phoneLook", "screen": "old",
- "fx": ["closed"], "part": "hook", "voice": "am_michael", "beat": "fail", "say": "optional speech bubble, 40 chars"}
+{"vo": "I need a plumber right now!", "key": "now", "layout": "phone", "who": "sarah", "speaker": "sarah", "mood": "worried",
+ "pose": "phoneLook", "screen": "search", "set": "kitchen", "cam": "whip", "fx": ["shake"], "part": "drop", "beat": "fail", "say": "bubble, 40 chars"}
 ```
 
-- `vo` is spoken and shown one word at a time; 75 characters max. `key` = the word painted yellow (must be in the line).
-- `part` drives the music: hook (first scene only), drop, break (the twist), rise (build-up), drop2 (the win), outro.
-- `fx`: closed (red stamp slam), shake, hail (storm), glow (the win). `voice`: am_michael (narrator), af_heart (the customer).
-- Story shape: hook that accuses or surprises the viewer, the owner is good at the trade, he loses jobs, a customer says the hard truth
-  (in af_heart), the website problem, the fix, the win (ringing), then the ask. Give the owner a different first name each time
-  (Mike is only the roofer). Mood, pose and screen lists are in the mike section.
-- Hooks: say something about the viewer's own website or a concrete moment (2 AM, hail, July). Never a generic statement.
+- Cast: owners mike (roofer), dan (plumber), rob (HVAC), tony (electrician), luis (landscaper); customers sarah, maya, karen;
+  vince (the smug rival with the better website). `speaker` = who says the line out loud (their mouth moves, their own voice);
+  leave it out for narration.
+- `layout`: phone (who + phone screen), duo (two people, "cast": [left, right]), closeup (one big face), screen (the phone fills
+  the shot), split (old vs new site). At least 3 layouts and 1 duo per reel.
+- `set`: day, night, storm, office, kitchen. `cam`: push, pull, whip, dutch, still. Vary both scene to scene.
+- `screen`: search (Google results typing), old, oldScroll, footer, loading, social, silent, competitor, new, ringing.
+- `mood`: neutral, happy, worried, shocked, smug, squint, angry. `pose`: idle, phoneLook, call, shrug, fistPump, facepalm,
+  point, wave, armsCrossed, explain, headHands, celebrate.
+- `fx`: closed (red stamp), shake, hail, glow. `beat`: fail, win, ring (sound effects). `part` drives the music: hook (first
+  scene), drop, break (the twist), rise (build-up), drop2 (the win), outro.
+- Story shape: a hook that accuses or surprises the viewer, the owner is good at the trade, a customer struggles with his site
+  (show it), the rival wins, someone says the hard truth out loud, the fix (split), the win (ringing), then the ask.
+  Change the trade, the lead, the customer, the music, the sets and the order of layouts every day. Never reuse a hook.
 
 ## kinetic: bold words on color cards, 124 bpm
 

@@ -8,120 +8,157 @@
   "caption": "Comment WEBSITE and I'll tell you if your site looks closed. Free, no pitch.\n\nMike is made up. The problem is not. I open roofing sites every week from Texas to Ohio and see the same 3 things: tiny text, no tap-to-call button, a layout from 2009.\n\nA homeowner with a leak gives your site about 5 seconds. If it looks closed, they call the next roofer on Google.\n\n#roofing #roofer #contractor",
   "props": {
     "trade": "roofing",
+    "lead": "mike",
+    "music": "trap",
+    "narrator": "am_adam",
+    "ctaTitle": [
+      "Does your site",
+      "look closed?"
+    ],
     "scenes": [
       {
         "vo": "Your website is telling customers you're closed.",
+        "key": "closed",
+        "layout": "phone",
+        "who": "mike",
         "mood": "neutral",
         "pose": "phoneLook",
         "screen": "old",
-        "part": "hook",
-        "voice": "am_michael",
-        "key": "closed",
+        "set": "storm",
+        "cam": "push",
         "fx": [
           "closed"
-        ]
+        ],
+        "part": "hook"
       },
       {
-        "vo": "Mike didn't believe it either.",
+        "vo": "Mike didn't believe it.",
+        "key": "didn't",
+        "layout": "closeup",
+        "who": "mike",
         "mood": "smug",
-        "pose": "shrug",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "didn't"
+        "pose": "armsCrossed",
+        "set": "day",
+        "cam": "pull",
+        "part": "drop"
       },
       {
-        "vo": "Best roofer in town. Fair prices.",
+        "vo": "Best roofer in town. Fair prices. Great reviews.",
+        "key": "best",
+        "layout": "phone",
+        "who": "mike",
         "mood": "happy",
-        "pose": "wave",
+        "pose": "explain",
         "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "best"
+        "set": "day",
+        "cam": "whip",
+        "part": "drop"
       },
       {
         "vo": "But every storm, his phone stayed dead.",
+        "key": "dead",
+        "layout": "phone",
+        "who": "mike",
         "mood": "worried",
         "pose": "phoneLook",
         "screen": "silent",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "dead",
+        "set": "storm",
+        "cam": "dutch",
         "fx": [
           "hail"
-        ]
+        ],
+        "part": "drop"
       },
       {
-        "vo": "While the worst roofer in town got every call.",
-        "mood": "shocked",
-        "pose": "phoneLook",
-        "screen": "competitor",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "worst",
+        "vo": "Vince got every call. Worse roofs. Better site.",
+        "key": "vince",
+        "layout": "duo",
+        "cast": [
+          "vince",
+          "mike"
+        ],
+        "speaker": "vince",
+        "mood": "smug",
+        "pose": "call",
+        "set": "storm",
+        "cam": "whip",
         "fx": [
           "hail",
           "shake"
         ],
-        "beat": "fail"
+        "beat": "fail",
+        "part": "drop"
       },
       {
-        "vo": "Then one customer told him the truth.",
+        "vo": "Then a customer told him the truth.",
+        "key": "truth",
+        "layout": "duo",
+        "cast": [
+          "mike",
+          "karen"
+        ],
+        "speaker": "mike",
         "mood": "squint",
-        "pose": "phoneLook",
-        "screen": "oldScroll",
-        "part": "break",
-        "voice": "am_michael",
-        "key": "truth"
+        "pose": "explain",
+        "set": "day",
+        "cam": "still",
+        "part": "break"
       },
       {
         "vo": "I almost called you. But your site looked closed.",
-        "mood": "shocked",
-        "pose": "facepalm",
-        "screen": "footer",
-        "part": "break",
-        "voice": "af_heart",
         "key": "closed",
-        "fx": [
-          "shake"
+        "layout": "duo",
+        "cast": [
+          "mike",
+          "karen"
         ],
-        "beat": "fail"
+        "speaker": "karen",
+        "mood": "squint",
+        "pose": "shrug",
+        "set": "day",
+        "cam": "push",
+        "beat": "fail",
+        "part": "break",
+        "say": "Your site looked closed."
       },
       {
         "vo": "Tiny text. No call button. Built in two thousand nine.",
-        "mood": "worried",
-        "pose": "phoneLook",
+        "key": "button",
+        "layout": "screen",
         "screen": "oldScroll",
-        "part": "rise",
-        "voice": "am_michael",
-        "key": "button"
+        "set": "night",
+        "cam": "dutch",
+        "part": "rise"
       },
       {
         "vo": "So he fixed it. One weekend.",
-        "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "fixed",
+        "layout": "split",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "glow"
         ],
-        "beat": "win"
+        "beat": "win",
+        "part": "drop2"
       },
       {
         "vo": "Next storm? His phone would not stop.",
-        "mood": "happy",
-        "pose": "fistPump",
-        "screen": "ringing",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "stop",
+        "layout": "phone",
+        "who": "mike",
+        "mood": "happy",
+        "pose": "celebrate",
+        "screen": "ringing",
+        "set": "storm",
+        "cam": "whip",
         "fx": [
           "glow",
-          "shake"
+          "shake",
+          "hail"
         ],
-        "beat": "ring"
+        "beat": "ring",
+        "part": "drop2"
       },
       {
         "cta": true,

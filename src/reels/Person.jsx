@@ -1,0 +1,158 @@
+// A cast of flat characters built from one rig (400 x 760 viewBox, feet at y ~745). Every look lives in CAST.
+// Animation: arms ease between poses, talking moves the mouth (from the voiceover level), the head nods and
+// the free hand gestures while talking, plus breathing, blinking and a bounce when a pose changes.
+import {useCurrentFrame} from 'remotion';
+
+export const CAST = {
+  mike:  {skin: '#e9b48a', hair: 'short', hairC: '#5a3a22', beard: 'full', hat: 'hard', hatC: '#d9ff3f', shirt: '#2f4f86', pants: '#1f2a3d'},
+  dan:   {skin: '#8d5a3b', hair: 'short', hairC: '#1d140f', beard: 'stubble', hat: 'cap', hatC: '#1d6fd1', shirt: '#e7edf5', pants: '#2b3445'},
+  rob:   {skin: '#f1c7a2', hair: 'bald', hairC: '#7a6a5c', beard: 'full', beardC: '#8f8478', hat: 'none', glasses: true, shirt: '#0e7490', pants: '#283142'},
+  tony:  {skin: '#d9a37c', hair: 'short', hairC: '#20160f', beard: 'mustache', hat: 'hard', hatC: '#f97316', shirt: '#3f3f46', pants: '#1c1f26'},
+  luis:  {skin: '#b97a52', hair: 'curly', hairC: '#1f1510', beard: 'stubble', hat: 'cap', hatC: '#15803d', shirt: '#f1e7d0', pants: '#4b3b2a'},
+  sarah: {skin: '#f2c9a8', hair: 'pony', hairC: '#b3651f', beard: 'none', hat: 'none', shirt: '#db2777', pants: '#334155', female: true},
+  maya:  {skin: '#7a4a32', hair: 'bun', hairC: '#140d0a', beard: 'none', hat: 'none', shirt: '#7c3aed', pants: '#1e293b', female: true, glasses: true},
+  karen: {skin: '#efc3a0', hair: 'long', hairC: '#e5c07b', beard: 'none', hat: 'none', shirt: '#0f766e', pants: '#3f3f46', female: true},
+  vince: {skin: '#e0ac86', hair: 'slick', hairC: '#111', beard: 'none', hat: 'none', shades: true, shirt: '#111827', pants: '#111827'},
+};
+
+const SHOULDER = {L: [150, 318], R: [250, 318]};
+export const POSES = {
+  idle: {L: [[128, 420], [124, 515]], R: [[272, 420], [276, 515]]},
+  phoneLook: {L: [[128, 420], [124, 515]], R: [[302, 425], [246, 372]], phone: 'R'},
+  call: {L: [[128, 420], [124, 515]], R: [[322, 330], [272, 236]], phone: 'R'},
+  shrug: {L: [[92, 385], [64, 300]], R: [[308, 385], [336, 300]]},
+  fistPump: {L: [[128, 420], [124, 515]], R: [[318, 392], [300, 296]], fist: 'R'},
+  facepalm: {L: [[128, 420], [124, 515]], R: [[296, 365], [222, 210]]},
+  point: {L: [[128, 420], [124, 515]], R: [[322, 380], [384, 452]]},
+  wave: {L: [[128, 420], [124, 515]], R: [[324, 300], [350, 196]]},
+  armsCrossed: {L: [[150, 430], [262, 410]], R: [[250, 430], [140, 410]]},
+  explain: {L: [[96, 420], [70, 360]], R: [[304, 420], [330, 360]]},
+  headHands: {L: [[100, 300], [150, 170]], R: [[300, 300], [250, 170]]},
+  celebrate: {L: [[90, 250], [70, 140]], R: [[310, 250], [330, 140]]},
+};
+const lerp = (a, b, t) => a + (b - a) * t;
+const lerpArm = (a, b, t) => a.map((pt, i) => pt.map((v, j) => lerp(v, b[i][j], t)));
+const ease = (t) => 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3);
+
+const Arm = ({side, pose, phone, fist, c, wob}) => {
+  const s = SHOULDER[side];
+  const [e, h] = pose.map(([x, y]) => [x + wob[0], y + wob[1]]);
+  const skin = c.skin;
+  return (
+    <g>
+      <path d={`M${s[0]} ${s[1]} L${e[0]} ${e[1]}`} stroke={c.shirt} strokeWidth="46" strokeLinecap="round" />
+      <path d={`M${e[0]} ${e[1]} L${h[0]} ${h[1]}`} stroke={skin} strokeWidth="34" strokeLinecap="round" />
+      <circle cx={e[0]} cy={e[1]} r="21" fill={c.shirt} style={{filter: 'brightness(.85)'}} />
+      {phone && (
+        <g transform={`translate(${h[0]} ${h[1]}) rotate(${side === 'R' ? -12 : 12})`}>
+          <rect x="-20" y="-40" width="40" height="72" rx="8" fill="#1b1b22" />
+          <rect x="-15" y="-34" width="30" height="58" rx="4" fill="#7ab8ff" opacity=".9" />
+        </g>
+      )}
+      {fist ? <rect x={h[0] - 24} y={h[1] - 22} width="48" height="42" rx="14" fill={skin} /> : <circle cx={h[0]} cy={h[1]} r="20" fill={skin} />}
+    </g>
+  );
+};
+
+const Face = ({mood, blink, talk, c}) => {
+  const ink = '#1b1b22', lip = '#2a1a10';
+  const eyeR = mood === 'shocked' ? 9 : 6.5;
+  const eyes = mood === 'squint' || blink
+    ? <><path d="M170 200 L186 200" stroke={ink} strokeWidth="5" strokeLinecap="round" /><path d="M214 200 L230 200" stroke={ink} strokeWidth="5" strokeLinecap="round" /></>
+    : <><circle cx="178" cy="200" r={eyeR} fill={ink} /><circle cx="222" cy="200" r={eyeR} fill={ink} /><circle cx="180" cy="197" r="2" fill="#fff" /><circle cx="224" cy="197" r="2" fill="#fff" /></>;
+  const lift = talk * 6; // brows rise a little on loud syllables
+  const brow = {
+    neutral: ['M164 183 L190 181', 'M210 181 L236 183'], happy: ['M164 180 Q177 172 190 177', 'M210 177 Q223 172 236 180'],
+    worried: ['M164 180 L190 175', 'M210 175 L236 180'], shocked: ['M164 170 Q177 160 190 168', 'M210 168 Q223 160 236 170'],
+    smug: ['M164 183 L190 182', 'M210 176 Q223 168 236 175'], squint: ['M164 186 L190 190', 'M210 190 L236 186'], angry: ['M164 176 L190 186', 'M210 186 L236 176'],
+  }[mood] ?? ['M164 183 L190 181', 'M210 181 L236 183'];
+  const open = Math.max(talk, mood === 'shocked' ? 0.6 : 0);
+  const mouth = open > 0.08
+    ? <ellipse cx="200" cy="260" rx={10 + open * 6} ry={3 + open * 13} fill={lip} />
+    : {
+        happy: <path d="M180 252 Q200 276 220 252 Z" fill={lip} />,
+        worried: <path d="M186 262 Q200 252 214 262" stroke={lip} strokeWidth="5" fill="none" strokeLinecap="round" />,
+        smug: <path d="M186 258 Q204 266 218 252" stroke={lip} strokeWidth="5" fill="none" strokeLinecap="round" />,
+        angry: <path d="M186 262 Q200 254 214 262" stroke={lip} strokeWidth="6" fill="none" strokeLinecap="round" />,
+      }[mood] ?? <path d="M188 258 L212 258" stroke={lip} strokeWidth="5" strokeLinecap="round" />;
+  return (
+    <g>
+      {c.shades ? <path d="M160 190 L240 190 L236 212 Q222 218 206 210 L194 210 Q178 218 164 212 Z" fill="#0b0b0f" /> : eyes}
+      {c.glasses && <g stroke="#2b2b33" strokeWidth="4" fill="none"><circle cx="178" cy="200" r="17" /><circle cx="222" cy="200" r="17" /><path d="M195 200 L205 200" /></g>}
+      <g transform={`translate(0 ${-lift})`}>{brow.map((d) => <path key={d} d={d} stroke={c.female ? c.hairC : c.beardC ?? c.hairC} strokeWidth="7" strokeLinecap="round" fill="none" />)}</g>
+      <path d="M194 214 Q200 230 208 226" stroke="rgba(0,0,0,.18)" strokeWidth="6" fill="none" strokeLinecap="round" />
+      {c.female && <><circle cx="164" cy="238" r="10" fill="#ff8a8a" opacity=".35" /><circle cx="236" cy="238" r="10" fill="#ff8a8a" opacity=".35" /></>}
+      {mouth}
+    </g>
+  );
+};
+
+const Hair = ({c, back}) => {
+  const h = c.hairC;
+  if (back) {
+    if (c.hair === 'long') return <path d="M132 170 Q130 330 150 360 L250 360 Q270 330 268 170 Z" fill={h} />;
+    if (c.hair === 'pony') return <path d="M250 150 Q300 180 286 290 Q276 320 262 300 Q276 230 246 180 Z" fill={h} />;
+    if (c.hair === 'bun') return <circle cx="200" cy="96" r="30" fill={h} />;
+    return null;
+  }
+  if (c.hair === 'bald' || c.hat !== 'none') return null;
+  if (c.hair === 'curly') return <g fill={h}>{[150, 172, 194, 216, 238, 252, 140].map((x, i) => <circle key={i} cx={x} cy={i === 6 ? 160 : 128 + (i % 2) * 8} r="24" />)}</g>;
+  if (c.hair === 'slick') return <path d="M140 170 Q138 110 200 108 Q258 110 262 150 Q230 128 170 140 Q150 150 140 170 Z" fill={h} />;
+  return <path d="M140 172 Q138 110 200 108 Q262 110 260 172 Q250 140 200 136 Q150 140 140 172 Z" fill={h} />;
+};
+
+const Hat = ({c}) => {
+  if (c.hat === 'hard') return (
+    <g><path d="M136 172 Q138 98 200 95 Q262 98 264 172 Z" fill={c.hatC} />
+      <path d="M200 96 L200 168 M168 104 Q160 135 160 168 M232 104 Q240 135 240 168" stroke="rgba(0,0,0,.15)" strokeWidth="4" fill="none" />
+      <path d="M126 170 Q200 150 274 170 Q266 190 200 184 Q134 190 126 170 Z" fill={c.hatC} style={{filter: 'brightness(.85)'}} /></g>);
+  if (c.hat === 'cap') return (
+    <g><path d="M138 168 Q140 104 200 102 Q260 104 262 168 Z" fill={c.hatC} />
+      <path d="M200 160 Q262 150 300 172 Q262 182 200 174 Z" fill={c.hatC} style={{filter: 'brightness(.8)'}} /></g>);
+  return null;
+};
+
+// talk: 0..1 mouth level this frame. enter: 0..1 slide-in. prevPose eases into pose over the first 8 frames of a scene.
+export const Person = ({who = 'mike', mood = 'neutral', pose = 'idle', prevPose, local = 99, talk = 0, size = 1, flip = false}) => {
+  const frame = useCurrentFrame();
+  const c = CAST[who] ?? CAST.mike;
+  const to = POSES[pose] ?? POSES.idle, from = POSES[prevPose] ?? to;
+  const k = ease(local / 8);
+  const p = {...to, L: lerpArm(from.L, to.L, k), R: lerpArm(from.R, to.R, k)};
+  const blink = (frame + who.length * 13) % 96 > 91;
+  const breathe = Math.sin(frame / 14) * 3;
+  const pop = pose !== prevPose ? Math.sin(Math.min(1, local / 8) * Math.PI) * 10 : 0; // little hop on a new pose
+  const nod = talk * 4 * Math.sin(frame / 2.2);
+  const wob = talk > 0.1 ? [Math.sin(frame / 3) * 10 * talk, Math.cos(frame / 4) * 8 * talk] : [0, 0];
+  const tilt = ({shocked: -4, worried: 4, smug: -6, happy: 3, angry: 2}[mood] ?? 0) + nod;
+  const freeArm = p.phone === 'R' || p.fist === 'R' ? 'L' : 'R';
+  return (
+    <svg width={400 * size} height={760 * size} viewBox="0 0 400 760" style={{overflow: 'visible', transform: flip ? 'scaleX(-1)' : undefined}}>
+      <ellipse cx="200" cy="748" rx="120" ry="14" fill="rgba(13,20,36,.14)" />
+      <g transform={`translate(0 ${breathe - pop})`}>
+        <rect x="150" y="515" width="46" height="205" rx="18" fill={c.pants} />
+        <rect x="204" y="515" width="46" height="205" rx="18" fill={c.pants} />
+        <rect x="136" y="698" width="66" height="44" rx="16" fill="#3a2a1e" />
+        <rect x="198" y="698" width="66" height="44" rx="16" fill="#3a2a1e" />
+        <Arm side="L" pose={p.L} phone={p.phone === 'L'} c={c} wob={freeArm === 'L' ? wob : [0, 0]} />
+        <path d={c.female ? 'M136 335 Q136 298 166 293 L234 293 Q264 298 264 335 L270 532 L130 532 Z' : 'M128 335 Q128 298 162 293 L238 293 Q272 298 272 335 L264 532 L136 532 Z'} fill={c.shirt} />
+        <path d="M182 293 L200 322 L218 293 Z" fill={c.skin} />
+        <rect x="134" y="512" width="132" height="24" rx="6" fill="rgba(0,0,0,.35)" />
+        <g transform={`rotate(${tilt} 200 290)`}>
+          <Hair c={c} back />
+          <rect x="182" y="255" width="36" height="45" fill={c.skin} style={{filter: 'brightness(.88)'}} />
+          <circle cx="141" cy="208" r="16" fill={c.skin} style={{filter: 'brightness(.9)'}} />
+          <circle cx="259" cy="208" r="16" fill={c.skin} style={{filter: 'brightness(.9)'}} />
+          <rect x="141" y="120" width="118" height="158" rx="56" fill={c.skin} />
+          {c.beard === 'full' && <path d="M143 212 Q146 292 200 296 Q254 292 257 212 Q246 244 200 247 Q154 244 143 212 Z" fill={c.beardC ?? c.hairC} />}
+          {c.beard === 'stubble' && <path d="M146 222 Q150 288 200 292 Q250 288 254 222 Q244 250 200 252 Q156 250 146 222 Z" fill={c.hairC} opacity=".35" />}
+          {(c.beard === 'full' || c.beard === 'mustache') && <path d="M170 243 Q200 229 230 243 Q200 252 170 243 Z" fill={c.beardC ?? c.hairC} />}
+          <Face mood={mood} blink={blink} talk={talk} c={c} />
+          <Hair c={c} />
+          <Hat c={c} />
+        </g>
+        <Arm side="R" pose={p.R} phone={p.phone === 'R'} fist={p.fist === 'R'} c={c} wob={freeArm === 'R' ? wob : [0, 0]} />
+      </g>
+    </svg>
+  );
+};

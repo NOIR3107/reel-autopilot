@@ -2,129 +2,176 @@
   "date": "2026-10-25",
   "style": "story",
   "trade": "plumbing",
-  "topic": "burst pipe at night, the plumber with the faster site wins",
-  "hook": "A burst pipe at 2 AM. Two plumbers. Only one gets the call.",
+  "topic": "slow site loses the 2 AM burst pipe call",
+  "hook": "2 AM. Water pouring through her kitchen ceiling.",
   "hook_formula": 0,
-  "caption": "Comment WEBSITE and I'll test how fast your site opens on a phone. Free.\n\nDan is made up, but this happens every night. A pipe bursts in Tampa at 2 AM, the homeowner opens 2 plumbers on Google, and the first page that loads with a big call button wins the job.\n\nThe other plumber never even knows he lost it.\n\n#plumbing #plumber #contractor",
+  "caption": "Comment WEBSITE and I'll test how fast your site opens on a phone. Free.\n\nDan and Sarah are made up. The 2 AM search is real. A pipe bursts in Tampa, she opens 2 plumbers on Google, and the first site that loads with a call button gets the job.\n\nThe slow one never even hears about it.\n\n#plumbing #plumber #contractor",
   "props": {
     "trade": "plumbing",
+    "lead": "dan",
+    "music": "suspense",
+    "narrator": "am_adam",
+    "ctaTitle": [
+      "Is your site",
+      "the slow one?"
+    ],
     "scenes": [
       {
-        "vo": "A burst pipe at 2 AM. Two plumbers. Only one gets the call.",
-        "mood": "neutral",
-        "pose": "idle",
-        "screen": "loading",
-        "part": "hook",
-        "voice": "am_michael",
-        "key": "one",
-        "fx": [
-          "shake"
-        ]
-      },
-      {
-        "vo": "This is Dan. Twenty years fixing pipes.",
-        "mood": "smug",
-        "pose": "wave",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "twenty"
-      },
-      {
-        "vo": "Water's everywhere. I need someone now.",
-        "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "loading",
-        "part": "drop",
-        "voice": "af_heart",
-        "key": "now"
-      },
-      {
-        "vo": "She finds Dan's site first. It just keeps loading.",
-        "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "loading",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "loading",
-        "beat": "fail"
-      },
-      {
-        "vo": "She hits back. Taps the next plumber.",
+        "vo": "2 AM. Water pouring through her kitchen ceiling.",
+        "key": "2",
+        "layout": "closeup",
+        "who": "sarah",
         "mood": "shocked",
-        "pose": "shrug",
-        "screen": "competitor",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "next",
+        "pose": "headHands",
+        "set": "kitchen",
+        "cam": "push",
         "fx": [
           "shake"
         ],
-        "beat": "fail"
+        "part": "hook"
       },
       {
-        "vo": "Dan never even knew she existed.",
+        "vo": "I need a plumber right now!",
+        "key": "now",
+        "layout": "phone",
+        "who": "sarah",
+        "speaker": "sarah",
         "mood": "worried",
-        "pose": "idle",
-        "screen": "silent",
-        "part": "break",
-        "voice": "am_michael",
-        "key": "never"
+        "pose": "phoneLook",
+        "screen": "search",
+        "set": "kitchen",
+        "cam": "whip",
+        "part": "drop"
       },
       {
-        "vo": "Slow site. Number hidden at the bottom.",
+        "vo": "Two results. Dan has better reviews.",
+        "key": "reviews",
+        "layout": "screen",
+        "screen": "search",
+        "set": "night",
+        "cam": "push",
+        "part": "drop"
+      },
+      {
+        "vo": "She taps Dan's site. And waits.",
+        "key": "waits",
+        "layout": "phone",
+        "who": "sarah",
         "mood": "squint",
         "pose": "phoneLook",
-        "screen": "footer",
-        "part": "rise",
-        "voice": "am_michael",
-        "key": "hidden"
+        "screen": "loading",
+        "set": "kitchen",
+        "cam": "dutch",
+        "part": "drop"
       },
       {
-        "vo": "So Dan got a site that loads in a blink.",
-        "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
-        "key": "blink",
+        "vo": "Still loading. She gives up.",
+        "key": "gives",
+        "layout": "phone",
+        "who": "sarah",
+        "mood": "angry",
+        "pose": "armsCrossed",
+        "screen": "loading",
+        "set": "kitchen",
+        "cam": "push",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail",
+        "part": "drop"
+      },
+      {
+        "vo": "Vince answers in one tap. Job's his.",
+        "key": "vince",
+        "layout": "duo",
+        "cast": [
+          "vince",
+          "sarah"
+        ],
+        "speaker": "vince",
+        "mood": "smug",
+        "pose": "call",
+        "set": "night",
+        "cam": "whip",
+        "beat": "fail",
+        "part": "drop"
+      },
+      {
+        "vo": "Next morning, Dan asks her what happened.",
+        "key": "happened",
+        "layout": "duo",
+        "cast": [
+          "dan",
+          "sarah"
+        ],
+        "speaker": "dan",
+        "mood": "worried",
+        "pose": "explain",
+        "set": "day",
+        "cam": "still",
+        "part": "break"
+      },
+      {
+        "vo": "Your site never loaded. I couldn't wait.",
+        "key": "loaded",
+        "layout": "duo",
+        "cast": [
+          "dan",
+          "sarah"
+        ],
+        "speaker": "sarah",
+        "mood": "squint",
+        "pose": "shrug",
+        "set": "day",
+        "cam": "push",
+        "part": "break",
+        "say": "Your site never loaded."
+      },
+      {
+        "vo": "A slow site is a closed door.",
+        "key": "closed",
+        "layout": "closeup",
+        "who": "dan",
+        "mood": "shocked",
+        "pose": "headHands",
+        "set": "night",
+        "cam": "pull",
+        "part": "rise"
+      },
+      {
+        "vo": "So Dan rebuilt it. Fast, with one big call button.",
+        "key": "fast",
+        "layout": "split",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "glow"
         ],
-        "beat": "win"
+        "beat": "win",
+        "part": "drop2"
       },
       {
-        "vo": "Big call button, right at the top.",
+        "vo": "Now the 2 AM calls ring his phone.",
+        "key": "ring",
+        "layout": "phone",
+        "who": "dan",
         "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
-        "key": "button"
-      },
-      {
-        "vo": "Now the 2 AM calls come to him.",
-        "mood": "happy",
-        "pose": "fistPump",
+        "pose": "celebrate",
         "screen": "ringing",
-        "part": "drop2",
-        "voice": "am_michael",
-        "key": "him",
+        "set": "night",
+        "cam": "whip",
         "fx": [
           "glow",
           "shake"
         ],
-        "beat": "ring"
+        "beat": "ring",
+        "part": "drop2"
       },
       {
         "cta": true,
-        "vo": "Is your site the slow one? Comment website and I'll check it for free.",
+        "vo": "Is your site the slow one? Comment website. I'll test it free.",
         "part": "outro"
       }
-    ],
-    "ctaTitle": [
-      "Is your site",
-      "the slow one?"
     ]
   }
 }

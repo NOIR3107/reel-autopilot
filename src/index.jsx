@@ -5,6 +5,7 @@ import {Teardown, TEARDOWN_FRAMES} from './reels/Teardown.jsx';
 import {MikeEpisode, sceneFrames} from './reels/MikeEpisode.jsx';
 import EPISODES from './reels/mike-episodes.json';
 import {MikeStory} from './reels/MikeStory.jsx';
+import {StoryReel, storyFrames} from './reels/StoryReel.jsx';
 
 // One composition per style. The daily robot renders the one named in today's script, with the script's props.
 const FPS = 30;
@@ -19,5 +20,7 @@ registerRoot(() => (
       calculateMetadata={({props}) => ({durationInFrames: sceneFrames(props.scenes)})} />
     <Composition id="mikestory" component={MikeStory} {...size} durationInFrames={1} defaultProps={{scenes: EPISODES.story.scenes, music: false}}
       calculateMetadata={({props}) => ({durationInFrames: sceneFrames(props.scenes)})} />
+    <Composition id="story" component={StoryReel} {...size} durationInFrames={1} defaultProps={{scenes: EPISODES.story.scenes, music: false}}
+      calculateMetadata={({props}) => ({durationInFrames: storyFrames(props.scenes)})} />
   </>
 ));

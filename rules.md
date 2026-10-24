@@ -41,6 +41,12 @@ The weekly writer reads this file and styles.md before writing the week's script
 - Never use em dashes, "game-changer", "unlock", "level up", "in today's video", "stop scrolling", "follow for more".
 - Never repeat a topic used in the last 14 days.
 
+## What competitors are doing
+
+<!-- COMPETITORS:START -->
+Nothing yet. The Sunday writer fills this in.
+<!-- COMPETITORS:END -->
+
 ## Learned
 
 <!-- LEARNED:START -->

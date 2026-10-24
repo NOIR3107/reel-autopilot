@@ -1,131 +1,175 @@
 {
-  "date": "2026-10-24",
+  "date": "2026-10-25",
   "style": "story",
-  "trade": "roofing",
-  "topic": "website looks closed to storm customers",
-  "hook": "Your website is telling customers you're closed.",
+  "trade": "plumbing",
+  "topic": "slow site loses the 2 AM burst pipe call",
+  "hook": "2 AM. Water pouring through her kitchen ceiling.",
   "hook_formula": 0,
-  "caption": "Comment WEBSITE and I'll tell you if your site looks closed. Free, no pitch.\n\nMike is made up. The problem is not. I open roofing sites every week from Texas to Ohio and see the same 3 things: tiny text, no tap-to-call button, a layout from 2009.\n\nA homeowner with a leak gives your site about 5 seconds. If it looks closed, they call the next roofer on Google.\n\n#roofing #roofer #contractor",
+  "caption": "Comment WEBSITE and I'll test how fast your site opens on a phone. Free.\n\nDan and Sarah are made up. The 2 AM search is real. A pipe bursts in Tampa, she opens 2 plumbers on Google, and the first site that loads with a call button gets the job.\n\nThe slow one never even hears about it.\n\n#plumbing #plumber #contractor",
   "props": {
-    "trade": "roofing",
+    "trade": "plumbing",
+    "lead": "dan",
+    "music": "suspense",
+    "narrator": "am_adam",
+    "ctaTitle": [
+      "Is your site",
+      "the slow one?"
+    ],
     "scenes": [
       {
-        "vo": "Your website is telling customers you're closed.",
-        "mood": "neutral",
-        "pose": "phoneLook",
-        "screen": "old",
-        "part": "hook",
-        "voice": "am_michael",
-        "key": "closed",
-        "fx": [
-          "closed"
-        ]
-      },
-      {
-        "vo": "Mike didn't believe it either.",
-        "mood": "smug",
-        "pose": "shrug",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "didn't"
-      },
-      {
-        "vo": "Best roofer in town. Fair prices.",
-        "mood": "happy",
-        "pose": "wave",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "best"
-      },
-      {
-        "vo": "But every storm, his phone stayed dead.",
-        "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "silent",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "dead",
-        "fx": [
-          "hail"
-        ]
-      },
-      {
-        "vo": "While the worst roofer in town got every call.",
+        "vo": "2 AM. Water pouring through her kitchen ceiling.",
+        "key": "2",
+        "layout": "closeup",
+        "who": "sarah",
         "mood": "shocked",
-        "pose": "phoneLook",
-        "screen": "competitor",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "worst",
+        "pose": "headHands",
+        "set": "kitchen",
+        "cam": "push",
         "fx": [
-          "hail",
           "shake"
         ],
-        "beat": "fail"
+        "part": "hook"
       },
       {
-        "vo": "Then one customer told him the truth.",
+        "vo": "I need a plumber right now!",
+        "key": "now",
+        "layout": "phone",
+        "who": "sarah",
+        "speaker": "sarah",
+        "mood": "worried",
+        "pose": "phoneLook",
+        "screen": "search",
+        "set": "kitchen",
+        "cam": "whip",
+        "part": "drop"
+      },
+      {
+        "vo": "Two results. Dan has better reviews.",
+        "key": "reviews",
+        "layout": "screen",
+        "screen": "search",
+        "set": "night",
+        "cam": "push",
+        "part": "drop"
+      },
+      {
+        "vo": "She taps Dan's site. And waits.",
+        "key": "waits",
+        "layout": "phone",
+        "who": "sarah",
         "mood": "squint",
         "pose": "phoneLook",
-        "screen": "oldScroll",
-        "part": "break",
-        "voice": "am_michael",
-        "key": "truth"
+        "screen": "loading",
+        "set": "kitchen",
+        "cam": "dutch",
+        "part": "drop"
       },
       {
-        "vo": "I almost called you. But your site looked closed.",
-        "mood": "shocked",
-        "pose": "facepalm",
-        "screen": "footer",
-        "part": "break",
-        "voice": "af_heart",
-        "key": "closed",
+        "vo": "Still loading. She gives up.",
+        "key": "gives",
+        "layout": "phone",
+        "who": "sarah",
+        "mood": "angry",
+        "pose": "armsCrossed",
+        "screen": "loading",
+        "set": "kitchen",
+        "cam": "push",
         "fx": [
           "shake"
         ],
-        "beat": "fail"
+        "beat": "fail",
+        "part": "drop"
       },
       {
-        "vo": "Tiny text. No call button. Built in two thousand nine.",
+        "vo": "Vince answers in one tap. Job's his.",
+        "key": "vince",
+        "layout": "duo",
+        "cast": [
+          "vince",
+          "sarah"
+        ],
+        "speaker": "vince",
+        "mood": "smug",
+        "pose": "call",
+        "set": "night",
+        "cam": "whip",
+        "beat": "fail",
+        "part": "drop"
+      },
+      {
+        "vo": "Next morning, Dan asks her what happened.",
+        "key": "happened",
+        "layout": "duo",
+        "cast": [
+          "dan",
+          "sarah"
+        ],
+        "speaker": "dan",
         "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "oldScroll",
-        "part": "rise",
-        "voice": "am_michael",
-        "key": "button"
+        "pose": "explain",
+        "set": "day",
+        "cam": "still",
+        "part": "break"
       },
       {
-        "vo": "So he fixed it. One weekend.",
-        "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
-        "key": "fixed",
+        "vo": "Your site never loaded. I couldn't wait.",
+        "key": "loaded",
+        "layout": "duo",
+        "cast": [
+          "dan",
+          "sarah"
+        ],
+        "speaker": "sarah",
+        "mood": "squint",
+        "pose": "shrug",
+        "set": "day",
+        "cam": "push",
+        "part": "break",
+        "say": "Your site never loaded."
+      },
+      {
+        "vo": "A slow site is a closed door.",
+        "key": "closed",
+        "layout": "closeup",
+        "who": "dan",
+        "mood": "shocked",
+        "pose": "headHands",
+        "set": "night",
+        "cam": "pull",
+        "part": "rise"
+      },
+      {
+        "vo": "So Dan rebuilt it. Fast, with one big call button.",
+        "key": "fast",
+        "layout": "split",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "glow"
         ],
-        "beat": "win"
+        "beat": "win",
+        "part": "drop2"
       },
       {
-        "vo": "Next storm? His phone would not stop.",
+        "vo": "Now the 2 AM calls ring his phone.",
+        "key": "ring",
+        "layout": "phone",
+        "who": "dan",
         "mood": "happy",
-        "pose": "fistPump",
+        "pose": "celebrate",
         "screen": "ringing",
-        "part": "drop2",
-        "voice": "am_michael",
-        "key": "stop",
+        "set": "night",
+        "cam": "whip",
         "fx": [
           "glow",
           "shake"
         ],
-        "beat": "ring"
+        "beat": "ring",
+        "part": "drop2"
       },
       {
         "cta": true,
-        "vo": "Want to know if your site looks closed? Comment website. I'll check it free.",
+        "vo": "Is your site the slow one? Comment website. I'll test it free.",
         "part": "outro"
       }
     ]

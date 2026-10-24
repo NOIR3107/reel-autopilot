@@ -15,6 +15,10 @@ KD = os.environ.get('KOKORO_DIR', os.path.join(ROOT, 'models/kokoro'))
 SFX = os.path.join(ROOT, 'public/sfx/')
 
 
+VOICE = {'narrator': 'am_adam', 'mike': 'am_michael', 'dan': 'am_eric', 'rob': 'am_onyx', 'tony': 'am_fenrir', 'luis': 'am_liam',
+         'sarah': 'af_heart', 'maya': 'af_nova', 'karen': 'af_bella', 'vince': 'am_puck'}
+
+
 def sfx(name):
     a, sr = sf.read(SFX + name, always_2d=True)
     return resample_poly(a.mean(axis=1), SR, sr)
@@ -32,17 +36,87 @@ def sub(hz, sec, glide=None):
     return np.tanh(2.2 * np.sin(2 * np.pi * np.cumsum(f) / SR)) * np.exp(-tt * 0.9) * (1 - np.exp(-tt * 200))
 
 
+def score(m, style, dur, starts, parts):
+    """Four music beds. Every one follows the story: quiet on the twist (break), building on rise, biggest on the win (drop2)."""
+    part_at = lambda tm: parts[min(len(parts) - 1, int(np.searchsorted(starts, tm, side='right') - 1))]
+    if style == 'funk':  # bright, bouncy, major key, 112 bpm
+        B, chords, roots = 60 / 112, [[261.6, 329.6, 392.0], [220.0, 261.6, 329.6], [174.6, 220.0, 261.6], [196.0, 246.9, 293.7]], [65.4, 55.0, 43.65, 49.0]
+    elif style == 'suspense':  # cinematic, slow pulse, 90 bpm
+        B, chords, roots = 60 / 90, [[146.8, 174.6, 220.0], [116.5, 146.8, 174.6], [130.8, 155.6, 196.0], [110.0, 138.6, 164.8]], [36.7, 29.1, 32.7, 27.5]
+    elif style == 'lofi':  # chill, swung, 84 bpm
+        B, chords, roots = 60 / 84, [[261.6, 329.6, 392.0, 493.9], [220.0, 261.6, 329.6, 392.0], [174.6, 220.0, 261.6, 329.6], [196.0, 246.9, 293.7, 349.2]], [65.4, 55.0, 43.65, 49.0]
+    else:  # trap: dark minor, 140 bpm
+        B, chords, roots = 60 / 140, [[220.0, 261.6, 329.6], [174.6, 220.0, 261.6], [196.0, 246.9, 293.7], [164.8, 207.7, 246.9]], [55.0, 43.65, 49.0, 41.2]
+    for bar, b0 in enumerate(np.arange(0, dur, 4 * B)):
+        ch, part = chords[bar % 4], part_at(b0)
+        big = part in ('drop', 'drop2', 'outro', 'hook') and not (style == 'trap' and part == 'hook')
+        if style == 'suspense':
+            pad = sum(np.sin(2 * np.pi * hz * t(4 * B)) for hz in ch) / len(ch)
+            m.place(pad * np.minimum(1, t(4 * B) * 2) * np.minimum(1, (4 * B - t(4 * B)) * 3), b0, 0.12)
+            for beat in range(4):
+                m.place(sub(roots[bar % 4], B * 0.9), b0 + beat * B, 0.35 if big else 0.18)
+            if big: m.place(kick(), b0, 0.9); m.place(kick(), b0 + 2.5 * B, 0.6)
+            if part == 'drop2':
+                for r in range(8): m.place(hat(), b0 + r * B / 2, 0.12)
+            continue
+        steps = 8 if style != 'lofi' else 4
+        for step in range(steps):
+            notes = ch if style == 'lofi' else [ch[step % len(ch)] * (2 if step % 4 == 3 else 1)]
+            for hz in notes:
+                m.place(piano(hz, B * (2 if style == 'lofi' else 1)), b0 + step * 4 * B / steps, (0.05 if style == 'lofi' else 0.10) / (1 if len(notes) == 1 else 2))
+        if part == 'rise':
+            for r in range(16): m.place(hat(), b0 + r * B / 4, 0.05 + r * 0.01)
+            continue
+        if not big and part != 'hook':
+            continue
+        for beat in range(4):
+            tb = b0 + beat * B
+            swing = B * 0.12 if style == 'lofi' else 0
+            if style == 'funk':
+                if beat in (0, 2): m.place(kick(), tb, 0.75)
+                if beat == 3: m.place(kick(), tb + B / 2, 0.5)
+                if beat in (1, 3): m.place(clap(), tb, 0.5)
+                for r in range(4): m.place(hat(open_=(r == 2)), tb + r * B / 4, 0.12, pan=-0.2)
+                m.place(sub(roots[bar % 4] * (2 if beat % 2 else 1), B * 0.45), tb + B / 2 * (beat % 2), 0.45)
+            elif style == 'lofi':
+                if beat in (0, 2): m.place(kick(), tb, 0.55)
+                if beat in (1, 3): m.place(clap(), tb, 0.25)
+                m.place(hat(), tb, 0.08); m.place(hat(), tb + B / 2 + swing, 0.06)
+            else:
+                if beat in (0, 2): m.place(kick(), tb, 0.8)
+                if beat in (1, 3): m.place(clap(), tb, 0.45)
+                rolls = 4 if (part == 'drop2' and beat == 3) else 2
+                for r in range(rolls): m.place(hat(), tb + r * B / rolls, 0.16 if r else 0.22, pan=0.2)
+        if style == 'trap':
+            m.place(sub(roots[bar % 4], 4 * B - 0.05, glide=roots[(bar + 1) % 4] if bar % 2 else None), b0, 0.55)
+        elif style == 'lofi':
+            m.place(sub(roots[bar % 4], 4 * B - 0.1), b0, 0.3)
+    if style == 'lofi':  # vinyl crackle
+        n = np.zeros(m.n); idx = np.random.default_rng(3).integers(0, m.n, int(dur * 40)); n[idx] = np.random.default_rng(4).uniform(-1, 1, len(idx))
+        m.L += n * 0.05; m.R += n * 0.05
+    if 'rise' in parts and 'drop2' in parts:
+        a, b = starts[parts.index('rise')], starts[parts.index('drop2')]
+        if b > a: m.place(riser(b - a), a, 0.35)
+
+
 def main(queue_file, props_out):
     script = json.load(open(queue_file))
     p = script['props']
     k = Kokoro(os.path.join(KD, 'kokoro-v1.0.onnx'), os.path.join(KD, 'voices-v1.0.bin'))
-    vo, scenes, parts = [], [], []
+    vo, scenes, parts, mouth = [], [], [], []
+    narrator = p.get('narrator', VOICE['narrator'])
     for sc in p['scenes']:
-        s, sr = k.create(sc['vo'], voice=sc.get('voice', 'am_michael'), speed=1.18, lang='en-us')
+        voice = sc.get('voice') or (VOICE.get(sc['speaker'], narrator) if sc.get('speaker') else narrator)
+        s, sr = k.create(sc['vo'], voice=voice, speed=1.15 if sc.get('speaker') else 1.18, lang='en-us')
         s = resample_poly(s, SR, sr)
         sec = len(s) / SR + 0.12 + (0.4 if sc.get('part') == 'hook' else 0) + (1.2 if sc.get('cta') else 0)
         sec = round(sec, 2)
         vo.append(np.pad(s, (0, int(sec * SR) - len(s))))
+        # mouth level per video frame, for lip flap
+        hop = SR // 30
+        lv = [float(np.sqrt(np.mean(s[j:j + hop] ** 2))) if j < len(s) else 0.0 for j in range(0, int(sec * SR), hop)]
+        top = max(lv) or 1
+        mouth.append([round(min(1, v / top * 1.3), 2) if sc.get('speaker') else 0 for v in lv])
         out = {k2: v for k2, v in sc.items() if k2 not in ('voice', 'part')}
         out['sec'] = sec
         if sc.get('cta'): out.pop('vo', None)  # spoken, not shown
@@ -53,37 +127,16 @@ def main(queue_file, props_out):
     vo = np.concatenate(vo)
     vo = np.pad(vo, (0, max(0, int(dur * SR) - len(vo))))[: int(dur * SR)]
 
-    # Dark trap score: 140 bpm, minor piano arpeggio, gliding 808, hats with rolls. Drops follow the story.
-    B = 60 / 140
-    chords = [[220.0, 261.6, 329.6], [174.6, 220.0, 261.6], [196.0, 246.9, 293.7], [164.8, 207.7, 246.9]]
-    roots = [55.0, 43.65, 49.0, 41.2]
-    part_at = lambda tm: parts[min(len(parts) - 1, int(np.searchsorted(starts, tm, side='right') - 1))]
     m = Mix(dur)
-    for bar, b0 in enumerate(np.arange(0, dur, 4 * B)):
-        ch, part = chords[bar % 4], part_at(b0)
-        for i in range(3):
-            for step in range(8):
-                m.place(piano(ch[(step + i) % 3] * (2 if step % 4 == 3 else 1), B), b0 + step * B / 2 + i * 0.002, 0.10 / 3)
-        if part in ('drop', 'drop2', 'outro'):
-            for beat in range(4):
-                tb = b0 + beat * B
-                if beat in (0, 2): m.place(kick(), tb, 0.8)
-                if beat in (1, 3): m.place(clap(), tb, 0.45)
-                rolls = 4 if (part == 'drop2' and beat == 3) else 2
-                for r in range(rolls): m.place(hat(), tb + r * B / rolls, 0.16 if r else 0.22, pan=0.2)
-            m.place(sub(roots[bar % 4], 4 * B - 0.05, glide=roots[(bar + 1) % 4] if bar % 2 else None), b0, 0.55)
-        elif part == 'rise':
-            for r in range(16): m.place(hat(), b0 + r * B / 4, 0.05 + r * 0.01)
-    if 'rise' in parts and 'drop2' in parts:
-        a, b = starts[parts.index('rise')], starts[parts.index('drop2')]
-        if b > a: m.place(riser(b - a), a, 0.35)
+    score(m, p.get('music', 'trap'), dur, starts, parts)
 
     fxmap = {'closed': [('impact-bass-1.mp3', 8 / 30, 0.9), ('glitch-1.mp3', 8 / 30, 0.35)], 'fail': [('impact-bass-2.mp3', 0, 0.6)],
              'win': [('sparkle.mp3', 0, 0.5), ('impact-bass-1.mp3', 0, 0.5)],
-             'ring': [('notification.mp3', 0.2, 0.6), ('notification.mp3', 1.0, 0.5), ('notification.mp3', 1.8, 0.45)]}
+             'ring': [('notification.mp3', 0.2, 0.6), ('notification.mp3', 1.0, 0.5), ('notification.mp3', 1.8, 0.45)],
+             'say': [('pop.mp3', 0, 0.5)], 'whip': [('whoosh-cinematic.mp3', -0.1, 0.45)], 'hail': [('glitch-2.mp3', 0, 0.12)]}
     for i, sc in enumerate(scenes):
         if i: m.place(sfx('whoosh-short.mp3'), starts[i] - 0.12, 0.35)
-        for tag in sc.get('fx', []) + [sc.get('beat', '')]:
+        for tag in sc.get('fx', []) + [sc.get('beat', ''), 'say' if sc.get('say') else '', 'whip' if sc.get('cam') == 'whip' else '']:
             for name, off, g in fxmap.get(tag, []): m.place(sfx(name), starts[i] + off, g)
     env = np.convolve(np.abs(vo), np.ones(2400) / 2400, mode='same')
     duck = 1 - 0.55 * np.clip(env * 8, 0, 1)  # music sits under the voice
@@ -92,7 +145,7 @@ def main(queue_file, props_out):
     m.place(vo, 0, 2.4)
     m.write(os.path.join(ROOT, 'public/story-sound.wav'), fade=0.8)
     props = {k2: v for k2, v in p.items() if k2 != 'scenes'}
-    json.dump({**props, 'scenes': scenes}, open(props_out, 'w'))
+    json.dump({**props, 'scenes': scenes, 'mouth': mouth}, open(props_out, 'w'))
     print(f'story sound {dur:.1f}s, {len(scenes)} scenes')
 
 

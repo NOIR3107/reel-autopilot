@@ -8,119 +8,148 @@
   "caption": "Comment WEBSITE if calling yourself from your own site took more than 1 tap. I'll send you the fix. Free.\n\nRob is made up. Try it yourself right now on your phone: open your HVAC site, find your number, tap it.\n\nIf it took 3 scrolls and a Contact page, that's what every customer goes through in August.\n\n#hvac #hvaccontractor #smallbusiness",
   "props": {
     "trade": "hvac",
+    "lead": "rob",
+    "music": "trap",
+    "narrator": "am_adam",
+    "ctaTitle": [
+      "Try calling",
+      "yourself."
+    ],
     "scenes": [
       {
         "vo": "Try calling your own business from your website. I'll wait.",
+        "key": "calling",
+        "layout": "closeup",
+        "who": "rob",
         "mood": "smug",
         "pose": "point",
-        "screen": "old",
-        "part": "hook",
-        "voice": "am_michael",
-        "key": "calling",
-        "fx": [
-          "shake"
-        ]
-      },
-      {
-        "vo": "Rob tried it. He was sure it'd take two seconds.",
-        "mood": "smug",
-        "pose": "phoneLook",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "sure"
-      },
-      {
-        "vo": "Okay. Where's my number?",
-        "mood": "squint",
-        "pose": "phoneLook",
-        "screen": "old",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "number",
-        "say": "Okay. Where's my number?"
-      },
-      {
-        "vo": "Scroll. Menu. Contact page. Still loading.",
-        "mood": "worried",
-        "pose": "phoneLook",
-        "screen": "loading",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "loading",
+        "set": "office",
+        "cam": "push",
         "fx": [
           "shake"
         ],
-        "beat": "fail"
+        "part": "hook"
+      },
+      {
+        "vo": "Rob's office manager dared him to.",
+        "key": "dared",
+        "layout": "duo",
+        "cast": [
+          "rob",
+          "maya"
+        ],
+        "speaker": "maya",
+        "mood": "smug",
+        "pose": "explain",
+        "set": "office",
+        "cam": "whip",
+        "part": "drop"
+      },
+      {
+        "vo": "Two seconds, tops.",
+        "key": "two",
+        "layout": "duo",
+        "cast": [
+          "rob",
+          "maya"
+        ],
+        "speaker": "rob",
+        "mood": "smug",
+        "pose": "phoneLook",
+        "set": "office",
+        "cam": "still",
+        "part": "drop"
+      },
+      {
+        "vo": "Menu. Contact page. Still loading.",
+        "key": "loading",
+        "layout": "screen",
+        "screen": "loading",
+        "set": "office",
+        "cam": "dutch",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail",
+        "part": "drop"
       },
       {
         "vo": "Found it. Bottom of the page. Not even tappable.",
+        "key": "tappable",
+        "layout": "phone",
+        "who": "rob",
         "mood": "shocked",
         "pose": "facepalm",
         "screen": "footer",
-        "part": "drop",
-        "voice": "am_michael",
-        "key": "tappable",
+        "set": "office",
+        "cam": "push",
         "fx": [
           "shake"
         ],
-        "beat": "fail"
+        "beat": "fail",
+        "part": "drop"
       },
       {
         "vo": "Even I'd call the other guy.",
-        "mood": "squint",
-        "pose": "shrug",
-        "screen": "competitor",
-        "part": "break",
-        "voice": "am_michael",
         "key": "other",
-        "say": "Even I'd call the other guy."
+        "layout": "closeup",
+        "who": "rob",
+        "speaker": "rob",
+        "mood": "worried",
+        "pose": "headHands",
+        "set": "night",
+        "cam": "pull",
+        "part": "break"
       },
       {
-        "vo": "Every customer was going through this.",
-        "mood": "worried",
-        "pose": "idle",
-        "screen": "silent",
-        "part": "rise",
-        "voice": "am_michael",
-        "key": "every"
+        "vo": "That's what every customer goes through.",
+        "key": "every",
+        "layout": "duo",
+        "cast": [
+          "rob",
+          "maya"
+        ],
+        "speaker": "maya",
+        "mood": "squint",
+        "pose": "armsCrossed",
+        "set": "office",
+        "cam": "still",
+        "part": "rise"
       },
       {
         "vo": "Now his number sits right at the top. One tap.",
-        "mood": "happy",
-        "pose": "point",
-        "screen": "new",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "tap",
+        "layout": "split",
+        "set": "day",
+        "cam": "push",
         "fx": [
           "glow"
         ],
-        "beat": "win"
+        "beat": "win",
+        "part": "drop2"
       },
       {
         "vo": "And the phone actually rings.",
-        "mood": "happy",
-        "pose": "fistPump",
-        "screen": "ringing",
-        "part": "drop2",
-        "voice": "am_michael",
         "key": "rings",
+        "layout": "phone",
+        "who": "rob",
+        "mood": "happy",
+        "pose": "celebrate",
+        "screen": "ringing",
+        "set": "office",
+        "cam": "whip",
         "fx": [
           "glow",
           "shake"
         ],
-        "beat": "ring"
+        "beat": "ring",
+        "part": "drop2"
       },
       {
         "cta": true,
         "vo": "Tried it and didn't like it? Comment website and I'll send you the fix, free.",
         "part": "outro"
       }
-    ],
-    "ctaTitle": [
-      "Try calling",
-      "yourself."
     ]
   }
 }

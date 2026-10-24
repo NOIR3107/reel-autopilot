@@ -39,7 +39,7 @@ const CallScreen = ({title, sub, local, incoming}) => (
   </div>
 );
 
-const Screen = ({type, local}) => {
+export const Screen = ({type, local}) => {
   const biz = useBiz();
   if (type === 'silent') return (
     <div style={{width: 390, height: 844, background: 'linear-gradient(180deg, #3b4a6b, #151c2c)', fontFamily: FONT, color: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>

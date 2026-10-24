@@ -1,8 +1,7 @@
 name: Daily reel
 on:
-  # PAUSED while the story style is rebuilt. Restore these 2 lines to resume.
-  # schedule:
-  #   - cron: '7 13-23 * * *' # hourly; the script only posts once a day, at today's time slot
+  schedule:
+    - cron: '7 13-23 * * *' # hourly; the script only posts once a day, at today's time slot
   workflow_dispatch:
     inputs:
       force:
