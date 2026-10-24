@@ -89,6 +89,10 @@ try {
     catch (e) { entry.story_error = e.message.slice(0, 300); console.log(`story not posted: ${entry.story_error}`); }
   }
   console.log(`${entry.status}: ${script.style} "${script.hook}" ${entry.permalink ?? entry.file}`);
+} catch (e) {
+  entry.error = String(e.stderr || e.message).slice(-1500); // kept in data/posts.json so failures can be read without GitHub logs
+  console.error(entry.error);
+  process.exitCode = 1;
 } finally {
   if (!DRY) {
     write('data/posts.json', posts);

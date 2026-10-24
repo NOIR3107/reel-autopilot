@@ -36,7 +36,7 @@ export function gitCommit(message, paths) {
   sh('git', ['add', ...paths]);
   if (!sh('git', ['status', '--porcelain', ...paths]).trim()) return sh('git', ['rev-parse', 'HEAD']).trim();
   sh('git', ['commit', '-m', message]);
-  sh('git', ['pull', '--rebase', '--quiet']);
+  sh('git', ['pull', '--rebase', '--autostash', '--quiet']); // generated sounds in public/ may be modified
   sh('git', ['push', '--quiet']);
   return sh('git', ['rev-parse', 'HEAD']).trim();
 }

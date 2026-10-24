@@ -27,7 +27,8 @@ jobs:
         with: {path: models/kokoro, key: kokoro-v1.0}
       - run: |
           mkdir -p models/kokoro && cd models/kokoro
-          for f in kokoro-v1.0.onnx voices-v1.0.bin; do [ -s $f ] || curl -sSL -o $f https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/$f; done
+          for f in kokoro-v1.0.onnx voices-v1.0.bin; do [ $(stat -c%s $f 2>/dev/null || echo 0) -gt 1000000 ] || curl -fsSL --retry 3 -o $f https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/$f; done
+          ls -la
       - run: npm test
       - run: git config user.name "reel-bot" && git config user.email "reel-bot@users.noreply.github.com"
       - name: DM people who commented WEBSITE
