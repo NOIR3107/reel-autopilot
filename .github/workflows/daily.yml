@@ -1,8 +1,9 @@
 name: Daily reel
 on:
-  schedule:
-    - cron: '7 13-23 * * *' # hourly; the script only posts once a day, at today's time slot
-  push: {paths: ['trigger/post-now']} # change this file to post right away (GitHub's timer can lag)
+  # STOPPED by Neel. Restore these 2 lines to resume.
+  # schedule:
+  #   - cron: '7 13-23 * * *' # hourly; the script only posts once a day, at today's time slot
+  # push: {paths: ['trigger/post-now']} # change this file to post right away (GitHub's timer can lag)
   workflow_dispatch:
     inputs:
       force:

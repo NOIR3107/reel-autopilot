@@ -1,7 +1,8 @@
 name: Weekly report
 on:
-  schedule:
-    - cron: '0 15 * * 6' # Saturdays 15:00 UTC, so Sunday's writer sees fresh numbers
+  # STOPPED by Neel.
+  # schedule:
+  #   - cron: '0 15 * * 6' # Saturdays 15:00 UTC, so Sunday's writer sees fresh numbers
   workflow_dispatch:
 concurrency: {group: reel-bot, cancel-in-progress: false}
 permissions: {contents: write, issues: write}
