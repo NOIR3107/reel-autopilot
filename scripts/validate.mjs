@@ -128,7 +128,7 @@ export function validate(s, {quality = true} = {}) {
   if (!str(s.topic, 120) || !str(s.trade, 30) || !str(s.hook, 120)) errs.push('topic, trade and hook are required');
   if (typeof s.caption !== 'string' || s.caption.length < 80) errs.push('caption missing or under 80 characters');
   else {
-    if ((s.caption.match(/#\w+/g) ?? []).length > 3) errs.push('caption: at most 3 hashtags');
+    if ((s.caption.match(/#\w+/g) ?? []).length > 5) errs.push('caption: at most 5 hashtags (Instagram limit)');
     if (!/comment\s+\S+/i.test(s.caption)) errs.push('caption must ask people to comment a word');
   }
   const banned = JSON.stringify(s).match(BANNED);

@@ -6,6 +6,11 @@
    ends on two options and "Comment A or B. The most votes decides the next part." Example: queue/2026-10-28.json.
 3. SEO + DESIGN (style "explainer", look "b"): one true fact per scene, code or search-result screenshots, ends on
    "Follow me and comment LEARN for my free starter guide". Example: queue/2026-10-29.json.
+Hashtags: exactly these 5 as the caption's last line (Instagram allows 5; 2 broad, 2 medium, 1 niche works best):
+   FREE SKILL: #aitools #artificialintelligence #claudeai #codingtips #claudecode
+   SEO + DESIGN: #seo #webdesign #seotips #websitetips #seoforbeginners
+   SURVIVAL: #storytime #survival #animation #whatwouldyoudo #chooseyourownadventure
+   Never #reels, #explore, #viral or #fyp. Put the searchable words (Claude, SEO, website, Google) in the caption text too.
 Props for explainers: shot (url, heading, lines, hl, stamp, dark, mono), terminal, files, checklist, stamp, big, chart, comments.
 
 # Script format, one file per day
