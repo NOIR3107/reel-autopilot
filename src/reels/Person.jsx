@@ -12,6 +12,12 @@ export const CAST = {
   sarah: {skin: '#f2c9a8', hair: 'pony', hairC: '#b3651f', beard: 'none', hat: 'none', shirt: '#db2777', pants: '#334155', female: true},
   maya:  {skin: '#7a4a32', hair: 'bun', hairC: '#140d0a', beard: 'none', hat: 'none', shirt: '#7c3aed', pants: '#1e293b', female: true, glasses: true},
   karen: {skin: '#efc3a0', hair: 'long', hairC: '#e5c07b', beard: 'none', hat: 'none', shirt: '#0f766e', pants: '#3f3f46', female: true},
+  host:  {skin: '#c68a5e', hair: 'curly', hairC: '#17100b', beard: 'stubble', hat: 'none', glasses: true, shirt: '#e5322d', pants: '#1f2937'},
+  leo:   {skin: '#e8c3a0', hair: 'short', hairC: '#3a2a1c', beard: 'none', hat: 'beanie', hatC: '#c2410c', shirt: '#7c5e2e', pants: '#2b2b30', vest: true},
+  kai:   {skin: '#c98d62', hair: 'curly', hairC: '#1a120c', beard: 'stubble', hat: 'none', shirt: '#b91c1c', pants: '#1f2937', bag: true},
+  ava:   {skin: '#f0c4a0', hair: 'pony', hairC: '#2b1a10', beard: 'none', hat: 'none', shirt: '#475569', pants: '#1e293b', female: true, bag: true},
+  zed:   {skin: '#8fa58a', hair: 'short', hairC: '#2f3a2c', beard: 'none', hat: 'none', shirt: '#5b4636', pants: '#2d2a26', zombie: true},
+  zoe:   {skin: '#9db49a', hair: 'long', hairC: '#3b3226', beard: 'none', hat: 'none', shirt: '#6b4f5a', pants: '#2d2a26', zombie: true, female: true},
   vince: {skin: '#e0ac86', hair: 'slick', hairC: '#111', beard: 'none', hat: 'none', shades: true, shirt: '#111827', pants: '#111827'},
 };
 
@@ -29,6 +35,9 @@ export const POSES = {
   explain: {L: [[96, 420], [70, 360]], R: [[304, 420], [330, 360]]},
   headHands: {L: [[100, 300], [150, 170]], R: [[300, 300], [250, 170]]},
   celebrate: {L: [[90, 250], [70, 140]], R: [[310, 250], [330, 140]]},
+  zombie: {L: [[150, 360], [150, 300]], R: [[250, 360], [250, 300]]},
+  run: {L: [[110, 390], [150, 450]], R: [[300, 360], [330, 290]]},
+  hold: {L: [[150, 420], [200, 400]], R: [[250, 420], [200, 400]]},
 };
 const lerp = (a, b, t) => a + (b - a) * t;
 const lerpArm = (a, b, t) => a.map((pt, i) => pt.map((v, j) => lerp(v, b[i][j], t)));
@@ -66,7 +75,7 @@ const Face = ({mood, blink, talk, c}) => {
     worried: ['M164 180 L190 175', 'M210 175 L236 180'], shocked: ['M164 170 Q177 160 190 168', 'M210 168 Q223 160 236 170'],
     smug: ['M164 183 L190 182', 'M210 176 Q223 168 236 175'], squint: ['M164 186 L190 190', 'M210 190 L236 186'], angry: ['M164 176 L190 186', 'M210 186 L236 176'],
   }[mood] ?? ['M164 183 L190 181', 'M210 181 L236 183'];
-  const open = Math.max(talk, mood === 'shocked' ? 0.6 : 0);
+  const open = Math.max(talk, mood === 'shocked' ? 0.6 : 0, c.zombie ? 0.5 : 0);
   const mouth = open > 0.08
     ? <ellipse cx="200" cy="260" rx={10 + open * 6} ry={3 + open * 13} fill={lip} />
     : {
@@ -77,7 +86,7 @@ const Face = ({mood, blink, talk, c}) => {
       }[mood] ?? <path d="M188 258 L212 258" stroke={lip} strokeWidth="5" strokeLinecap="round" />;
   return (
     <g>
-      {c.shades ? <path d="M160 190 L240 190 L236 212 Q222 218 206 210 L194 210 Q178 218 164 212 Z" fill="#0b0b0f" /> : eyes}
+      {c.zombie ? <><circle cx="178" cy="200" r="8" fill="#ff3b30" /><circle cx="222" cy="200" r="8" fill="#ff3b30" /><circle cx="178" cy="200" r="16" fill="#ff3b30" opacity=".25" /><circle cx="222" cy="200" r="16" fill="#ff3b30" opacity=".25" /></> : c.shades ? <path d="M160 190 L240 190 L236 212 Q222 218 206 210 L194 210 Q178 218 164 212 Z" fill="#0b0b0f" /> : eyes}
       {c.glasses && <g stroke="#2b2b33" strokeWidth="4" fill="none"><circle cx="178" cy="200" r="17" /><circle cx="222" cy="200" r="17" /><path d="M195 200 L205 200" /></g>}
       <g transform={`translate(0 ${-lift})`}>{brow.map((d) => <path key={d} d={d} stroke={c.female ? c.hairC : c.beardC ?? c.hairC} strokeWidth="7" strokeLinecap="round" fill="none" />)}</g>
       <path d="M194 214 Q200 230 208 226" stroke="rgba(0,0,0,.18)" strokeWidth="6" fill="none" strokeLinecap="round" />
@@ -106,6 +115,10 @@ const Hat = ({c}) => {
     <g><path d="M136 172 Q138 98 200 95 Q262 98 264 172 Z" fill={c.hatC} />
       <path d="M200 96 L200 168 M168 104 Q160 135 160 168 M232 104 Q240 135 240 168" stroke="rgba(0,0,0,.15)" strokeWidth="4" fill="none" />
       <path d="M126 170 Q200 150 274 170 Q266 190 200 184 Q134 190 126 170 Z" fill={c.hatC} style={{filter: 'brightness(.85)'}} /></g>);
+  if (c.hat === 'beanie') return (
+    <g><path d="M140 176 Q138 96 200 94 Q262 96 260 176 Z" fill={c.hatC} />
+      <rect x="134" y="160" width="132" height="30" rx="12" fill={c.hatC} style={{filter: 'brightness(.82)'}} />
+      {[150, 170, 190, 210, 230, 250].map((x) => <path key={x} d={`M${x} 164 L${x} 186`} stroke="rgba(0,0,0,.18)" strokeWidth="4" />)}</g>);
   if (c.hat === 'cap') return (
     <g><path d="M138 168 Q140 104 200 102 Q260 104 262 168 Z" fill={c.hatC} />
       <path d="M200 160 Q262 150 300 172 Q262 182 200 174 Z" fill={c.hatC} style={{filter: 'brightness(.8)'}} /></g>);
@@ -124,7 +137,8 @@ export const Person = ({who = 'mike', mood = 'neutral', pose = 'idle', prevPose,
   const pop = pose !== prevPose ? Math.sin(Math.min(1, local / 8) * Math.PI) * 10 : 0; // little hop on a new pose
   const nod = talk * 4 * Math.sin(frame / 2.2);
   const wob = talk > 0.1 ? [Math.sin(frame / 3) * 10 * talk, Math.cos(frame / 4) * 8 * talk] : [0, 0];
-  const tilt = ({shocked: -4, worried: 4, smug: -6, happy: 3, angry: 2}[mood] ?? 0) + nod;
+  const sway = c.zombie ? Math.sin(frame / 9 + who.length) * 7 : 0;
+  const tilt = sway + ({shocked: -4, worried: 4, smug: -6, happy: 3, angry: 2}[mood] ?? 0) + nod;
   const freeArm = p.phone === 'R' || p.fist === 'R' ? 'L' : 'R';
   return (
     <svg width={400 * size} height={760 * size} viewBox="0 0 400 760" style={{overflow: 'visible', transform: flip ? 'scaleX(-1)' : undefined}}>
@@ -137,6 +151,10 @@ export const Person = ({who = 'mike', mood = 'neutral', pose = 'idle', prevPose,
         <Arm side="L" pose={p.L} phone={p.phone === 'L'} c={c} wob={freeArm === 'L' ? wob : [0, 0]} />
         <path d={c.female ? 'M136 335 Q136 298 166 293 L234 293 Q264 298 264 335 L270 532 L130 532 Z' : 'M128 335 Q128 298 162 293 L238 293 Q272 298 272 335 L264 532 L136 532 Z'} fill={c.shirt} />
         <path d="M182 293 L200 322 L218 293 Z" fill={c.skin} />
+        {c.zombie && <path d="M140 470 L160 500 L175 470 L195 505 L215 468 L235 502 L255 470 L262 532 L136 532 Z" fill={c.skin} opacity=".9" />}
+        {c.zombie && <path d="M175 360 Q190 380 182 410 M228 340 Q214 372 232 396" stroke="#7f1d1d" strokeWidth="6" fill="none" opacity=".7" />}
+        {c.vest && <><path d="M134 330 L176 296 L184 532 L136 532 Z M266 330 L224 296 L216 532 L264 532 Z" fill="#d9a43a" /><path d="M140 380 L180 380 M140 430 L182 430 M260 380 L220 380 M260 430 L218 430" stroke="#a87a24" strokeWidth="5" /></>}
+        {c.bag && <path d="M150 300 L250 470" stroke="#3f2a1d" strokeWidth="14" strokeLinecap="round" />}
         <rect x="134" y="512" width="132" height="24" rx="6" fill="rgba(0,0,0,.35)" />
         <g transform={`rotate(${tilt} 200 290)`}>
           <Hair c={c} back />

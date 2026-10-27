@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-29",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "three things google sees differently: mobile, alt text, page title",
+  "hook": "Google doesn't see your website the way you do. Three facts most designers miss.",
+  "hook_formula": 0,
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson every day.\n\n3 facts most designers miss.\n\nGoogle mostly ranks the phone version of your site, so a gorgeous desktop layout that falls apart on an iPhone is the version that gets judged. It can't see your images either, only the alt text you write for them. And it reads your page title early, which on a lot of sites still just says Home.\n\nFix that today: \"Roof Repair in Austin\" beats \"Home\" every time.\n\n#seo #webdesign #websitetips",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "host",
+    "series": "SEO + DESIGN 1/30",
+    "look": "b",
+    "scenes": [
+      {
+        "vo": "Google doesn't see your website the way you do. Three facts most designers miss.",
+        "key": "differently.",
+        "prop": {
+          "type": "stamp",
+          "text": "Beautiful\ndesktop site",
+          "stamp": "IGNORED"
+        },
+        "speaker": "host",
+        "part": "hook",
+        "pose": "point",
+        "mood": "squint"
+      },
+      {
+        "vo": "Fact one. Google mostly ranks the phone version of your site, not the desktop one.",
+        "key": "phone",
+        "prop": {
+          "type": "big",
+          "text": "\ud83d\udcf1 > \ud83d\udda5",
+          "size": 220
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "So if it's slow or messy on a phone, your pretty desktop design won't save you.",
+        "key": "phone,",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Fast on a phone",
+            "Big, tappable buttons",
+            "Readable without zooming"
+          ]
+        },
+        "speaker": "host",
+        "pose": "point"
+      },
+      {
+        "vo": "Fact two. Google can't see your images. It reads the alt text you write.",
+        "key": "alt",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<img src=\"roof.jpg\" alt=\"\">",
+            "<img src=\"team.jpg\">",
+            "<img src=\"roof.jpg\" alt=\"new metal roof, Austin\">"
+          ],
+          "hl": 0,
+          "stamp": "EMPTY"
+        },
+        "speaker": "host",
+        "pose": "explain",
+        "mood": "smug"
+      },
+      {
+        "vo": "Fact three. Your page title is one of the first things Google reads. Most sites leave it as Home.",
+        "key": "Home.",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<head>",
+            "  <title>Home</title>",
+            "</head>"
+          ],
+          "hl": 1,
+          "stamp": "WEAK"
+        },
+        "speaker": "host",
+        "pose": "facepalm",
+        "mood": "shocked"
+      },
+      {
+        "vo": "Say what you do and where. That's exactly what people type into Google.",
+        "key": "where.",
+        "prop": {
+          "type": "shot",
+          "url": "google.com/search",
+          "heading": "roof repair austin",
+          "lines": [
+            "Roof Repair in Austin | Northpeak Roofing",
+            "Same-week repairs. Free inspections.",
+            "Home"
+          ],
+          "hl": 0,
+          "stamp": "THIS WINS"
+        },
+        "speaker": "host",
+        "pose": "fistPump",
+        "mood": "happy"
+      },
+      {
+        "vo": "I post one SEO and design lesson every day. Follow me and comment LEARN, and I'll send you my free starter guide.",
+        "key": "LEARN,",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide \ud83d\udc47"
+        },
+        "speaker": "host",
+        "pose": "wave",
+        "mood": "happy",
+        "cta": true
+      }
+    ]
+  }
+}

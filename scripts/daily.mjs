@@ -67,7 +67,7 @@ try {
   const tmp = fs.mkdtempSync('/tmp/reel-');
   fs.writeFileSync(`${tmp}/props.json`, JSON.stringify({...script.props, music: true}));
   // Story reels: the voiceover sets each scene's length, so the sound tool writes the props.
-  if (script.style === 'story') sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
+  if (['story', 'explainer', 'survival'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
   sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, ...browser], {stdio: 'inherit'});
   entry.file = `media/${now.date}.mp4`;

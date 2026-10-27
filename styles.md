@@ -1,3 +1,13 @@
+# Series (current)
+
+1. FREE SKILL (style "explainer", look "b"): hook naming a pain, real screenshots with red boxes and stamps, the repo's name and
+   link hidden (●●●●), ends on "Follow me and comment KEYWORD, I'll DM you the link". Example: queue/2026-10-27.json.
+2. SURVIVAL (style "survival"): blackout story, status bar (hour, water, power, outside), cold open on action, a twist,
+   ends on two options and "Comment A or B. The most votes decides the next part." Example: queue/2026-10-28.json.
+3. SEO + DESIGN (style "explainer", look "b"): one true fact per scene, code or search-result screenshots, ends on
+   "Follow me and comment LEARN for my free starter guide". Example: queue/2026-10-29.json.
+Props for explainers: shot (url, heading, lines, hl, stamp, dark, mono), terminal, files, checklist, stamp, big, chart, comments.
+
 # Script format, one file per day
 
 The weekly writer saves one script per day as `queue/YYYY-MM-DD.json` (US Eastern date). The daily robot

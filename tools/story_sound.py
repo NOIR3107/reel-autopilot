@@ -8,7 +8,7 @@ import json, os, sys
 import numpy as np, soundfile as sf
 from scipy.signal import resample_poly
 from kokoro_onnx import Kokoro
-from synth import Mix, SR, t, kick, clap, hat, riser
+from synth import Mix, SR, t, kick, clap, hat, riser, thud
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KD = os.environ.get('KOKORO_DIR', os.path.join(ROOT, 'models/kokoro'))
@@ -16,12 +16,23 @@ SFX = os.path.join(ROOT, 'public/sfx/')
 
 
 VOICE = {'narrator': 'am_adam', 'mike': 'am_michael', 'dan': 'am_eric', 'rob': 'am_onyx', 'tony': 'am_fenrir', 'luis': 'am_liam',
-         'sarah': 'af_heart', 'maya': 'af_nova', 'karen': 'af_bella', 'vince': 'am_puck'}
+         'sarah': 'af_heart', 'maya': 'af_nova', 'karen': 'af_bella', 'vince': 'am_puck', 'kai': 'am_echo', 'leo': 'am_liam', 'mara': 'af_nicole', 'host': 'am_adam', 'ava': 'af_nicole'}
 
 
 def sfx(name):
     a, sr = sf.read(SFX + name, always_2d=True)
     return resample_poly(a.mean(axis=1), SR, sr)
+
+
+def groan(sec=1.6, seed=0):
+    tt = t(sec)
+    rng = np.random.default_rng(seed)
+    f = 70 + 25 * np.sin(2 * np.pi * 1.3 * tt) + 10 * rng.standard_normal(len(tt)).cumsum() / np.sqrt(len(tt))
+    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * (1 + 0.6 * np.sin(2 * np.pi * 7 * tt))
+    x = np.tanh(3 * x) + 0.3 * rng.standard_normal(len(tt))
+    from scipy.signal import butter, lfilter
+    b, a = butter(2, 900 / (SR / 2))
+    return lfilter(b, a, x) * np.sin(np.pi * tt / sec) ** 0.5
 
 
 def piano(hz, sec):
@@ -133,9 +144,13 @@ def main(queue_file, props_out):
     fxmap = {'closed': [('impact-bass-1.mp3', 8 / 30, 0.9), ('glitch-1.mp3', 8 / 30, 0.35)], 'fail': [('impact-bass-2.mp3', 0, 0.6)],
              'win': [('sparkle.mp3', 0, 0.5), ('impact-bass-1.mp3', 0, 0.5)],
              'ring': [('notification.mp3', 0.2, 0.6), ('notification.mp3', 1.0, 0.5), ('notification.mp3', 1.8, 0.45)],
-             'say': [('pop.mp3', 0, 0.5)], 'whip': [('whoosh-cinematic.mp3', -0.1, 0.45)], 'hail': [('glitch-2.mp3', 0, 0.12)]}
+             'say': [('pop.mp3', 0, 0.5)], 'radio': [('glitch-2.mp3', 0, 0.3), ('glitch-1.mp3', 0.8, 0.2)], 'whip': [('whoosh-cinematic.mp3', -0.1, 0.45)], 'hail': [('glitch-2.mp3', 0, 0.12)]}
     for i, sc in enumerate(scenes):
         if i: m.place(sfx('whoosh-short.mp3'), starts[i] - 0.12, 0.35)
+        if 'knock' in sc.get('fx', []):
+            for k3, at in enumerate((0.15, 0.45, 0.75, 1.6, 1.9, 2.2)): m.place(thud(), starts[i] + at, 0.9 if k3 < 3 else 0.7)
+        if sc.get('layout') == 'horde' or 'groan' in sc.get('fx', []):
+            for g in range(3): m.place(groan(1.4 + g * 0.3, seed=i * 7 + g), starts[i] + g * 0.6, 0.35, pan=(-0.5, 0.4, 0)[g])
         for tag in sc.get('fx', []) + [sc.get('beat', ''), 'say' if sc.get('say') else '', 'whip' if sc.get('cam') == 'whip' else '']:
             for name, off, g in fxmap.get(tag, []): m.place(sfx(name), starts[i] + off, g)
     env = np.convolve(np.abs(vo), np.ones(2400) / 2400, mode='same')

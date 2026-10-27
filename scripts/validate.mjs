@@ -4,7 +4,7 @@ import {py} from './lib.mjs';
 import {BUSINESSES} from '../src/biz.js';
 
 const MIN_HOOK = 70;
-const STYLES = ['story', 'kinetic', 'teardown', 'mike', 'ad'];
+const STYLES = ['explainer', 'survival', 'story', 'kinetic', 'teardown', 'mike', 'ad'];
 const FX = ['closed', 'shake', 'hail', 'glow'];
 const PARTS = ['hook', 'drop', 'break', 'rise', 'drop2', 'outro'];
 const LAYOUTS = ['phone', 'duo', 'closeup', 'screen', 'split'];
@@ -67,6 +67,20 @@ function checkStyle(s, errs) {
       if (x.stamp && !['MYTH', 'TRUTH'].includes(x.stamp)) errs.push(`${n}: stamp is MYTH or TRUTH`);
     });
     if (body[0] && !body[0].caption) errs.push('mike: the first scene needs a caption (the hook)');
+  } else if (s.style === 'explainer' || s.style === 'survival') {
+    const sc = p.scenes ?? [];
+    const last = sc.at(-1) ?? {};
+    if (!last.cta || !str(last.vo, 140)) errs.push(`${s.style}: last scene must be the ask: {"cta": true, "vo": "..."}`);
+    if (sc.length < 6 || sc.length > 12) errs.push(`${s.style}: ${sc.length} scenes, want 6-12`);
+    const words = sc.reduce((n, x) => n + String(x.vo ?? '').split(/\s+/).filter(Boolean).length, 0);
+    if (words < 45 || words > 115) errs.push(`${s.style}: ${words} spoken words, want 45-115`);
+    sc.forEach((x, i) => { if (!str(x.vo, 130)) errs.push(`${s.style} scene ${i + 1}: vo required, 130 chars max`); });
+    if (s.style === 'explainer') {
+      const kw = last.prop?.keyword;
+      if (!/^[A-Z]{3,10}$/.test(kw ?? '')) errs.push('explainer: the last scene needs prop {"type": "comments", "keyword": "WORD"}');
+      if (kw && !String(last.vo).toUpperCase().includes(kw)) errs.push('explainer: say the keyword out loud in the last line');
+      if (/github\.com\/[\w-]+\/[\w-]+|https?:\/\//i.test(JSON.stringify(sc))) errs.push('explainer: never show a repo link or URL; people must comment to get it');
+    } else if (!(last.options?.length === 2 && last.question)) errs.push('survival: the last scene needs "question" and 2 "options"');
   } else if (s.style === 'story') {
     if (!BUSINESSES[p.trade]) errs.push(`story: trade must be one of ${Object.keys(BUSINESSES)}`);
     const sc = p.scenes ?? [];
@@ -115,13 +129,13 @@ export function validate(s, {quality = true} = {}) {
   if (typeof s.caption !== 'string' || s.caption.length < 80) errs.push('caption missing or under 80 characters');
   else {
     if ((s.caption.match(/#\w+/g) ?? []).length > 3) errs.push('caption: at most 3 hashtags');
-    if (!/WEBSITE/.test(s.caption)) errs.push('caption must ask people to comment WEBSITE');
+    if (!/comment\s+\S+/i.test(s.caption)) errs.push('caption must ask people to comment a word');
   }
   const banned = JSON.stringify(s).match(BANNED);
   if (banned) errs.push(`remove "${banned[0]}": no stats, prices, guarantees, em dashes or banned phrases`);
   checkStyle(s, errs);
   if (quality && !errs.length) {
-    const hook = s.style === 'story' ? {score: 100} : py('hookscore.py', ['--hook', s.hook]);
+    const hook = ['story', 'explainer', 'survival'].includes(s.style) ? {score: 100} : py('hookscore.py', ['--hook', s.hook]);
     if (hook.score < MIN_HOOK) errs.push(`hook "${s.hook}" scored ${hook.score}, needs ${MIN_HOOK}+ (weakest: ${hook.weakest}) ${hook.flags.join(' ')}`);
     const human = py('detect.py', ['-'], s.caption);
     if (human.verdict !== 'PASS') errs.push(`caption sounds machine-written (${human.human_score}): ${Object.entries(human.checks).filter(([, c]) => c.score < 55).map(([k, c]) => `${k} ${c.detail}`).join('; ')}`);

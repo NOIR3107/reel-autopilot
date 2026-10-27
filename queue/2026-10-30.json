@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-30",
+  "style": "explainer",
+  "trade": "Claude",
+  "topic": "official skills that make claude create real word excel powerpoint pdf files",
+  "hook": "Claude can't make real Word or Excel files. That's what most people think.",
+  "hook_formula": 0,
+  "caption": "Comment FILES and I'll DM you the link and the setup steps. Follow first so the DM reaches you.\n\nClaude can make real files now: a Word report with headings and tables, an Excel budget with working formulas like =SUM(B2:B4), a PowerPoint deck, a PDF. It comes from a free, official skill pack built by the Claude team.\n\nSaves me about an hour every time I need a proper document.\n\n#claudeai #aitools #productivity",
+  "props": {
+    "music": "funk",
+    "host": "host",
+    "look": "b",
+    "series": "FREE SKILL 2/7",
+    "scenes": [
+      {
+        "vo": "Claude can't make real Word or Excel files. That's what most people think.",
+        "key": "think.",
+        "prop": {
+          "type": "stamp",
+          "text": "\"Sorry, I can only\ngive you text.\"",
+          "stamp": "OUTDATED"
+        },
+        "speaker": "host",
+        "part": "hook",
+        "pose": "point",
+        "mood": "smug"
+      },
+      {
+        "vo": "There's a free, official skill pack that changes that.",
+        "key": "official",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "heading": "\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "lines": [
+            "Skills for creating and editing",
+            "Word, Excel, PowerPoint and PDF files."
+          ],
+          "hl": 0,
+          "stamp": "OFFICIAL + FREE"
+        },
+        "speaker": "host",
+        "pose": "explain",
+        "mood": "happy"
+      },
+      {
+        "vo": "Ask for a report, and you get an actual Word document. Headings, tables, the lot.",
+        "key": "Word",
+        "prop": {
+          "type": "files",
+          "names": [
+            "report.docx",
+            "budget.xlsx",
+            "pitch.pptx",
+            "invoice.pdf",
+            "notes.docx",
+            "plan.xlsx"
+          ],
+          "count": 4,
+          "label": "FILE TYPES"
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "Ask for a budget, and you get a real spreadsheet with working formulas.",
+        "key": "formulas.",
+        "prop": {
+          "type": "shot",
+          "url": "budget.xlsx",
+          "mono": true,
+          "lines": [
+            "A1  Item        B1  Cost",
+            "A2  Hosting     B2  120",
+            "B5  =SUM(B2:B4)"
+          ],
+          "hl": 2,
+          "stamp": "REAL FORMULAS"
+        },
+        "speaker": "host",
+        "pose": "point"
+      },
+      {
+        "vo": "Slides too. A full deck, not a wall of text.",
+        "key": "deck,",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Word documents",
+            "Excel sheets",
+            "PowerPoint decks",
+            "PDFs you can fill"
+          ]
+        },
+        "speaker": "host",
+        "pose": "fistPump",
+        "mood": "happy"
+      },
+      {
+        "vo": "And because it's official, it's built by the same people who make Claude.",
+        "key": "official,",
+        "prop": {
+          "type": "stamp",
+          "text": "Made by the\nClaude team",
+          "stamp": "TRUSTED",
+          "ok": true
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "Want it? Follow me and comment FILES. I'll DM you the link and how to set it up.",
+        "key": "FILES.",
+        "prop": {
+          "type": "comments",
+          "keyword": "FILES",
+          "dm": "Link + setup steps \ud83d\udc47"
+        },
+        "speaker": "host",
+        "pose": "wave",
+        "mood": "happy",
+        "cta": true
+      }
+    ],
+    "narrator": "am_adam"
+  }
+}

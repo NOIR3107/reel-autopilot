@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-02",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "core web vitals: lcp inp cls explained simply",
+  "hook": "A slow website doesn't just annoy people. Google measures it.",
+  "hook_formula": 0,
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for a lesson every day.\n\nGoogle measures 3 things about speed, called Core Web Vitals: LCP (how fast the main content shows), INP (how fast the page reacts to a tap) and CLS (whether things jump while loading).\n\nThe usual fixes: compress images, cut heavy scripts, set sizes on images and ads.\n\n#seo #webdesign #pagespeed",
+  "props": {
+    "music": "lofi",
+    "host": "host",
+    "look": "b",
+    "series": "SEO + DESIGN 3/30",
+    "scenes": [
+      {
+        "vo": "A slow website doesn't just annoy people. Google measures it.",
+        "key": "measures",
+        "prop": {
+          "type": "shot",
+          "url": "pagespeed report",
+          "lines": [
+            "Largest Contentful Paint   4.8 s",
+            "Interaction to Next Paint  420 ms",
+            "Cumulative Layout Shift   0.31"
+          ],
+          "hl": 0,
+          "stamp": "POOR"
+        },
+        "speaker": "host",
+        "part": "hook",
+        "pose": "point",
+        "mood": "squint"
+      },
+      {
+        "vo": "It's called Core Web Vitals. Three numbers.",
+        "key": "three",
+        "prop": {
+          "type": "big",
+          "text": "LCP \u00b7 INP \u00b7 *CLS*",
+          "size": 120
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "One. How fast your main content shows up.",
+        "key": "fast",
+        "prop": {
+          "type": "stamp",
+          "text": "Big hero image\n4 MB",
+          "stamp": "TOO SLOW"
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "Two. How fast the page reacts when someone taps.",
+        "key": "taps.",
+        "prop": {
+          "type": "stamp",
+          "text": "Tap \u2192 \u2026 \u2026 \u2026",
+          "stamp": "LAGGY"
+        },
+        "speaker": "host",
+        "pose": "point"
+      },
+      {
+        "vo": "Three. Whether things jump around while it loads.",
+        "key": "jump",
+        "prop": {
+          "type": "stamp",
+          "text": "Button moved.\nWrong tap.",
+          "stamp": "ANNOYING"
+        },
+        "speaker": "host",
+        "pose": "facepalm",
+        "mood": "shocked"
+      },
+      {
+        "vo": "Fix the big three. Smaller images, less script, fixed sizes for everything.",
+        "key": "Fix",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Compress images",
+            "Cut heavy scripts",
+            "Set image and ad sizes"
+          ]
+        },
+        "speaker": "host",
+        "pose": "fistPump",
+        "mood": "happy"
+      },
+      {
+        "vo": "I post one SEO and design lesson every day. Follow me and comment LEARN for my free starter guide.",
+        "key": "LEARN",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide \ud83d\udc47"
+        },
+        "speaker": "host",
+        "pose": "wave",
+        "mood": "happy",
+        "cta": true
+      }
+    ],
+    "narrator": "am_adam"
+  }
+}

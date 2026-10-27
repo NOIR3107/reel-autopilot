@@ -54,18 +54,19 @@ const Card = ({card, local, fps}) => {
   );
 };
 
-const Cta = ({local, fps}) => {
+const Cta = ({local, fps, card = {}}) => {
+  const {keyword = 'WEBSITE', sub = "I'll check yours. Free.", share = 'Send this to a contractor who needs it', top = 'Comment'} = card;
   const pop = spring({frame: local - 10, fps, config: {damping: 11, stiffness: 150}});
   const fade = (a) => interpolate(local, [a, a + 12], [0, 1], clamp);
   return (
     <AbsoluteFill style={{background: C.ink, alignItems: 'center', justifyContent: 'center', gap: 34, fontFamily: FONT, paddingBottom: 160}}>
       <AbsoluteFill style={{backgroundImage: GRAIN, opacity: 0.07, mixBlendMode: 'screen'}} />
-      <div style={{fontWeight: 800, fontSize: 110, letterSpacing: '-0.045em', color: C.paper}}>Comment</div>
-      <div style={{background: C.lime, color: C.ink, fontWeight: 800, fontSize: 150, letterSpacing: '-0.04em', padding: '16px 70px', borderRadius: 999, scale: String(local < 10 ? 0 : pop)}}>WEBSITE</div>
-      <div style={{fontWeight: 600, fontSize: 46, color: 'rgba(244,245,247,.85)', opacity: fade(24), marginTop: 10}}>I'll check yours. Free.</div>
+      <div style={{fontWeight: 800, fontSize: 110, letterSpacing: '-0.045em', color: C.paper}}>{top}</div>
+      <div style={{background: C.lime, color: C.ink, fontWeight: 800, fontSize: 150, letterSpacing: '-0.04em', padding: '16px 70px', borderRadius: 999, scale: String(local < 10 ? 0 : pop)}}>{keyword}</div>
+      <div style={{fontWeight: 600, fontSize: 46, color: 'rgba(244,245,247,.85)', opacity: fade(24), marginTop: 10, textAlign: 'center', padding: '0 80px'}}>{sub}</div>
       <div style={{display: 'flex', alignItems: 'center', gap: 14, padding: '18px 30px', borderRadius: 999, border: '1.5px solid rgba(244,245,247,.3)', fontWeight: 600, fontSize: 32, color: C.paper, opacity: fade(48), marginTop: 20}}>
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={C.lime} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2 L11 13 M22 2 L15 22 L11 13 L2 9 Z" /></svg>
-        Send this to a contractor who needs it
+        {share}
       </div>
     </AbsoluteFill>
   );
@@ -78,7 +79,7 @@ export const Kinetic = ({cards = DATA.cards, music = true}) => {
   const local = frame - card.start;
   return (
     <AbsoluteFill>
-      {card.cta ? <Cta local={local} fps={fps} /> : <Card card={card} local={local} fps={fps} />}
+      {card.cta ? <Cta local={local} fps={fps} card={card} /> : <Card card={card} local={local} fps={fps} />}
       {music && <Audio src={staticFile('kinetic-sound.wav')} />}
     </AbsoluteFill>
   );

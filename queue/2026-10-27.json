@@ -1,0 +1,155 @@
+{
+  "date": "2026-10-27",
+  "style": "explainer",
+  "trade": "Claude",
+  "topic": "free repo that makes Claude plan, test and debug first",
+  "hook": "Your Claude jumps straight into code. That's why it keeps breaking things.",
+  "hook_formula": 0,
+  "caption": "Comment POWER and I'll DM you the repo plus my setup guide. Follow first so the DM doesn't land in requests.\n\nMost of us use Claude like a fast intern: it jumps into code, writes 14 files, then 3 tests fail. This free GitHub repo changes the order. It asks questions first, writes a plan, writes the test before the code, then checks its own work.\n\nI use it every day. It's free and open source.\n\n#claudeai #claudecode #aitools",
+  "props": {
+    "music": "lofi",
+    "host": "host",
+    "look": "b",
+    "series": "FREE SKILL 1/7",
+    "scenes": [
+      {
+        "vo": "Your Claude jumps straight into code. That's why it keeps breaking things.",
+        "key": "breaking",
+        "prop": {
+          "type": "shot",
+          "url": "claude code",
+          "dark": true,
+          "mono": true,
+          "lines": [
+            "> add login to my app",
+            "Writing 14 files...",
+            "\u2713 Done!",
+            "\u2717 3 tests failing"
+          ],
+          "hl": 3,
+          "stamp": "SOUND FAMILIAR?"
+        },
+        "speaker": "host",
+        "part": "hook",
+        "pose": "point",
+        "mood": "squint"
+      },
+      {
+        "vo": "This free repo fixes that. It's one of the most starred Claude skill packs on GitHub.",
+        "key": "free",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "heading": "\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "lines": [
+            "A complete software development methodology",
+            "for your coding agents, built on composable skills."
+          ],
+          "hl": 0,
+          "stamp": "FREE + OPEN SOURCE"
+        },
+        "speaker": "host",
+        "pose": "explain",
+        "mood": "happy"
+      },
+      {
+        "vo": "Instead of jumping in, it steps back and asks what you're really trying to build.",
+        "key": "asks",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "heading": "How it works",
+          "lines": [
+            "it doesn\u2019t just jump into trying to write code.",
+            "Instead, it steps back and asks you",
+            "what you\u2019re really trying to do."
+          ],
+          "hl": 1,
+          "stamp": "THINKS FIRST"
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "Then it writes a plan so clear a junior engineer could follow it.",
+        "key": "plan",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "lines": [
+            "your agent puts together an implementation plan",
+            "that\u2019s clear enough for an enthusiastic",
+            "junior engineer to follow."
+          ],
+          "hl": 0,
+          "stamp": "REAL PLAN"
+        },
+        "speaker": "host",
+        "pose": "point"
+      },
+      {
+        "vo": "It writes the test first. Watches it fail. Then writes the code.",
+        "key": "first.",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "mono": true,
+          "lines": [
+            "# Test-Driven Development (TDD)",
+            "Write the test first. Watch it fail.",
+            "Write minimal code to pass."
+          ],
+          "hl": 1,
+          "stamp": "NO MORE GUESSING"
+        },
+        "speaker": "host",
+        "pose": "fistPump",
+        "mood": "happy"
+      },
+      {
+        "vo": "And the skills kick in automatically. You don't do anything special.",
+        "key": "automatically.",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "lines": [
+            "because the skills trigger automatically,",
+            "you don\u2019t need to do anything special."
+          ],
+          "hl": 0,
+          "stamp": "ZERO SETUP"
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "And it installs with one command.",
+        "key": "one",
+        "prop": {
+          "type": "terminal",
+          "cmd": "/plugin install \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "out": [
+            "installing...",
+            "\u2713 ready"
+          ]
+        },
+        "speaker": "host",
+        "pose": "point"
+      },
+      {
+        "vo": "Follow me and comment POWER. I'll DM you the link and my setup guide.",
+        "key": "POWER.",
+        "prop": {
+          "type": "comments",
+          "keyword": "POWER",
+          "dm": "Link + setup guide \ud83d\udc47"
+        },
+        "speaker": "host",
+        "pose": "wave",
+        "mood": "happy",
+        "cta": true
+      }
+    ],
+    "narrator": "am_adam"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "date": "2026-11-01",
+  "style": "explainer",
+  "trade": "Claude",
+  "topic": "open source tool that renders html to video with claude",
+  "hook": "This reel wasn't edited by a person. It was written as a web page.",
+  "hook_formula": 0,
+  "caption": "Comment VIDEO and I'll DM you the link and my setup. Follow first so it reaches you.\n\nThis tool renders HTML as video. HeyGen open-sourced it. Claude writes the video as a web page, the tool renders all 900 frames at 30 fps, and you get a 1080x1920 MP4 for Instagram. It ships with about 450 ready-made blocks: captions, glitches, whip pans, 3D camera moves.\n\nFree. Open source. Runs on a laptop.\n\n#claudeai #aitools #videoediting",
+  "props": {
+    "music": "funk",
+    "host": "host",
+    "look": "b",
+    "series": "FREE SKILL 3/7",
+    "scenes": [
+      {
+        "vo": "This reel wasn't edited by a person. It was written as a web page.",
+        "key": "page.",
+        "prop": {
+          "type": "stamp",
+          "text": "No editor.\nNo timeline.",
+          "stamp": "CODE ONLY"
+        },
+        "speaker": "host",
+        "part": "hook",
+        "pose": "point",
+        "mood": "smug"
+      },
+      {
+        "vo": "There's a free, open source tool that turns HTML into video.",
+        "key": "HTML",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "heading": "\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "lines": [
+            "HTML rendered to video.",
+            "Launch films, explainers, captions, overlays."
+          ],
+          "hl": 0,
+          "stamp": "FREE"
+        },
+        "speaker": "host",
+        "pose": "explain",
+        "mood": "happy"
+      },
+      {
+        "vo": "You describe the video. Claude writes it as a page. The tool renders every frame.",
+        "key": "renders",
+        "prop": {
+          "type": "terminal",
+          "cmd": "render reel.html",
+          "out": [
+            "frames: 900",
+            "audio: mixed",
+            "\u2713 reel.mp4"
+          ]
+        },
+        "speaker": "host",
+        "pose": "explain"
+      },
+      {
+        "vo": "It comes with hundreds of ready made effects. Glitches, captions, transitions, 3D.",
+        "key": "hundreds",
+        "prop": {
+          "type": "files",
+          "names": [
+            "glitch",
+            "captions",
+            "film-grain",
+            "whip-pan",
+            "chart",
+            "3d-camera"
+          ],
+          "count": 450,
+          "label": "BLOCKS"
+        },
+        "speaker": "host",
+        "pose": "point"
+      },
+      {
+        "vo": "Change one line of text, render again. Same video, new version, in minutes.",
+        "key": "minutes.",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Write the script",
+            "Claude builds the page",
+            "Render",
+            "Post"
+          ]
+        },
+        "speaker": "host",
+        "pose": "fistPump",
+        "mood": "happy"
+      },
+      {
+        "vo": "Want it? Follow me and comment VIDEO. I'll DM you the link and my setup.",
+        "key": "VIDEO.",
+        "prop": {
+          "type": "comments",
+          "keyword": "VIDEO",
+          "dm": "Link + my setup \ud83d\udc47"
+        },
+        "speaker": "host",
+        "pose": "wave",
+        "mood": "happy",
+        "cta": true
+      }
+    ],
+    "narrator": "am_adam"
+  }
+}

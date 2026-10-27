@@ -10,6 +10,7 @@ import {Screen} from './MikeEpisode.jsx';
 import {Person} from './Person.jsx';
 
 const FPS = 30;
+const cl2 = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'};
 const FONT = '"Bricolage Grotesque Variable", sans-serif';
 const LIME = '#d9ff3f', INK = '#0d1424';
 export const storyFrames = (scenes) => Math.round(scenes.reduce((t, s) => t + s.sec, 0) * FPS);
@@ -19,10 +20,12 @@ const SETS = {
   night: {sky: 'linear-gradient(180deg,#0b1430 0%,#1c2b57 60%,#2b3c6e 100%)', far: '#18234a', ground: '#1b2a3f', sun: '#e8ecff'},
   storm: {sky: 'linear-gradient(180deg,#38424f 0%,#5b6675 60%,#727d8b 100%)', far: '#4a5462', ground: '#56635a', sun: null},
   office: {sky: 'linear-gradient(180deg,#f3e9dc 0%,#efe2d0 70%,#cdb79a 70.2%,#bfa585 100%)', far: null, ground: null, sun: null},
+  ruins: {sky: 'linear-gradient(180deg,#2a0f0a 0%,#6b2a12 45%,#c2551f 75%,#3a1a10 100%)', far: '#1a0d09', ground: '#24170f', sun: '#ff8a3d'},
+  road: {sky: 'linear-gradient(180deg,#1d2433 0%,#3d4658 60%,#5a5f6b 100%)', far: '#232a38', ground: '#2b2e33', sun: null},
   kitchen: {sky: 'linear-gradient(180deg,#e6f0ee 0%,#dbe9e5 64%,#f4f1ea 64.2%,#e5ded2 100%)', far: null, ground: null, sun: null},
 };
 
-const Set = ({name, frame}) => {
+export const Set = ({name, frame}) => {
   const s = SETS[name] ?? SETS.day;
   return (
     <AbsoluteFill style={{background: s.sky}}>
@@ -31,6 +34,7 @@ const Set = ({name, frame}) => {
       {s.far && <svg width="1080" height="420" viewBox="0 0 1080 420" style={{position: 'absolute', left: 0, top: 1040}}>
         <path d="M0 280 L130 190 L260 280 L260 420 L0 420 Z M320 250 L480 150 L640 250 L640 420 L320 420 Z M700 285 L830 205 L960 285 L960 420 L700 420 Z" fill={s.far} />
         {name === 'night' && [[60, 320], [400, 300], [520, 300], [760, 330]].map(([x, y]) => <rect key={x} x={x} y={y} width="44" height="40" fill="#ffd36b" opacity=".8" />)}</svg>}
+      {name === 'ruins' && Array.from({length: 6}, (_, i) => <div key={i} style={{position: 'absolute', left: 120 + i * 160, top: 700 - ((frame * (1 + i % 3)) % 500), width: 180, height: 180, borderRadius: '50%', background: 'rgba(40,30,30,.35)', filter: 'blur(20px)'}} />)}
       {s.ground && <div style={{position: 'absolute', left: -100, right: -100, top: 1440, height: 600, borderRadius: '50% 50% 0 0 / 60px 60px 0 0', background: s.ground}} />}
       {name === 'office' && <><div style={{position: 'absolute', left: 90, top: 380, width: 300, height: 220, background: '#cfe3f7', border: '14px solid #fff', borderRadius: 6}} />
         <div style={{position: 'absolute', left: 0, right: 0, top: 1300, height: 40, background: '#8a6b4a'}} /></>}
@@ -97,7 +101,7 @@ export const StoryReel = ({scenes, trade = 'roofing', lead = 'mike', mouth = [],
 
   let body = null;
   const L = sc.layout ?? 'phone';
-  if (sc.cta) {
+  if (sc.cta && L !== 'choice') {
     body = (
       <AbsoluteFill style={{alignItems: 'center', paddingTop: 300, fontFamily: FONT}}>
         <div style={{fontWeight: 800, fontSize: 92, lineHeight: 1.02, letterSpacing: '-0.045em', color: '#fff', textAlign: 'center', textShadow: '0 6px 30px rgba(0,0,0,.4)'}}>{ctaTitle[0]}<br /><span style={{color: LIME}}>{ctaTitle[1]}</span></div>
@@ -105,6 +109,36 @@ export const StoryReel = ({scenes, trade = 'roofing', lead = 'mike', mouth = [],
         <div style={{marginTop: 14, background: LIME, color: INK, fontWeight: 800, fontSize: 130, padding: '10px 64px 22px', borderRadius: 999, letterSpacing: '-0.05em',
           transform: `scale(${interpolate(local, [4, 10, 14], [0, 1.12, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})})`, boxShadow: `0 0 120px ${LIME}88`}}>WEBSITE</div>
         <div style={{position: 'absolute', bottom: 260, display: 'flex', gap: 30}}>{[lead, 'sarah', 'dan'].filter((v, k, a) => a.indexOf(v) === k).slice(0, 2).map((p, k) => <Person key={p} who={p} mood="happy" pose={k ? 'wave' : 'celebrate'} prevPose={k ? 'idle' : 'idle'} local={local} size={0.62} />)}</div>
+      </AbsoluteFill>
+    );
+  } else if (L === 'horde') {
+    const zs = sc.cast ?? ['zed', 'zoe', 'zed', 'zoe', 'zed'];
+    body = <>
+      {zs.map((z, k) => {
+        const depth = [0.55, 0.7, 0.85, 0.65, 0.95][k % 5];
+        const x = [80, 330, 600, 820, 420][k % 5] + Math.sin((local + k * 20) / 14) * 20;
+        return <div key={k} style={{position: 'absolute', left: x - 200 * depth, top: 520 + depth * 340 + local * depth * 1.2, filter: `brightness(${0.5 + depth * 0.5})`}}><Person who={z} mood="angry" pose="zombie" prevPose="zombie" local={99} size={depth * 1.15} /></div>;
+      })}
+      {sc.who && <div style={{position: 'absolute', left: 340, top: 900}}>{person(sc.who, {talk: sc.speaker === sc.who ? talkLevel : 0, size: 1.3})}</div>}
+    </>;
+  } else if (L === 'title') {
+    body = <AbsoluteFill style={{background: '#0b0b0d', alignItems: 'center', justifyContent: 'center', fontFamily: FONT}}>
+      <div style={{fontWeight: 800, fontSize: 150, color: '#f2f2f2', letterSpacing: '0.02em', opacity: interpolate(local, [0, 8], [0, 1], cl2), transform: `scale(${interpolate(local, [0, sc.len], [1.08, 1], cl2)})`}}>{sc.title ?? 'DAY 1'}</div>
+      {sc.sub && <div style={{marginTop: 20, fontWeight: 600, fontSize: 48, color: '#ff3b30', opacity: interpolate(local, [10, 18], [0, 1], cl2)}}>{sc.sub}</div>}
+    </AbsoluteFill>;
+  } else if (L === 'choice') {
+    const [A, B] = sc.options ?? ['Option A', 'Option B'];
+    body = (
+      <AbsoluteFill style={{fontFamily: FONT, alignItems: 'center', paddingTop: 230}}>
+        <div style={{fontWeight: 800, fontSize: 84, color: '#fff', textAlign: 'center', lineHeight: 1.02, letterSpacing: '-0.04em', padding: '0 70px', textShadow: '0 6px 30px rgba(0,0,0,.6)'}}>{sc.question ?? 'What should he do?'}</div>
+        {[['A', A, '#ff3b30'], ['B', B, LIME]].map(([k, t, col], j) => (
+          <div key={k} style={{marginTop: j ? 40 : 90, width: 900, display: 'flex', alignItems: 'center', gap: 30, padding: '34px 40px', borderRadius: 40, background: 'rgba(10,12,18,.82)', border: `5px solid ${col}`,
+            transform: `translateX(${interpolate(local, [6 + j * 6, 16 + j * 6], [j ? 1100 : -1100, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}px)`, boxShadow: `0 0 60px ${col}55`}}>
+            <div style={{flex: 'none', width: 130, height: 130, borderRadius: 30, background: col, color: INK, fontWeight: 800, fontSize: 100, display: 'grid', placeItems: 'center'}}>{k}</div>
+            <div style={{fontWeight: 800, fontSize: 58, lineHeight: 1.05, color: '#fff', letterSpacing: '-0.03em'}}>{t}</div>
+          </div>))}
+        <div style={{marginTop: 70, fontWeight: 800, fontSize: 62, color: '#fff', textAlign: 'center'}}>Comment <span style={{color: '#ff3b30'}}>A</span> or <span style={{color: LIME}}>B</span></div>
+        <div style={{marginTop: 18, fontWeight: 700, fontSize: 44, color: 'rgba(255,255,255,.75)'}}>Follow to see what happens next</div>
       </AbsoluteFill>
     );
   } else if (L === 'duo') {
@@ -138,7 +172,7 @@ export const StoryReel = ({scenes, trade = 'roofing', lead = 'mike', mouth = [],
       <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
         {music && <Audio src={staticFile('story-sound.wav')} />}
         <AbsoluteFill style={{transform: `translate(${dx + sx}px, ${sy}px) scale(${zoom}) rotate(${rot}deg)`, filter: 'saturate(1.2) contrast(1.06)'}}>
-          <Set name={sc.cta ? 'night' : sc.set ?? 'day'} frame={frame} />
+          {L !== 'title' && <Set name={sc.cta ? 'night' : sc.set ?? 'day'} frame={frame} />}
           {body}
           {sc.say && !sc.cta && <div style={{position: 'absolute', left: 120, right: 120, top: 300, padding: '26px 34px', borderRadius: 34, background: '#fff', fontFamily: FONT, fontWeight: 700, fontSize: 46, color: INK, textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,.25)', transform: `scale(${interpolate(local, [0, 6], [0.6, 1], {extrapolateRight: 'clamp'})})`}}>{sc.say}</div>}
         </AbsoluteFill>
@@ -150,7 +184,7 @@ export const StoryReel = ({scenes, trade = 'roofing', lead = 'mike', mouth = [],
         {fx.includes('glow') && <AbsoluteFill style={{background: `radial-gradient(60% 40% at 45% 50%, ${LIME}55, transparent 70%)`, mixBlendMode: 'screen'}} />}
         <AbsoluteFill style={{background: fx.includes('glow') ? LIME : '#fff', opacity: flash}} />
         {fx.includes('closed') && <div style={{position: 'absolute', left: 120, top: 560, padding: '10px 44px', border: '16px solid #ff2d3d', borderRadius: 30, color: '#ff2d3d', fontFamily: FONT, fontWeight: 800, fontSize: 190, rotate: '-14deg', opacity: local < 8 ? 0 : 1, transform: `scale(${interpolate(local, [8, 13, 17], [2.6, 0.92, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})})`, background: 'rgba(255,255,255,.12)', boxShadow: '0 0 60px rgba(255,45,61,.5)'}}>CLOSED</div>}
-        {w && !sc.cta && <div style={{position: 'absolute', left: 0, right: 0, top: 1240, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 128, letterSpacing: '-0.03em', textTransform: 'uppercase', color: isKey ? '#ffd23f' : '#fff', transform: `scale(${pop})`, WebkitTextStroke: '10px #000', paintOrder: 'stroke fill', textShadow: '0 10px 30px rgba(0,0,0,.5)'}}>{w}</div>}
+        {w && !sc.cta && L !== 'choice' && L !== 'title' && <div style={{position: 'absolute', left: 0, right: 0, top: 1240, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 128, letterSpacing: '-0.03em', textTransform: 'uppercase', color: isKey ? '#ffd23f' : '#fff', transform: `scale(${pop})`, WebkitTextStroke: '10px #000', paintOrder: 'stroke fill', textShadow: '0 10px 30px rgba(0,0,0,.5)'}}>{w}</div>}
       </AbsoluteFill>
     </BizCtx.Provider>
   );

@@ -1,0 +1,197 @@
+{
+  "date": "2026-10-28",
+  "style": "survival",
+  "trade": "survival",
+  "topic": "blackout part 1: friend knocks, text says it is not him",
+  "hook": "At nine fourteen PM, the whole country went dark. Nobody knows why.",
+  "hook_formula": 0,
+  "caption": "Comment A or B. The most votes decides what Leo does in Part 2.\n\n9:14 PM. Dark.\n\nThe radio repeats one rule over and over, don't open your door for anyone, and Leo has 3 liters of water to last him 72 hours. At 2 AM his best friend Sam knocks and begs to be let in, and Leo's hand is already on the lock when his phone buzzes with a text from Sam: \"Don't open the door. It's not me.\"\n\nWho's lying? Follow so you don't miss Part 2.\n\n#storytime #survival #choices",
+  "props": {
+    "music": "suspense",
+    "narrator": "am_onyx",
+    "part": "PART 1 \u00b7 LIGHTS OUT",
+    "scenes": [
+      {
+        "vo": "At nine fourteen PM, the whole country went dark. Nobody knows why.",
+        "key": "dark.",
+        "shot": "object",
+        "part": "hook",
+        "hud": {
+          "hour": "00/72",
+          "water": "3L",
+          "power": "OFF",
+          "outside": "UNKNOWN"
+        },
+        "object": "window",
+        "set": "room"
+      },
+      {
+        "vo": "No lights. No signal. No news.",
+        "key": "signal.",
+        "shot": "title",
+        "object": "window",
+        "set": "room",
+        "part": "drop",
+        "hud": {
+          "hour": "00/72",
+          "water": "3L",
+          "power": "OFF",
+          "outside": "UNKNOWN"
+        },
+        "over": "PART 1",
+        "title": "LIGHTS OUT"
+      },
+      {
+        "vo": "Stay inside. Do not open your door. For anyone.",
+        "key": "anyone.",
+        "shot": "object",
+        "object": "radio",
+        "set": "room",
+        "speaker": "radio",
+        "voice": "am_onyx",
+        "fx": [
+          "radio"
+        ],
+        "part": "drop",
+        "hud": {
+          "hour": "01/72",
+          "water": "3L",
+          "power": "OFF",
+          "outside": "DANGER"
+        }
+      },
+      {
+        "vo": "Then, at two AM, someone knocked.",
+        "key": "knocked.",
+        "shot": "object",
+        "object": "door",
+        "set": "room",
+        "fx": [
+          "knock",
+          "dark"
+        ],
+        "part": "break",
+        "hud": {
+          "hour": "05/72",
+          "water": "2.8L",
+          "power": "PHONE DYING",
+          "outside": "DANGER"
+        }
+      },
+      {
+        "vo": "Leo! It's Sam! Open up, please!",
+        "key": "Sam!",
+        "shot": "person",
+        "who": "leo",
+        "size": 2.6,
+        "mood": "shocked",
+        "pose": "headHands",
+        "set": "room",
+        "speaker": "door",
+        "voice": "am_eric",
+        "fx": [
+          "shake"
+        ],
+        "part": "break",
+        "hud": {
+          "hour": "05/72",
+          "water": "2.8L",
+          "power": "PHONE DYING",
+          "outside": "DANGER"
+        }
+      },
+      {
+        "vo": "His best friend. Leo reached for the lock.",
+        "key": "lock.",
+        "shot": "person",
+        "who": "leo",
+        "mood": "happy",
+        "pose": "hold",
+        "set": "room",
+        "part": "rise",
+        "hud": {
+          "hour": "05/72",
+          "water": "2.8L",
+          "power": "PHONE DYING",
+          "outside": "DANGER"
+        }
+      },
+      {
+        "vo": "Then his phone buzzed. A text. From Sam.",
+        "key": "Sam.",
+        "shot": "object",
+        "object": "text",
+        "set": "room",
+        "fx": [
+          "radio"
+        ],
+        "part": "rise",
+        "hud": {
+          "hour": "05/72",
+          "water": "2.8L",
+          "power": "PHONE DYING",
+          "outside": "DANGER"
+        }
+      },
+      {
+        "vo": "Don't open the door. It's not me.",
+        "key": "not",
+        "shot": "object",
+        "object": "text",
+        "set": "room",
+        "fx": [
+          "shake"
+        ],
+        "beat": "fail",
+        "part": "drop2",
+        "hud": {
+          "hour": "05/72",
+          "water": "2.8L",
+          "power": "PHONE DYING",
+          "outside": "UNKNOWN"
+        }
+      },
+      {
+        "vo": "Leo? Why aren't you opening?",
+        "key": "opening?",
+        "shot": "object",
+        "object": "door",
+        "set": "room",
+        "speaker": "door",
+        "voice": "am_eric",
+        "fx": [
+          "knock",
+          "dark"
+        ],
+        "part": "drop2",
+        "hud": {
+          "hour": "05/72",
+          "water": "2.8L",
+          "power": "PHONE DYING",
+          "outside": "UNKNOWN"
+        }
+      },
+      {
+        "cta": true,
+        "shot": "choice",
+        "vo": "Who's lying? Open the door, or trust the text. Comment A or B. The most votes decides part two.",
+        "question": "Sam is at the door. Sam says he isn\u2019t. What does Leo do?",
+        "options": [
+          "OPEN",
+          "STAY SILENT"
+        ],
+        "subs": [
+          "trust the voice",
+          "trust the text"
+        ],
+        "part": "outro",
+        "hud": {
+          "hour": "05/72",
+          "water": "2.8L",
+          "power": "PHONE DYING",
+          "outside": "UNKNOWN"
+        }
+      }
+    ]
+  }
+}
