@@ -61,5 +61,20 @@
     "slot": 17,
     "hour": 19,
     "status": "skipped"
+  },
+  {
+    "date": "2026-10-27",
+    "slot": 10,
+    "hour": 8,
+    "status": "failed",
+    "style": "explainer",
+    "trade": "Claude",
+    "topic": "free repo that makes Claude plan, test and debug first",
+    "hook": "Your Claude jumps straight into code. That's why it keeps breaking things.",
+    "formula": 0,
+    "caption": "Comment POWER and I'll DM you the repo plus my setup guide. Follow first so the DM doesn't land in requests.\n\nMost of us use Claude like a fast intern: it jumps into code, writes 14 files, then 3 tests fail. This free GitHub repo changes the order. It asks questions first, writes a plan, writes the test before the code, then checks its own work.\n\nI use it every day. It's free and open source.\n\n#claudeai #claudecode #aitools",
+    "file": "media/2026-10-27.mp4",
+    "seconds": 29.205,
+    "error": "Instagram /me: {\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"AT-QXksADxapEYfr8R8ZTlY\"}"
   }
 ]
