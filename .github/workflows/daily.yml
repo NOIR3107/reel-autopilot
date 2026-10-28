@@ -32,6 +32,7 @@ jobs:
       - run: npm test
       - run: git config user.name "reel-bot" && git config user.email "reel-bot@users.noreply.github.com"
       - name: DM people who commented WEBSITE
+        if: false # OFF: Instagram restricted messaging on this account until 2026-11-26
         run: node scripts/replies.mjs
         continue-on-error: true # a missing permission must never stop the daily post
         env:
