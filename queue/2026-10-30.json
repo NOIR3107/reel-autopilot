@@ -1,0 +1,251 @@
+{
+  "date": "2026-10-30",
+  "style": "explainer",
+  "trade": "contractor",
+  "topic": "quote follow-up automation for contractors",
+  "hook": "You sent the quote. And then they ghosted you.",
+  "hook_formula": 0,
+  "caption": "Follow-up automation for contractors: comment QUOTE and I'll reply with how it works.\n\nYou quote a roof on Monday. By Friday, nothing. That customer didn't say no, they just got 3 other quotes and went with whoever called back. This robot emails your quote the minute you tap approve, follows up on day 3 and day 7, and pings you when they say yes.\n\nWorks for roofers, HVAC, plumbers, painters. Built in n8n, runs 24/7.\n\n#contractor #roofing #smallbusinesstips #automation #n8n",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "host",
+    "series": "AUTOMATION",
+    "look": "b",
+    "scenes": [
+      {
+        "vo": "You sent the quote. And then... they ghosted you.",
+        "key": "ghosted",
+        "part": "hook",
+        "pose": "shrug",
+        "mood": "squint",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Here's your quote for the new roof 👍"
+            }
+          ],
+          "seen": "Seen · 3 days ago"
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Here's the thing. They never said no. You just stopped following up.",
+        "key": "following",
+        "pose": "point",
+        "prop": {
+          "type": "stamp",
+          "text": "Follow-up call\nto the customer",
+          "stamp": "FORGOT"
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "So the job went to the guy who called back first.",
+        "key": "first",
+        "pose": "facepalm",
+        "mood": "shocked",
+        "fx": [
+          "fail"
+        ],
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Here's your quote for the new roof 👍"
+            },
+            {
+              "text": "We went with another company. Thanks though!"
+            }
+          ],
+          "buzz": true
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "So I built a robot that never forgets.",
+        "key": "robot",
+        "part": "drop",
+        "pose": "fistPump",
+        "fx": [
+          "win"
+        ],
+        "prop": {
+          "type": "box",
+          "name": "FOLLOW-UP ROBOT",
+          "tag": "runs 24/7 · built with n8n",
+          "sub": "quotes + follow-ups on autopilot"
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "You finish the site visit and fill one tiny form.",
+        "key": "form",
+        "pose": "explain",
+        "prop": {
+          "type": "flow",
+          "nodes": [
+            {
+              "icon": "📝",
+              "label": "Job form"
+            },
+            {
+              "icon": "🤖",
+              "label": "AI writes quote"
+            },
+            {
+              "icon": "👍",
+              "label": "You approve"
+            },
+            {
+              "icon": "⏰",
+              "label": "Day 3 + Day 7"
+            },
+            {
+              "icon": "🎉",
+              "label": "Job won"
+            }
+          ],
+          "upto": 0
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "AI writes the quote with your own prices.",
+        "key": "prices",
+        "pose": "point",
+        "prop": {
+          "type": "flow",
+          "nodes": [
+            {
+              "icon": "📝",
+              "label": "Job form"
+            },
+            {
+              "icon": "🤖",
+              "label": "AI writes quote"
+            },
+            {
+              "icon": "👍",
+              "label": "You approve"
+            },
+            {
+              "icon": "⏰",
+              "label": "Day 3 + Day 7"
+            },
+            {
+              "icon": "🎉",
+              "label": "Job won"
+            }
+          ],
+          "upto": 1
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "You tap approve, and it lands in their inbox.",
+        "key": "approve",
+        "pose": "explain",
+        "prop": {
+          "type": "flow",
+          "nodes": [
+            {
+              "icon": "📝",
+              "label": "Job form"
+            },
+            {
+              "icon": "🤖",
+              "label": "AI writes quote"
+            },
+            {
+              "icon": "👍",
+              "label": "You approve"
+            },
+            {
+              "icon": "⏰",
+              "label": "Day 3 + Day 7"
+            },
+            {
+              "icon": "🎉",
+              "label": "Job won"
+            }
+          ],
+          "upto": 2
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "No reply? It follows up on day three. Then again on day seven.",
+        "key": "follows",
+        "part": "rise",
+        "pose": "point",
+        "prop": {
+          "type": "flow",
+          "nodes": [
+            {
+              "icon": "📝",
+              "label": "Job form"
+            },
+            {
+              "icon": "🤖",
+              "label": "AI writes quote"
+            },
+            {
+              "icon": "👍",
+              "label": "You approve"
+            },
+            {
+              "icon": "⏰",
+              "label": "Day 3 + Day 7"
+            },
+            {
+              "icon": "🎉",
+              "label": "Job won"
+            }
+          ],
+          "upto": 3
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "The second they say yes, your phone lights up.",
+        "key": "yes",
+        "part": "drop2",
+        "pose": "celebrate",
+        "fx": [
+          "win"
+        ],
+        "prop": {
+          "type": "phone",
+          "notify": {
+            "title": "Quote accepted ✅",
+            "text": "New roof · Customer said YES"
+          },
+          "msgs": [
+            {
+              "text": "Looks great, when can you start?"
+            }
+          ],
+          "buzz": true
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Want this for your business? Comment QUOTE and I'll reply with how it works.",
+        "key": "QUOTE",
+        "part": "outro",
+        "cta": true,
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "QUOTE",
+          "dm": "Replied to your comment 👇"
+        },
+        "speaker": "host"
+      }
+    ]
+  }
+}
