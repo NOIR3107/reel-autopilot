@@ -1,5 +1,5 @@
 """Human-sounding voiceover with Chatterbox (free, open source). Runs in GitHub Actions (the model downloads there).
-usage: python tools/chatter_vo.py queue/DATE.json   -> public/vo/DATE/NN.wav (default voice) and public/vo/DATE-ref/NN.wav (cloned host voice)
+usage: python tools/chatter_vo.py queue/DATE.json   -> public/vo/DATE/NN.wav in the host's voice (cloned from public/vo/ref-host.wav)
 story_sound.py uses public/vo/DATE/ when it exists, else Kokoro."""
 import json, os, sys
 import torch, torchaudio as ta
@@ -9,7 +9,7 @@ q = sys.argv[1]
 date = os.path.basename(q)[:-5]
 scenes = json.load(open(q))['props']['scenes']
 m = ChatterboxTTS.from_pretrained(device='cpu')
-for tag, ref in (('', None), ('-ref', 'public/vo/ref-host.wav')):
+for tag, ref in (('', 'public/vo/ref-host.wav'),):
     out = f'public/vo/{date}{tag}'
     os.makedirs(out, exist_ok=True)
     for i, sc in enumerate(scenes):
