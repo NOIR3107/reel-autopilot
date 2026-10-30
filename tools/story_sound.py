@@ -80,6 +80,12 @@ def score(m, style, dur, starts, parts):
             continue
         if not big and part != 'hook':
             continue
+        if style == 'funk' and big:  # the earworm: a bright 2-bar pentatonic riff on top
+            riff = [(0, 659.3), (0.5, 784.0), (1, 880.0), (1.5, 784.0), (2.5, 659.3), (3, 587.3), (3.5, 523.3)] if bar % 2 == 0 else \
+                   [(0, 587.3), (0.5, 659.3), (1, 784.0), (2, 1046.5), (2.5, 880.0), (3, 784.0)]
+            for at, hz in riff:
+                tt = t(B * 0.45); pl = (np.sign(np.sin(2 * np.pi * hz * tt)) * 0.35 + np.sin(2 * np.pi * hz * 2 * tt) * 0.4) * np.exp(-tt * 9) * (1 - np.exp(-tt * 400))
+                m.place(pl, b0 + at * B, 0.10, pan=0.15)
         for beat in range(4):
             tb = b0 + beat * B
             swing = B * 0.12 if style == 'lofi' else 0
@@ -113,13 +119,23 @@ def score(m, style, dur, starts, parts):
 def main(queue_file, props_out):
     script = json.load(open(queue_file))
     p = script['props']
-    k = Kokoro(os.path.join(KD, 'kokoro-v1.0.onnx'), os.path.join(KD, 'voices-v1.0.bin'))
+    # Pre-made human voice lines (tools/chatter_vo.py) win over Kokoro when they exist.
+    vodir = os.environ.get('VO_DIR') or os.path.join(ROOT, 'public/vo', os.path.basename(queue_file)[:-5])
+    k = None
     vo, scenes, parts, mouth = [], [], [], []
     narrator = p.get('narrator', VOICE['narrator'])
     for sc in p['scenes']:
         voice = sc.get('voice') or (VOICE.get(sc['speaker'], narrator) if sc.get('speaker') else narrator)
-        s, sr = k.create(sc['vo'], voice=voice, speed=1.15 if sc.get('speaker') else 1.18, lang='en-us')
-        s = resample_poly(s, SR, sr)
+        pre = os.path.join(vodir, f'{len(scenes):02d}.wav')
+        if os.path.exists(pre):
+            s, sr = sf.read(pre, always_2d=True)
+            s = resample_poly(s.mean(axis=1), SR, sr)
+            on = np.flatnonzero(np.abs(s) > 0.02 * np.abs(s).max())
+            s = s[max(0, on[0] - 800): on[-1] + 2400] / np.abs(s).max() * 0.45  # trim silence, match Kokoro's level
+        else:
+            k = k or Kokoro(os.path.join(KD, 'kokoro-v1.0.onnx'), os.path.join(KD, 'voices-v1.0.bin'))
+            s, sr = k.create(sc['vo'], voice=voice, speed=1.15 if sc.get('speaker') else 1.18, lang='en-us')
+            s = resample_poly(s, SR, sr)
         sec = len(s) / SR + 0.12 + (0.4 if sc.get('part') == 'hook' else 0) + (1.2 if sc.get('cta') else 0)
         sec = round(sec, 2)
         vo.append(np.pad(s, (0, int(sec * SR) - len(s))))
