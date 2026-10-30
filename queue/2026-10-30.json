@@ -247,5 +247,6 @@
         "speaker": "host"
       }
     ]
-  }
+  },
+  "hold": true
 }

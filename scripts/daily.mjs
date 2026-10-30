@@ -50,6 +50,7 @@ function soundtrack(script) {
 }
 
 const script = read(queueFile, null);
+if (script?.hold && !FORCE) { console.log('script on hold (being finished by hand)'); process.exit(0); }
 const entry = {date: now.date, slot, hour: now.hour, status: script ? 'failed' : 'skipped'};
 posts.push(entry);
 if (!script) {
