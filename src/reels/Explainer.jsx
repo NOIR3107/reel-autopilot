@@ -225,7 +225,7 @@ const Phone = ({p, local}) => {
 
 const PROPS = {shot: Shot, profile: Profile, terminal: Terminal, files: Files, chart: Chart, checklist: Checklist, box: Box, stamp: Stamp, big: Big, comments: Comments, flow: Flow, phone: Phone};
 
-export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look = 'a', music = true}) => {
+export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look = 'a', music = true, bgc = PAPER}) => {
   const frame = useCurrentFrame();
   let acc = 0;
   const timed = scenes.map((s) => { const start = Math.round(acc * FPS); acc += s.sec; return {...s, start, len: Math.round(s.sec * FPS)}; });
@@ -247,13 +247,14 @@ export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look 
     // Caption-on-top look: the spoken line builds word by word at the top, the prop sits in the middle, the host is a big bust at the bottom.
     const shown = Math.min(words.length, Math.floor(local / Math.max(3, (sc.len - 6) / Math.max(1, words.length))) + 1);
     const keyOf = (w) => sc.key && w.replace(/[^\w']/g, '').toLowerCase() === String(sc.key).toLowerCase();
+    const night = parseInt(String(bgc).slice(1, 3), 16) < 90; // dark background: light text, brighter accent
     return (
-      <AbsoluteFill style={{background: PAPER, overflow: 'hidden'}}>
+      <AbsoluteFill style={{background: bgc, overflow: 'hidden'}}>
         {music && <Audio src={staticFile('story-sound.wav')} />}
         <AbsoluteFill style={{backgroundImage: GRAIN, opacity: 0.14, mixBlendMode: 'multiply'}} />
         <div style={{position: 'absolute', right: 60, top: 170, fontFamily: MONO, fontSize: 24, color: RED}}>{series}</div>
-        <div style={{position: 'absolute', left: 60, right: 60, top: 220, fontFamily: FONT, fontWeight: 700, fontSize: 80, lineHeight: 1.05, letterSpacing: '-0.035em', color: INK}}>
-          {words.slice(0, shown).map((w, k) => <span key={k} style={keyOf(w) ? {color: RED, fontFamily: 'Georgia, serif', fontStyle: 'italic', fontWeight: 400} : {}}>{w} </span>)}</div>
+        <div style={{position: 'absolute', left: 60, right: 60, top: 220, fontFamily: FONT, fontWeight: 700, fontSize: 80, lineHeight: 1.05, letterSpacing: '-0.035em', color: night ? '#f4f1ea' : INK}}>
+          {words.slice(0, shown).map((w, k) => <span key={k} style={keyOf(w) ? {color: night ? '#ff6b5e' : RED, fontFamily: 'Georgia, serif', fontStyle: 'italic', fontWeight: 400} : {}}>{w} </span>)}</div>
         {/* slow push-in on every scene, plus a quick flash on the cut */}
         <div style={{position: 'absolute', left: 0, right: 0, top: 560, height: 700, display: 'flex', justifyContent: 'center', alignItems: 'center',
           transform: `scale(${(sc.prop?.scale ?? 1) * interpolate(local, [0, sc.len], [1, 1.06], cl)})`}}>{Prop && <Prop p={sc.prop} local={local} />}</div>

@@ -9,7 +9,7 @@
   "props": {
     "music": "funk",
     "narrator": "am_adam",
-    "host": "host",
+    "host": "neel",
     "series": "AUTOMATION",
     "look": "b",
     "scenes": [
@@ -242,11 +242,13 @@
         "prop": {
           "type": "comments",
           "keyword": "QUOTE",
-          "dm": "Replied to your comment 👇"
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
         },
         "speaker": "host"
       }
-    ]
+    ],
+    "bgc": "#1f2a44"
   },
   "hold": true
 }

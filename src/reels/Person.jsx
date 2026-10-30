@@ -18,6 +18,7 @@ export const CAST = {
   ava:   {skin: '#f0c4a0', hair: 'pony', hairC: '#2b1a10', beard: 'none', hat: 'none', shirt: '#475569', pants: '#1e293b', female: true, bag: true},
   zed:   {skin: '#8fa58a', hair: 'short', hairC: '#2f3a2c', beard: 'none', hat: 'none', shirt: '#5b4636', pants: '#2d2a26', zombie: true},
   zoe:   {skin: '#9db49a', hair: 'long', hairC: '#3b3226', beard: 'none', hat: 'none', shirt: '#6b4f5a', pants: '#2d2a26', zombie: true, female: true},
+  neel:  {skin: '#f0c8a5', hair: 'neel', hairC: '#121014', beard: 'none', hat: 'none', glasses: true, shirt: '#f5c9d2', pants: '#f3f2ee', shoes: '#e9e6df', collar: true, faceW: 128, watch: 'R', thread: 'L'},
   vince: {skin: '#e0ac86', hair: 'slick', hairC: '#111', beard: 'none', hat: 'none', shades: true, shirt: '#111827', pants: '#111827'},
 };
 
@@ -52,6 +53,8 @@ const Arm = ({side, pose, phone, fist, c, wob}) => {
       <path d={`M${s[0]} ${s[1]} L${e[0]} ${e[1]}`} stroke={c.shirt} strokeWidth="46" strokeLinecap="round" />
       <path d={`M${e[0]} ${e[1]} L${h[0]} ${h[1]}`} stroke={skin} strokeWidth="34" strokeLinecap="round" />
       <circle cx={e[0]} cy={e[1]} r="21" fill={c.shirt} style={{filter: 'brightness(.85)'}} />
+      {[[c.watch, '#c9ced6', 0.66, 0.8], [c.thread, '#d4232e', 0.74, 0.79]].filter(([sd]) => sd === side).map(([, col, a, b]) => (
+        <path key={col} d={`M${e[0] + (h[0] - e[0]) * a} ${e[1] + (h[1] - e[1]) * a} L${e[0] + (h[0] - e[0]) * b} ${e[1] + (h[1] - e[1]) * b}`} stroke={col} strokeWidth="38" strokeLinecap="butt" />))}
       {phone && (
         <g transform={`translate(${h[0]} ${h[1]}) rotate(${side === 'R' ? -12 : 12})`}>
           <rect x="-20" y="-40" width="40" height="72" rx="8" fill="#1b1b22" />
@@ -106,6 +109,12 @@ const Hair = ({c, back}) => {
   }
   if (c.hair === 'bald' || c.hat !== 'none') return null;
   if (c.hair === 'curly') return <g fill={h}>{[150, 172, 194, 216, 238, 252, 140].map((x, i) => <circle key={i} cx={x} cy={i === 6 ? 160 : 128 + (i % 2) * 8} r="24" />)}</g>;
+  if (c.hair === 'neel') return (  // thick short hair: tall textured top swept up and to one side, short sides
+    <g fill={h}><path d="M136 186 Q128 120 160 98 Q178 76 214 78 Q256 80 268 120 Q274 150 264 186 Q258 156 244 146 Q230 136 208 134 Q176 136 158 150 Q144 164 136 186 Z" />
+      <path d="M150 120 Q166 66 214 68 Q250 70 262 98 Q240 84 214 90 Q186 96 168 116 Z" />
+      <path d="M176 88 Q200 70 236 78" stroke="#3a3540" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path d="M160 112 Q182 90 214 86 M214 98 Q236 92 256 104" stroke="#2a2630" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <rect x="137" y="164" width="11" height="42" rx="5" /><rect x="252" y="164" width="11" height="42" rx="5" /></g>);
   if (c.hair === 'slick') return <path d="M140 170 Q138 110 200 108 Q258 110 262 150 Q230 128 170 140 Q150 150 140 170 Z" fill={h} />;
   return <path d="M140 172 Q138 110 200 108 Q262 110 260 172 Q250 140 200 136 Q150 140 140 172 Z" fill={h} />;
 };
@@ -146,11 +155,14 @@ export const Person = ({who = 'mike', mood = 'neutral', pose = 'idle', prevPose,
       <g transform={`translate(0 ${breathe - pop})`}>
         <rect x="150" y="515" width="46" height="205" rx="18" fill={c.pants} />
         <rect x="204" y="515" width="46" height="205" rx="18" fill={c.pants} />
-        <rect x="136" y="698" width="66" height="44" rx="16" fill="#3a2a1e" />
-        <rect x="198" y="698" width="66" height="44" rx="16" fill="#3a2a1e" />
+        <rect x="136" y="698" width="66" height="44" rx="16" fill={c.shoes ?? '#3a2a1e'} />
+        <rect x="198" y="698" width="66" height="44" rx="16" fill={c.shoes ?? '#3a2a1e'} />
+        {c.pants === '#f3f2ee' && <path d="M173 530 L173 700 M227 530 L227 700" stroke="rgba(0,0,0,.08)" strokeWidth="4" />}
         <Arm side="L" pose={p.L} phone={p.phone === 'L'} c={c} wob={freeArm === 'L' ? wob : [0, 0]} />
         <path d={c.female ? 'M136 335 Q136 298 166 293 L234 293 Q264 298 264 335 L270 532 L130 532 Z' : 'M128 335 Q128 298 162 293 L238 293 Q272 298 272 335 L264 532 L136 532 Z'} fill={c.shirt} />
         <path d="M182 293 L200 322 L218 293 Z" fill={c.skin} />
+        {c.collar && <><path d="M162 290 L199 322 L178 338 L156 300 Z M238 290 L201 322 L222 338 L244 300 Z" fill={c.shirt} stroke="rgba(0,0,0,.12)" strokeWidth="3" />
+          <path d="M200 326 L200 512" stroke="rgba(0,0,0,.1)" strokeWidth="3" />{[360, 410, 460].map((y) => <circle key={y} cx="200" cy={y} r="4" fill="rgba(0,0,0,.15)" />)}</>}
         {c.zombie && <path d="M140 470 L160 500 L175 470 L195 505 L215 468 L235 502 L255 470 L262 532 L136 532 Z" fill={c.skin} opacity=".9" />}
         {c.zombie && <path d="M175 360 Q190 380 182 410 M228 340 Q214 372 232 396" stroke="#7f1d1d" strokeWidth="6" fill="none" opacity=".7" />}
         {c.vest && <><path d="M134 330 L176 296 L184 532 L136 532 Z M266 330 L224 296 L216 532 L264 532 Z" fill="#d9a43a" /><path d="M140 380 L180 380 M140 430 L182 430 M260 380 L220 380 M260 430 L218 430" stroke="#a87a24" strokeWidth="5" /></>}
@@ -161,7 +173,7 @@ export const Person = ({who = 'mike', mood = 'neutral', pose = 'idle', prevPose,
           <rect x="182" y="255" width="36" height="45" fill={c.skin} style={{filter: 'brightness(.88)'}} />
           <circle cx="141" cy="208" r="16" fill={c.skin} style={{filter: 'brightness(.9)'}} />
           <circle cx="259" cy="208" r="16" fill={c.skin} style={{filter: 'brightness(.9)'}} />
-          <rect x="141" y="120" width="118" height="158" rx="56" fill={c.skin} />
+          <rect x={200 - (c.faceW ?? 118) / 2} y="120" width={c.faceW ?? 118} height="158" rx="58" fill={c.skin} />
           {c.beard === 'full' && <path d="M143 212 Q146 292 200 296 Q254 292 257 212 Q246 244 200 247 Q154 244 143 212 Z" fill={c.beardC ?? c.hairC} />}
           {c.beard === 'stubble' && <path d="M146 222 Q150 288 200 292 Q250 288 254 222 Q244 250 200 252 Q156 250 146 222 Z" fill={c.hairC} opacity=".35" />}
           {(c.beard === 'full' || c.beard === 'mustache') && <path d="M170 243 Q200 229 230 243 Q200 252 170 243 Z" fill={c.beardC ?? c.hairC} />}
