@@ -12,7 +12,6 @@ export const CAST = {
   sarah: {skin: '#f2c9a8', hair: 'pony', hairC: '#b3651f', beard: 'none', hat: 'none', shirt: '#db2777', pants: '#334155', female: true},
   maya:  {skin: '#7a4a32', hair: 'bun', hairC: '#140d0a', beard: 'none', hat: 'none', shirt: '#7c3aed', pants: '#1e293b', female: true, glasses: true},
   karen: {skin: '#efc3a0', hair: 'long', hairC: '#e5c07b', beard: 'none', hat: 'none', shirt: '#0f766e', pants: '#3f3f46', female: true},
-  host:  {skin: '#c68a5e', hair: 'curly', hairC: '#17100b', beard: 'stubble', hat: 'none', glasses: true, shirt: '#e5322d', pants: '#1f2937'},
   leo:   {skin: '#e8c3a0', hair: 'short', hairC: '#3a2a1c', beard: 'none', hat: 'beanie', hatC: '#c2410c', shirt: '#7c5e2e', pants: '#2b2b30', vest: true},
   kai:   {skin: '#c98d62', hair: 'curly', hairC: '#1a120c', beard: 'stubble', hat: 'none', shirt: '#b91c1c', pants: '#1f2937', bag: true},
   ava:   {skin: '#f0c4a0', hair: 'pony', hairC: '#2b1a10', beard: 'none', hat: 'none', shirt: '#475569', pants: '#1e293b', female: true, bag: true},
@@ -21,6 +20,7 @@ export const CAST = {
   neel:  {skin: '#f0c8a5', hair: 'neel', hairC: '#121014', beard: 'none', hat: 'none', glasses: true, shirt: '#f5c9d2', pants: '#f3f2ee', shoes: '#e9e6df', collar: true, faceW: 128, watch: 'R', thread: 'L'},
   vince: {skin: '#e0ac86', hair: 'slick', hairC: '#111', beard: 'none', hat: 'none', shades: true, shirt: '#111827', pants: '#111827'},
 };
+CAST.host = CAST.neel; // every reel's presenter is Neel
 
 const SHOULDER = {L: [150, 318], R: [250, 318]};
 export const POSES = {

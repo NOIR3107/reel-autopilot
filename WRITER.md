@@ -17,6 +17,7 @@ Budget: this whole job must stay small. At most 4 web searches, no rendering, no
    - SEO + design: only true, checkable facts (Google's own documentation is the bar). No invented numbers.
    - Survival: write the next part only if `survival/next.md` says which option won; otherwise write an extra SEO reel.
    - Every reel ends with a reason to follow and a comment keyword.
+   - The only on-screen character is Neel: `"host": "neel"` in explainers, `"who": "neel"` (speaker "neel") in survival. No other characters.
    - No topic used in the last 21 days.
    - Once `data/insights.json` exists, lean toward the styles, trades and hook formulas at the top of each list,
      but keep the style mix above.

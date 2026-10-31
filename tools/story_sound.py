@@ -16,7 +16,7 @@ SFX = os.path.join(ROOT, 'public/sfx/')
 
 
 VOICE = {'narrator': 'am_adam', 'mike': 'am_michael', 'dan': 'am_eric', 'rob': 'am_onyx', 'tony': 'am_fenrir', 'luis': 'am_liam',
-         'sarah': 'af_heart', 'maya': 'af_nova', 'karen': 'af_bella', 'vince': 'am_puck', 'kai': 'am_echo', 'leo': 'am_liam', 'mara': 'af_nicole', 'host': 'am_adam', 'ava': 'af_nicole'}
+         'sarah': 'af_heart', 'maya': 'af_nova', 'karen': 'af_bella', 'vince': 'am_puck', 'kai': 'am_echo', 'leo': 'am_liam', 'mara': 'af_nicole', 'host': 'am_adam', 'neel': 'am_adam', 'ava': 'af_nicole'}
 
 
 def sfx(name):

@@ -124,7 +124,7 @@ export const Survival = ({scenes, mouth = [], part = 'PART 1 · LIGHTS OUT', mus
       <div style={{marginTop: 14, fontSize: 38, color: 'rgba(255,255,255,.75)'}}>Most votes decides Part 2. Follow so you don’t miss it.</div>
     </AbsoluteFill>;
   } else body = <div style={{position: 'absolute', left: 540 - 400 * (sc.size ?? 1.6) / 2, top: sc.size > 2 ? 280 : 560}}>
-    <Person who={sc.who ?? 'leo'} mood={sc.mood} pose={sc.pose} prevPose={prev?.who === sc.who ? prev.pose : sc.pose} local={local} talk={sc.speaker === sc.who ? talk : 0} size={sc.size ?? 1.6} /></div>;
+    <Person who={sc.who ?? 'neel'} mood={sc.mood} pose={sc.pose} prevPose={prev?.who === sc.who ? prev.pose : sc.pose} local={local} talk={sc.speaker === sc.who ? talk : 0} size={sc.size ?? 1.6} /></div>;
 
   return (
     <AbsoluteFill style={{background: '#0a0a0b', overflow: 'hidden'}}>
