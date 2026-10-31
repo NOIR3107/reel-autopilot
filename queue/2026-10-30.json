@@ -5,7 +5,7 @@
   "topic": "quote follow-up automation for contractors",
   "hook": "You sent the quote. And then they ghosted you.",
   "hook_formula": 0,
-  "caption": "Follow-up automation for contractors: comment QUOTE and I'll reply with how it works.\n\nYou quote a roof on Monday. By Friday, nothing. That customer didn't say no, they just got 3 other quotes and went with whoever called back. This robot emails your quote the minute you tap approve, follows up on day 3 and day 7, and pings you when they say yes.\n\nWorks for roofers, HVAC, plumbers, painters. Built in n8n, runs 24/7.\n\n#contractor #roofing #smallbusinesstips #automation #n8n",
+  "caption": "Follow-up automation for contractors: comment QUOTE and I'll reply with how it works.\n\nYou quote a roof on Monday. By Friday, nothing. That customer didn't say no, they just got 3 other quotes and went with whoever called back. This robot emails your quote the minute you tap approve, follows up on day 3 and day 7, pings you when they say yes, and asks for a review once the job is done.\n\nWorks for roofers, HVAC, plumbers, painters. Built in n8n, runs 24/7.\n\n#contractor #roofing #smallbusinesstips #automation #n8n",
   "props": {
     "music": "funk",
     "narrator": "am_adam",
@@ -107,9 +107,14 @@
             {
               "icon": "🎉",
               "label": "Job won"
+            },
+            {
+              "icon": "⭐",
+              "label": "Asks for a review"
             }
           ],
-          "upto": 0
+          "upto": 0,
+          "scale": 0.88
         },
         "speaker": "host"
       },
@@ -139,9 +144,14 @@
             {
               "icon": "🎉",
               "label": "Job won"
+            },
+            {
+              "icon": "⭐",
+              "label": "Asks for a review"
             }
           ],
-          "upto": 1
+          "upto": 1,
+          "scale": 0.88
         },
         "speaker": "host"
       },
@@ -171,9 +181,14 @@
             {
               "icon": "🎉",
               "label": "Job won"
+            },
+            {
+              "icon": "⭐",
+              "label": "Asks for a review"
             }
           ],
-          "upto": 2
+          "upto": 2,
+          "scale": 0.88
         },
         "speaker": "host"
       },
@@ -204,9 +219,14 @@
             {
               "icon": "🎉",
               "label": "Job won"
+            },
+            {
+              "icon": "⭐",
+              "label": "Asks for a review"
             }
           ],
-          "upto": 3
+          "upto": 3,
+          "scale": 0.88
         },
         "speaker": "host"
       },
@@ -232,6 +252,27 @@
           "buzz": true
         },
         "speaker": "host"
+      },
+      {
+        "vo": "And once the job's done, it asks them for a review. Automatically.",
+        "key": "review",
+        "pose": "point",
+        "speaker": "host",
+        "fx": [
+          "win"
+        ],
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Thanks for choosing us! Mind leaving a quick review? ⭐"
+            },
+            {
+              "text": "Done! ⭐⭐⭐⭐⭐"
+            }
+          ]
+        }
       },
       {
         "vo": "Want this for your business? Comment QUOTE and I'll reply with how it works.",
