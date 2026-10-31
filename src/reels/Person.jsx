@@ -17,7 +17,7 @@ export const CAST = {
   ava:   {skin: '#f0c4a0', hair: 'pony', hairC: '#2b1a10', beard: 'none', hat: 'none', shirt: '#475569', pants: '#1e293b', female: true, bag: true},
   zed:   {skin: '#8fa58a', hair: 'short', hairC: '#2f3a2c', beard: 'none', hat: 'none', shirt: '#5b4636', pants: '#2d2a26', zombie: true},
   zoe:   {skin: '#9db49a', hair: 'long', hairC: '#3b3226', beard: 'none', hat: 'none', shirt: '#6b4f5a', pants: '#2d2a26', zombie: true, female: true},
-  neel:  {skin: '#f0c8a5', hair: 'neel', hairC: '#121014', beard: 'none', hat: 'none', glasses: true, shirt: '#f5c9d2', pants: '#f3f2ee', shoes: '#e9e6df', collar: true, faceW: 128, watch: 'R', thread: 'L'},
+  neel:  {skin: '#f0c8a5', hair: 'neel', hairC: '#121014', beard: 'none', hat: 'none', shirt: '#f5c9d2', pants: '#f3f2ee', shoes: '#e9e6df', collar: true, faceW: 128, watch: 'R', thread: 'L'},
   vince: {skin: '#e0ac86', hair: 'slick', hairC: '#111', beard: 'none', hat: 'none', shades: true, shirt: '#111827', pants: '#111827'},
 };
 CAST.host = CAST.neel; // every reel's presenter is Neel
