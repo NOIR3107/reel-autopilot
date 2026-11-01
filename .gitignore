@@ -5,3 +5,4 @@ models/
 public/story-sound.wav
 public/mike-sound.wav
 public/kinetic-sound.wav
+__pycache__/
