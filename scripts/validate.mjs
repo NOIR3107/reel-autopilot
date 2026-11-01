@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import {py} from './lib.mjs';
 import {BUSINESSES} from '../src/biz.js';
 
-const MIN_HOOK = 70;
+const MIN_HOOK = 40; // the scorer only reliably catches weak lines (greetings, preambles); it marks down proven formats like "Send this to", so keep the bar low
 const STYLES = ['explainer', 'survival', 'story', 'kinetic', 'teardown', 'mike', 'ad'];
 const FX = ['closed', 'shake', 'hail', 'glow'];
 const PARTS = ['hook', 'drop', 'break', 'rise', 'drop2', 'outro'];

@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "contractor",
   "topic": "automatic review requests after every job",
-  "hook": "Stop begging for reviews. This robot asks every customer for you.",
+  "hook": "If your happy customers never leave reviews, this is for you.",
   "hook_formula": 0,
   "caption": "Automatic review requests for contractors: comment STARS and I'll reply with how it works.\n\nFriday: you finish the roof. The customer loves it. Monday: still no review, because they forgot. This robot messages them the same day you finish, with one link straight to your Google profile, so leaving 5 stars takes them about 10 seconds.\n\nGoogle's own help page says reviews can help you show up higher.\n\n#contractor #googlereviews #smallbusinesstips #automation #n8n",
   "props": {
@@ -15,7 +15,7 @@
     "bgc": "#1f2a44",
     "scenes": [
       {
-        "vo": "Stop begging for reviews. This robot asks every customer for you.",
+        "vo": "If your happy customers never leave reviews, this is for you.",
         "key": "reviews",
         "part": "hook",
         "pose": "point",

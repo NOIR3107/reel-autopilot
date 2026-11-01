@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "Claude",
   "topic": "open source tool that renders html to video with claude",
-  "hook": "You don't need a video editor. This free tool turns code into video.",
+  "hook": "Video editors won't like this one.",
   "hook_formula": 0,
   "caption": "Comment VIDEO and I'll DM you the link and my setup. Follow first so it reaches you.\n\nThis tool renders HTML as video. HeyGen open-sourced it. Claude writes the video as a web page, the tool renders all 900 frames at 30 fps, and you get a 1080x1920 MP4 for Instagram. It ships with about 450 ready-made blocks: captions, glitches, whip pans, 3D camera moves.\n\nFree. Open source. Runs on a laptop.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
   "props": {
@@ -13,8 +13,8 @@
     "series": "FREE SKILL 3/7",
     "scenes": [
       {
-        "vo": "You don't need a video editor. This free tool turns code into video.",
-        "key": "free",
+        "vo": "Video editors won't like this one.",
+        "key": "editors",
         "prop": {
           "type": "stamp",
           "text": "No editor.\nNo timeline.",

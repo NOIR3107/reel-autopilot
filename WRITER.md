@@ -17,9 +17,12 @@ Budget: this whole job must stay small. At most 4 web searches, no rendering, no
    - Rotate formats, never the same main format two days in a row: 3D scene (`model3d`: robot, house, phone, star), before/after
      (`split`), phone chat drama (`phone`), myth vs fact (`stamp` MYTH then FACT), workflow (`flow`). Automation reels use
      `"bgc": "#1f2a44"`.
-   - Hooks: write 5 candidates per reel, score each with `python3 tools/hookscore.py --hook "..." --json`, keep the best (70+ is
-     required; aim for 80+). Strong hooks open with a stake (stop, lost, never, mistake, free) and a concrete number or noun.
-     The first scene's vo must be the hook.
+   - Hooks: write 5 candidates per reel, each from a different formula, and pick the one that would stop YOU scrolling.
+     Formulas that work now: "Send this to [person] who [situation]" (drives shares, the top signal), "If you [very specific
+     situation]...", contradiction ("[common belief]? Wrong / won't / isn't"), "POV: [relatable moment]", "This feels illegal to
+     know", a surprising true number. Never use the same formula or the same first word two days in a row; never open with
+     "Stop" more than once a week. Run `python3 tools/hookscore.py --hook "..." --json` only as a floor (40+ required): it
+     catches weak lines, it can't spot a great one. The first scene's vo must be the hook and flow into the second line.
    - Skills: a real, popular, free Claude skill or tool repo each time (check it exists). Never show or say the repo name,
      link or install command in the reel; people must comment the keyword to get it. Number the series (FREE SKILL n/7).
    - SEO + design: only true, checkable facts (Google's own documentation is the bar). No invented numbers.

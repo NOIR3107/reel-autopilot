@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "contractor",
   "topic": "instant reply to website leads",
-  "hook": "Stop losing jobs to slow replies. This robot answers in seconds.",
+  "hook": "Your competitor didn't do better work. They just replied first.",
   "hook_formula": 0,
   "caption": "Instant lead reply for contractors: comment ROBOT and I'll reply with how it works.\n\nA homeowner fills out your form at 9pm. You see it at 7am. By then they've emailed 3 other roofers and one already called back. This robot replies the second they hit send, asks what they need, and sends you every detail.\n\nWorks for roofers, HVAC, plumbers. Built in n8n, runs 24/7.\n\n#contractor #roofing #smallbusinesstips #automation #n8n",
   "props": {
@@ -15,8 +15,8 @@
     "bgc": "#1f2a44",
     "scenes": [
       {
-        "vo": "Stop losing jobs to slow replies. This robot answers in seconds.",
-        "key": "seconds",
+        "vo": "Your competitor didn't do better work. They just replied first.",
+        "key": "first",
         "part": "hook",
         "pose": "point",
         "prop": {

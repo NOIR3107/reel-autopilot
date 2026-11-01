@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "seo",
   "topic": "localbusiness structured data (schema) tells google your hours and address",
-  "hook": "Google can't tell when you're open. Stop hiding your hours.",
+  "hook": "Your opening hours are on your site. Google still can't read them.",
   "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nGoogle reads the words. It guesses the meaning.\n\nStructured data removes the guess: a small block of LocalBusiness code that says this is a business in Denver, here's the phone, it opens at 7 on Monday and closes at 6 on Friday.\n\nTest it free in Google's Rich Results Test.\n\nOne honest note, straight from Google Search Central: there's no promise the extra details will show up in results. It just helps Google understand you.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
   "hook_formula": 0,
   "props": {
@@ -16,8 +16,8 @@
       {
         "speaker": "neel",
         "pose": "point",
-        "vo": "Google can't tell when you're open. Stop hiding your hours.",
-        "key": "open",
+        "vo": "Your opening hours are on your site. Google still can't read them.",
+        "key": "read",
         "part": "hook",
         "mood": "squint",
         "prop": {
