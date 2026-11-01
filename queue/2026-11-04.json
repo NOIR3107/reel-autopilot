@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-04",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "google maps local ranking: relevance, distance, prominence",
+  "hook": "You can't pay Google to rank higher on Maps. Here's what it actually looks at.",
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nNobody can sell you a better spot on Google Maps. Google says so in its own Business Profile help pages, and then it lists the 3 things that decide local results: relevance, distance and prominence.\n\nDistance you can't change. A roofer in Tulsa is where he is.\n\nThe other 2 are on you. Fill in every field, keep your hours right, post photos of real jobs and answer every review, even the 1 star ones.\n\nFree. Most shops skip it.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "hook_formula": 0,
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "SEO + DESIGN 4/30",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "You can't pay Google to rank higher on Maps. Here's what it actually looks at.",
+        "key": "pay",
+        "part": "hook",
+        "mood": "squint",
+        "prop": {
+          "type": "stamp",
+          "text": "\"Pay us to get\\nyou #1 on Maps\"",
+          "stamp": "NOT A THING"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "Google lists three things. Relevance, distance and prominence.",
+        "key": "three",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Relevance",
+            "Distance",
+            "Prominence"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "Relevance means your profile matches what they searched. So fill in every field and pick the right category.",
+        "key": "Relevance",
+        "prop": {
+          "type": "shot",
+          "url": "business profile",
+          "heading": "Your Google Business Profile",
+          "lines": [
+            "Category: General contractor",
+            "Services: (empty)",
+            "Hours: (empty)"
+          ],
+          "hl": 1,
+          "stamp": "HALF EMPTY"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "shrug",
+        "vo": "Distance is how far you are from the person searching. You can't change that one.",
+        "key": "Distance",
+        "prop": {
+          "type": "big",
+          "text": "📍 ↔ 🏠",
+          "size": 200
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "Prominence is how well known you are. Reviews count, and so do links and articles about you.",
+        "key": "Prominence",
+        "prop": {
+          "type": "shot",
+          "url": "google.com/maps",
+          "heading": "roofer near me",
+          "lines": [
+            "Reviews answered by the owner",
+            "Real photos of finished jobs",
+            "Hours kept up to date"
+          ],
+          "hl": 0,
+          "stamp": "DO THIS"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "fistPump",
+        "vo": "So answer every review, add real job photos and keep your hours right. All free.",
+        "key": "free.",
+        "mood": "happy",
+        "prop": {
+          "type": "stamp",
+          "text": "Free work\\nmost shops skip",
+          "stamp": "YOUR EDGE",
+          "ok": true
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "wave",
+        "vo": "One SEO lesson a day. Follow me and comment LEARN, and I'll send you my free starter guide.",
+        "key": "LEARN",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "mood": "happy",
+        "cta": true
+      }
+    ]
+  }
+}

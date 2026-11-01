@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-06",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "localbusiness structured data (schema) tells google your hours and address",
+  "hook": "Google can read your website. It still can't tell when you're open.",
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nGoogle reads the words. It guesses the meaning.\n\nStructured data removes the guess: a small block of LocalBusiness code that says this is a business in Denver, here's the phone, it opens at 7 on Monday and closes at 6 on Friday.\n\nTest it free in Google's Rich Results Test.\n\nOne honest note, straight from Google Search Central: there's no promise the extra details will show up in results. It just helps Google understand you.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "hook_formula": 0,
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "SEO + DESIGN 5/30",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "Google can read your website. It still can't tell when you're open.",
+        "key": "open.",
+        "part": "hook",
+        "mood": "squint",
+        "prop": {
+          "type": "shot",
+          "url": "yoursite.com",
+          "heading": "Contact",
+          "lines": [
+            "Open Mon to Fri 7 to 6",
+            "Call us anytime!",
+            "123 Main St"
+          ],
+          "hl": 0,
+          "stamp": "JUST TEXT"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "To Google, that line is just text. It has to guess what it means.",
+        "key": "guess",
+        "prop": {
+          "type": "stamp",
+          "text": "Hours? Address?\\nPhone?",
+          "stamp": "GUESSING"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "Structured data fixes that. It's a small block of code that spells it out.",
+        "key": "Structured",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "\"@type\": \"LocalBusiness\",",
+            "\"telephone\": \"(555) 014-2290\",",
+            "\"openingHours\": \"Mo-Fr 07:00-18:00\""
+          ],
+          "hl": 0,
+          "stamp": "NOW IT KNOWS"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "For a local shop it's called LocalBusiness schema. Name, address, phone, hours.",
+        "key": "LocalBusiness",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Business name",
+            "Address",
+            "Phone",
+            "Opening hours"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "fistPump",
+        "vo": "Check it for free with Google's Rich Results Test.",
+        "key": "Test.",
+        "mood": "happy",
+        "prop": {
+          "type": "stamp",
+          "text": "Rich Results Test",
+          "stamp": "VALID",
+          "ok": true
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "One honest note. Google never promises the extras will show. It just understands you better.",
+        "key": "honest",
+        "mood": "neutral",
+        "prop": {
+          "type": "big",
+          "text": "🤝",
+          "size": 220
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "wave",
+        "vo": "A new lesson every day. Follow me and comment LEARN, and I'll send you my free starter guide.",
+        "key": "LEARN",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "mood": "happy",
+        "cta": true
+      }
+    ]
+  }
+}

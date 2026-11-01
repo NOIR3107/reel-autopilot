@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-05",
+  "style": "explainer",
+  "trade": "Claude",
+  "topic": "free claude plugin that runs a full seo audit of any website",
+  "hook": "Stop paying for an SEO audit. Claude can run one on any website for free.",
+  "caption": "Comment AUDIT and I'll DM you the link and how I set it up. Follow first so the DM doesn't land in requests.\n\nFree SEO audit. Inside Claude Code.\n\nIt's an open source plugin: you hand it a website and a team of specialist agents checks speed, mobile, schema, local SEO on Google Maps, and how AI search tools like ChatGPT and Perplexity see the page, then it gives you 1 plan sorted by what matters most.\n\nI run it on every site before I touch a line of code. Takes about 15 minutes.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
+  "hook_formula": 0,
+  "props": {
+    "music": "lofi",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "FREE SKILL 4/7",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "Stop paying for an SEO audit. Claude can run one on any website for free.",
+        "key": "free.",
+        "part": "hook",
+        "mood": "smug",
+        "prop": {
+          "type": "stamp",
+          "text": "SEO audit\\nquote: $$$",
+          "stamp": "SKIP IT"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "It's a free, open source plugin for Claude Code.",
+        "key": "plugin",
+        "mood": "happy",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / ●●●●● / ●●●●●●●●",
+          "heading": "●●●●●●",
+          "lines": [
+            "Free, open-source SEO audits inside Claude Code.",
+            "Rank higher in Google and get cited by AI search."
+          ],
+          "hl": 0,
+          "stamp": "FREE + OPEN SOURCE"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "Give it any website and it runs a full audit, then hands you a plan sorted by what matters most.",
+        "key": "plan",
+        "prop": {
+          "type": "terminal",
+          "cmd": "/●●● audit yoursite.com",
+          "out": [
+            "checking speed, mobile, schema...",
+            "✓ action plan ready"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "Speed, mobile, schema, broken pages. A team of specialist agents checks each one.",
+        "key": "agents",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Speed and Core Web Vitals",
+            "Mobile and crawling",
+            "Schema markup",
+            "Local SEO"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "There is a local mode too. Google Business Profile, reviews and the map pack.",
+        "key": "local",
+        "prop": {
+          "type": "terminal",
+          "cmd": "/●●● local yoursite.com",
+          "out": [
+            "profile, citations, reviews, map pack",
+            "✓ done"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "fistPump",
+        "vo": "It even checks how AI search tools see your page.",
+        "key": "AI",
+        "mood": "happy",
+        "prop": {
+          "type": "stamp",
+          "text": "Google + AI search",
+          "stamp": "BOTH CHECKED",
+          "ok": true
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "wave",
+        "vo": "Follow me and comment AUDIT. I'll DM you the link and my setup steps.",
+        "key": "AUDIT.",
+        "mood": "happy",
+        "cta": true,
+        "prop": {
+          "type": "comments",
+          "keyword": "AUDIT",
+          "dm": "Link + setup steps 👇"
+        }
+      }
+    ]
+  }
+}
