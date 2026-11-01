@@ -79,6 +79,7 @@ function checkStyle(s, errs) {
       const kw = last.prop?.keyword;
       if (!/^[A-Z]{3,10}$/.test(kw ?? '')) errs.push('explainer: the last scene needs prop {"type": "comments", "keyword": "WORD"}');
       if (kw && !String(last.vo).toUpperCase().includes(kw)) errs.push('explainer: say the keyword out loud in the last line');
+      if (kw && !JSON.parse(fs.readFileSync(new URL('../data/dms.json', import.meta.url), 'utf8'))[kw]) errs.push(`explainer: add the DM for ${kw} to data/dms.json`);
       if (/github\.com\/[\w-]+\/[\w-]+|https?:\/\//i.test(JSON.stringify(sc))) errs.push('explainer: never show a repo link or URL; people must comment to get it');
     } else if (!(last.options?.length === 2 && last.question)) errs.push('survival: the last scene needs "question" and 2 "options"');
   } else if (s.style === 'story') {

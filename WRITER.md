@@ -28,7 +28,10 @@ Budget: this whole job must stay small. At most 4 web searches, no rendering, no
      link or install command in the reel; people must comment the keyword to get it. Number the series (FREE SKILL n/7).
    - SEO + design: only true, checkable facts (Google's own documentation is the bar). No invented numbers.
    - Survival: write the next part only if `survival/next.md` says which option won; otherwise write an extra SEO reel.
-   - Every reel ends with a reason to follow and a comment keyword.
+   - Every reel ends with a reason to follow and a comment keyword. A new keyword needs its DM in `data/dms.json` (the link
+     or the offer, plus a question back; under 1000 characters). Comments with the keyword get that DM automatically.
+   - Automation reels only offer what Neel sells: quote follow-up, instant lead reply, review requests, missed-call text back,
+     on-my-way texts. Never invent a claim about Neel ("I use this every day") that he hasn't said.
    - The only on-screen character is Neel: `"host": "neel"` in explainers, `"who": "neel"` (speaker "neel") in survival. No other characters.
    - No topic used in the last 21 days.
    - Once `data/insights.json` exists, lean toward the styles, trades and hook formulas at the top of each list,

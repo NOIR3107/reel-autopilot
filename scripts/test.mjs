@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import {slotFor, eastern, SLOTS} from './lib.mjs';
 import {validate} from './validate.mjs';
 import {score, groupMeans, bestSlot, ranks} from './weekly.mjs';
-import {wantsCheck} from './replies.mjs';
+import {wantsCheck, keywordOf} from './replies.mjs';
 
 // Time slots rotate, lock, and re-test the last 6 days of every 28.
 const st = {start: '2026-11-01', locked_slot: null};
@@ -30,7 +30,7 @@ assert.ok(validate(td, {quality: false}).some((e) => e.includes('phone')));
 const mk = sample('mike'); mk.props.scenes[0].pose = 'dance';
 assert.ok(validate(mk, {quality: false}).some((e) => e.includes('mood, pose')));
 assert.ok(validate({...sample('ad'), props: {trade: 'pool'}}, {quality: false}).some((e) => e.includes('trade')));
-assert.ok(validate({...kin, hook: 'So today I want to talk about websites.'}).some((e) => e.includes('needs 70+')));
+assert.ok(validate({...kin, hook: 'So today I want to talk about websites.'}).some((e) => e.includes('needs 40+')));
 
 // Scoring and summaries.
 assert.deepEqual(ranks([1, 3, 2]), [0, 1, 0.5]);
@@ -42,7 +42,10 @@ assert.deepEqual(groupMeans(ps, 'style').map((g) => g.style), ['kinetic', 'mike'
 assert.equal(bestSlot(ps.map((p, i) => ({...p, stats: {...p.stats, reach: i}}))), 17);
 
 // Comment keyword match.
-assert.ok(['WEBSITE', 'website pls', 'Website!', 'need a website'].every(wantsCheck));
-assert.ok(!['websites are dead', 'nice', '', undefined].some(wantsCheck));
+assert.ok(['WEBSITE', 'website pls', 'Website!', 'need a website'].every((x) => wantsCheck(x)));
+assert.ok(!['websites are dead', 'nice', '', undefined].some((x) => wantsCheck(x)));
+assert.equal(keywordOf('Follow-up automation: comment QUOTE and I will reply'), 'QUOTE');
+assert.equal(keywordOf('Comment A or B.'), undefined);
+assert.ok(wantsCheck('robot pls', 'ROBOT') && !wantsCheck('robots', 'ROBOT'));
 
 console.log('all checks passed');
