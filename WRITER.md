@@ -8,9 +8,10 @@ Budget: this whole job must stay small. At most 4 web searches, no rendering, no
    for AI tools and Claude skills, SEO and web design tips, and interactive choose-your-path stories on Instagram (hooks, formats, topics, calls to action). Rank what you find by how far each reel beat its own account's usual views (the ig-viral method),
    name each one's hook formula, and write 3 to 5 short, specific takeaways into `rules.md` between `<!-- COMPETITORS:START -->` and `<!-- COMPETITORS:END -->` (replace
    last week's), and use them in this week's hooks and stories. Never copy anyone's script or name a real business in a reel.
-3. Fill every missing date from tomorrow through 7 days out (US Eastern dates) with one script each, as
-   `queue/YYYY-MM-DD.json`. Do not touch dates that already have a file.
-   - Mix per 7 days: 2 AUTOMATION (Neel's services: quote follow-up, instant lead reply, review requests; he sells these),
+3. Two reels a day. Fill every missing file from tomorrow through 7 days out (US Eastern dates): the morning reel as
+   `queue/YYYY-MM-DD.json` and the evening reel as `queue/YYYY-MM-DD-2.json`. Do not touch files that already exist.
+   The two reels of one day must be different series and different formats.
+   - Mix per 7 days (14 reels; the counts below are per 7 reels, so double them): 2 AUTOMATION (Neel's services: quote follow-up, instant lead reply, review requests; he sells these),
      2 FREE SKILL, 2 SEO + DESIGN (websites), 1 WILDCARD (whatever is getting big views right now in AI, tech or business; or the next
      survival part if `survival/next.md` has a winner). Copy the shape of queue/2026-11-06.json (automation), 2026-10-27.json (skill),
      2026-10-29.json (SEO) and 2026-10-28.json (survival).

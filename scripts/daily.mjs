@@ -11,14 +11,20 @@ const now = eastern();
 const state = loadState();
 const posts = loadPosts();
 state.start ??= now.date;
-const today = posts.filter((p) => p.date === now.date);
-const slot = slotFor(now.date, state);
-const queueFile = `queue/${process.env.DATE || now.date}.json`;
+// Two reels a day: part 1 at the day's slot (queue/DATE.json), part 2 five hours later (queue/DATE-2.json, optional).
+const slots = [slotFor(now.date, state)];
+slots.push(Math.min(slots[0] + 5, 21));
+const doneWith = (n) => { const t = posts.filter((p) => p.date === now.date && (p.part ?? 1) === n);
+  return t.some((p) => ['posted', 'skipped'].includes(p.status)) || t.filter((p) => p.status === 'failed').length >= 2; };
+const part = DRY ? 1 : !doneWith(1) ? 1 : !doneWith(2) ? 2 : 0;
+const slot = slots[(part || 1) - 1];
+const day = process.env.DATE || now.date;
+const queueFile = `queue/${day}${part === 2 ? '-2' : ''}.json`;
 
 let stop = null;
-if (!DRY && today.some((p) => ['posted', 'skipped'].includes(p.status))) stop = 'already done today';
-else if (!DRY && today.filter((p) => p.status === 'failed').length >= 2) stop = 'failed twice today, trying again tomorrow';
-else if (!FORCE && !DRY && now.hour < slot) stop = `not time yet (slot ${slot}:00 ET, now ${now.hour}:00 ET)`;
+if (!part) stop = 'both reels done today';
+else if (!FORCE && !DRY && now.hour < slot) stop = `not time yet (reel ${part} at ${slot}:00 ET, now ${now.hour}:00 ET)`;
+else if (part === 2 && !fs.existsSync(queueFile)) stop = 'no second reel today';
 if (stop) {
   console.log(stop);
   process.exit(0);
@@ -51,7 +57,7 @@ function soundtrack(script) {
 
 const script = read(queueFile, null);
 if (script?.hold && !FORCE) { console.log('script on hold (being finished by hand)'); process.exit(0); }
-const entry = {date: now.date, slot, hour: now.hour, status: script ? 'failed' : 'skipped'};
+const entry = {date: now.date, part, slot, hour: now.hour, status: script ? 'failed' : 'skipped'};
 posts.push(entry);
 if (!script) {
   // Logged once as skipped (no hourly retries, no red run); the weekly report shows it.
@@ -71,7 +77,7 @@ try {
   if (['story', 'explainer', 'survival'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
   sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, '--gl=swangle', ...browser], {stdio: 'inherit'});
-  entry.file = `media/${now.date}.mp4`;
+  entry.file = `media/${now.date}${part === 2 ? '-2' : ''}.mp4`;
   // The ad is designed at 36s and played 1.2x to land on 30s. Then re-encode to Instagram's spec:
   // standard-range 4:2:0 H.264, AAC 48 kHz, index at the front.
   const speed = script.style === 'ad' ? ['-filter_complex', '[0:v]setpts=PTS/1.2[v];[0:a]atempo=1.2[a]', '-map', '[v]', '-map', '[a]', '-r', '30'] : [];
@@ -81,7 +87,7 @@ try {
 
   if (DRY) entry.status = 'dry-run';
   else {
-    gitCommit(`reel ${now.date}`, [entry.file]);
+    gitCommit(`reel ${now.date} #${part}`, [entry.file]);
     entry.media_id = await publish(entry.file, {media_type: 'REELS', caption: script.caption, share_to_feed: 'true', thumb_offset: '500'});
     entry.permalink = (await ig(`/${entry.media_id}`, {params: {fields: 'permalink'}})).permalink;
     entry.status = 'posted';
@@ -98,6 +104,6 @@ try {
   if (!DRY) {
     write('data/posts.json', posts);
     write('data/state.json', state);
-    gitCommit(`log ${now.date}: ${entry.status}`, ['data']);
+    gitCommit(`log ${now.date} #${part}: ${entry.status}`, ['data']);
   }
 }
