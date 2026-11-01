@@ -135,7 +135,7 @@ export function validate(s, {quality = true} = {}) {
   if (banned) errs.push(`remove "${banned[0]}": no stats, prices, guarantees, em dashes or banned phrases`);
   checkStyle(s, errs);
   if (quality && !errs.length) {
-    const hook = ['story', 'explainer', 'survival'].includes(s.style) ? {score: 100} : py('hookscore.py', ['--hook', s.hook]);
+    const hook = s.style === 'story' ? {score: 100} : py('hookscore.py', ['--hook', s.hook]);
     if (hook.score < MIN_HOOK) errs.push(`hook "${s.hook}" scored ${hook.score}, needs ${MIN_HOOK}+ (weakest: ${hook.weakest}) ${hook.flags.join(' ')}`);
     const human = py('detect.py', ['-'], s.caption);
     if (human.verdict !== 'PASS') errs.push(`caption sounds machine-written (${human.human_score}): ${Object.entries(human.checks).filter(([, c]) => c.score < 55).map(([k, c]) => `${k} ${c.detail}`).join('; ')}`);

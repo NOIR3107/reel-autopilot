@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "Claude",
   "topic": "official skills that make claude create real word excel powerpoint pdf files",
-  "hook": "Claude can't make real Word or Excel files. That's what most people think.",
+  "hook": "Stop copy-pasting into Word. Claude can make the real file for free.",
   "hook_formula": 0,
   "caption": "Comment FILES and I'll DM you the link and the setup steps. Follow first so the DM reaches you.\n\nClaude can make real files now: a Word report with headings and tables, an Excel budget with working formulas like =SUM(B2:B4), a PowerPoint deck, a PDF. It comes from a free, official skill pack built by the Claude team.\n\nSaves me about an hour every time I need a proper document.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
   "props": {
@@ -13,8 +13,8 @@
     "series": "FREE SKILL 2/7",
     "scenes": [
       {
-        "vo": "Claude can't make real Word or Excel files. That's what most people think.",
-        "key": "think.",
+        "vo": "Stop copy-pasting into Word. Claude can make the real file for free.",
+        "key": "real",
         "prop": {
           "type": "stamp",
           "text": "\"Sorry, I can only\ngive you text.\"",
@@ -30,8 +30,8 @@
         "key": "official",
         "prop": {
           "type": "shot",
-          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
-          "heading": "\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "url": "github.com / ●●●●● / ●●●●●●●●",
+          "heading": "●●●●●●",
           "lines": [
             "Skills for creating and editing",
             "Word, Excel, PowerPoint and PDF files."
@@ -114,7 +114,7 @@
         "prop": {
           "type": "comments",
           "keyword": "FILES",
-          "dm": "Link + setup steps \ud83d\udc47"
+          "dm": "Link + setup steps 👇"
         },
         "speaker": "host",
         "pose": "wave",

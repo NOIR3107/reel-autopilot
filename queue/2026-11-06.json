@@ -1,120 +1,150 @@
 {
   "date": "2026-11-06",
   "style": "explainer",
-  "trade": "seo",
-  "topic": "localbusiness structured data (schema) tells google your hours and address",
-  "hook": "Google can read your website. It still can't tell when you're open.",
-  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nGoogle reads the words. It guesses the meaning.\n\nStructured data removes the guess: a small block of LocalBusiness code that says this is a business in Denver, here's the phone, it opens at 7 on Monday and closes at 6 on Friday.\n\nTest it free in Google's Rich Results Test.\n\nOne honest note, straight from Google Search Central: there's no promise the extra details will show up in results. It just helps Google understand you.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "trade": "contractor",
+  "topic": "instant reply to website leads",
+  "hook": "Stop losing jobs to slow replies. This robot answers in seconds.",
   "hook_formula": 0,
+  "caption": "Instant lead reply for contractors: comment ROBOT and I'll reply with how it works.\n\nA homeowner fills out your form at 9pm. You see it at 7am. By then they've emailed 3 other roofers and one already called back. This robot replies the second they hit send, asks what they need, and sends you every detail.\n\nWorks for roofers, HVAC, plumbers. Built in n8n, runs 24/7.\n\n#contractor #roofing #smallbusinesstips #automation #n8n",
   "props": {
     "music": "funk",
     "narrator": "am_adam",
     "host": "neel",
+    "series": "AUTOMATION",
     "look": "b",
-    "series": "SEO + DESIGN 5/30",
+    "bgc": "#1f2a44",
     "scenes": [
       {
-        "speaker": "neel",
-        "pose": "point",
-        "vo": "Google can read your website. It still can't tell when you're open.",
-        "key": "open.",
+        "vo": "Stop losing jobs to slow replies. This robot answers in seconds.",
+        "key": "seconds",
         "part": "hook",
-        "mood": "squint",
-        "prop": {
-          "type": "shot",
-          "url": "yoursite.com",
-          "heading": "Contact",
-          "lines": [
-            "Open Mon to Fri 7 to 6",
-            "Call us anytime!",
-            "123 Main St"
-          ],
-          "hl": 0,
-          "stamp": "JUST TEXT"
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "explain",
-        "vo": "To Google, that line is just text. It has to guess what it means.",
-        "key": "guess",
-        "prop": {
-          "type": "stamp",
-          "text": "Hours? Address?\\nPhone?",
-          "stamp": "GUESSING"
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "explain",
-        "vo": "Structured data fixes that. It's a small block of code that spells it out.",
-        "key": "Structured",
-        "prop": {
-          "type": "shot",
-          "url": "view-source: yoursite.com",
-          "mono": true,
-          "dark": true,
-          "lines": [
-            "\"@type\": \"LocalBusiness\",",
-            "\"telephone\": \"(555) 014-2290\",",
-            "\"openingHours\": \"Mo-Fr 07:00-18:00\""
-          ],
-          "hl": 0,
-          "stamp": "NOW IT KNOWS"
-        }
-      },
-      {
-        "speaker": "neel",
         "pose": "point",
-        "vo": "For a local shop it's called LocalBusiness schema. Name, address, phone, hours.",
-        "key": "LocalBusiness",
         "prop": {
-          "type": "checklist",
-          "items": [
-            "Business name",
-            "Address",
-            "Phone",
-            "Opening hours"
-          ]
-        }
+          "type": "model3d",
+          "model": "robot",
+          "label": "Lead reply robot"
+        },
+        "speaker": "host"
       },
       {
-        "speaker": "neel",
-        "pose": "fistPump",
-        "vo": "Check it for free with Google's Rich Results Test.",
-        "key": "Test.",
-        "mood": "happy",
+        "vo": "A homeowner fills out your website form at nine at night.",
+        "key": "nine",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "notify": {
+            "title": "New website lead",
+            "text": "Leaky roof · wants a quote"
+          },
+          "msgs": [],
+          "buzz": true
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "You see it the next morning. They already hired someone else.",
+        "key": "hired",
+        "pose": "facepalm",
+        "mood": "shocked",
+        "fx": [
+          "fail"
+        ],
         "prop": {
           "type": "stamp",
-          "text": "Rich Results Test",
-          "stamp": "VALID",
-          "ok": true
-        }
+          "text": "Replied\nnext morning",
+          "stamp": "TOO LATE"
+        },
+        "speaker": "host"
       },
       {
-        "speaker": "neel",
-        "pose": "explain",
-        "vo": "One honest note. Google never promises the extras will show. It just understands you better.",
-        "key": "honest",
-        "mood": "neutral",
+        "vo": "So I built a robot that replies the second they hit send.",
+        "key": "second",
+        "part": "drop",
+        "pose": "fistPump",
+        "fx": [
+          "win"
+        ],
         "prop": {
-          "type": "big",
-          "text": "🤝",
-          "size": 220
-        }
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Thanks for reaching out! What's going on with the roof? 🙂"
+            },
+            {
+              "text": "Small leak over the garage"
+            }
+          ]
+        },
+        "speaker": "host"
       },
       {
-        "speaker": "neel",
+        "vo": "It asks what they need, and tells them you'll call back today.",
+        "key": "today",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "text": "Small leak over the garage"
+            },
+            {
+              "me": true,
+              "text": "Got it! We'll call you today to book a visit 👍"
+            },
+            {
+              "text": "Perfect, thank you!"
+            }
+          ]
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "And you get every detail on your phone, ready to call.",
+        "key": "detail",
+        "part": "drop2",
+        "pose": "celebrate",
+        "fx": [
+          "win"
+        ],
+        "prop": {
+          "type": "flow",
+          "scale": 0.9,
+          "upto": 3,
+          "nodes": [
+            {
+              "icon": "📝",
+              "label": "Form filled"
+            },
+            {
+              "icon": "⚡",
+              "label": "Instant reply"
+            },
+            {
+              "icon": "💬",
+              "label": "Asks what they need"
+            },
+            {
+              "icon": "🔔",
+              "label": "You get the details"
+            }
+          ]
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Want this on your website? Comment ROBOT and I'll reply with how it works.",
+        "key": "ROBOT",
+        "part": "outro",
+        "cta": true,
         "pose": "wave",
-        "vo": "A new lesson every day. Follow me and comment LEARN, and I'll send you my free starter guide.",
-        "key": "LEARN",
         "prop": {
           "type": "comments",
-          "keyword": "LEARN",
-          "dm": "Your free SEO starter guide 👇"
+          "keyword": "ROBOT",
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
         },
-        "mood": "happy",
-        "cta": true
+        "speaker": "host"
       }
     ]
   }

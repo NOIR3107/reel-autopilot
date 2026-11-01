@@ -1,123 +1,142 @@
 {
   "date": "2026-11-08",
   "style": "explainer",
-  "trade": "seo",
-  "topic": "descriptive link text instead of click here",
-  "hook": "Two words on your website are telling Google nothing. Click here.",
-  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nClick here. Read more.\n\nGoogle uses the words inside a link to work out what the next page is about, and its own Search Central guide says link text should be descriptive and relevant to both pages.\n\nSo a landscaper in Austin swaps 2 vague words for \"See our patio and retaining wall jobs\" and both Google and the person on the phone know where that tap goes.\n\nCount yours tonight. I bet you've got at least 2, and you'll fix them in 5 minutes.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "trade": "contractor",
+  "topic": "automatic review requests after every job",
+  "hook": "Stop begging for reviews. This robot asks every customer for you.",
   "hook_formula": 0,
+  "caption": "Automatic review requests for contractors: comment STARS and I'll reply with how it works.\n\nFriday: you finish the roof. The customer loves it. Monday: still no review, because they forgot. This robot messages them the same day you finish, with one link straight to your Google profile, so leaving 5 stars takes them about 10 seconds.\n\nGoogle's own help page says reviews can help you show up higher.\n\n#contractor #googlereviews #smallbusinesstips #automation #n8n",
   "props": {
     "music": "funk",
     "narrator": "am_adam",
     "host": "neel",
+    "series": "AUTOMATION",
     "look": "b",
-    "series": "SEO + DESIGN 6/30",
+    "bgc": "#1f2a44",
     "scenes": [
       {
-        "speaker": "neel",
-        "pose": "point",
-        "vo": "Two words on your website are telling Google nothing. Click here.",
-        "key": "nothing.",
+        "vo": "Stop begging for reviews. This robot asks every customer for you.",
+        "key": "reviews",
         "part": "hook",
-        "mood": "smug",
-        "prop": {
-          "type": "shot",
-          "url": "yoursite.com",
-          "lines": [
-            "Need a new roof?",
-            "Click here",
-            "Read more"
-          ],
-          "hl": 1,
-          "stamp": "MEANINGLESS"
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "explain",
-        "vo": "Google reads the words inside a link to learn what the next page is about.",
-        "key": "link",
-        "prop": {
-          "type": "shot",
-          "url": "view-source: yoursite.com",
-          "mono": true,
-          "dark": true,
-          "lines": [
-            "<a href=\"/gutters\">Click here</a>"
-          ],
-          "hl": 0,
-          "stamp": "SAYS NOTHING"
-        }
-      },
-      {
-        "speaker": "neel",
         "pose": "point",
-        "vo": "Its own guide says link text should be descriptive and relevant.",
-        "key": "descriptive",
+        "prop": {
+          "type": "model3d",
+          "model": "star",
+          "color": "#ffc533",
+          "label": "Review robot"
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Myth: asking for a review is pushy.",
+        "key": "pushy",
+        "pose": "armsCrossed",
+        "mood": "squint",
+        "fx": [
+          "fail"
+        ],
         "prop": {
           "type": "stamp",
-          "text": "Descriptive\\nand relevant",
-          "stamp": "GOOGLE'S RULE",
-          "ok": true
-        }
+          "text": "Asking for a\nreview is pushy",
+          "stamp": "MYTH"
+        },
+        "speaker": "host"
       },
       {
-        "speaker": "neel",
-        "pose": "explain",
-        "vo": "So swap click here for words that say where it goes.",
-        "key": "swap",
+        "vo": "Truth is, happy customers just forget.",
+        "key": "forget",
+        "pose": "shrug",
         "prop": {
-          "type": "shot",
-          "url": "view-source: yoursite.com",
-          "mono": true,
-          "dark": true,
-          "lines": [
-            "<a href=\"/gutters\">Click here</a>",
-            "<a href=\"/gutters\">See our gutter repair work</a>"
+          "type": "phone",
+          "msgs": [
+            {
+              "text": "The roof looks amazing, thank you!!"
+            }
           ],
-          "hl": 1,
-          "stamp": "BETTER"
-        }
+          "seen": "Seen · no review yet"
+        },
+        "speaker": "host"
       },
       {
-        "speaker": "neel",
+        "vo": "So the robot messages them right after the job, while they're still happy.",
+        "key": "happy",
+        "part": "drop",
         "pose": "explain",
-        "vo": "It helps people on a phone too. They know what they get before they tap.",
-        "key": "phone",
-        "mood": "happy",
+        "fx": [
+          "win"
+        ],
         "prop": {
-          "type": "big",
-          "text": "👆📱",
-          "size": 220
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "fistPump",
-        "vo": "Open your homepage and count the click heres. Each one takes a minute to fix.",
-        "key": "minute",
-        "mood": "happy",
-        "prop": {
-          "type": "checklist",
-          "items": [
-            "Find every \"click here\"",
-            "Say where the link goes",
-            "Keep it short"
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Thanks for choosing us! Mind leaving a quick review? ⭐"
+            },
+            {
+              "text": "Done! ⭐⭐⭐⭐⭐"
+            }
           ]
-        }
+        },
+        "speaker": "host"
       },
       {
-        "speaker": "neel",
+        "vo": "One tap, and the review lands on your Google profile.",
+        "key": "Google",
+        "pose": "point",
+        "prop": {
+          "type": "flow",
+          "scale": 0.9,
+          "upto": 3,
+          "nodes": [
+            {
+              "icon": "✅",
+              "label": "Job done"
+            },
+            {
+              "icon": "💬",
+              "label": "Review request"
+            },
+            {
+              "icon": "⭐",
+              "label": "One-tap review"
+            },
+            {
+              "icon": "📍",
+              "label": "On your Google profile"
+            }
+          ]
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "And Google itself says reviews can help you show up higher.",
+        "key": "higher",
+        "part": "drop2",
+        "pose": "celebrate",
+        "fx": [
+          "win"
+        ],
+        "prop": {
+          "type": "stamp",
+          "text": "Source: Google\nBusiness Profile Help",
+          "stamp": "FACT",
+          "ok": true
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Want it for your business? Comment STARS and I'll reply with how it works.",
+        "key": "STARS",
+        "part": "outro",
+        "cta": true,
         "pose": "wave",
-        "vo": "A new lesson every day. Follow me and comment LEARN, and I'll get you my free starter guide.",
-        "key": "LEARN",
         "prop": {
           "type": "comments",
-          "keyword": "LEARN",
-          "dm": "Your free SEO starter guide 👇"
+          "keyword": "STARS",
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
         },
-        "mood": "happy",
-        "cta": true
+        "speaker": "host"
       }
     ]
   }

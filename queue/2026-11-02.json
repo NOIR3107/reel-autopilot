@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "seo",
   "topic": "core web vitals: lcp inp cls explained simply",
-  "hook": "A slow website doesn't just annoy people. Google measures it.",
+  "hook": "Stop ignoring your site speed. Google actually measures it.",
   "hook_formula": 0,
   "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for a lesson every day.\n\nGoogle measures 3 things about speed, called Core Web Vitals: LCP (how fast the main content shows), INP (how fast the page reacts to a tap) and CLS (whether things jump while loading).\n\nThe usual fixes: compress images, cut heavy scripts, set sizes on images and ads.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
   "props": {
@@ -13,7 +13,7 @@
     "series": "SEO + DESIGN 3/30",
     "scenes": [
       {
-        "vo": "A slow website doesn't just annoy people. Google measures it.",
+        "vo": "Stop ignoring your site speed. Google actually measures it.",
         "key": "measures",
         "prop": {
           "type": "shot",
@@ -36,7 +36,7 @@
         "key": "three",
         "prop": {
           "type": "big",
-          "text": "LCP \u00b7 INP \u00b7 *CLS*",
+          "text": "LCP · INP · *CLS*",
           "size": 120
         },
         "speaker": "host",
@@ -58,7 +58,7 @@
         "key": "taps.",
         "prop": {
           "type": "stamp",
-          "text": "Tap \u2192 \u2026 \u2026 \u2026",
+          "text": "Tap → … … …",
           "stamp": "LAGGY"
         },
         "speaker": "host",
@@ -97,7 +97,7 @@
         "prop": {
           "type": "comments",
           "keyword": "LEARN",
-          "dm": "Your free SEO starter guide \ud83d\udc47"
+          "dm": "Your free SEO starter guide 👇"
         },
         "speaker": "host",
         "pose": "wave",

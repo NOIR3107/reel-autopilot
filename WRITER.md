@@ -4,14 +4,22 @@ Budget: this whole job must stay small. At most 4 web searches, no rendering, no
 
 1. Read `rules.md`, `styles.md`, `data/insights.json` (may not exist yet) and the last 14 entries of `data/posts.json`
    (may not exist yet). Look at `queue/` to see which dates already have a script.
-2. Learn from competitors (at most 4 web searches, about 10 minutes): look for reels and posts that are doing well right now
-   for AI tools and Claude skills, SEO and web design tips, and interactive choose-your-path stories on Instagram (hooks, formats, topics, calls to action). Write 3 to 5
-   short, specific takeaways into `rules.md` between `<!-- COMPETITORS:START -->` and `<!-- COMPETITORS:END -->` (replace
+2. Find what is going viral (at most 4 web searches, about 10 minutes): look for reels and posts that are doing well right now
+   for AI tools and Claude skills, SEO and web design tips, and interactive choose-your-path stories on Instagram (hooks, formats, topics, calls to action). Rank what you find by how far each reel beat its own account's usual views (the ig-viral method),
+   name each one's hook formula, and write 3 to 5 short, specific takeaways into `rules.md` between `<!-- COMPETITORS:START -->` and `<!-- COMPETITORS:END -->` (replace
    last week's), and use them in this week's hooks and stories. Never copy anyone's script or name a real business in a reel.
 3. Fill every missing date from tomorrow through 7 days out (US Eastern dates) with one script each, as
    `queue/YYYY-MM-DD.json`. Do not touch dates that already have a file.
-   - Mix per 7 days: 3 "FREE SKILL" explainers, 3 "SEO + DESIGN" explainers, 1 survival part (see styles.md, series).
-     Copy the shape of queue/2026-10-27.json (skill), 2026-10-29.json (SEO) and 2026-10-28.json (survival).
+   - Mix per 7 days: 2 AUTOMATION (Neel's services: quote follow-up, instant lead reply, review requests; he sells these),
+     2 FREE SKILL, 2 SEO + DESIGN (websites), 1 WILDCARD (whatever is getting big views right now in AI, tech or business; or the next
+     survival part if `survival/next.md` has a winner). Copy the shape of queue/2026-11-06.json (automation), 2026-10-27.json (skill),
+     2026-10-29.json (SEO) and 2026-10-28.json (survival).
+   - Rotate formats, never the same main format two days in a row: 3D scene (`model3d`: robot, house, phone, star), before/after
+     (`split`), phone chat drama (`phone`), myth vs fact (`stamp` MYTH then FACT), workflow (`flow`). Automation reels use
+     `"bgc": "#1f2a44"`.
+   - Hooks: write 5 candidates per reel, score each with `python3 tools/hookscore.py --hook "..." --json`, keep the best (70+ is
+     required; aim for 80+). Strong hooks open with a stake (stop, lost, never, mistake, free) and a concrete number or noun.
+     The first scene's vo must be the hook.
    - Skills: a real, popular, free Claude skill or tool repo each time (check it exists). Never show or say the repo name,
      link or install command in the reel; people must comment the keyword to get it. Number the series (FREE SKILL n/7).
    - SEO + design: only true, checkable facts (Google's own documentation is the bar). No invented numbers.

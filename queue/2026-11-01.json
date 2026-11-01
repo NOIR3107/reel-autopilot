@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "Claude",
   "topic": "open source tool that renders html to video with claude",
-  "hook": "This reel wasn't edited by a person. It was written as a web page.",
+  "hook": "You don't need a video editor. This free tool turns code into video.",
   "hook_formula": 0,
   "caption": "Comment VIDEO and I'll DM you the link and my setup. Follow first so it reaches you.\n\nThis tool renders HTML as video. HeyGen open-sourced it. Claude writes the video as a web page, the tool renders all 900 frames at 30 fps, and you get a 1080x1920 MP4 for Instagram. It ships with about 450 ready-made blocks: captions, glitches, whip pans, 3D camera moves.\n\nFree. Open source. Runs on a laptop.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
   "props": {
@@ -13,8 +13,8 @@
     "series": "FREE SKILL 3/7",
     "scenes": [
       {
-        "vo": "This reel wasn't edited by a person. It was written as a web page.",
-        "key": "page.",
+        "vo": "You don't need a video editor. This free tool turns code into video.",
+        "key": "free",
         "prop": {
           "type": "stamp",
           "text": "No editor.\nNo timeline.",
@@ -30,8 +30,8 @@
         "key": "HTML",
         "prop": {
           "type": "shot",
-          "url": "github.com / \u25cf\u25cf\u25cf\u25cf\u25cf / \u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
-          "heading": "\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf\u25cf",
+          "url": "github.com / ●●●●● / ●●●●●●●●",
+          "heading": "●●●●●●●●●●",
           "lines": [
             "HTML rendered to video.",
             "Launch films, explainers, captions, overlays."
@@ -52,7 +52,7 @@
           "out": [
             "frames: 900",
             "audio: mixed",
-            "\u2713 reel.mp4"
+            "✓ reel.mp4"
           ]
         },
         "speaker": "host",
@@ -99,7 +99,7 @@
         "prop": {
           "type": "comments",
           "keyword": "VIDEO",
-          "dm": "Link + my setup \ud83d\udc47"
+          "dm": "Link + my setup 👇"
         },
         "speaker": "host",
         "pose": "wave",

@@ -4,6 +4,7 @@
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource-variable/bricolage-grotesque/opsz.css';
 import {Person} from './Person.jsx';
+import {Model3D} from './Model3D.jsx';
 
 const FPS = 30;
 const FONT = '"Bricolage Grotesque Variable", sans-serif';
@@ -103,7 +104,7 @@ const Stamp = ({p, local}) => {
   const s = interpolate(local, [10, 15, 19], [2.4, 0.92, 1], cl);
   return (
     <div style={{position: 'relative', width: 860, height: 520, display: 'grid', placeItems: 'center'}}>
-      <Card style={{padding: '40px 50px', fontFamily: FONT, fontWeight: 800, fontSize: 64, textAlign: 'center', lineHeight: 1.05, transform: `scale(${useIn(local)})`}}>{p.text}</Card>
+      <Card style={{padding: '40px 50px', fontFamily: FONT, fontWeight: 800, fontSize: 64, textAlign: 'center', lineHeight: 1.05, whiteSpace: 'pre-line', transform: `scale(${useIn(local)})`}}>{p.text}</Card>
       <div style={{position: 'absolute', right: 30, bottom: 30, padding: '8px 30px', border: `10px solid ${p.ok ? '#16a34a' : RED}`, color: p.ok ? '#16a34a' : RED, borderRadius: 18,
         fontFamily: FONT, fontWeight: 800, fontSize: 90, rotate: '-12deg', opacity: local < 10 ? 0 : 1, transform: `scale(${s})`}}>{p.stamp ?? 'BUSTED'}</div>
     </div>
@@ -223,7 +224,25 @@ const Phone = ({p, local}) => {
   );
 };
 
-const PROPS = {shot: Shot, profile: Profile, terminal: Terminal, files: Files, chart: Chart, checklist: Checklist, box: Box, stamp: Stamp, big: Big, comments: Comments, flow: Flow, phone: Phone};
+// Before / after: the BEFORE card lands, then the AFTER card slides up over it and a green tick stamps on.
+const Split = ({p, local}) => {
+  const {fps} = useVideoConfig();
+  const a = spring({frame: local - (p.at ?? 18), fps, config: {damping: 12, stiffness: 120}});
+  const side = (d, ok) => (
+    <Card style={{width: 760, padding: '22px 32px', background: ok ? '#ecfdf3' : '#fff1f0'}}>
+      <div style={{fontFamily: MONO, fontSize: 28, fontWeight: 700, color: ok ? '#15803d' : RED, marginBottom: 8}}>{ok ? 'AFTER' : 'BEFORE'}</div>
+      <div style={{fontFamily: FONT, fontWeight: 800, fontSize: 46, lineHeight: 1.05, marginBottom: 8}}>{d.title}</div>
+      {(d.lines ?? []).map((l, k) => <div key={k} style={{fontFamily: FONT, fontWeight: 600, fontSize: 34, lineHeight: 1.35, color: '#333'}}>{ok ? '✓ ' : '✗ '}{l}</div>)}
+    </Card>);
+  return (
+    <div style={{position: 'relative', width: 860, height: 700, transform: `scale(${useIn(local)})`}}>
+      <div style={{position: 'absolute', left: 40, top: 20, rotate: '-2deg', opacity: 1 - a * 0.35}}>{side(p.before ?? {}, false)}</div>
+      <div style={{position: 'absolute', left: 60, top: 330, rotate: '1.5deg', transform: `translateY(${(1 - a) * 700}px)`}}>{side(p.after ?? {}, true)}</div>
+    </div>
+  );
+};
+
+const PROPS = {shot: Shot, profile: Profile, terminal: Terminal, files: Files, chart: Chart, checklist: Checklist, box: Box, stamp: Stamp, big: Big, comments: Comments, flow: Flow, phone: Phone, split: Split, model3d: Model3D};
 
 export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look = 'a', music = true, bgc = PAPER}) => {
   const frame = useCurrentFrame();

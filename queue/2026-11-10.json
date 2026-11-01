@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-10",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "descriptive link text instead of click here",
+  "hook": "Stop writing click here on your website. Google learns nothing from it.",
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nClick here. Read more.\n\nGoogle uses the words inside a link to work out what the next page is about, and its own Search Central guide says link text should be descriptive and relevant to both pages.\n\nSo a landscaper in Austin swaps 2 vague words for \"See our patio and retaining wall jobs\" and both Google and the person on the phone know where that tap goes.\n\nCount yours tonight. I bet you've got at least 2, and you'll fix them in 5 minutes.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "hook_formula": 0,
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "SEO + DESIGN 6/30",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "Stop writing click here on your website. Google learns nothing from it.",
+        "key": "nothing",
+        "part": "hook",
+        "mood": "smug",
+        "prop": {
+          "type": "shot",
+          "url": "yoursite.com",
+          "lines": [
+            "Need a new roof?",
+            "Click here",
+            "Read more"
+          ],
+          "hl": 1,
+          "stamp": "MEANINGLESS"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "Google reads the words inside a link to learn what the next page is about.",
+        "key": "link",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<a href=\"/gutters\">Click here</a>"
+          ],
+          "hl": 0,
+          "stamp": "SAYS NOTHING"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "point",
+        "vo": "Its own guide says link text should be descriptive and relevant.",
+        "key": "descriptive",
+        "prop": {
+          "type": "stamp",
+          "text": "Descriptive\\nand relevant",
+          "stamp": "GOOGLE'S RULE",
+          "ok": true
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "So swap click here for words that say where it goes.",
+        "key": "swap",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<a href=\"/gutters\">Click here</a>",
+            "<a href=\"/gutters\">See our gutter repair work</a>"
+          ],
+          "hl": 1,
+          "stamp": "BETTER"
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "explain",
+        "vo": "It helps people on a phone too. They know what they get before they tap.",
+        "key": "phone",
+        "mood": "happy",
+        "prop": {
+          "type": "big",
+          "text": "👆📱",
+          "size": 220
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "fistPump",
+        "vo": "Open your homepage and count the click heres. Each one takes a minute to fix.",
+        "key": "minute",
+        "mood": "happy",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Find every \"click here\"",
+            "Say where the link goes",
+            "Keep it short"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "pose": "wave",
+        "vo": "A new lesson every day. Follow me and comment LEARN, and I'll get you my free starter guide.",
+        "key": "LEARN",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "mood": "happy",
+        "cta": true
+      }
+    ]
+  }
+}

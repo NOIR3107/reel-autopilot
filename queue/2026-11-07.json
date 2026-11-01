@@ -3,7 +3,7 @@
   "style": "explainer",
   "trade": "Claude",
   "topic": "free marketing skills pack that makes claude write copy without ai tells",
-  "hook": "Everyone can tell your copy was written by AI. This free skill pack fixes that.",
+  "hook": "Stop sounding like a robot. This free skill pack fixes your AI writing.",
   "caption": "Comment COPY and I'll DM you the link and the install steps. Follow first so the DM reaches you.\n\nYou know the line. Elevate your experience.\n\nThis free, open source pack gives Claude Code over 50 marketing skills, from copywriting and landing page fixes to SEO, cold email and pricing pages, and the copywriting one is told to drop the usual AI tells and only make claims you can back up.\n\nI tried it on a headline for a made-up plumber in Ohio. It finally sounded like a guy who fixes pipes.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
   "hook_formula": 0,
   "props": {
@@ -16,8 +16,8 @@
       {
         "speaker": "neel",
         "pose": "point",
-        "vo": "Everyone can tell your copy was written by AI. This free skill pack fixes that.",
-        "key": "AI.",
+        "vo": "Stop sounding like a robot. This free skill pack fixes your AI writing.",
+        "key": "robot",
         "part": "hook",
         "mood": "squint",
         "prop": {
