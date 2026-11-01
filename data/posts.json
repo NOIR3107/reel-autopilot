@@ -161,5 +161,23 @@
     "media_id": "17895297309433930",
     "permalink": "https://www.instagram.com/reel/DfKt1ZkjKZo/",
     "story_id": "18129988261872486"
+  },
+  {
+    "date": "2026-11-01",
+    "part": 1,
+    "slot": 17,
+    "hour": 13,
+    "status": "posted",
+    "style": "explainer",
+    "trade": "Claude",
+    "topic": "open source tool that renders html to video with claude",
+    "hook": "Video editors won't like this one.",
+    "formula": 0,
+    "caption": "Comment VIDEO and I'll DM you the link and my setup. Follow first so it reaches you.\n\nThis tool renders HTML as video. HeyGen open-sourced it. Claude writes the video as a web page, the tool renders all 900 frames at 30 fps, and you get a 1080x1920 MP4 for Instagram. It ships with about 450 ready-made blocks: captions, glitches, whip pans, 3D camera moves.\n\nFree. Open source. Runs on a laptop.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
+    "file": "media/2026-11-01.mp4",
+    "seconds": 24.17,
+    "media_id": "18115685944851781",
+    "permalink": "https://www.instagram.com/reel/DfNXxJlkx6C/",
+    "story_id": "18120248366100739"
   }
 ]
