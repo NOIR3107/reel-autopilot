@@ -16,7 +16,9 @@ async function main() {
   for (const p of recent) {
     const kw = keywordOf(p.caption), DM = DMS[kw];
     if (!DM) continue; // no keyword, or a vote (A or B): nothing to send
-    const {data} = await ig(`/${p.media_id}/comments`, {params: {fields: 'id,text,username', limit: '100'}});
+    let data;
+    try { ({data} = await ig(`/${p.media_id}/comments`, {params: {fields: 'id,text,username', limit: '100'}})); }
+    catch (e) { console.log(`skipping ${p.date} (${p.permalink}): ${e.message.slice(0, 160)}`); continue; } // e.g. a deleted reel
     for (const c of data.filter((c) => wantsCheck(c.text, kw))) {
       const rec = done[c.id] ?? {tries: 0};
       if (rec.status === 'sent' || rec.tries >= 3) continue;
