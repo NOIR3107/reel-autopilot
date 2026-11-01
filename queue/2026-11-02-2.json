@@ -1,0 +1,157 @@
+{
+  "date": "2026-11-02",
+  "style": "explainer",
+  "trade": "contractor",
+  "topic": "missed call text back for contractors",
+  "hook": "POV: you're up on a roof, your phone rings, and you can't answer.",
+  "hook_formula": 0,
+  "caption": "Missed-call text back for contractors: comment TEXT and I'll reply with how it works.\n\nTuesday, 2:40 PM. You're halfway up a roof in Tulsa when the phone buzzes. Can't grab it. That caller probably won't leave a voicemail. They'll try the next roofer on Google.\n\nThis robot texts them back within 5 seconds of the missed call, asks what's wrong, and has the whole story waiting when you climb down at 4.\n\nWorks for roofers, HVAC techs, plumbers. Built in n8n, runs 24/7.\n\n#contractor #roofing #smallbusinesstips #automation #n8n",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "AUTOMATION",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "POV: you're up on a roof, your phone rings, and you can't answer.",
+        "key": "roof",
+        "pose": "point",
+        "prop": {
+          "type": "phone",
+          "notify": {
+            "title": "Missed call",
+            "text": "(555) 014-2290 · no voicemail"
+          },
+          "msgs": [],
+          "buzz": true
+        },
+        "part": "hook",
+        "mood": "worried"
+      },
+      {
+        "speaker": "neel",
+        "vo": "That homeowner won't leave a voicemail. They'll call the next roofer on Google.",
+        "key": "next",
+        "pose": "facepalm",
+        "prop": {
+          "type": "stamp",
+          "text": "Missed call\nno voicemail",
+          "stamp": "GONE"
+        },
+        "mood": "shocked",
+        "fx": [
+          "fail"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "So I built a robot that texts them back the second you miss the call.",
+        "key": "second",
+        "pose": "fistPump",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Sorry I missed you! I'm on a job. What's going on? 🙂"
+            }
+          ]
+        },
+        "part": "drop",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "They tell you the problem right there in the text.",
+        "key": "problem",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Sorry I missed you! I'm on a job. What's going on? 🙂"
+            },
+            {
+              "text": "Leak over the back porch, can someone look?"
+            }
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "It says you'll call back today, so they stop dialing other roofers.",
+        "key": "today",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "text": "Leak over the back porch, can someone look?"
+            },
+            {
+              "me": true,
+              "text": "Got it! We'll call you back today to set a time 👍"
+            },
+            {
+              "text": "Perfect, thanks"
+            }
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "And when you climb down, the whole story is waiting on your phone.",
+        "key": "waiting",
+        "pose": "celebrate",
+        "prop": {
+          "type": "flow",
+          "scale": 0.9,
+          "upto": 3,
+          "nodes": [
+            {
+              "icon": "📵",
+              "label": "Missed call"
+            },
+            {
+              "icon": "⚡",
+              "label": "Instant text"
+            },
+            {
+              "icon": "💬",
+              "label": "They explain"
+            },
+            {
+              "icon": "🔔",
+              "label": "You call back"
+            }
+          ]
+        },
+        "part": "drop2",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "Want this on your business line? Comment TEXT and I'll reply with how it works.",
+        "key": "TEXT",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "TEXT",
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
+      }
+    ],
+    "bgc": "#1f2a44"
+  }
+}

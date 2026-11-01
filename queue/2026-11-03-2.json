@@ -1,0 +1,112 @@
+{
+  "date": "2026-11-03",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "seo myths from google's own guide: meta keywords, word count, keyword domain",
+  "hook": "Your meta keywords tag? Google ignores it. Completely.",
+  "hook_formula": 0,
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\n3 SEO myths. All busted by Google's own SEO Starter Guide.\n\nGoogle Search doesn't use the meta keywords tag. Gone. There's no magic word count either, so a 3,000 word page about gutters in Denver doesn't win just for being long. And stuffing \"bestroofer\" into your domain name does almost nothing for you on Google.\n\nSpend those 2 hours on a page that answers what customers ask you on the phone.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "SEO + DESIGN",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "Your meta keywords tag? Google ignores it. Completely.",
+        "key": "ignores",
+        "pose": "point",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<head>",
+            "  <meta name=\"keywords\" content=\"roofer, roof, best roofer\">",
+            "</head>"
+          ],
+          "hl": 1,
+          "stamp": "IGNORED"
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Google says it plainly in its own SEO starter guide. Here are three myths it busts.",
+        "key": "three",
+        "pose": "explain",
+        "prop": {
+          "type": "big",
+          "text": "3 MYTHS",
+          "size": 200
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Myth one. The meta keywords tag helps you rank. Fact: Google Search doesn't use it at all.",
+        "key": "keywords",
+        "pose": "explain",
+        "prop": {
+          "type": "stamp",
+          "text": "Meta keywords\nhelp you rank",
+          "stamp": "MYTH"
+        },
+        "mood": "smug"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Myth two. Longer pages rank higher. Fact: there's no magic word count.",
+        "key": "count",
+        "pose": "shrug",
+        "prop": {
+          "type": "stamp",
+          "text": "Write 3,000 words\nor you won't rank",
+          "stamp": "MYTH"
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Myth three. You need your keyword in your domain name. Fact: it does almost nothing.",
+        "key": "domain",
+        "pose": "facepalm",
+        "prop": {
+          "type": "stamp",
+          "text": "bestroofer-near-me\n.com",
+          "stamp": "MYTH"
+        },
+        "mood": "shocked"
+      },
+      {
+        "speaker": "neel",
+        "vo": "What helps instead? A clear page that answers what customers ask you on the phone.",
+        "key": "clear",
+        "pose": "fistPump",
+        "prop": {
+          "type": "stamp",
+          "text": "Answer real\ncustomer questions",
+          "stamp": "FACT"
+        },
+        "mood": "happy",
+        "part": "drop2"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Follow me and comment LEARN, and I'll send you my free SEO starter guide.",
+        "key": "LEARN",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
+      }
+    ]
+  }
+}

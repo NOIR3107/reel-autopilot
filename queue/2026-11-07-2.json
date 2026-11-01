@@ -1,0 +1,151 @@
+{
+  "date": "2026-11-07",
+  "style": "explainer",
+  "trade": "contractor",
+  "topic": "automatic on my way texts and day before reminders",
+  "hook": "This feels illegal to know if you drive a service truck all day.",
+  "hook_formula": 0,
+  "caption": "On-my-way texts for contractors: comment TRUCK and I'll reply with how it works.\n\nKaren took Thursday morning off for your visit. It's 10:15 and she's at the window wondering if you're coming.\n\nThis robot texts her at 6 PM the day before with your 9 to 11 window, then again when you leave the last job. 1 tap in the truck. Nobody's guessing.\n\nWorks for HVAC, plumbers, electricians, roofers. Built in n8n, runs 24/7.\n\n#contractor #roofing #smallbusinesstips #automation #n8n",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "AUTOMATION",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "This feels illegal to know if you drive a service truck all day.",
+        "key": "truck",
+        "pose": "point",
+        "prop": {
+          "type": "model3d",
+          "model": "house",
+          "label": "Is he coming?"
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Your customer takes the morning off, then sits by the window wondering if you're coming.",
+        "key": "window",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "text": "Hi, are you still coming today??"
+            },
+            {
+              "text": "Hello?"
+            }
+          ]
+        },
+        "mood": "worried"
+      },
+      {
+        "speaker": "neel",
+        "vo": "So they call you while you're driving. Or they book someone else.",
+        "key": "driving",
+        "pose": "facepalm",
+        "prop": {
+          "type": "stamp",
+          "text": "3 missed calls\nwhile driving",
+          "stamp": "STRESS"
+        },
+        "mood": "shocked",
+        "fx": [
+          "fail"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "So I built a robot that texts them the day before, with your time window.",
+        "key": "before",
+        "pose": "fistPump",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Reminder: we'll see you tomorrow between 9 and 11 🙂"
+            },
+            {
+              "text": "Great, see you then!"
+            }
+          ]
+        },
+        "part": "drop",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "Then you tap one button when you leave the last job, and it texts on my way.",
+        "key": "button",
+        "pose": "explain",
+        "prop": {
+          "type": "flow",
+          "scale": 0.9,
+          "upto": 3,
+          "nodes": [
+            {
+              "icon": "📅",
+              "label": "Job booked"
+            },
+            {
+              "icon": "⏰",
+              "label": "Day-before text"
+            },
+            {
+              "icon": "🚚",
+              "label": "Tap: on my way"
+            },
+            {
+              "icon": "✅",
+              "label": "Customer ready"
+            }
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Your customer knows exactly when you'll show up. Nobody's guessing.",
+        "key": "guessing",
+        "pose": "celebrate",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "On my way! See you in about 20 minutes 🚚"
+            },
+            {
+              "text": "Perfect, I'll open the gate"
+            }
+          ]
+        },
+        "mood": "happy",
+        "part": "drop2"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Want this for your trucks? Comment TRUCK and I'll reply with how it works.",
+        "key": "TRUCK",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "TRUCK",
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
+      }
+    ],
+    "bgc": "#1f2a44"
+  }
+}

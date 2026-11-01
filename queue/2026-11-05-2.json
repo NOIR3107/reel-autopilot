@@ -1,0 +1,118 @@
+{
+  "date": "2026-11-05",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "mobile basics: viewport tag, 16px text, 48px tap targets",
+  "hook": "If your website needs pinch and zoom on an iPhone, fix these 3 things tonight.",
+  "hook_formula": 0,
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nPinch. Zoom. Gone.\n\nIf your website needs that on an iPhone, 3 small fixes help. Add the viewport meta tag Google recommends so the page fits the screen. Use 16 pixel base text so nobody squints, and make every button and link at least 48 by 48 pixels so a thumb can actually hit it.\n\nThat's it.\n\nYour customer is standing in a flooded basement in Ohio at 11 PM with one free hand. Build for that.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "SEO + DESIGN",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "If your website needs pinch and zoom on an iPhone, fix these 3 things tonight.",
+        "key": "zoom",
+        "pose": "point",
+        "prop": {
+          "type": "model3d",
+          "model": "phone",
+          "label": "Pinch. Zoom. Leave."
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Three small fixes make your site work on a phone. Fix one: the viewport tag.",
+        "key": "viewport",
+        "pose": "explain",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<head>",
+            "  <meta name=\"viewport\"",
+            "    content=\"width=device-width, initial-scale=1\">"
+          ],
+          "hl": 1,
+          "stamp": "ADD THIS"
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Google recommends it. Without it, phones show a tiny desktop page.",
+        "key": "tiny",
+        "pose": "facepalm",
+        "prop": {
+          "type": "stamp",
+          "text": "Desktop page\nshrunk on a phone",
+          "stamp": "NO VIEWPORT"
+        },
+        "mood": "shocked"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Fix two. Use a base text size of sixteen pixels, so nobody has to squint.",
+        "key": "sixteen",
+        "pose": "explain",
+        "prop": {
+          "type": "big",
+          "text": "16px",
+          "size": 220
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Fix three. Make buttons at least forty eight by forty eight pixels, so a thumb can hit them.",
+        "key": "thumb",
+        "pose": "fistPump",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Viewport tag",
+            "16px text",
+            "48px buttons"
+          ]
+        },
+        "part": "drop"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Your customer is standing in a flooded basement with one free hand. Build for that.",
+        "key": "hand",
+        "pose": "explain",
+        "prop": {
+          "type": "model3d",
+          "model": "phone",
+          "label": "Big text. Big buttons."
+        },
+        "mood": "happy",
+        "part": "drop2",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "Follow me and comment LEARN, and I'll send you my free SEO starter guide.",
+        "key": "LEARN",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
+      }
+    ]
+  }
+}

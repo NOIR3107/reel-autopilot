@@ -1,0 +1,147 @@
+{
+  "date": "2026-11-08",
+  "style": "explainer",
+  "trade": "Claude",
+  "topic": "official free claude skill that makes ai-built websites stop looking generic",
+  "hook": "AI websites all look the same? Not with this free Claude skill.",
+  "hook_formula": 0,
+  "caption": "Comment DESIGN and I'll DM you the link and the install steps. Follow first so the DM reaches you.\n\nYou can spot an AI-built website from across the room. Purple gradient. Inter font. 3 cards in a row.\n\nThis free Claude skill from Anthropic tells Claude to pick a bold direction before it writes any code, and it lists those tired looks as things to avoid. I asked it for a site for a made-up roofer in Denver and got something that looked built for roofers, not for a pitch deck.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
+  "props": {
+    "music": "lofi",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "FREE SKILL 6/7",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "AI websites all look the same? Not with this free Claude skill.",
+        "key": "same",
+        "pose": "point",
+        "prop": {
+          "type": "shot",
+          "url": "another AI website",
+          "heading": "Elevate Your Home",
+          "lines": [
+            "Purple gradient",
+            "Same safe font",
+            "Three cards in a row"
+          ],
+          "hl": 0,
+          "stamp": "SEEN IT"
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "This one is free, and it's from Anthropic, the team that makes Claude.",
+        "key": "free",
+        "pose": "explain",
+        "prop": {
+          "type": "shot",
+          "url": "github.com / ●●●●● / ●●●●●●●●",
+          "heading": "●●●●●●●●●●●●●●●",
+          "lines": [
+            "Create distinctive, production-grade",
+            "frontend interfaces with high design quality."
+          ],
+          "hl": 0,
+          "stamp": "FREE + OFFICIAL"
+        },
+        "mood": "happy"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Before it writes any code, it makes Claude pick one bold design direction.",
+        "key": "direction",
+        "pose": "explain",
+        "prop": {
+          "type": "shot",
+          "url": "SKILL.md",
+          "mono": true,
+          "lines": [
+            "Before coding, understand the context",
+            "and commit to a BOLD aesthetic direction."
+          ],
+          "hl": 1,
+          "stamp": "THINKS FIRST"
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "And it tells Claude to skip the usual AI look. Overused fonts, purple gradients on white.",
+        "key": "purple",
+        "pose": "facepalm",
+        "prop": {
+          "type": "shot",
+          "url": "SKILL.md",
+          "mono": true,
+          "lines": [
+            "Avoid generic AI aesthetics:",
+            "overused font families,",
+            "purple gradients on white backgrounds"
+          ],
+          "hl": 2,
+          "stamp": "BANNED"
+        },
+        "mood": "smug"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Same prompt, two results. I asked for a site for a made-up roofer.",
+        "key": "prompt",
+        "pose": "fistPump",
+        "prop": {
+          "type": "split",
+          "before": {
+            "title": "Without the skill",
+            "lines": [
+              "Purple gradient",
+              "Looks like every AI site"
+            ]
+          },
+          "after": {
+            "title": "With the skill",
+            "lines": [
+              "Bold, roofer look",
+              "Feels made for the trade"
+            ]
+          }
+        },
+        "part": "drop",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "It turns on by itself when you ask Claude to build a page.",
+        "key": "itself",
+        "pose": "explain",
+        "prop": {
+          "type": "terminal",
+          "cmd": "/plugin install ●●●●●●●●●●",
+          "out": [
+            "installing...",
+            "✓ ready"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Follow me and comment DESIGN. I'll DM you the link and the install steps.",
+        "key": "DESIGN",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "DESIGN",
+          "dm": "Link + install steps 👇"
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
+      }
+    ]
+  }
+}

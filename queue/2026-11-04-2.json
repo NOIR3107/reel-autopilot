@@ -1,0 +1,145 @@
+{
+  "date": "2026-11-04",
+  "style": "explainer",
+  "trade": "Claude",
+  "topic": "behind the scenes: claude writes, checks and queues this account's reels",
+  "hook": "An AI wrote this reel. I never touched the script.",
+  "hook_formula": 0,
+  "caption": "Comment REELS and I'll DM you how the whole setup works. Follow first so the DM reaches you.\n\nEvery Sunday, Claude reads how last week's reels did, looks at what's working on Instagram, and writes next week's scripts. A checker throws out weak hooks and made-up stats. Then a robot renders each video and posts it on time.\n\nI still pick the topics I care about. Claude does the typing.\n\n#aitools #artificialintelligence #claudeai #automation #contentcreator",
+  "props": {
+    "music": "lofi",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "BEHIND THE SCENES",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "An AI wrote this reel. I never touched the script.",
+        "key": "AI",
+        "pose": "point",
+        "prop": {
+          "type": "model3d",
+          "model": "robot",
+          "label": "Script writer"
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Every Sunday, Claude reads how last week's reels did.",
+        "key": "Sunday",
+        "pose": "explain",
+        "prop": {
+          "type": "shot",
+          "url": "last week / insights",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "views per reel",
+            "shares per reel",
+            "which hook worked"
+          ],
+          "hl": 1,
+          "stamp": "READ FIRST"
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Then it checks what's working on Instagram right now, and writes next week's scripts.",
+        "key": "scripts",
+        "pose": "explain",
+        "prop": {
+          "type": "files",
+          "names": [
+            "monday.json",
+            "tuesday.json",
+            "wednesday.json",
+            "thursday.json"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "A checker throws out weak hooks and made-up numbers before anything gets queued.",
+        "key": "checker",
+        "pose": "explain",
+        "prop": {
+          "type": "terminal",
+          "cmd": "node validate queue/*.json",
+          "out": [
+            "✗ hook too weak",
+            "✗ made-up stat",
+            "✓ all scripts ok"
+          ]
+        },
+        "mood": "smug"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Then a robot turns each script into a video and posts it on time. Twice a day.",
+        "key": "video",
+        "pose": "fistPump",
+        "prop": {
+          "type": "flow",
+          "scale": 0.9,
+          "upto": 3,
+          "nodes": [
+            {
+              "icon": "📊",
+              "label": "Read numbers"
+            },
+            {
+              "icon": "✍️",
+              "label": "Write scripts"
+            },
+            {
+              "icon": "✅",
+              "label": "Check them"
+            },
+            {
+              "icon": "🎬",
+              "label": "Render + post"
+            }
+          ]
+        },
+        "part": "drop",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "I still choose what I care about. Claude just does the typing.",
+        "key": "typing",
+        "pose": "explain",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "I pick the topics",
+            "Claude writes",
+            "A checker blocks junk",
+            "A robot posts"
+          ]
+        },
+        "mood": "happy",
+        "part": "drop2"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Want the setup? Follow me and comment REELS, and I'll DM you how it works.",
+        "key": "REELS",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "REELS",
+          "dm": "How the setup works 👇"
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
+      }
+    ]
+  }
+}

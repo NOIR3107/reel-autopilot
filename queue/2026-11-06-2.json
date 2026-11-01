@@ -1,0 +1,136 @@
+{
+  "date": "2026-11-06",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "https: not secure warning in chrome and google's https ranking signal",
+  "hook": "Send this to a contractor whose website still says Not Secure.",
+  "hook_formula": 0,
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nSend this to a contractor whose website still shows Not Secure.\n\nChrome puts that grey warning next to any page loaded over plain http. Now picture a homeowner in Phoenix typing her address into your quote form at 9 PM and seeing it right there in the bar. Yikes.\n\nShe's gone. You'd close that tab too.\n\nGoogle also said back in 2014 that HTTPS is a small ranking signal. The fix? A free certificate. I'd just email your host today and ask them to switch it on.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "look": "b",
+    "series": "SEO + DESIGN",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "Send this to a contractor whose website still says Not Secure.",
+        "key": "Secure",
+        "pose": "point",
+        "prop": {
+          "type": "shot",
+          "url": "⚠ Not secure | yoursite.com",
+          "heading": "Get a free quote",
+          "lines": [
+            "Name",
+            "Address",
+            "Phone"
+          ],
+          "hl": 0,
+          "stamp": "NOT SECURE"
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Chrome shows that warning on any page that loads over plain http.",
+        "key": "http",
+        "pose": "explain",
+        "prop": {
+          "type": "stamp",
+          "text": "http · yoursite.com",
+          "stamp": "NOT SECURE"
+        },
+        "mood": "shocked"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Now picture a homeowner about to type their address into your quote form.",
+        "key": "address",
+        "pose": "facepalm",
+        "prop": {
+          "type": "shot",
+          "url": "⚠ Not secure | yoursite.com",
+          "heading": "Get a free quote",
+          "lines": [
+            "Name: Karen",
+            "Address: ...",
+            "Hmm. Not secure?"
+          ],
+          "hl": 2,
+          "stamp": "CLOSES TAB"
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "And Google has said HTTPS is a small ranking signal too.",
+        "key": "ranking",
+        "pose": "explain",
+        "prop": {
+          "type": "big",
+          "text": "🔒 https",
+          "size": 180
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Here's the fix. A free certificate turns that warning into a lock.",
+        "key": "lock",
+        "pose": "fistPump",
+        "prop": {
+          "type": "split",
+          "before": {
+            "title": "http · yoursite.com",
+            "lines": [
+              "Not secure warning",
+              "Visitors hesitate"
+            ]
+          },
+          "after": {
+            "title": "https · yoursite.com",
+            "lines": [
+              "Lock icon",
+              "Safe to fill the form"
+            ]
+          }
+        },
+        "part": "drop",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "Most website hosts can switch it on for you. Ask them today.",
+        "key": "host",
+        "pose": "explain",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Ask your host for SSL",
+            "Redirect http to https",
+            "Check the lock on your phone"
+          ]
+        },
+        "mood": "happy",
+        "part": "drop2"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Follow me and comment LEARN, and I'll send you my free SEO starter guide.",
+        "key": "LEARN",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
+      }
+    ]
+  }
+}

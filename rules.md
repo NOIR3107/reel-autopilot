@@ -44,17 +44,16 @@ The weekly writer reads this file and styles.md before writing the week's script
 ## What competitors are doing
 
 <!-- COMPETITORS:START -->
-Week of 2026-11-02 (4 searches, headlines and listings only, no view counts seen):
-- AI-tool creators are packaging free GitHub Claude skills as "free tool, comment WORD for the link". Skill roundups
-  ranked by GitHub stars are everywhere, so lead with the pain the skill removes, not "top 10" lists.
-- Creator-facing skills (SEO audits, marketing copy, reel scripting) are the hot niche right now. Pick skills our
-  audience of small business owners and designers can use the same day.
-- Instagram SEO guides all push the same thing: searchable words (Claude, SEO, Google, website, the trade) in the
-  caption and on screen, since Reels are found through search. Keep naming them in plain words.
-- Instagram now lets creators link Reels into a series, and "build a show, not a feed" is the common advice.
-  Keep the numbered series labels (FREE SKILL n/7, SEO + DESIGN n/30) and say the series name early.
-- Choose-your-path posts work when the vote is one word in the comments. Keep "Comment A or B" and post the
-  next part fast once a winner is in.
+Week of 2026-11-02 evening slots (4 searches, headlines and listings only, no view counts seen, so no ig-viral ranking possible):
+- "Watch me make 20 reels in 10 minutes with Claude Code" style build-in-public videos keep showing up. Formula:
+  surprising true process ("An AI wrote this reel"). We used it for the 11-04 behind-the-scenes wildcard.
+- Free GitHub skills that script, clip and caption content are being pushed to creators with "comment WORD for the link".
+  Lead with the visible pain (generic AI websites, AI-sounding copy), never a top-10 list.
+- Algorithm guides all point at sends (DM shares) as the top reach signal. Use "Send this to [person] who [situation]"
+  at least twice a week, and say why the person should get it.
+- Instagram SEO advice is unchanged: searchable words (Claude, Google, SEO, website, roofer, HVAC) on screen and in the
+  caption's first two lines.
+- Myth vs fact keeps working for SEO when the source is named on screen ("Google's own starter guide"). Name the source.
 <!-- COMPETITORS:END -->
 
 ## Learned
