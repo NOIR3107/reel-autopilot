@@ -19,6 +19,7 @@ async function main() {
     let data;
     try { ({data} = await ig(`/${p.media_id}/comments`, {params: {fields: 'id,text,username', limit: '100'}})); }
     catch (e) { console.log(`skipping ${p.date} (${p.permalink}): ${e.message.slice(0, 160)}`); continue; } // e.g. a deleted reel
+    console.log(`${p.date}: keyword ${kw}, ${data.length} comments, ${data.filter((c) => wantsCheck(c.text, kw)).length} matching`);
     for (const c of data.filter((c) => wantsCheck(c.text, kw))) {
       const rec = done[c.id] ?? {tries: 0};
       if (rec.status === 'sent' || rec.tries >= 3) continue;
