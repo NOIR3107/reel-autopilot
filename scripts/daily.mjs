@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import {ROOT, eastern, slotFor, loadState, loadPosts, write, sh, gitCommit, ig, read} from './lib.mjs';
 import {validate} from './validate.mjs';
+import {episode} from './island.mjs';
 
 const DRY = process.env.DRY_RUN === '1'; // render only: no git, no Instagram
 const FORCE = process.env.FORCE === '1'; // manual "Run workflow" button: ignore the time slot
@@ -24,7 +25,9 @@ const queueFile = `queue/${day}${part === 2 ? '-2' : ''}.json`;
 let stop = null;
 if (!part) stop = 'both reels done today';
 else if (!FORCE && !DRY && now.hour < slot) stop = `not time yet (reel ${part} at ${slot}:00 ET, now ${now.hour}:00 ET)`;
-else if (part === 2 && !fs.existsSync(queueFile)) stop = 'no second reel today';
+// With no evening script, the evening reel is that day's Neelville episode (written from data/island.json).
+const island = part === 2 && !fs.existsSync(queueFile) && fs.existsSync(`${ROOT}data/island.json`);
+if (!stop && part === 2 && !fs.existsSync(queueFile) && !island) stop = 'no second reel today';
 if (stop) {
   console.log(stop);
   process.exit(0);
@@ -55,6 +58,11 @@ function soundtrack(script) {
   if (script.style === 'mike') sh('python3', ['tools/mike_sound.py', queueFile, 'public/mike-sound.wav']);
 }
 
+if (island) {
+  const {followers_count} = await ig('/me', {params: {fields: 'followers_count'}});
+  const {script: ep, next} = episode(read('data/island.json', {}), followers_count);
+  write(queueFile, {...ep, date: day, next});
+}
 const script = read(queueFile, null);
 if (script?.hold && !FORCE) { console.log('script on hold (being finished by hand)'); process.exit(0); }
 const entry = {date: now.date, part, slot, hour: now.hour, status: script ? 'failed' : 'skipped'};
@@ -66,7 +74,7 @@ if (!script) {
   process.exit(0);
 }
 try {
-  const problems = validate(script);
+  const problems = script.style === 'island' ? [] : validate(script); // island episodes are written by code, not by hand
   if (problems.length) throw new Error(`today's script fails the checks:\n- ${problems.join('\n- ')}`);
   Object.assign(entry, {style: script.style, trade: script.trade, topic: script.topic, hook: script.hook, formula: script.hook_formula, caption: script.caption});
 
@@ -74,7 +82,7 @@ try {
   const tmp = fs.mkdtempSync('/tmp/reel-');
   fs.writeFileSync(`${tmp}/props.json`, JSON.stringify({...script.props, music: true}));
   // Story reels: the voiceover sets each scene's length, so the sound tool writes the props.
-  if (['story', 'explainer', 'survival'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
+  if (['story', 'explainer', 'survival', 'island'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
   sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, '--gl=swangle', ...browser], {stdio: 'inherit'});
   entry.file = `media/${now.date}${part === 2 ? '-2' : ''}.mp4`;
@@ -91,6 +99,7 @@ try {
     entry.media_id = await publish(entry.file, {media_type: 'REELS', caption: script.caption, share_to_feed: 'true', thumb_offset: '500'});
     entry.permalink = (await ig(`/${entry.media_id}`, {params: {fields: 'permalink'}})).permalink;
     entry.status = 'posted';
+    if (script.next) write('data/island.json', script.next);
     // The same video as a story keeps the profile active daily. A failed story never fails the day.
     try { entry.story_id = await publish(entry.file, {media_type: 'STORIES'}); }
     catch (e) { entry.story_error = e.message.slice(0, 300); console.log(`story not posted: ${entry.story_error}`); }
