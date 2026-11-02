@@ -179,5 +179,23 @@
     "media_id": "18115685944851781",
     "permalink": "https://www.instagram.com/reel/DfNXxJlkx6C/",
     "story_id": "18120248366100739"
+  },
+  {
+    "date": "2026-11-02",
+    "part": 1,
+    "slot": 10,
+    "hour": 13,
+    "status": "posted",
+    "style": "explainer",
+    "trade": "seo",
+    "topic": "core web vitals: lcp inp cls explained simply",
+    "hook": "If your website takes forever to load on a phone, Google noticed too.",
+    "formula": 0,
+    "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for a lesson every day.\n\nGoogle measures 3 things about speed, called Core Web Vitals: LCP (how fast the main content shows), INP (how fast the page reacts to a tap) and CLS (whether things jump while loading).\n\nThe usual fixes: compress images, cut heavy scripts, set sizes on images and ads.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+    "file": "media/2026-11-02.mp4",
+    "seconds": 24.853,
+    "media_id": "18422314786156024",
+    "permalink": "https://www.instagram.com/reel/DfP8pDCgU6o/",
+    "story_id": "18128464085492956"
   }
 ]
