@@ -1,7 +1,5 @@
 name: Daily reel
 on:
-  schedule:
-    - cron: '7 0-2,13-23 * * *' # hourly, 8am-9pm US Eastern; the script posts up to two reels a day, at their time slots
   push: {paths: ['trigger/post-now']} # change this file to post right away (GitHub's timer can lag)
   workflow_dispatch:
     inputs:

@@ -1,7 +1,5 @@
 name: Auto replies
 on:
-  schedule:
-    - cron: '*/15 * * * *' # GitHub may run it late or skip some; every 15 minutes keeps replies close to real time
   push: {paths: ['scripts/replies.mjs', 'data/dms.json', '.github/workflows/replies.yml']} # also run right after a change
   workflow_dispatch:
 concurrency: {group: replies, cancel-in-progress: false}
