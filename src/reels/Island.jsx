@@ -3,6 +3,8 @@
 //         scenes: [{sec, vo, key, shot: wide|houses|close|build|top|vote, cta}]}
 import {ThreeCanvas} from '@remotion/three';
 import {useThree} from '@react-three/fiber';
+import React, {useMemo} from 'react';
+import * as THREE from 'three';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource-variable/bricolage-grotesque/opsz.css';
 
@@ -16,7 +18,7 @@ const MAX_HOUSES = 300; // shortcut: houses past 300 aren't drawn (software 3D o
 const rand = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 const radiusFor = (n) => 4 + Math.sqrt(n) * 0.75;
 const housePos = (i) => { const a = i * 2.39996, r = 1.6 + Math.sqrt(i + 1) * 0.72; return [Math.cos(a) * r, Math.sin(a) * r]; };
-const specialPos = (i, R) => { const a = i * 1.1 + 0.6; return [Math.cos(a) * (R - 1.6), Math.sin(a) * (R - 1.6)]; };
+const specialPos = (i, R) => { const a = i * 1.1 + 3.6; return [Math.cos(a) * (R - 2.6), Math.sin(a) * (R - 2.6)]; };
 const COLORS = ['#e5322d', '#2f7cf6', '#f59e0b', '#16a34a', '#9333ea', '#0ea5e9', '#f97316', '#db2777'];
 
 const House = ({x, z, i, rise = 1}) => (
@@ -60,12 +62,55 @@ const Special = ({type, x, z, rise = 1, t}) => {
   return <group position={[x, 0, z]} scale={[1, s, 1]}>{parts[type] ?? parts.tower}</group>;
 };
 
+// Text signs: drawn on a 2D canvas, used as a texture, turned to face the camera.
+const signTex = (text, bg, fg) => {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 128;
+  const g = c.getContext('2d'); g.fillStyle = bg; g.fillRect(0, 0, 512, 128); g.fillStyle = fg;
+  g.font = 'bold 60px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, 256, 68, 490);
+  return new THREE.CanvasTexture(c);
+};
+const Sign = ({text, y = 1.1, bg = '#ffffff', fg = '#151515', w = 1.3}) => {
+  const tex = useMemo(() => signTex(text, bg, fg), [text, bg, fg]);
+  const q = useThree((st) => st.camera).quaternion.clone();
+  return <mesh position={[0, y, 0]} quaternion={q}><planeGeometry args={[w, w / 4]} /><meshBasicMaterial map={tex} side={2} /></mesh>;
+};
+// Things people ask for on their lot; anything else gets a labelled sign.
+const ITEMS = {
+  pool: <><mesh position={[0, 0.05, 0]}><boxGeometry args={[0.7, 0.1, 0.45]} /><meshStandardMaterial color="#f4f1ea" /></mesh><mesh position={[0, 0.1, 0]}><boxGeometry args={[0.6, 0.02, 0.35]} /><meshStandardMaterial color="#38bdf8" /></mesh></>,
+  garden: <>{[[-0.2, 0], [0, 0.15], [0.2, 0], [0, -0.15], [0.1, 0.05]].map(([x, z], k) => <mesh key={k} position={[x, 0.08, z]}><sphereGeometry args={[0.08, 10, 10]} /><meshStandardMaterial color={['#f472b6', '#facc15', '#a78bfa', '#fb7185', '#f97316'][k]} /></mesh>)}</>,
+  car: <><mesh position={[0, 0.1, 0]}><boxGeometry args={[0.55, 0.14, 0.28]} /><meshStandardMaterial color="#e5322d" /></mesh><mesh position={[-0.03, 0.22, 0]}><boxGeometry args={[0.3, 0.12, 0.26]} /><meshStandardMaterial color="#cbd5e1" /></mesh></>,
+  tree: <Tree x={0} z={0} s={1.3} />,
+  flag: <><mesh position={[0, 0.45, 0]}><cylinderGeometry args={[0.015, 0.015, 0.9]} /><meshStandardMaterial color="#888" /></mesh><mesh position={[0.15, 0.78, 0]}><boxGeometry args={[0.3, 0.18, 0.01]} /><meshStandardMaterial color="#e5322d" /></mesh></>,
+};
+const itemKey = (t) => Object.keys(ITEMS).find((k) => String(t).toLowerCase().includes(k));
+const Shop = ({name, i}) => (
+  <group>
+    <mesh position={[0, 0.3, 0]}><boxGeometry args={[0.8, 0.6, 0.6]} /><meshStandardMaterial color="#fff7ed" /></mesh>
+    <mesh position={[0, 0.5, 0.33]} rotation={[0.5, 0, 0]}><boxGeometry args={[0.84, 0.04, 0.24]} /><meshStandardMaterial color={COLORS[(i + 3) % COLORS.length]} /></mesh>
+    <Sign text={name} y={0.78} bg="#151515" fg="#ffd23f" w={1.1} />
+  </group>
+);
+// One person's lot: their house with their name, what they asked for, and their business.
+const Lot = ({lot, i, x, z, a, rise}) => {
+  const tx = -Math.sin(a), tz = Math.cos(a), rx = -Math.cos(a), rz = -Math.sin(a); // along the shore, and inland
+  const s = Math.max(0.001, rise);
+  return (
+    <group position={[x, 0, z]} scale={[1, s, 1]}>
+      <House x={0} z={0} i={i + 2} />
+      <Sign text={'@' + lot.user} y={1.45} />
+      {(lot.items ?? []).map((t, k) => { const key = itemKey(t), p = [tx * (k % 2 ? -0.75 : 0.75) + rx * (k > 1 ? 0.6 : 0.1), 0, tz * (k % 2 ? -0.75 : 0.75) + rz * (k > 1 ? 0.6 : 0.1)];
+        return <group key={k} position={p}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
+      {lot.business && <group position={[rx * 1.0, 0, rz * 1.0]}><Shop name={lot.business} i={i} /></group>}
+    </group>
+  );
+};
+
 // Moves the camera every frame; each shot is a slow, simple move.
 const Cam = ({shot, local, len, R, focus}) => {
   const camera = useThree((st) => st.camera);
   const k = local / Math.max(1, len);
   let p, look = [0, 0, 0];
-  if (shot === 'close' || shot === 'build') { const a = 0.8 + k * 0.6, d = shot === 'build' ? 4.2 : 3; look = [focus[0], 0.5, focus[1]]; p = [focus[0] + Math.cos(a) * d, 2.2 - k * 0.4, focus[1] + Math.sin(a) * d]; }
+  if (shot === 'close' || shot === 'build' || shot === 'lot') { const a = 0.8 + k * 0.6, d = shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3; look = [focus[0], 0.5, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : 2.2) - k * 0.4, focus[1] + Math.sin(a) * d]; }
   else if (shot === 'top') p = [0.01, R * 4.6 - k * R * 0.6, 0.01]; // portrait frame is narrow: pull back so the whole island fits
   else { const a = 0.6 + k * 0.5 + (shot === 'houses' ? 1.2 : 0), d = R * (shot === 'vote' ? 3.6 : 3.1) - k * R * 0.3; p = [Math.cos(a) * d, R * 2.1, Math.sin(a) * d]; }
   camera.position.set(...p);
@@ -73,19 +118,21 @@ const Cam = ({shot, local, len, R, focus}) => {
   return null;
 };
 
-export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, vote = null, music = true}) => {
+export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, vote = null, lots = [], music = true}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   let acc = 0;
   const timed = scenes.map((s) => { const start = Math.round(acc * FPS); acc += s.sec; return {...s, start, len: Math.round(s.sec * FPS)}; });
   const i = timed.findLastIndex((s) => frame >= s.start);
   const sc = timed[i], local = frame - sc.start;
-  const shown = Math.min(population, MAX_HOUSES), R = radiusFor(Math.max(shown, 20));
+  const shown = Math.min(population, MAX_HOUSES), R = radiusFor(Math.max(shown, 20)) + (lots.length ? 2.2 : 0);
+  const ownerAt = (k) => { const a = 0.3 + k * (3.4 / (R - 0.9)); return [Math.cos(a) * (R - 0.9), Math.sin(a) * (R - 0.9), a]; }; // owners' lots: a row along the shore
   // New houses rise during the first 'houses' scene; the new special rises during the 'build' scene.
   const hs = timed.find((s) => s.shot === 'houses'), bs = timed.find((s) => s.shot === 'build');
   const riseAt = (start, len, k, n) => interpolate(frame, [start + (k / Math.max(1, n)) * len * 0.7, start + (k / Math.max(1, n)) * len * 0.7 + 8], [0, 1], cl);
   const nNew = Math.max(0, shown - oldHouses);
-  const houses = Array.from({length: shown}, (_, k) => {
+  const spiral = Math.max(0, shown - lots.length); // people with a lot live on the shore, not in the spiral
+  const houses = Array.from({length: spiral}, (_, k) => {
     const [x, z] = housePos(k);
     const rise = k < oldHouses ? 1 : hs ? riseAt(hs.start, hs.len, k - oldHouses, nNew) : 1;
     return <House key={k} x={x} z={z} i={k} rise={rise} />;
@@ -95,7 +142,9 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
     const rise = building && k === allSpecials.length - 1 ? (bs ? interpolate(frame, [bs.start + 6, bs.start + 40], [0, 1], cl) : 1) : 1;
     return <Special key={k} type={type} x={x} z={z} rise={rise} t={frame} />; });
   const trees = Array.from({length: 40}, (_, k) => { const a = rand(k + 7) * 6.28, r = R * (0.75 + rand(k + 3) * 0.2); return <Tree key={k} x={Math.cos(a) * r} z={Math.sin(a) * r} s={0.7 + rand(k) * 0.6} />; });
-  const focus = sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1, R) : housePos(Math.max(0, shown - 1));
+  const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
+    return <Lot key={k} lot={lot} i={k} x={x} z={z} a={a} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + 30], [0, 1], cl) : 0) : 1} />; });
+  const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1, R) : housePos(Math.max(0, spiral - 1));
   const robots = Array.from({length: 6}, (_, k) => { const [x, z] = housePos(Math.max(0, shown - 1 - k * 3)); return <Robot key={k} i={k} t={frame} x={x + 0.45} z={z + 0.3} />; });
 
   // HUD: day tag and population, which counts up while the new houses rise
@@ -116,7 +165,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
         <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color="#2f8fd8" /></mesh>
         <mesh position={[0, -0.16, 0]}><cylinderGeometry args={[R + 0.5, R + 0.9, 0.3, 64]} /><meshStandardMaterial color="#f2d79b" /></mesh>
         <mesh position={[0, -0.02, 0]}><cylinderGeometry args={[R, R + 0.3, 0.06, 64]} /><meshStandardMaterial color="#6cc24a" /></mesh>
-        {trees}{houses}{spec}{robots}
+        {trees}{houses}{spec}{owned}{robots}
       </ThreeCanvas>
       <div style={{position: 'absolute', left: 50, top: 190, fontFamily: FONT, fontWeight: 800}}>
         <div style={{display: 'inline-block', background: '#ffd23f', color: '#151515', fontSize: 52, padding: '4px 22px', borderRadius: 10}}>DAY {day}</div>
@@ -130,7 +179,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
               <div style={{fontSize: 110, color: c, lineHeight: 1}}>{l}</div><div style={{fontSize: 52, color: '#151515', textTransform: 'capitalize'}}>{t}</div></div>))}
         </div>)}
       {sc.cta && <div style={{position: 'absolute', left: 60, right: 60, top: 820, textAlign: 'center', fontFamily: FONT, fontWeight: 800, fontSize: 84, color: '#fff', lineHeight: 1.05,
-        WebkitTextStroke: '12px #151515', paintOrder: 'stroke fill', transform: `scale(${pop})`}}>Follow = a house<br />in Neelville 🏠</div>}
+        WebkitTextStroke: '12px #151515', paintOrder: 'stroke fill', transform: `scale(${pop})`}}>Follow + comment<br />your dream lot 🏡🏪</div>}
       {!sc.cta && group.length > 0 && <div style={{position: 'absolute', left: 40, right: 40, top: 1320, textAlign: 'center', fontFamily: 'Georgia, serif', fontWeight: 700, fontSize: 92,
         color: '#fff', WebkitTextStroke: '12px #151515', paintOrder: 'stroke fill', lineHeight: 1.05}}>
         {group.map((w, k) => <span key={k} style={{color: keyOf(w) ? '#ffd23f' : '#fff'}}>{w} </span>)}</div>}
