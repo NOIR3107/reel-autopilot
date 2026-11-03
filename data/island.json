@@ -3,5 +3,12 @@
   "houses": 20,
   "base": 20,
   "specials": [],
-  "requests": []
+  "requests": [
+    {
+      "user": "isaackitty13",
+      "items": [
+        "cat"
+      ]
+    }
+  ]
 }

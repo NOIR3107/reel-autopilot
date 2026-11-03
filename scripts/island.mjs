@@ -1,8 +1,8 @@
 // Writes each day's Neelville episode from the island's state, so this series needs no weekly writer.
 // data/island.json: {day, houses, specials: [{type, day}], requests: [{user, items: ['pool', ...], business, built?: day}]}
 // Neel adds requests (what followers commented: things on their lot, the business they want); up to 3 get built per episode.
-export const BUILDS = ['lighthouse', 'windmill', 'factory', 'fountain', 'tower', 'stadium'];
-const NAMES = {lighthouse: 'lighthouse', windmill: 'windmill', factory: 'robot factory', fountain: 'fountain', tower: 'skyscraper', stadium: 'stadium'};
+export const BUILDS = ['burger', 'icecream', 'skatepark', 'windmill', 'lighthouse', 'factory', 'tower', 'stadium'];
+const NAMES = {burger: 'burger joint', icecream: 'ice cream shop', skatepark: 'skate park', lighthouse: 'lighthouse', windmill: 'windmill', factory: 'robot factory', tower: 'skyscraper', stadium: 'stadium'};
 const HASHTAGS = '#3danimation #buildinpublic #robots #followtrain #satisfying';
 const PER_EPISODE = 3;
 export const STEP = 20; // every 20 followers past launch unlock the next amenity, in BUILDS order
@@ -38,6 +38,9 @@ export function episode(state, followers) {
     : {vo: 'No new followers yesterday. The robots are bored.', key: 'bored', shot: 'close'});
   S.push(nextAmenity ? {vo: `At ${nextAt} followers, Neelville gets ${withA(nextAmenity)}.`, key: String(nextAt), shot: 'top', part: 'drop2'}
     : {vo: `Neelville now has ${pop} ${pop === 1 ? 'home' : 'homes'}.`, key: String(pop), shot: 'top', part: 'drop2'});
+  const preview = pop < 100 ? 100 : 300;
+  S.push({vo: `At ${preview} followers, Neelville will look like this.`, key: 'this', shot: 'wide', preview});
+  S.push({vo: 'This empty plot is waiting for you.', key: 'you', shot: 'empty'});
   S.push({vo: 'Follow, then comment what you want on your lot, and the business you want to own.', key: 'business', shot: 'wide', part: 'outro', cta: true});
 
   const done = fresh.map((r) => `@${r.user.replace(/^@/, '')}`);

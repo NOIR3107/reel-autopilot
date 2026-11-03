@@ -1,6 +1,6 @@
 // Neelville: an island where little robots build a house for every follower. One episode a day.
-// Props: {day, population, oldHouses, specials: [{type}], building (type rising this episode, or null), vote: {a, b},
-//         scenes: [{sec, vo, key, shot: wide|houses|close|build|top|vote, cta}]}
+// Props: {day, population, oldHouses, specials: [{type}], building (type rising this episode, or null), lots, nextAt, nextAmenity,
+//         scenes: [{sec, vo, key, shot: wide|houses|close|build|top|lot|empty, cta}]}
 import {ThreeCanvas} from '@remotion/three';
 import {useThree} from '@react-three/fiber';
 import React, {useMemo} from 'react';
@@ -14,11 +14,21 @@ const cl = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'};
 export const islandFrames = (scenes) => Math.round(scenes.reduce((t, s) => t + s.sec, 0) * FPS);
 const MAX_HOUSES = 300; // shortcut: houses past 300 aren't drawn (software 3D on GitHub's servers gets slow); move to instanced meshes before then
 
-// Deterministic layout: houses on a golden-angle spiral, special buildings on a ring near the shore.
+// Town plan: a grid where every third row and column is a road, so lots come in 2x2 blocks. Lots are used in order of
+// distance from the town square (the four centre lots), so the town grows outward ring by ring.
 const rand = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
-const radiusFor = (n) => 4 + Math.sqrt(n) * 0.75;
-const housePos = (i) => { const a = i * 2.39996, r = 1.6 + Math.sqrt(i + 1) * 0.72; return [Math.cos(a) * r, Math.sin(a) * r]; };
-const specialPos = (i, R) => { const a = i * 1.1 + 3.6; return [Math.cos(a) * (R - 2.6), Math.sin(a) * (R - 2.6)]; };
+const P = 1.4; // one grid cell
+const isRoad = (gx, gz) => ((gx % 3) + 3) % 3 === 2 || ((gz % 3) + 3) % 3 === 2;
+const CELLS = [];
+for (let gx = -16; gx <= 16; gx++) for (let gz = -16; gz <= 16; gz++) CELLS.push({gx, gz, x: (gx + 0.5) * P, z: (gz + 0.5) * P, d: Math.hypot((gx + 0.5) * P, (gz + 0.5) * P), road: isRoad(gx, gz)});
+const LOTS = CELLS.filter((c) => !c.road).sort((a, b) => a.d - b.d || a.gx - b.gx || a.gz - b.gz);
+// lot roles: 0-3 square, then amenities on every 6th lot, owners' lots and houses in between
+const PLAZA = 4, amenityRank = (k) => PLAZA + 2 + k * 6;
+const layout = (houses, owners, amenities) => {
+  const taken = new Set(Array.from({length: amenities}, (_, k) => amenityRank(k)));
+  const free = []; for (let r = PLAZA; free.length < houses + 8; r++) if (!taken.has(r)) free.push(r);
+  return {owner: (k) => LOTS[free[k]], house: (k) => LOTS[free[owners + k]], empty: free.slice(houses, houses + 8).map((r) => LOTS[r]), amenity: (k) => LOTS[amenityRank(k)]};
+};
 const COLORS = ['#e5322d', '#2f7cf6', '#f59e0b', '#16a34a', '#9333ea', '#0ea5e9', '#f97316', '#db2777'];
 
 const House = ({x, z, i, rise = 1}) => (
@@ -42,7 +52,24 @@ const Robot = ({x, z, t, i}) => (
 );
 const Special = ({type, x, z, rise = 1, t}) => {
   const s = Math.max(0.001, rise);
+  const M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 1 : 0} />;
   const parts = {
+    burger: <><mesh position={[0, 0.3, 0]}><boxGeometry args={[1, 0.6, 0.8]} />{M('#fff7ed')}</mesh>
+      <mesh position={[0, 0.45, 0]}><boxGeometry args={[1.02, 0.12, 0.82]} />{M('#e5322d')}</mesh>
+      <mesh position={[0, 0.85, 0]}><cylinderGeometry args={[0.03, 0.03, 0.5]} />{M('#94a3b8')}</mesh>
+      <group position={[0, 1.25, 0]} rotation={[0, t / 15, 0.15]}>
+        <mesh position={[0, 0.1, 0]}><sphereGeometry args={[0.32, 20, 12, 0, 6.29, 0, 1.6]} />{M('#d97706')}</mesh>
+        <mesh position={[0, 0.06, 0]}><cylinderGeometry args={[0.34, 0.34, 0.04, 20]} />{M('#22c55e')}</mesh>
+        <mesh position={[0, 0.0, 0]}><cylinderGeometry args={[0.33, 0.33, 0.1, 20]} />{M('#78350f')}</mesh>
+        <mesh position={[0, -0.04, 0]}><cylinderGeometry args={[0.35, 0.35, 0.03, 20]} />{M('#facc15')}</mesh>
+        <mesh position={[0, -0.11, 0]}><cylinderGeometry args={[0.31, 0.29, 0.1, 20]} />{M('#d97706')}</mesh></group></>,
+    icecream: <><mesh position={[0, 0.25, 0]}><boxGeometry args={[0.8, 0.5, 0.7]} />{M('#fbcfe8')}</mesh>
+      <group position={[0, 0.95, 0]} rotation={[0, t / 15, 0]}><mesh position={[0, -0.05, 0]} rotation={[Math.PI, 0, 0]}><coneGeometry args={[0.22, 0.6, 16]} />{M('#d6a35c')}</mesh>
+        <mesh position={[0, 0.3, 0]}><sphereGeometry args={[0.24, 16, 16]} />{M('#f9a8d4')}</mesh><mesh position={[0, 0.52, 0]}><sphereGeometry args={[0.18, 16, 16]} />{M('#fef3c7')}</mesh>
+        <mesh position={[0, 0.7, 0]}><sphereGeometry args={[0.06, 10, 10]} />{M('#e5322d')}</mesh></group></>,
+    skatepark: <><mesh position={[0, 0.03, 0]}><boxGeometry args={[1.2, 0.06, 1.2]} />{M('#cbd5e1')}</mesh>
+      {[-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.42, 0.2, 0]} rotation={[0, 0, sd * 0.6]}><boxGeometry args={[0.45, 0.06, 1]} />{M('#94a3b8')}</mesh>)}
+      <mesh position={[0, 0.1, 0]}><boxGeometry args={[0.3, 0.14, 0.5]} />{M('#64748b')}</mesh></>,
     lighthouse: <><mesh position={[0, 0.9, 0]}><cylinderGeometry args={[0.22, 0.32, 1.8, 16]} /><meshStandardMaterial color="#f4f1ea" /></mesh>
       {[0.4, 1.1].map((y) => <mesh key={y} position={[0, y, 0]}><cylinderGeometry args={[0.3, 0.31, 0.25, 16]} /><meshStandardMaterial color="#e5322d" /></mesh>)}
       <mesh position={[0, 1.95, 0]}><sphereGeometry args={[0.18, 16, 16]} /><meshStandardMaterial color="#ffd23f" emissive="#ffb000" emissiveIntensity={2} /></mesh></>,
@@ -80,6 +107,8 @@ const ITEMS = {
   garden: <>{[[-0.2, 0], [0, 0.15], [0.2, 0], [0, -0.15], [0.1, 0.05]].map(([x, z], k) => <mesh key={k} position={[x, 0.08, z]}><sphereGeometry args={[0.08, 10, 10]} /><meshStandardMaterial color={['#f472b6', '#facc15', '#a78bfa', '#fb7185', '#f97316'][k]} /></mesh>)}</>,
   car: <><mesh position={[0, 0.1, 0]}><boxGeometry args={[0.55, 0.14, 0.28]} /><meshStandardMaterial color="#e5322d" /></mesh><mesh position={[-0.03, 0.22, 0]}><boxGeometry args={[0.3, 0.12, 0.26]} /><meshStandardMaterial color="#cbd5e1" /></mesh></>,
   tree: <Tree x={0} z={0} s={1.3} />,
+  cat: <group scale={2.2}><mesh position={[0, 0.07, 0]}><boxGeometry args={[0.2, 0.1, 0.09]} /><meshStandardMaterial color="#f97316" /></mesh><mesh position={[0.12, 0.15, 0]}><boxGeometry args={[0.09, 0.09, 0.09]} /><meshStandardMaterial color="#f97316" /></mesh>
+    {[-0.025, 0.025].map((e) => <mesh key={e} position={[0.13, 0.21, e]}><coneGeometry args={[0.02, 0.05, 4]} /><meshStandardMaterial color="#f97316" /></mesh>)}<mesh position={[-0.13, 0.13, 0]} rotation={[0, 0, 0.8]}><cylinderGeometry args={[0.012, 0.012, 0.16]} /><meshStandardMaterial color="#f97316" /></mesh></group>,
   flag: <><mesh position={[0, 0.45, 0]}><cylinderGeometry args={[0.015, 0.015, 0.9]} /><meshStandardMaterial color="#888" /></mesh><mesh position={[0.15, 0.78, 0]}><boxGeometry args={[0.3, 0.18, 0.01]} /><meshStandardMaterial color="#e5322d" /></mesh></>,
 };
 const itemKey = (t) => Object.keys(ITEMS).find((k) => String(t).toLowerCase().includes(k));
@@ -110,7 +139,7 @@ const Cam = ({shot, local, len, R, focus}) => {
   const camera = useThree((st) => st.camera);
   const k = local / Math.max(1, len);
   let p, look = [0, 0, 0];
-  if (shot === 'close' || shot === 'build' || shot === 'lot') { const a = 0.8 + k * 0.6, d = shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3; look = [focus[0], 0.5, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : 2.2) - k * 0.4, focus[1] + Math.sin(a) * d]; }
+  if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = 0.8 + k * 0.6, d = shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3; look = [focus[0], 0.5, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : 2.2) - k * 0.4, focus[1] + Math.sin(a) * d]; }
   else if (shot === 'top') p = [0.01, R * 4.6 - k * R * 0.6, 0.01]; // portrait frame is narrow: pull back so the whole island fits
   else { const a = 0.6 + k * 0.5 + (shot === 'houses' ? 1.2 : 0), d = R * (shot === 'vote' ? 3.6 : 3.1) - k * R * 0.3; p = [Math.cos(a) * d, R * 2.1, Math.sin(a) * d]; }
   camera.position.set(...p);
@@ -125,30 +154,55 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const timed = scenes.map((s) => { const start = Math.round(acc * FPS); acc += s.sec; return {...s, start, len: Math.round(s.sec * FPS)}; });
   const i = timed.findLastIndex((s) => frame >= s.start);
   const sc = timed[i], local = frame - sc.start;
-  const shown = Math.min(population, MAX_HOUSES), R = radiusFor(Math.max(shown, 20)) + (lots.length ? 2.2 : 0);
-  const ownerAt = (k) => { const a = 0.3 + k * (3.4 / (R - 0.9)); return [Math.cos(a) * (R - 0.9), Math.sin(a) * (R - 0.9), a]; }; // owners' lots: a row along the shore
+  const dusk = !!sc.preview; // preview scenes show the future town at dusk, lamps on
+  const shown = Math.min(sc.preview ?? population, MAX_HOUSES);
+  const allSpecials = [...specials.map((s) => s.type), ...(building ? [building] : [])];
+  const spiral = Math.max(0, shown - lots.length); // people with their own lot count toward the population too
+  const plan = layout(spiral + lots.length, lots.length, allSpecials.length);
+  const R = Math.max(...plan.empty.map((c) => c.d), LOTS[PLAZA + 8].d) + 2.2; // the island ends a little past the last empty plot
+  const housePos = (k) => { const c = plan.house(k); return [c.x, c.z]; };
+  const ownerAt = (k) => { const c = plan.owner(k); return [c.x, c.z, 0]; };
+  const specialPos = (k) => { const c = plan.amenity(k); return [c.x, c.z]; };
   // New houses rise during the first 'houses' scene; the new special rises during the 'build' scene.
   const hs = timed.find((s) => s.shot === 'houses'), bs = timed.find((s) => s.shot === 'build');
   const riseAt = (start, len, k, n) => interpolate(frame, [start + (k / Math.max(1, n)) * len * 0.7, start + (k / Math.max(1, n)) * len * 0.7 + 8], [0, 1], cl);
   const nNew = Math.max(0, shown - oldHouses);
-  const spiral = Math.max(0, shown - lots.length); // people with a lot live on the shore, not in the spiral
   const houses = Array.from({length: spiral}, (_, k) => {
     const [x, z] = housePos(k);
-    const rise = k < oldHouses ? 1 : hs ? riseAt(hs.start, hs.len, k - oldHouses, nNew) : 1;
+    const rise = dusk || k < oldHouses ? 1 : hs ? riseAt(hs.start, hs.len, k - oldHouses, nNew) : 1;
     return <House key={k} x={x} z={z} i={k} rise={rise} />;
   });
-  const allSpecials = [...specials.map((s) => s.type), ...(building ? [building] : [])];
-  const spec = allSpecials.map((type, k) => { const [x, z] = specialPos(k, R);
+  const spec = allSpecials.map((type, k) => { const [x, z] = specialPos(k);
     const rise = building && k === allSpecials.length - 1 ? (bs ? interpolate(frame, [bs.start + 6, bs.start + 40], [0, 1], cl) : 1) : 1;
     return <Special key={k} type={type} x={x} z={z} rise={rise} t={frame} />; });
-  const trees = Array.from({length: 40}, (_, k) => { const a = rand(k + 7) * 6.28, r = R * (0.75 + rand(k + 3) * 0.2); return <Tree key={k} x={Math.cos(a) * r} z={Math.sin(a) * r} s={0.7 + rand(k) * 0.6} />; });
+  const town = R - 2.2; // trees ring the town, between the last plots and the beach
+  const trees = Array.from({length: 46}, (_, k) => { const a = rand(k + 7) * 6.28, r = town + 0.5 + rand(k + 3) * 1.3; return <Tree key={k} x={Math.cos(a) * r} z={Math.sin(a) * r} s={0.7 + rand(k) * 0.6} />; });
+  // Roads: every road cell inside the town, with a dashed centre line; lamps at the crossings
+  const roads = CELLS.filter((c) => c.road && c.d < town + 0.9).map((c, k) => {
+    const cross = isRoad(c.gx, 0) && isRoad(0, c.gz), alongX = !isRoad(c.gx, 0);
+    return <group key={k} position={[c.x, 0.015, c.z]}><mesh><boxGeometry args={[P, 0.03, P]} /><meshStandardMaterial color="#4b5563" /></mesh>
+      {!cross && <mesh position={[0, 0.02, 0]}><boxGeometry args={alongX ? [0.5, 0.01, 0.06] : [0.06, 0.01, 0.5]} /><meshStandardMaterial color="#f8fafc" /></mesh>}
+      {cross && <group position={[0.62, 0, 0.62]}><mesh position={[0, 0.4, 0]}><cylinderGeometry args={[0.025, 0.03, 0.8]} /><meshStandardMaterial color="#1f2937" /></mesh>
+        <mesh position={[0, 0.82, 0]}><sphereGeometry args={[0.07, 10, 10]} /><meshStandardMaterial color="#fde68a" emissive="#facc15" emissiveIntensity={1.2} /></mesh></group>}</group>;
+  });
+  // Town square: paved, with the town sign
+  const plaza = <group><mesh position={[0, 0.02, 0]}><boxGeometry args={[P * 2, 0.04, P * 2]} /><meshStandardMaterial color="#e7e5e4" /></mesh>
+    <mesh position={[0, 0.12, 0]}><cylinderGeometry args={[0.55, 0.6, 0.16, 24]} /><meshStandardMaterial color="#cbd5e1" /></mesh>
+    <mesh position={[0, 0.21, 0]}><cylinderGeometry args={[0.46, 0.46, 0.04, 24]} /><meshStandardMaterial color="#38bdf8" /></mesh>
+    <group position={[0, 0, -0.95]}><Sign text="NEELVILLE" y={0.75} bg="#1f2a44" fg="#ffd23f" w={1.6} /></group></group>;
+  // Empty plots for the next followers: roped-off squares, the nearest one with a sign
+  const empties = plan.empty.map((c, k) => <group key={k} position={[c.x, 0, c.z]}>
+    {[[-0.55, -0.55], [0.55, -0.55], [-0.55, 0.55], [0.55, 0.55]].map(([a, b]) => <mesh key={a + ' ' + b} position={[a, 0.12, b]}><boxGeometry args={[0.04, 0.24, 0.04]} /><meshStandardMaterial color="#d6d3d1" /></mesh>)}
+    {[[0, -0.55, 1.1, 0.02], [0, 0.55, 1.1, 0.02], [-0.55, 0, 0.02, 1.1], [0.55, 0, 0.02, 1.1]].map(([a, b, w, d]) => <mesh key={a + ' ' + b + 'r'} position={[a, 0.2, b]}><boxGeometry args={[w, 0.02, d]} /><meshStandardMaterial color="#dc2626" /></mesh>)}
+    {k === 0 && <Sign text="YOUR HOUSE HERE" y={0.55} bg="#c2853f" fg="#1c1917" w={1.3} />}</group>);
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
     return <Lot key={k} lot={lot} i={k} x={x} z={z} a={a} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + 30], [0, 1], cl) : 0) : 1} />; });
-  const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1, R) : housePos(Math.max(0, spiral - 1));
-  const robots = Array.from({length: 6}, (_, k) => { const [x, z] = housePos(Math.max(0, shown - 1 - k * 3)); return <Robot key={k} i={k} t={frame} x={x + 0.45} z={z + 0.3} />; });
+  const lastEmpty = plan.empty[0];
+  const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
+  const robots = Array.from({length: 6}, (_, k) => { const c = spiral ? plan.house(Math.max(0, spiral - 1 - k * 2)) : plan.empty[k]; return <Robot key={k} i={k} t={frame} x={c.x + 0.5} z={c.z + 0.45} />; });
 
   // HUD: day tag and population, which counts up while the new houses rise
-  const popNow = hs ? Math.round(interpolate(frame, [hs.start, hs.start + hs.len * 0.8], [Math.min(oldHouses, population), population], cl)) : population;
+  const popNow = dusk ? sc.preview : hs ? Math.round(interpolate(frame, [hs.start, hs.start + hs.len * 0.8], [Math.min(oldHouses, population), population], cl)) : population;
   const words = String(sc.vo ?? '').split(' ').filter(Boolean);
   const per = Math.max(4, (sc.len - 6) / Math.max(1, words.length));
   const wi = Math.min(words.length - 1, Math.floor(local / per));
@@ -156,21 +210,22 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const keyOf = (w) => sc.key && w.replace(/[^\w']/g, '').toLowerCase() === String(sc.key).toLowerCase();
   const pop = spring({frame: local, fps, config: {damping: 12}});
   return (
-    <AbsoluteFill style={{background: 'linear-gradient(#8fd3ff, #d8f0ff)'}}>
+    <AbsoluteFill style={{background: dusk ? 'linear-gradient(#1e1b4b, #f59e0b)' : 'linear-gradient(#8fd3ff, #d8f0ff)'}}>
       {music && <Audio src={staticFile('story-sound.wav')} />}
       <ThreeCanvas width={1080} height={1920} camera={{fov: 45, position: [10, 10, 10]}}>
-        <ambientLight intensity={1.1} />
-        <directionalLight position={[8, 14, 6]} intensity={2.4} />
+        <ambientLight intensity={dusk ? 0.65 : 1.1} color={dusk ? '#c7b8ff' : '#ffffff'} />
+        <directionalLight position={[8, 14, 6]} intensity={dusk ? 0.9 : 2.4} color={dusk ? '#ffb070' : '#ffffff'} />
         <Cam shot={sc.shot ?? 'wide'} local={local} len={sc.len} R={R} focus={focus} />
         <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color="#2f8fd8" /></mesh>
         <mesh position={[0, -0.16, 0]}><cylinderGeometry args={[R + 0.5, R + 0.9, 0.3, 64]} /><meshStandardMaterial color="#f2d79b" /></mesh>
         <mesh position={[0, -0.02, 0]}><cylinderGeometry args={[R, R + 0.3, 0.06, 64]} /><meshStandardMaterial color="#6cc24a" /></mesh>
-        {trees}{houses}{spec}{owned}{robots}
+        {plaza}{roads}{trees}{houses}{spec}{owned}{empties}{robots}
       </ThreeCanvas>
       <div style={{position: 'absolute', left: 50, top: 190, fontFamily: FONT, fontWeight: 800}}>
         <div style={{display: 'inline-block', background: '#ffd23f', color: '#151515', fontSize: 52, padding: '4px 22px', borderRadius: 10}}>DAY {day}</div>
         <div style={{marginTop: 14, background: 'rgba(21,21,21,.85)', color: '#fff', fontSize: 64, padding: '8px 30px', borderRadius: 60, display: 'inline-block', clear: 'both'}}>🏝 Neelville · {popNow}</div>
-        {nextAt && <div style={{marginTop: 12, color: '#151515', background: 'rgba(255,255,255,.88)', fontSize: 36, padding: '6px 22px', borderRadius: 30, display: 'table'}}>Next: {nextAmenity} at {nextAt}</div>}
+        {dusk && <div style={{marginTop: 12, color: '#151515', background: '#ffd23f', fontSize: 38, padding: '6px 22px', borderRadius: 12, display: 'table'}}>PREVIEW · {sc.preview} residents</div>}
+        {nextAt && !dusk && <div style={{marginTop: 12, color: '#151515', background: 'rgba(255,255,255,.88)', fontSize: 36, padding: '6px 22px', borderRadius: 30, display: 'table'}}>Next: {nextAmenity} at {nextAt}</div>}
       </div>
       {sc.shot === 'vote' && vote && local > 8 && (
         <div style={{position: 'absolute', left: 60, right: 60, top: 760, display: 'flex', gap: 30, fontFamily: FONT, fontWeight: 800}}>
