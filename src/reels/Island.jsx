@@ -31,20 +31,40 @@ const layout = (houses, owners, amenities) => {
 };
 const COLORS = ['#e5322d', '#2f7cf6', '#f59e0b', '#16a34a', '#9333ea', '#0ea5e9', '#f97316', '#db2777'];
 
-const House = ({x, z, i, rise = 1}) => (
-  <group position={[x, 0, z]} rotation={[0, rand(i) * 6.28, 0]} scale={[1, Math.max(0.001, rise), 1]}>
-    <mesh position={[0, 0.22, 0]}><boxGeometry args={[0.5, 0.44, 0.5]} /><meshStandardMaterial color="#f4f1ea" /></mesh>
-    <mesh position={[0, 0.58, 0]} rotation={[0, Math.PI / 4, 0]}><coneGeometry args={[0.42, 0.32, 4]} /><meshStandardMaterial color={COLORS[i % COLORS.length]} /></mesh>
-  </group>
-);
+const WALLS = ['#f4f1ea', '#fde7c7', '#e0f2fe', '#fce7f3', '#ecfccb'];
+const ramp = (b, a, z) => Math.min(1, Math.max(0, (b - a) / (z - a)));
+// A house: walls, gabled roof, door, windows, chimney, front step and path. `build` (0 to 1) plays the construction
+// in stages (foundation, frame, walls, roof, windows) for the timelapse; without it the house just rises with `rise`.
+const House = ({x, z, i, rise = 1, build = null, rot}) => {
+  const b = build ?? 1, wall = WALLS[i % WALLS.length], roof = COLORS[i % COLORS.length];
+  const slab = ramp(b, 0, 0.15), frame = ramp(b, 0.15, 0.4), walls = ramp(b, 0.4, 0.65), top = ramp(b, 0.65, 0.82), fin = ramp(b, 0.82, 0.95);
+  const M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 0.8 : 0} />;
+  return (
+    <group position={[x, 0, z]} rotation={[0, rot ?? Math.floor(rand(i) * 4) * Math.PI / 2, 0]} scale={[1, Math.max(0.001, rise), 1]}>
+      <mesh position={[0, 0.02, 0]} scale={[slab || 0.001, 1, slab || 0.001]}><boxGeometry args={[0.62, 0.04, 0.56]} />{M('#a8a29e')}</mesh>
+      {build != null && frame > 0 && walls < 1 && [[-0.27, -0.24], [0.27, -0.24], [-0.27, 0.24], [0.27, 0.24], [0, 0.24], [0, -0.24]].map(([a, c], k) => (
+        <mesh key={k} position={[a, 0.04 + 0.21 * frame, c]} scale={[1, frame, 1]}><boxGeometry args={[0.035, 0.42, 0.035]} />{M('#b7791f')}</mesh>))}
+      {walls > 0 && <mesh position={[0, 0.04 + 0.2 * walls, 0]} scale={[1, walls, 1]}><boxGeometry args={[0.56, 0.4, 0.5]} />{M(wall)}</mesh>}
+      {top > 0 && <group position={[0, 0.44 + (1 - top) * 0.8, 0]}>
+        <mesh rotation={[0, 0, Math.PI / 4]} scale={[1, 1, 1]}><boxGeometry args={[0.43, 0.43, 0.56]} />{M(roof)}</mesh>
+        <mesh position={[0.15, 0.18, 0.1]}><boxGeometry args={[0.08, 0.2, 0.08]} />{M('#78716c')}</mesh></group>}
+      {fin > 0 && <group scale={[fin, fin, fin]}>
+        <mesh position={[0, 0.13, 0.252]}><boxGeometry args={[0.12, 0.2, 0.01]} />{M('#7c2d12')}</mesh>
+        {[-0.18, 0.18].map((a) => <mesh key={a} position={[a, 0.26, 0.252]}><boxGeometry args={[0.1, 0.09, 0.01]} />{M('#fde68a', '#f59e0b')}</mesh>)}
+        {[-0.12, 0.12].map((a) => <mesh key={'b' + a} position={[a, 0.26, -0.252]}><boxGeometry args={[0.1, 0.09, 0.01]} />{M('#fde68a', '#f59e0b')}</mesh>)}
+        <mesh position={[0, 0.02, 0.33]}><boxGeometry args={[0.16, 0.04, 0.1]} />{M('#d6d3d1')}</mesh>
+        <mesh position={[0, 0.01, 0.5]}><boxGeometry args={[0.12, 0.01, 0.28]} />{M('#e7e5e4')}</mesh></group>}
+    </group>
+  );
+};
 const Tree = ({x, z, s}) => (
   <group position={[x, 0, z]} scale={s}>
     <mesh position={[0, 0.15, 0]}><cylinderGeometry args={[0.05, 0.07, 0.3]} /><meshStandardMaterial color="#7a5230" /></mesh>
     <mesh position={[0, 0.48, 0]}><coneGeometry args={[0.24, 0.6, 7]} /><meshStandardMaterial color="#2f8f46" /></mesh>
   </group>
 );
-const Robot = ({x, z, t, i}) => (
-  <group position={[x, 0.05 + Math.abs(Math.sin(t / 4 + i)) * 0.12, z]} rotation={[0, t / 20 + i, 0]} scale={2}>
+const Robot = ({x, z, t, i, size = 2}) => (
+  <group position={[x, 0.05 + Math.abs(Math.sin(t / 4 + i)) * 0.12, z]} rotation={[0, t / 20 + i, 0]} scale={size}>
     <mesh position={[0, 0.16, 0]}><boxGeometry args={[0.22, 0.22, 0.2]} /><meshStandardMaterial color="#e5322d" /></mesh>
     <mesh position={[0, 0.36, 0]}><boxGeometry args={[0.24, 0.17, 0.2]} /><meshStandardMaterial color="#f4f1ea" /></mesh>
     {[-0.06, 0.06].map((e) => <mesh key={e} position={[e, 0.37, 0.105]}><sphereGeometry args={[0.03, 10, 10]} /><meshStandardMaterial color="#39d0ff" emissive="#39d0ff" emissiveIntensity={1.5} /></mesh>)}
@@ -121,15 +141,17 @@ const Shop = ({name, i}) => (
 );
 // One person's lot: their house with their name, what they asked for, and their business.
 const Lot = ({lot, i, x, z, a, rise}) => {
-  const tx = -Math.sin(a), tz = Math.cos(a), rx = -Math.cos(a), rz = -Math.sin(a); // along the shore, and inland
-  const s = Math.max(0.001, rise);
+  const tx = -Math.sin(a), tz = Math.cos(a), rx = -Math.cos(a), rz = -Math.sin(a);
+  const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
-    <group position={[x, 0, z]} scale={[1, s, 1]}>
-      <House x={0} z={0} i={i + 2} />
-      <Sign text={'@' + lot.user} y={1.45} />
+    <group position={[x, 0, z]}>
+      <House x={0} z={0} i={i + 2} build={rise} rot={0} />
+      {rise > 0.97 && <Sign text={'@' + lot.user} y={1.45} />}
+      <group scale={[s, s, s]}>
       {(lot.items ?? []).map((t, k) => { const key = itemKey(t), p = [tx * (k % 2 ? -0.75 : 0.75) + rx * (k > 1 ? 0.6 : 0.1), 0, tz * (k % 2 ? -0.75 : 0.75) + rz * (k > 1 ? 0.6 : 0.1)];
         return <group key={k} position={p}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
       {lot.business && <group position={[rx * 1.0, 0, rz * 1.0]}><Shop name={lot.business} i={i} /></group>}
+      </group>
     </group>
   );
 };
@@ -196,10 +218,12 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
     {[[0, -0.55, 1.1, 0.02], [0, 0.55, 1.1, 0.02], [-0.55, 0, 0.02, 1.1], [0.55, 0, 0.02, 1.1]].map(([a, b, w, d]) => <mesh key={a + ' ' + b + 'r'} position={[a, 0.2, b]}><boxGeometry args={[w, 0.02, d]} /><meshStandardMaterial color="#dc2626" /></mesh>)}
     {k === 0 && <Sign text="YOUR HOUSE HERE" y={0.55} bg="#c2853f" fg="#1c1917" w={1.3} />}</group>);
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
-    return <Lot key={k} lot={lot} i={k} x={x} z={z} a={a} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + 30], [0, 1], cl) : 0) : 1} />; });
+    return <Lot key={k} lot={lot} i={k} x={x} z={z} a={a} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
   const lastEmpty = plan.empty[0];
   const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
-  const robots = Array.from({length: 6}, (_, k) => { const c = spiral ? plan.house(Math.max(0, spiral - 1 - k * 2)) : plan.empty[k]; return <Robot key={k} i={k} t={frame} x={c.x + 0.5} z={c.z + 0.45} />; });
+  const building_lot = sc.shot === 'lot' && lots[sc.lot]?.fresh;
+  const robots = Array.from({length: 6}, (_, k) => { if (building_lot) { const [x, z] = ownerAt(sc.lot), a = k * 1.05 + frame / 18; return <Robot key={k} i={k} t={frame * 3} size={0.7} x={x + Math.cos(a) * 0.5} z={z + Math.sin(a) * 0.5} />; }
+    const c = spiral ? plan.house(Math.max(0, spiral - 1 - k * 2)) : plan.empty[k]; return <Robot key={k} i={k} t={frame} x={c.x + 0.5} z={c.z + 0.45} />; });
 
   // HUD: day tag and population, which counts up while the new houses rise
   const popNow = dusk ? sc.preview : hs ? Math.round(interpolate(frame, [hs.start, hs.start + hs.len * 0.8], [Math.min(oldHouses, population), population], cl)) : population;
@@ -214,7 +238,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
       {music && <Audio src={staticFile('story-sound.wav')} />}
       <ThreeCanvas width={1080} height={1920} camera={{fov: 45, position: [10, 10, 10]}}>
         <ambientLight intensity={dusk ? 0.65 : 1.1} color={dusk ? '#c7b8ff' : '#ffffff'} />
-        <directionalLight position={[8, 14, 6]} intensity={dusk ? 0.9 : 2.4} color={dusk ? '#ffb070' : '#ffffff'} />
+        <directionalLight position={building_lot ? [Math.cos(local / 12) * 12, 10, Math.sin(local / 12) * 12] : [8, 14, 6]} intensity={dusk ? 0.9 : 2.4} color={dusk ? '#ffb070' : '#ffffff'} />
         <Cam shot={sc.shot ?? 'wide'} local={local} len={sc.len} R={R} focus={focus} />
         <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color="#2f8fd8" /></mesh>
         <mesh position={[0, -0.16, 0]}><cylinderGeometry args={[R + 0.5, R + 0.9, 0.3, 64]} /><meshStandardMaterial color="#f2d79b" /></mesh>
@@ -227,6 +251,10 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
         {dusk && <div style={{marginTop: 12, color: '#151515', background: '#ffd23f', fontSize: 38, padding: '6px 22px', borderRadius: 12, display: 'table'}}>PREVIEW · {sc.preview} residents</div>}
         {nextAt && !dusk && <div style={{marginTop: 12, color: '#151515', background: 'rgba(255,255,255,.88)', fontSize: 36, padding: '6px 22px', borderRadius: 30, display: 'table'}}>Next: {nextAmenity} at {nextAt}</div>}
       </div>
+      {building_lot && <div style={{position: 'absolute', right: 50, top: 190, fontFamily: FONT, fontWeight: 800, textAlign: 'right'}}>
+        <div style={{background: '#e5322d', color: '#fff', fontSize: 40, padding: '6px 20px', borderRadius: 10, display: 'inline-block'}}>⏩ TIMELAPSE</div>
+        <div style={{marginTop: 10, color: '#fff', fontSize: 56, WebkitTextStroke: '8px #151515', paintOrder: 'stroke fill'}}>
+          {(() => { const m = Math.round(interpolate(local, [0, sc.len], [6 * 60, 18 * 60], cl)); return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; })()}</div></div>}
       {sc.shot === 'vote' && vote && local > 8 && (
         <div style={{position: 'absolute', left: 60, right: 60, top: 760, display: 'flex', gap: 30, fontFamily: FONT, fontWeight: 800}}>
           {[['A', vote.a, '#e5322d'], ['B', vote.b, '#2f7cf6']].map(([l, t, c], k) => (

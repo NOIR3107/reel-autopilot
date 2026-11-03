@@ -29,7 +29,7 @@ export function episode(state, followers) {
   if (day === 1) S.push({vo: 'Little robots build every house. One for each follower.', key: 'robots', shot: 'close'});
   fresh.forEach((r, k) => {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
-    S.push({vo: `${spoken(r.user)} asked for ${list(wants)}. Done.`, key: 'Done', shot: 'lot', lot: built.length + k, part: k ? 'drop' : 'drop', fx: ['win']});
+    S.push({vo: `${spoken(r.user)} asked for ${list(wants)}. Done.`, key: 'Done', shot: 'lot', lot: built.length + k, part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
   });
   if (building) S.push({vo: `${base + n * STEP} followers unlocked ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win']});
   S.push(day === 1
