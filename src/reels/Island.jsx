@@ -7,6 +7,9 @@ import React, {useMemo} from 'react';
 import * as THREE from 'three';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource-variable/bricolage-grotesque/opsz.css';
+import {houseKit, streetKit, shoreKit, plazaKit, treeKit} from './islandKit.js';
+
+const KitMesh = ({g, ...p}) => <mesh geometry={g} {...p}><meshStandardMaterial vertexColors roughness={0.85} /></mesh>;
 
 const FONT = '"Bricolage Grotesque Variable", sans-serif';
 const FPS = 30;
@@ -23,6 +26,7 @@ const CELLS = [];
 for (let gx = -16; gx <= 16; gx++) for (let gz = -16; gz <= 16; gz++) CELLS.push({gx, gz, x: (gx + 0.5) * P, z: (gz + 0.5) * P, d: Math.hypot((gx + 0.5) * P, (gz + 0.5) * P), road: isRoad(gx, gz)});
 const LOTS = CELLS.filter((c) => !c.road).sort((a, b) => a.d - b.d || a.gx - b.gx || a.gz - b.gz);
 // lot roles: 0-3 square, then amenities on every 6th lot, owners' lots and houses in between
+export const faceRoad = (c) => (((c.gz % 3) + 3) % 3 === 1 ? 0 : Math.PI); // front door toward the road beside the lot
 const PLAZA = 4, amenityRank = (k) => PLAZA + 2 + k * 6;
 const layout = (houses, owners, amenities) => {
   const taken = new Set(Array.from({length: amenities}, (_, k) => amenityRank(k)));
@@ -31,29 +35,21 @@ const layout = (houses, owners, amenities) => {
 };
 const COLORS = ['#e5322d', '#2f7cf6', '#f59e0b', '#16a34a', '#9333ea', '#0ea5e9', '#f97316', '#db2777'];
 
-const WALLS = ['#f4f1ea', '#fde7c7', '#e0f2fe', '#fce7f3', '#ecfccb'];
 const ramp = (b, a, z) => Math.min(1, Math.max(0, (b - a) / (z - a)));
-// A house: walls, gabled roof, door, windows, chimney, front step and path. `build` (0 to 1) plays the construction
-// in stages (foundation, frame, walls, roof, windows) for the timelapse; without it the house just rises with `rise`.
-const House = ({x, z, i, rise = 1, build = null, rot}) => {
-  const b = build ?? 1, wall = WALLS[i % WALLS.length], roof = COLORS[i % COLORS.length];
+// A detailed house from islandKit. `build` (0 to 1) plays the construction in stages (foundation, frame, walls, roof,
+// windows and fence) for the timelapse; without it the house just rises with `rise`.
+const House = ({x, z, i, rise = 1, build = null, rot = 0}) => {
+  const kit = houseKit(i % 14), b = build ?? 1;
   const slab = ramp(b, 0, 0.15), frame = ramp(b, 0.15, 0.4), walls = ramp(b, 0.4, 0.65), top = ramp(b, 0.65, 0.82), fin = ramp(b, 0.82, 0.95);
-  const M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 0.8 : 0} />;
   return (
-    <group position={[x, 0, z]} rotation={[0, rot ?? Math.floor(rand(i) * 4) * Math.PI / 2, 0]} scale={[1, Math.max(0.001, rise), 1]}>
-      <mesh position={[0, 0.02, 0]} scale={[slab || 0.001, 1, slab || 0.001]}><boxGeometry args={[0.62, 0.04, 0.56]} />{M('#a8a29e')}</mesh>
-      {build != null && frame > 0 && walls < 1 && [[-0.27, -0.24], [0.27, -0.24], [-0.27, 0.24], [0.27, 0.24], [0, 0.24], [0, -0.24]].map(([a, c], k) => (
-        <mesh key={k} position={[a, 0.04 + 0.21 * frame, c]} scale={[1, frame, 1]}><boxGeometry args={[0.035, 0.42, 0.035]} />{M('#b7791f')}</mesh>))}
-      {walls > 0 && <mesh position={[0, 0.04 + 0.2 * walls, 0]} scale={[1, walls, 1]}><boxGeometry args={[0.56, 0.4, 0.5]} />{M(wall)}</mesh>}
-      {top > 0 && <group position={[0, 0.44 + (1 - top) * 0.8, 0]}>
-        <mesh rotation={[0, 0, Math.PI / 4]} scale={[1, 1, 1]}><boxGeometry args={[0.43, 0.43, 0.56]} />{M(roof)}</mesh>
-        <mesh position={[0.15, 0.18, 0.1]}><boxGeometry args={[0.08, 0.2, 0.08]} />{M('#78716c')}</mesh></group>}
-      {fin > 0 && <group scale={[fin, fin, fin]}>
-        <mesh position={[0, 0.13, 0.252]}><boxGeometry args={[0.12, 0.2, 0.01]} />{M('#7c2d12')}</mesh>
-        {[-0.18, 0.18].map((a) => <mesh key={a} position={[a, 0.26, 0.252]}><boxGeometry args={[0.1, 0.09, 0.01]} />{M('#fde68a', '#f59e0b')}</mesh>)}
-        {[-0.12, 0.12].map((a) => <mesh key={'b' + a} position={[a, 0.26, -0.252]}><boxGeometry args={[0.1, 0.09, 0.01]} />{M('#fde68a', '#f59e0b')}</mesh>)}
-        <mesh position={[0, 0.02, 0.33]}><boxGeometry args={[0.16, 0.04, 0.1]} />{M('#d6d3d1')}</mesh>
-        <mesh position={[0, 0.01, 0.5]}><boxGeometry args={[0.12, 0.01, 0.28]} />{M('#e7e5e4')}</mesh></group>}
+    <group position={[x, 0, z]} rotation={[0, rot, 0]} scale={[1, Math.max(0.001, rise), 1]}>
+      <KitMesh g={kit.base} scale={[slab || 0.001, 1, slab || 0.001]} />
+      {build != null && frame > 0 && walls < 1 && [[-0.31, -0.25], [0.31, -0.25], [-0.31, 0.25], [0.31, 0.25], [0, 0.25], [0, -0.25], [-0.15, 0.25], [0.15, -0.25]].map(([a, c], k) => (
+        <mesh key={k} position={[a, 0.06 + 0.21 * frame, c]} scale={[1, frame, 1]}><boxGeometry args={[0.035, 0.42, 0.035]} /><meshStandardMaterial color="#b7791f" /></mesh>))}
+      {build != null && frame > 0.6 && walls < 1 && <mesh position={[0, 0.48, 0]}><boxGeometry args={[0.66, 0.03, 0.03]} /><meshStandardMaterial color="#b7791f" /></mesh>}
+      {walls > 0 && <KitMesh g={kit.walls} scale={[1, walls, 1]} />}
+      {top > 0 && <KitMesh g={kit.roof} position={[0, (1 - top) * 0.8, 0]} />}
+      {fin > 0 && <KitMesh g={kit.details} scale={[1, fin, 1]} />}
     </group>
   );
 };
@@ -140,17 +136,19 @@ const Shop = ({name, i}) => (
   </group>
 );
 // One person's lot: their house with their name, what they asked for, and their business.
-const Lot = ({lot, i, x, z, a, rise}) => {
-  const tx = -Math.sin(a), tz = Math.cos(a), rx = -Math.cos(a), rz = -Math.sin(a);
+const YARD = [[0.5, 0.25], [-0.5, 0.25], [0.5, -0.42], [-0.5, -0.42]];
+const Lot = ({lot, i, x, z, rot, rise}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
-      <House x={0} z={0} i={i + 2} build={rise} rot={0} />
-      {rise > 0.97 && <Sign text={'@' + lot.user} y={1.45} />}
+      {rise > 0.97 && <Sign text={'@' + lot.user} y={1.25} />}
+      <group rotation={[0, rot, 0]}>
+      <House x={0} z={0} i={i + 5} build={rise} />
       <group scale={[s, s, s]}>
-      {(lot.items ?? []).map((t, k) => { const key = itemKey(t), p = [tx * (k % 2 ? -0.75 : 0.75) + rx * (k > 1 ? 0.6 : 0.1), 0, tz * (k % 2 ? -0.75 : 0.75) + rz * (k > 1 ? 0.6 : 0.1)];
-        return <group key={k} position={p}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
-      {lot.business && <group position={[rx * 1.0, 0, rz * 1.0]}><Shop name={lot.business} i={i} /></group>}
+        {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);
+          return <group key={k} position={[YARD[k][0], 0, YARD[k][1]]}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
+        {lot.business && <group position={[0, 0, -0.52]} scale={0.6}><Shop name={lot.business} i={i} /></group>}
+      </group>
       </group>
     </group>
   );
@@ -183,42 +181,36 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const plan = layout(spiral + lots.length, lots.length, allSpecials.length);
   const R = Math.max(...plan.empty.map((c) => c.d), LOTS[PLAZA + 8].d) + 2.2; // the island ends a little past the last empty plot
   const housePos = (k) => { const c = plan.house(k); return [c.x, c.z]; };
-  const ownerAt = (k) => { const c = plan.owner(k); return [c.x, c.z, 0]; };
+  const ownerAt = (k) => { const c = plan.owner(k); return [c.x, c.z, faceRoad(c)]; };
   const specialPos = (k) => { const c = plan.amenity(k); return [c.x, c.z]; };
   // New houses rise during the first 'houses' scene; the new special rises during the 'build' scene.
   const hs = timed.find((s) => s.shot === 'houses'), bs = timed.find((s) => s.shot === 'build');
   const riseAt = (start, len, k, n) => interpolate(frame, [start + (k / Math.max(1, n)) * len * 0.7, start + (k / Math.max(1, n)) * len * 0.7 + 8], [0, 1], cl);
   const nNew = Math.max(0, shown - oldHouses);
   const houses = Array.from({length: spiral}, (_, k) => {
-    const [x, z] = housePos(k);
+    const c = plan.house(k), [x, z] = [c.x, c.z];
     const rise = dusk || k < oldHouses ? 1 : hs ? riseAt(hs.start, hs.len, k - oldHouses, nNew) : 1;
-    return <House key={k} x={x} z={z} i={k} rise={rise} />;
+    return <House key={k} x={x} z={z} i={k} rise={rise} rot={faceRoad(c)} />;
   });
   const spec = allSpecials.map((type, k) => { const [x, z] = specialPos(k);
     const rise = building && k === allSpecials.length - 1 ? (bs ? interpolate(frame, [bs.start + 6, bs.start + 40], [0, 1], cl) : 1) : 1;
     return <Special key={k} type={type} x={x} z={z} rise={rise} t={frame} />; });
   const town = R - 2.2; // trees ring the town, between the last plots and the beach
-  const trees = Array.from({length: 46}, (_, k) => { const a = rand(k + 7) * 6.28, r = town + 0.5 + rand(k + 3) * 1.3; return <Tree key={k} x={Math.cos(a) * r} z={Math.sin(a) * r} s={0.7 + rand(k) * 0.6} />; });
-  // Roads: every road cell inside the town, with a dashed centre line; lamps at the crossings
-  const roads = CELLS.filter((c) => c.road && c.d < town + 0.9).map((c, k) => {
-    const cross = isRoad(c.gx, 0) && isRoad(0, c.gz), alongX = !isRoad(c.gx, 0);
-    return <group key={k} position={[c.x, 0.015, c.z]}><mesh><boxGeometry args={[P, 0.03, P]} /><meshStandardMaterial color="#4b5563" /></mesh>
-      {!cross && <mesh position={[0, 0.02, 0]}><boxGeometry args={alongX ? [0.5, 0.01, 0.06] : [0.06, 0.01, 0.5]} /><meshStandardMaterial color="#f8fafc" /></mesh>}
-      {cross && <group position={[0.62, 0, 0.62]}><mesh position={[0, 0.4, 0]}><cylinderGeometry args={[0.025, 0.03, 0.8]} /><meshStandardMaterial color="#1f2937" /></mesh>
-        <mesh position={[0, 0.82, 0]}><sphereGeometry args={[0.07, 10, 10]} /><meshStandardMaterial color="#fde68a" emissive="#facc15" emissiveIntensity={1.2} /></mesh></group>}</group>;
-  });
+  const trees = Array.from({length: 56}, (_, k) => { const a = rand(k + 7) * 6.28, r = town + 0.45 + rand(k + 3) * 0.95;
+    return <KitMesh key={k} g={treeKit(k % 2)} position={[Math.cos(a) * r, 0, Math.sin(a) * r]} scale={0.75 + rand(k) * 0.6} rotation={[0, rand(k + 1) * 6, 0]} />; });
+  // Streets: asphalt, lane lines, curbs, sidewalks, crosswalks, benches, lamps (glowing heads) and street signs
+  const sk = streetKit(CELLS, isRoad, P, town, Math.round(town * 10));
+  const roads = <group><KitMesh g={sk.g} />{sk.heads && <mesh geometry={sk.heads}><meshStandardMaterial vertexColors emissive="#facc15" emissiveIntensity={dusk ? 2 : 0.6} /></mesh>}</group>;
   // Town square: paved, with the town sign
-  const plaza = <group><mesh position={[0, 0.02, 0]}><boxGeometry args={[P * 2, 0.04, P * 2]} /><meshStandardMaterial color="#e7e5e4" /></mesh>
-    <mesh position={[0, 0.12, 0]}><cylinderGeometry args={[0.55, 0.6, 0.16, 24]} /><meshStandardMaterial color="#cbd5e1" /></mesh>
-    <mesh position={[0, 0.21, 0]}><cylinderGeometry args={[0.46, 0.46, 0.04, 24]} /><meshStandardMaterial color="#38bdf8" /></mesh>
-    <group position={[0, 0, -0.95]}><Sign text="NEELVILLE" y={0.75} bg="#1f2a44" fg="#ffd23f" w={1.6} /></group></group>;
+  const plaza = <group><KitMesh g={plazaKit(P)} /><Sign text="NEELVILLE" y={1.15} bg="#1f2a44" fg="#ffd23f" w={1.6} /></group>;
   // Empty plots for the next followers: roped-off squares, the nearest one with a sign
   const empties = plan.empty.map((c, k) => <group key={k} position={[c.x, 0, c.z]}>
+    <mesh position={[0, 0.006, 0]}><boxGeometry args={[1.12, 0.012, 1.12]} /><meshStandardMaterial color="#a3825a" /></mesh>
     {[[-0.55, -0.55], [0.55, -0.55], [-0.55, 0.55], [0.55, 0.55]].map(([a, b]) => <mesh key={a + ' ' + b} position={[a, 0.12, b]}><boxGeometry args={[0.04, 0.24, 0.04]} /><meshStandardMaterial color="#d6d3d1" /></mesh>)}
     {[[0, -0.55, 1.1, 0.02], [0, 0.55, 1.1, 0.02], [-0.55, 0, 0.02, 1.1], [0.55, 0, 0.02, 1.1]].map(([a, b, w, d]) => <mesh key={a + ' ' + b + 'r'} position={[a, 0.2, b]}><boxGeometry args={[w, 0.02, d]} /><meshStandardMaterial color="#dc2626" /></mesh>)}
     {k === 0 && <Sign text="YOUR HOUSE HERE" y={0.55} bg="#c2853f" fg="#1c1917" w={1.3} />}</group>);
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
-    return <Lot key={k} lot={lot} i={k} x={x} z={z} a={a} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
+    return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
   const lastEmpty = plan.empty[0];
   const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
   const building_lot = sc.shot === 'lot' && lots[sc.lot]?.fresh;
@@ -243,7 +235,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
         <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color="#2f8fd8" /></mesh>
         <mesh position={[0, -0.16, 0]}><cylinderGeometry args={[R + 0.5, R + 0.9, 0.3, 64]} /><meshStandardMaterial color="#f2d79b" /></mesh>
         <mesh position={[0, -0.02, 0]}><cylinderGeometry args={[R, R + 0.3, 0.06, 64]} /><meshStandardMaterial color="#6cc24a" /></mesh>
-        {plaza}{roads}{trees}{houses}{spec}{owned}{empties}{robots}
+        {plaza}{roads}{trees}{houses}{spec}{owned}{empties}{robots}<KitMesh g={shoreKit(R)} />
       </ThreeCanvas>
       <div style={{position: 'absolute', left: 50, top: 190, fontFamily: FONT, fontWeight: 800}}>
         <div style={{display: 'inline-block', background: '#ffd23f', color: '#151515', fontSize: 52, padding: '4px 22px', borderRadius: 10}}>DAY {day}</div>
