@@ -1,6 +1,6 @@
 {
-  "day": 1,
-  "houses": 20,
+  "day": 2,
+  "houses": 24,
   "base": 20,
   "specials": [],
   "requests": [
@@ -8,11 +8,13 @@
       "user": "isaackitty13",
       "items": [
         "cat"
-      ]
+      ],
+      "built": 2
     },
     {
       "user": "tanishq.saxena02",
-      "items": []
+      "items": [],
+      "built": 2
     }
   ]
 }
