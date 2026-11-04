@@ -12,18 +12,22 @@ const now = eastern();
 const state = loadState();
 const posts = loadPosts();
 state.start ??= now.date;
-// Two reels a day: part 1 at the day's slot (queue/DATE.json), part 2 five hours later (queue/DATE-2.json, optional).
-const slots = [slotFor(now.date, state)];
-slots.push(Math.min(slots[0] + 5, 21));
+// Two reels a day: part 1 at the day's slot (queue/DATE.json), part 2 five hours later (queue/DATE-2.json, or the
+// Neelville episode). Busy days add queue/DATE-3.json to DATE-5.json; then the five go out at 9, 12, 15, 18 and 21 ET.
 const doneWith = (n) => { const t = posts.filter((p) => p.date === now.date && (p.part ?? 1) === n);
   return t.some((p) => ['posted', 'skipped'].includes(p.status)) || t.filter((p) => p.status === 'failed').length >= 2; };
-const part = DRY ? 1 : !doneWith(1) ? 1 : !doneWith(2) ? 2 : 0;
-const slot = slots[(part || 1) - 1];
 const day = process.env.DATE || now.date;
-const queueFile = `queue/${day}${part === 2 ? '-2' : ''}.json`;
+const fileFor = (n) => `queue/${day}${n > 1 ? '-' + n : ''}.json`;
+const extra = [3, 4, 5].filter((n) => fs.existsSync(fileFor(n)));
+const parts = [1, 2, ...extra];
+const s0 = slotFor(now.date, state);
+const slots = extra.length ? [9, 12, 15, 18, 21] : [s0, Math.min(s0 + 5, 21)];
+const part = DRY ? 1 : parts.find((n) => !doneWith(n)) ?? 0;
+const slot = slots[parts.indexOf(part)] ?? slots[0];
+const queueFile = fileFor(part || 1);
 
 let stop = null;
-if (!part) stop = 'both reels done today';
+if (!part) stop = 'all of today\'s reels are done';
 else if (!FORCE && !DRY && now.hour < slot) stop = `not time yet (reel ${part} at ${slot}:00 ET, now ${now.hour}:00 ET)`;
 // With no evening script, the evening reel is that day's Neelville episode (written from data/island.json).
 const island = part === 2 && !fs.existsSync(queueFile) && fs.existsSync(`${ROOT}data/island.json`);
@@ -97,7 +101,7 @@ try {
   // 'angle' draws 2D cards cleanly; 'swangle' (software 3D) garbles some 2D transforms but is the safe bet for the island.
   const render = (gl) => sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, `--gl=${gl}`, ...browser], {stdio: 'inherit'});
   try { render(script.style === 'island' ? 'swangle' : 'angle'); } catch { console.log('render failed, retrying with software 3D'); render('swangle'); }
-  entry.file = `media/${now.date}${part === 2 ? '-2' : ''}.mp4`;
+  entry.file = `media/${now.date}${part > 1 ? '-' + part : ''}.mp4`;
   // The ad is designed at 36s and played 1.2x to land on 30s. Then re-encode to Instagram's spec:
   // standard-range 4:2:0 H.264, AAC 48 kHz, index at the front.
   const speed = script.style === 'ad' ? ['-filter_complex', '[0:v]setpts=PTS/1.2[v];[0:a]atempo=1.2[a]', '-map', '[v]', '-map', '[a]', '-r', '30'] : [];
