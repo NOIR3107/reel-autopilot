@@ -15,8 +15,8 @@ KD = os.environ.get('KOKORO_DIR', os.path.join(ROOT, 'models/kokoro'))
 SFX = os.path.join(ROOT, 'public/sfx/')
 
 
-VOICE = {'narrator': 'am_adam', 'mike': 'am_michael', 'dan': 'am_eric', 'rob': 'am_onyx', 'tony': 'am_fenrir', 'luis': 'am_liam',
-         'sarah': 'af_heart', 'maya': 'af_nova', 'karen': 'af_bella', 'vince': 'am_puck', 'kai': 'am_echo', 'leo': 'am_liam', 'mara': 'af_nicole', 'host': 'am_adam', 'neel': 'am_adam', 'ava': 'af_nicole'}
+VOICE = {'narrator': 'am_puck', 'mike': 'am_michael', 'dan': 'am_eric', 'rob': 'am_onyx', 'tony': 'am_fenrir', 'luis': 'am_liam',
+         'sarah': 'af_heart', 'maya': 'af_nova', 'karen': 'af_bella', 'vince': 'am_puck', 'kai': 'am_echo', 'leo': 'am_liam', 'mara': 'af_nicole', 'host': 'am_puck', 'neel': 'am_puck', 'ava': 'af_nicole'}
 
 
 def sfx(name):
@@ -123,7 +123,7 @@ def main(queue_file, props_out):
     vodir = os.environ.get('VO_DIR') or os.path.join(ROOT, 'public/vo', os.path.basename(queue_file)[:-5])
     k = None
     vo, scenes, parts, mouth = [], [], [], []
-    narrator = p.get('narrator', VOICE['narrator'])
+    narrator = VOICE['narrator']  # one voice for the whole account (Neel picked 'energetic'); scripts' own narrator is ignored
     for sc in p['scenes']:
         voice = sc.get('voice') or (VOICE.get(sc['speaker'], narrator) if sc.get('speaker') else narrator)
         pre = os.path.join(vodir, f'{len(scenes):02d}.wav')
