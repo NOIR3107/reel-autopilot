@@ -80,9 +80,14 @@ try {
 
   soundtrack(script);
   const tmp = fs.mkdtempSync('/tmp/reel-');
-  fs.writeFileSync(`${tmp}/props.json`, JSON.stringify({...script.props, music: true}));
+  // Rotate the explainer look and colours so back-to-back reels never look the same (2 full-screen, 1 classic).
+  const n = posts.filter((p) => p.status === 'posted').length;
+  const look = script.style === 'explainer' ? {look: ['c', 'c', 'b'][n % 3], theme: n % 5} : {};
+  fs.writeFileSync(`${tmp}/props.json`, JSON.stringify({...script.props, ...look, music: true}));
   // Story reels: the voiceover sets each scene's length, so the sound tool writes the props.
   if (['story', 'explainer', 'survival', 'island'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
+  // story_sound rewrites the props from the script, so put the rotated look back on top
+  fs.writeFileSync(`${tmp}/props.json`, JSON.stringify({...JSON.parse(fs.readFileSync(`${tmp}/props.json`, 'utf8')), ...look}));
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
   // 'angle' draws 2D cards cleanly; 'swangle' (software 3D) garbles some 2D transforms but is the safe bet for the island.
   const render = (gl) => sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, `--gl=${gl}`, ...browser], {stdio: 'inherit'});

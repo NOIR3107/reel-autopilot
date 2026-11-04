@@ -18,7 +18,8 @@ Budget: this whole job must stay small. At most 4 web searches, no rendering, no
      2026-10-29.json (SEO) and 2026-10-28.json (survival).
    - Rotate formats, never the same main format two days in a row: 3D scene (`model3d`: robot, house, phone, star), before/after
      (`split`), phone chat drama (`phone`), myth vs fact (`stamp` MYTH then FACT), workflow (`flow`). Automation reels use
-     `"bgc": "#1f2a44"`.
+     `"bgc": "#1f2a44"`. The robot rotates the visual look and colours itself (full-screen look 'c' and classic 'b'), so
+     don't fight it; vary formats and props instead.
    - Hooks: write 5 candidates per reel, each from a different formula, and pick the one that would stop YOU scrolling.
      Formulas that work now: "Send this to [person] who [situation]" (drives shares, the top signal), "If you [very specific
      situation]...", contradiction ("[common belief]? Wrong / won't / isn't"), "POV: [relatable moment]", "This feels illegal to

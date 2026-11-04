@@ -251,7 +251,10 @@ const Clip = ({p, local}) => (
 
 const PROPS = {clip: Clip, shot: Shot, profile: Profile, terminal: Terminal, files: Files, chart: Chart, checklist: Checklist, box: Box, stamp: Stamp, big: Big, comments: Comments, flow: Flow, phone: Phone, split: Split, model3d: Model3D};
 
-export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look = 'a', music = true, bgc = PAPER}) => {
+// Look 'c' colour themes: background gradient, accent. The daily robot rotates them so reels don't all look alike.
+const THEMES = [['#ff7a45', '#ffd166', '#1a1a2e'], ['#6d28d9', '#ec4899', '#facc15'], ['#0f766e', '#84cc16', '#fef08a'], ['#1d4ed8', '#22d3ee', '#fde047'], ['#111827', '#374151', '#f43f5e']];
+
+export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look = 'a', music = true, bgc = PAPER, theme = 0}) => {
   const frame = useCurrentFrame();
   let acc = 0;
   const timed = scenes.map((s) => { const start = Math.round(acc * FPS); acc += s.sec; return {...s, start, len: Math.round(s.sec * FPS)}; });
@@ -268,6 +271,34 @@ export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look 
   const groups = []; for (let k = 0; k < words.length; k += 3) groups.push(words.slice(k, k + 3));
   const gi = Math.min(groups.length - 1, Math.floor(local / Math.max(1, (sc.len - 4) / Math.max(1, groups.length))));
   const enter = interpolate(local, [0, 6], [40, 0], cl);
+
+  if (look === 'c') {
+    // Full-screen look: the prop fills the frame with a punch-in and a slide on every cut, the host talks from a
+    // circle in the corner, big bold captions sit low, a progress bar runs along the top.
+    const [c1, c2, acc] = THEMES[theme % THEMES.length];
+    const total = timed.at(-1).start + timed.at(-1).len;
+    const dir = i % 2 ? -1 : 1, slide = i ? interpolate(local, [0, 7], [dir * 1100, 0], {...cl, easing: (t) => 1 - Math.pow(1 - t, 3)}) : 0;
+    const punch = interpolate(local, [0, sc.len], [1.02, 1.1], cl);
+    const g3 = groups[gi] ?? [], keyOf = (w) => sc.key && w.replace(/[^\w']/g, '').toLowerCase() === String(sc.key).toLowerCase();
+    const pop = interpolate(local - Math.floor(local / Math.max(1, (sc.len - 4) / Math.max(1, groups.length))) * Math.max(1, (sc.len - 4) / Math.max(1, groups.length)), [0, 3, 6], [0.7, 1.1, 1], cl);
+    return (
+      <AbsoluteFill style={{background: `linear-gradient(${150 + frame * 0.2}deg, ${c1}, ${c2})`, overflow: 'hidden'}}>
+        {music && <Audio src={staticFile('story-sound.wav')} />}
+        <AbsoluteFill style={{backgroundImage: 'radial-gradient(rgba(255,255,255,.18) 2px, transparent 2px)', backgroundSize: '44px 44px', opacity: 0.6}} />
+        <div style={{position: 'absolute', left: 0, top: 0, height: 14, width: `${(frame / total) * 100}%`, background: acc}} />
+        <div style={{position: 'absolute', left: 50, top: 150, fontFamily: MONO, fontWeight: 700, fontSize: 30, color: '#fff', background: 'rgba(0,0,0,.35)', padding: '8px 20px', borderRadius: 30}}>{series}</div>
+        <div style={{position: 'absolute', left: 0, right: 0, top: 260, height: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center',
+          transform: `translateX(${slide}px) scale(${(sc.prop?.scale ?? 1) * 1.18 * punch})`}}>{Prop && <Prop p={sc.prop} local={local} />}</div>
+        {i > 0 && <AbsoluteFill style={{background: '#fff', opacity: interpolate(local, [0, 3], [0.35, 0], cl)}} />}
+        <div style={{position: 'absolute', left: 40, top: 1330, width: 300, height: 300, borderRadius: '50%', overflow: 'hidden', border: `10px solid ${acc}`, background: 'rgba(255,255,255,.9)',
+          boxShadow: '0 20px 50px rgba(0,0,0,.35)', transform: `scale(${interpolate(frame, [0, 10], [0, 1], cl)})`}}>
+          <div style={{position: 'absolute', left: 150 - 200 * 1.05, top: -40}}><Person who={host} mood={sc.mood ?? 'happy'} pose={sc.pose ?? 'explain'} prevPose={timed[i - 1]?.pose ?? 'idle'} local={local} talk={talk} size={1.05} /></div></div>
+        {g3.length > 0 && !sc.cta && <div style={{position: 'absolute', left: 360, right: 40, top: 1380, fontFamily: FONT, fontWeight: 800, fontSize: 96, lineHeight: 1.02, letterSpacing: '-0.03em',
+          color: '#fff', WebkitTextStroke: '12px #111', paintOrder: 'stroke fill', textTransform: 'uppercase', transform: `scale(${pop})`, transformOrigin: 'left center'}}>
+          {g3.map((w, k) => <span key={k} style={{color: keyOf(w) ? acc : '#fff'}}>{w} </span>)}</div>}
+      </AbsoluteFill>
+    );
+  }
 
   if (look === 'b') {
     // Caption-on-top look: the spoken line builds word by word at the top, the prop sits in the middle, the host is a big bust at the bottom.
