@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-04",
+  "style": "explainer",
+  "trade": "Claude",
+  "topic": "claude code blocks cloning other games; neelville is original",
+  "hook": "Claude just banned one kind of game. And developers are furious.",
+  "hook_formula": 0,
+  "caption": "Claude Code's new rule: it won't copy other people's games anymore. Comment ISLAND to claim your lot in mine 🏝\n\nAnthropic added the rule around Oct 30, and developers lit up Reddit and GitHub about it. Original games still work, so I made one: Neelville, an island where every follower gets a house, built by tiny robots. Day 3 is coming.\n\n#claudecode #claudeai #aitools #gamedev #indiedev",
+  "props": {
+    "music": "trap",
+    "narrator": "am_adam",
+    "host": "neel",
+    "series": "AI NEWS",
+    "look": "b",
+    "bgc": "#1f2a44",
+    "scenes": [
+      {
+        "vo": "Claude just banned one kind of game. And developers are furious.",
+        "key": "banned",
+        "part": "hook",
+        "pose": "point",
+        "mood": "shocked",
+        "prop": {
+          "type": "stamp",
+          "text": "Copy someone\nelse's game",
+          "stamp": "BLOCKED"
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Last week Anthropic added a rule to Claude Code.",
+        "key": "rule",
+        "pose": "explain",
+        "prop": {
+          "type": "terminal",
+          "cmd": "make me a copy of a famous game",
+          "out": [
+            "✗ won't recreate someone else's game",
+            "✓ happy to build you an original one"
+          ]
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "It won't rebuild someone else's game anymore. Some people say they're switching tools.",
+        "key": "switching",
+        "pose": "shrug",
+        "prop": {
+          "type": "stamp",
+          "text": "Game clones",
+          "stamp": "NOPE"
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "But your own original game? Still allowed.",
+        "key": "original",
+        "part": "drop",
+        "pose": "celebrate",
+        "fx": [
+          "win"
+        ],
+        "prop": {
+          "type": "stamp",
+          "text": "Your own\ngame idea",
+          "stamp": "ALLOWED",
+          "ok": true
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "So I built my own. An island where every follower gets a house.",
+        "key": "island",
+        "pose": "point",
+        "prop": {
+          "type": "clip",
+          "src": "clips/neelville-a.mp4"
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Tiny robots build it, and you tell me what goes on your lot.",
+        "key": "lot",
+        "part": "drop2",
+        "pose": "explain",
+        "prop": {
+          "type": "clip",
+          "src": "clips/neelville-b.mp4",
+          "tilt": -2
+        },
+        "speaker": "host"
+      },
+      {
+        "vo": "Follow to get a house, and comment ISLAND to claim your lot.",
+        "key": "ISLAND",
+        "part": "outro",
+        "cta": true,
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "ISLAND",
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
+        },
+        "speaker": "host"
+      }
+    ]
+  }
+}

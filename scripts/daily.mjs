@@ -84,7 +84,9 @@ try {
   // Story reels: the voiceover sets each scene's length, so the sound tool writes the props.
   if (['story', 'explainer', 'survival', 'island'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
-  sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, '--gl=swangle', ...browser], {stdio: 'inherit'});
+  // 'angle' draws 2D cards cleanly; 'swangle' (software 3D) garbles some 2D transforms but is the safe bet for the island.
+  const render = (gl) => sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, `--gl=${gl}`, ...browser], {stdio: 'inherit'});
+  try { render(script.style === 'island' ? 'swangle' : 'angle'); } catch { console.log('render failed, retrying with software 3D'); render('swangle'); }
   entry.file = `media/${now.date}${part === 2 ? '-2' : ''}.mp4`;
   // The ad is designed at 36s and played 1.2x to land on 30s. Then re-encode to Instagram's spec:
   // standard-range 4:2:0 H.264, AAC 48 kHz, index at the front.

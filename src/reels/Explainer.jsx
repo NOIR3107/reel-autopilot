@@ -1,7 +1,7 @@
 // Explainer reels (series 1 skills, series 3 tips): paper background, small "// 03 — label" eyebrow, big headline with
 // one red *accent*, an illustrated prop that animates in every scene, a talking host in the corner, word-chip captions,
 // and a comment-keyword ending with a DM landing. Scenes: {sec, vo, eyebrow, title, bg: paper|dark|red, prop: {type, ...}}.
-import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, interpolate, OffthreadVideo, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource-variable/bricolage-grotesque/opsz.css';
 import {Person} from './Person.jsx';
 import {Model3D} from './Model3D.jsx';
@@ -242,7 +242,14 @@ const Split = ({p, local}) => {
   );
 };
 
-const PROPS = {shot: Shot, profile: Profile, terminal: Terminal, files: Files, chart: Chart, checklist: Checklist, box: Box, stamp: Stamp, big: Big, comments: Comments, flow: Flow, phone: Phone, split: Split, model3d: Model3D};
+// A real clip from one of our own reels (public/clips), in a phone-shaped frame.
+const Clip = ({p, local}) => (
+  <div style={{width: 400, height: 700, borderRadius: 46, overflow: 'hidden', border: `8px solid ${INK}`, boxShadow: `12px 12px 0 ${INK}`, transform: `scale(${useIn(local)}) rotate(${p.tilt ?? 2}deg)`}}>
+    <OffthreadVideo src={staticFile(p.src)} muted startFrom={p.from ?? 0} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+  </div>
+);
+
+const PROPS = {clip: Clip, shot: Shot, profile: Profile, terminal: Terminal, files: Files, chart: Chart, checklist: Checklist, box: Box, stamp: Stamp, big: Big, comments: Comments, flow: Flow, phone: Phone, split: Split, model3d: Model3D};
 
 export const Explainer = ({scenes, mouth = [], host = 'host', series = '', look = 'a', music = true, bgc = PAPER}) => {
   const frame = useCurrentFrame();
