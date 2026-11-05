@@ -1,6 +1,6 @@
 {
-  "day": 2,
-  "houses": 20,
+  "day": 3,
+  "houses": 24,
   "base": 20,
   "specials": [],
   "requests": [
@@ -19,13 +19,15 @@
     {
       "user": "idonnnnoooooo",
       "items": [],
-      "business": "taco stand"
+      "business": "taco stand",
+      "built": 3
     },
     {
       "user": "lio.n1903",
       "items": [
         "Barcelona flag on the roof"
-      ]
+      ],
+      "built": 3
     }
   ]
 }
