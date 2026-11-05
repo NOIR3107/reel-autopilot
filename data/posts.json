@@ -333,5 +333,23 @@
     "media_id": "18183996835442294",
     "permalink": "https://www.instagram.com/reel/DfXOKadDRKT/",
     "story_id": "18127537906902030"
+  },
+  {
+    "date": "2026-11-05",
+    "part": 3,
+    "slot": 15,
+    "hour": 15,
+    "status": "posted",
+    "style": "explainer",
+    "trade": "Claude",
+    "topic": "behind the scenes: claude writes, checks and queues this account's reels",
+    "hook": "An AI wrote this reel. I never touched the script.",
+    "formula": 0,
+    "caption": "Comment REELS and I'll DM you how the whole setup works. Follow first so the DM reaches you.\n\nEvery Sunday, Claude reads how last week's reels did, looks at what's working on Instagram, and writes next week's scripts. A checker throws out weak hooks and made-up stats. Then a robot renders each video and posts it on time.\n\nI still pick the topics I care about. Claude does the typing.\n\n#aitools #artificialintelligence #claudeai #automation #contentcreator",
+    "file": "media/2026-11-05-3.mp4",
+    "seconds": 27.904,
+    "media_id": "18105692714373817",
+    "permalink": "https://www.instagram.com/reel/DfX3tGTD9nS/",
+    "story_id": "18120142960786009"
   }
 ]
