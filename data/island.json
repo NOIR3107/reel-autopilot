@@ -1,6 +1,6 @@
 {
-  "day": 3,
-  "houses": 24,
+  "day": 2,
+  "houses": 20,
   "base": 20,
   "specials": [],
   "requests": [
@@ -19,8 +19,7 @@
     {
       "user": "idonnnnoooooo",
       "items": [],
-      "business": "taco stand",
-      "built": 3
+      "business": "taco stand"
     },
     {
       "user": "lio.n1903",
