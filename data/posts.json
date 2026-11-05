@@ -315,5 +315,23 @@
     "media_id": "18137460829658393",
     "permalink": "https://www.instagram.com/reel/DfWxHfQGdlQ/",
     "story_id": "18235708633325396"
+  },
+  {
+    "date": "2026-11-05",
+    "part": 1,
+    "slot": 9,
+    "hour": 9,
+    "status": "posted",
+    "style": "explainer",
+    "trade": "Claude",
+    "topic": "free claude plugin that runs a full seo audit of any website",
+    "hook": "Send this to anyone paying for an SEO audit. Claude does it free.",
+    "formula": 0,
+    "caption": "Comment AUDIT and I'll DM you the link and how I set it up. Follow first so the DM doesn't land in requests.\n\nFree SEO audit. Inside Claude Code.\n\nIt's an open source plugin: you hand it a website and a team of specialist agents checks speed, mobile, schema, local SEO on Google Maps, and how AI search tools like ChatGPT and Perplexity see the page, then it gives you 1 plan sorted by what matters most.\n\nI run it on every site before I touch a line of code. Takes about 15 minutes.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
+    "file": "media/2026-11-05.mp4",
+    "seconds": 30.869,
+    "media_id": "18183996835442294",
+    "permalink": "https://www.instagram.com/reel/DfXOKadDRKT/",
+    "story_id": "18127537906902030"
   }
 ]
