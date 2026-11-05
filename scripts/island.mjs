@@ -49,11 +49,11 @@ export function episode(state, followers) {
   const done = fresh.map((r) => `@${r.user.replace(/^@/, '')}`);
   const caption = `Comment what you want on your lot 🏡 and the business you want to own 🏪\n\nDay ${day} of Neelville. Every person who follows me gets a house on this island, built by tiny robots. `
     + `${done.length ? `Built today: ${list(done)}'s requests.` : added ? `${added} moved in since yesterday.` : 'Nobody new moved in yesterday.'} Population: ${pop}.${nextAmenity ? (nextAmenity.startsWith('a surprise') ? ` At ${nextAt} followers something big lands on the island 🎁` : ` At ${nextAt} followers the island gets ${withA(nextAmenity)}.`) : ''}\n\n`
-    + `Follow, comment your wish, and the robots build it.\n\n${HASHTAGS}`;
+    + `Follow, comment your wish, and the robots build it.\n\n${state.note ? state.note + '\n\n' : ''}${state.hashtags ?? HASHTAGS}`;
   return {
     script: {style: 'island', topic: `neelville day ${day}`, hook: S[0].vo, caption,
       props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: state.specials ?? [], building, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
-    next: {...state, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])],
+    next: {...state, note: undefined, hashtags: undefined, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])],
       requests: requests.map((r) => (fresh.includes(r) ? {...r, built: day} : r))},
   };
 }

@@ -211,19 +211,50 @@ const flagTex = (text) => { const c = document.createElement('canvas'); c.width 
   g.fillStyle = '#4c1d95'; g.font = 'bold 74px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
   const w = String(text).split(' '); if (w.length > 1) { g.fillText(w.slice(0, Math.ceil(w.length / 2)).join(' '), 256, 92, 480); g.fillText(w.slice(Math.ceil(w.length / 2)).join(' '), 256, 170, 480); } else g.fillText(text, 256, 128, 480);
   return new THREE.CanvasTexture(c); };
-const Statue = ({flag, t}) => {
-  const tex = useMemo(() => flagTex(flag ?? ''), [flag]), B = '#b08d57', M = (c) => <meshStandardMaterial color={c} metalness={0.5} roughness={0.4} />;
+// Painted statue of a footballer on a plinth. look: 'cr2008' (gelled spiky hair, red #7 shirt, white shorts, black
+// socks, the "SIUU" celebration pose) or 'madrid' (all-white kit with gold trim, raising a flag). Club colours only,
+// never crests or sponsor logos.
+const numTex = (n, bg, fg) => { const c = document.createElement('canvas'); c.width = 128; c.height = 128; const g = c.getContext('2d');
+  g.fillStyle = bg; g.fillRect(0, 0, 128, 128); g.fillStyle = fg; g.font = 'bold 96px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(n, 64, 70); return new THREE.CanvasTexture(c); };
+const LOOKS = {
+  cr2008: {skin: '#c68e5f', hair: '#1c1410', shirt: '#d1001f', trim: '#ffffff', shorts: '#ffffff', socks: '#111111', boots: '#f8fafc', number: '7', pose: 'siu'},
+  madrid: {skin: '#d9a477', hair: '#2b1d14', shirt: '#ffffff', trim: '#d4a017', shorts: '#ffffff', socks: '#ffffff', boots: '#111111', number: '', pose: 'flag'},
+};
+const Statue = ({flag, look = 'madrid', t}) => {
+  const L = LOOKS[look] ?? LOOKS.madrid, siu = L.pose === 'siu';
+  const tex = useMemo(() => flagTex(flag ?? ''), [flag]), num = useMemo(() => L.number && numTex(L.number, L.shirt, L.trim), [look]);
+  const M = (c) => <meshStandardMaterial color={c} roughness={0.55} />;
+  const limb = (len, w, c, pos, rot) => <mesh position={pos} rotation={rot}><boxGeometry args={[w, len, w]} />{M(c)}</mesh>;
+  const legA = siu ? 0.28 : 0.06, armA = siu ? 0.75 : 0.15; // SIUU: legs wide, arms down and out, chest up
   return (
-    <group>
-      <mesh position={[0, 0.04, 0]}><boxGeometry args={[0.26, 0.08, 0.26]} /><meshStandardMaterial color="#a8a29e" /></mesh>
-      <mesh position={[0, 0.12, 0]}><boxGeometry args={[0.2, 0.08, 0.2]} /><meshStandardMaterial color="#d6d3d1" /></mesh>
-      {[-0.035, 0.035].map((x) => <mesh key={x} position={[x, 0.24, 0]}><boxGeometry args={[0.05, 0.16, 0.05]} />{M(B)}</mesh>)}
-      <mesh position={[0, 0.39, 0]}><boxGeometry args={[0.13, 0.15, 0.07]} />{M(B)}</mesh>
-      <mesh position={[0, 0.51, 0]}><sphereGeometry args={[0.05, 12, 10]} />{M(B)}</mesh>
-      <mesh position={[-0.085, 0.37, 0]} rotation={[0, 0, -0.15]}><boxGeometry args={[0.035, 0.13, 0.035]} />{M(B)}</mesh>
-      <mesh position={[0.09, 0.5, 0]} rotation={[0, 0, -0.5]}><boxGeometry args={[0.035, 0.15, 0.035]} />{M(B)}</mesh>
-      <mesh position={[0.13, 0.62, 0]}><cylinderGeometry args={[0.008, 0.008, 0.36]} />{M('#d6d3d1')}</mesh>
-      <mesh position={[0.24, 0.72, 0]} rotation={[0, Math.sin(t / 10) * 0.15, 0]}><planeGeometry args={[0.22, 0.11]} /><meshBasicMaterial map={tex} side={2} /></mesh>
+    <group scale={1.35}>
+      <mesh position={[0, 0.04, 0]}><boxGeometry args={[0.3, 0.08, 0.3]} /><meshStandardMaterial color="#a8a29e" /></mesh>
+      <mesh position={[0, 0.11, 0]}><boxGeometry args={[0.24, 0.06, 0.24]} /><meshStandardMaterial color="#e7e5e4" /></mesh>
+      <mesh position={[0, 0.06, 0.151]}><boxGeometry args={[0.16, 0.03, 0.005]} /><meshStandardMaterial color="#d4a017" /></mesh>
+      <group position={[0, 0.14, 0]}>
+        {[-1, 1].map((sd) => <group key={sd} position={[sd * 0.035, 0.17, 0]} rotation={[0, 0, sd * legA]}>
+          {limb(0.08, 0.045, L.skin, [0, -0.05, 0])}{limb(0.06, 0.047, L.socks, [0, -0.11, 0])}{limb(0.025, 0.05, L.boots, [0, -0.15, 0.012])}</group>)}
+        <mesh position={[0, 0.2, 0]}><boxGeometry args={[0.12, 0.07, 0.07]} />{M(L.shorts)}</mesh>
+        <group position={[0, 0.31, 0]} rotation={[siu ? -0.25 : 0, 0, 0]}>
+          <mesh><boxGeometry args={[0.13, 0.16, 0.075]} />{M(L.shirt)}</mesh>
+          <mesh position={[0, 0.075, 0]}><boxGeometry args={[0.135, 0.015, 0.08]} />{M(L.trim)}</mesh>
+          {num && <mesh position={[0, 0.005, -0.039]} rotation={[0, Math.PI, 0]}><planeGeometry args={[0.08, 0.08]} /><meshBasicMaterial map={num} /></mesh>}
+          {num && <mesh position={[0.035, 0.03, 0.039]}><planeGeometry args={[0.03, 0.03]} /><meshBasicMaterial map={num} /></mesh>}
+          {[-1, 1].map((sd) => { const up = !siu && sd > 0; return <group key={sd} position={[sd * 0.075, 0.06, 0]} rotation={[0, 0, up ? 2.6 : sd * armA]}>
+            {limb(0.06, 0.042, L.shirt, [0, -0.03, 0])}{limb(0.09, 0.036, L.skin, [0, -0.1, 0])}
+            {up && <><mesh position={[0, -0.16, 0]} rotation={[0, 0, -2.6]}><cylinderGeometry args={[0.006, 0.006, 0.42]} />{M('#d6d3d1')}</mesh>
+              <mesh position={[-0.12, -0.3, 0]} rotation={[0, Math.sin(t / 10) * 0.2, -2.6 + Math.PI]}><planeGeometry args={[0.24, 0.12]} /><meshBasicMaterial map={tex} side={2} /></mesh></>}</group>; })}
+          <group position={[0, 0.13, 0]} rotation={[siu ? -0.25 : 0, 0, 0]}>
+            <mesh position={[0, -0.03, 0]}><cylinderGeometry args={[0.022, 0.026, 0.03]} />{M(L.skin)}</mesh>
+            <mesh scale={[1, 1.15, 1]}><sphereGeometry args={[0.048, 14, 12]} />{M(L.skin)}</mesh>
+            {siu ? Array.from({length: 7}, (_, k) => <mesh key={k} position={[-0.03 + k * 0.01, 0.05, -0.008 + (k % 2) * 0.008]} rotation={[-0.5, 0, (k - 3) * 0.12]}><coneGeometry args={[0.014, 0.05, 5]} />{M(L.hair)}</mesh>)
+              : <mesh position={[0, 0.022, -0.006]} scale={[1, 0.6, 1]}><sphereGeometry args={[0.05, 12, 8, 0, 6.29, 0, 1.7]} />{M(L.hair)}</mesh>}
+            {siu && <mesh position={[0, 0.032, 0]} scale={[1.02, 0.45, 1.05]}><sphereGeometry args={[0.049, 12, 8, 0, 6.29, 0, 1.6]} />{M(L.hair)}</mesh>}
+            {[-0.017, 0.017].map((x) => <mesh key={x} position={[x, 0.004, 0.045]}><sphereGeometry args={[0.006, 6, 6]} />{M('#1c1410')}</mesh>)}
+            {siu && <mesh position={[0, -0.022, 0.044]}><boxGeometry args={[0.02, 0.012, 0.004]} />{M('#7f1d1d')}</mesh>}
+          </group>
+        </group>
+      </group>
     </group>
   );
 };
@@ -231,39 +262,62 @@ const Statue = ({flag, t}) => {
 // A 3-floor gold building: fine dining restaurant, a home, and a little resort with a rooftop pool and palm trees.
 // `build` plays it floor by floor for the timelapse.
 const GoldTower = ({build = 1, t = 0}) => {
-  const G = '#f2c230', L = '#fde68a', fl = [ramp(build, 0, 0.3), ramp(build, 0.3, 0.55), ramp(build, 0.55, 0.8)], top = ramp(build, 0.8, 0.95);
-  const M = (c, e) => <meshStandardMaterial color={c} metalness={c === G || c === L ? 0.15 : 0} roughness={0.35} emissive={e ?? '#000'} emissiveIntensity={e ? 0.7 : 0} />;
-  const H = 0.36, W = 0.64, D = 0.56;
+  const G = '#f2c230', L = '#fde68a', T = '#b8860b', fl = [ramp(build, 0, 0.28), ramp(build, 0.28, 0.52), ramp(build, 0.52, 0.76)], top = ramp(build, 0.76, 0.95);
+  const M = (c, e, o) => <meshStandardMaterial color={c} metalness={c === G || c === T ? 0.2 : 0} roughness={0.35} emissive={e ?? '#000'} emissiveIntensity={e ? 0.7 : 0} transparent={o != null} opacity={o ?? 1} />;
+  const H = 0.36, W = 0.66, D = 0.58, Z = D / 2;
+  const band = (y) => <mesh position={[0, y, 0]}><boxGeometry args={[W + 0.05, 0.03, D + 0.05]} />{M(T)}</mesh>;
   return (
     <group>
-      <mesh position={[0, 0.03, 0]}><boxGeometry args={[0.74, 0.06, 0.66]} />{M('#78716c')}</mesh>
+      <mesh position={[0, 0.03, 0]}><boxGeometry args={[0.78, 0.06, 0.7]} />{M('#57534e')}</mesh>
+      {/* ground floor: fine dining, tall arched windows, revolving door, red carpet, awning, outdoor tables, sign */}
       {fl[0] > 0 && <group position={[0, 0.06, 0]} scale={[1, fl[0], 1]}>
         <mesh position={[0, H / 2, 0]}><boxGeometry args={[W, H, D]} />{M(G)}</mesh>
-        {[-0.2, 0.2].map((x) => <mesh key={x} position={[x, 0.17, D / 2 + 0.006]}><boxGeometry args={[0.16, 0.2, 0.01]} />{M('#fde68a', '#f59e0b')}</mesh>)}
-        <mesh position={[0, 0.12, D / 2 + 0.008]}><boxGeometry args={[0.12, 0.22, 0.012]} />{M('#450a0a')}</mesh>
-        <mesh position={[0, 0.3, D / 2 + 0.07]} rotation={[0.4, 0, 0]}><boxGeometry args={[0.66, 0.02, 0.16]} />{M('#7f1d1d')}</mesh>
-        {[-0.24, 0.24].map((x) => <group key={x} position={[x, 0, D / 2 + 0.2]}><mesh position={[0, 0.05, 0]}><cylinderGeometry args={[0.05, 0.05, 0.01, 12]} />{M('#fafaf9')}</mesh>
-          <mesh position={[0, 0.025, 0]}><cylinderGeometry args={[0.008, 0.008, 0.05]} />{M('#1f2937')}</mesh></group>)}
+        {[-0.24, -0.12, 0.12, 0.24].map((x) => <group key={x}><mesh position={[x, 0.17, Z + 0.006]}><boxGeometry args={[0.08, 0.22, 0.01]} />{M('#fde68a', '#f59e0b')}</mesh>
+          <mesh position={[x, 0.29, Z + 0.006]} rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.04, 0.04, 0.012, 12, 1, false, 0, Math.PI]} />{M('#fde68a', '#f59e0b')}</mesh></group>)}
+        <mesh position={[0, 0.13, Z + 0.01]}><boxGeometry args={[0.12, 0.24, 0.012]} />{M('#1c1917')}</mesh><mesh position={[0, 0.13, Z + 0.016]}><boxGeometry args={[0.005, 0.22, 0.005]} />{M(T)}</mesh>
+        <mesh position={[0, 0.004, Z + 0.18]}><boxGeometry args={[0.14, 0.008, 0.36]} />{M('#b91c1c')}</mesh>
+        <mesh position={[0, 0.3, Z + 0.09]} rotation={[0.35, 0, 0]}><boxGeometry args={[0.22, 0.02, 0.2]} />{M('#7f1d1d')}</mesh>
+        {[-0.1, 0.1].map((x) => <mesh key={x} position={[x, 0.15, Z + 0.17]}><cylinderGeometry args={[0.008, 0.008, 0.3]} />{M(T)}</mesh>)}
+        {[-0.27, 0.27].map((x) => <group key={x} position={[x, 0, Z + 0.2]}><mesh position={[0, 0.06, 0]}><cylinderGeometry args={[0.055, 0.055, 0.008, 14]} />{M('#fafaf9')}</mesh>
+          <mesh position={[0, 0.03, 0]}><cylinderGeometry args={[0.006, 0.006, 0.06]} />{M('#1f2937')}</mesh>{[-1, 1].map((sd) => <mesh key={sd} position={[sd * 0.07, 0.03, 0]}><boxGeometry args={[0.03, 0.06, 0.03]} />{M('#7f1d1d')}</mesh>)}
+          <mesh position={[0, 0.17, 0]}><cylinderGeometry args={[0.004, 0.004, 0.22]} />{M('#d6d3d1')}</mesh><mesh position={[0, 0.27, 0]}><coneGeometry args={[0.09, 0.05, 8]} />{M('#fafaf9')}</mesh></group>)}
+        {[-0.3, 0.3].map((x) => <group key={'p' + x} position={[x, 0, Z + 0.02]}><mesh position={[0, 0.04, 0]}><cylinderGeometry args={[0.03, 0.025, 0.08, 10]} />{M('#1c1917')}</mesh><mesh position={[0, 0.1, 0]}><sphereGeometry args={[0.045, 8, 6]} />{M('#15803d')}</mesh></group>)}
       </group>}
+      {fl[0] >= 1 && band(0.06 + H)}
+      {fl[0] >= 1 && <group position={[0, 0.06 + H * 0.82, Z + 0.03]}><Sign text="FINE DINING" y={0} bg="#1c1917" fg="#f2c230" w={0.62} /></group>}
+      {/* first floor: the home, shuttered windows, flower boxes, a wide balcony with railing */}
       {fl[1] > 0 && <group position={[0, 0.06 + H, 0]} scale={[1, fl[1], 1]}>
         <mesh position={[0, H / 2, 0]}><boxGeometry args={[W - 0.02, H, D - 0.02]} />{M(L)}</mesh>
-        {[-0.2, 0, 0.2].map((x) => <mesh key={x} position={[x, 0.18, D / 2 - 0.004]}><boxGeometry args={[0.1, 0.12, 0.01]} />{M('#bfe3f5')}</mesh>)}
-        <mesh position={[0, 0.04, D / 2 + 0.05]}><boxGeometry args={[0.6, 0.02, 0.1]} />{M('#fafaf9')}</mesh>
-        {Array.from({length: 9}, (_, k) => <mesh key={k} position={[-0.28 + k * 0.07, 0.08, D / 2 + 0.095]}><boxGeometry args={[0.01, 0.08, 0.01]} />{M('#fafaf9')}</mesh>)}
-        <mesh position={[0, 0.12, D / 2 + 0.095]}><boxGeometry args={[0.6, 0.012, 0.012]} />{M('#fafaf9')}</mesh>
+        {[-0.22, 0, 0.22].map((x) => <group key={x}><mesh position={[x, 0.19, Z - 0.004]}><boxGeometry args={[0.1, 0.13, 0.012]} />{M('#bfe3f5')}</mesh>
+          {[-1, 1].map((sd) => <mesh key={sd} position={[x + sd * 0.068, 0.19, Z - 0.002]}><boxGeometry args={[0.03, 0.13, 0.008]} />{M('#1e3a8a')}</mesh>)}
+          <mesh position={[x, 0.11, Z + 0.01]}><boxGeometry args={[0.11, 0.02, 0.025]} />{M('#78350f')}</mesh>
+          {[-0.03, 0, 0.03].map((o, k) => <mesh key={o} position={[x + o, 0.125, Z + 0.012]}><sphereGeometry args={[0.01, 6, 6]} />{M(['#f472b6', '#facc15', '#f87171'][k])}</mesh>)}</group>)}
+        <mesh position={[0, 0.03, Z + 0.06]}><boxGeometry args={[W, 0.02, 0.12]} />{M('#fafaf9')}</mesh>
+        {Array.from({length: 13}, (_, k) => <mesh key={k} position={[-0.31 + k * 0.052, 0.075, Z + 0.115]}><boxGeometry args={[0.008, 0.08, 0.008]} />{M(T)}</mesh>)}
+        <mesh position={[0, 0.115, Z + 0.115]}><boxGeometry args={[W, 0.012, 0.012]} />{M(T)}</mesh>
       </group>}
+      {fl[1] >= 1 && band(0.06 + 2 * H)}
+      {/* second floor: the resort lobby, a wall of glass with gold fins and warm light inside */}
       {fl[2] > 0 && <group position={[0, 0.06 + 2 * H, 0]} scale={[1, fl[2], 1]}>
-        <mesh position={[0, H / 2, 0]}><boxGeometry args={[W - 0.04, H, D - 0.04]} />{M(G)}</mesh>
-        <mesh position={[0, 0.18, D / 2 - 0.015]}><boxGeometry args={[0.5, 0.2, 0.01]} />{M('#a5f3fc')}</mesh>
+        <mesh position={[0, H / 2, 0]}><boxGeometry args={[W - 0.06, H, D - 0.06]} />{M('#fef3c7', '#fbbf24')}</mesh>
+        <mesh position={[0, H / 2, 0]}><boxGeometry args={[W - 0.02, H - 0.02, D - 0.02]} />{M('#7dd3fc', null, 0.45)}</mesh>
+        {Array.from({length: 7}, (_, k) => <mesh key={k} position={[-0.3 + k * 0.1, H / 2, Z - 0.005]}><boxGeometry args={[0.012, H, 0.02]} />{M(T)}</mesh>)}
+        {Array.from({length: 5}, (_, k) => <mesh key={'s' + k} position={[W / 2 - 0.005, H / 2, -0.24 + k * 0.12]}><boxGeometry args={[0.02, H, 0.012]} />{M(T)}</mesh>)}
       </group>}
+      {/* rooftop resort: infinity pool with glass edge, hot tub, cabana, loungers, umbrellas, palms, string lights */}
       {top > 0 && <group position={[0, 0.06 + 3 * H, 0]} scale={top}>
-        <mesh position={[0, 0.015, 0]}><boxGeometry args={[W - 0.02, 0.03, D - 0.02]} />{M('#e7e5e4')}</mesh>
-        <mesh position={[-0.08, 0.035, 0]}><boxGeometry args={[0.34, 0.02, 0.28]} />{M('#38bdf8')}</mesh>
-        {[[0.24, -0.18], [0.24, 0.18]].map(([x, z]) => <group key={z} position={[x, 0.02, z]}><mesh position={[0, 0.12, 0]}><cylinderGeometry args={[0.012, 0.016, 0.24]} />{M('#92400e')}</mesh>
-          {[0, 1, 2, 3, 4].map((k) => <mesh key={k} position={[Math.cos(k * 1.26) * 0.07, 0.24, Math.sin(k * 1.26) * 0.07]} rotation={[Math.sin(k * 1.26) * 0.6, 0, -Math.cos(k * 1.26) * 0.6]}><boxGeometry args={[0.13, 0.008, 0.035]} />{M('#16a34a')}</mesh>)}</group>)}
-        {[-0.2, 0.04].map((x) => <mesh key={x} position={[x, 0.05, 0.22]}><boxGeometry args={[0.1, 0.015, 0.05]} />{M('#fafaf9')}</mesh>)}
-        <group position={[0.1, 0.03, 0.2]}><mesh position={[0, 0.08, 0]}><cylinderGeometry args={[0.006, 0.006, 0.16]} />{M('#fafaf9')}</mesh>
-          <mesh position={[0, 0.17, 0]}><coneGeometry args={[0.09, 0.05, 8]} />{M('#f472b6')}</mesh></group>
+        <mesh position={[0, 0.015, 0]}><boxGeometry args={[W + 0.04, 0.03, D + 0.04]} />{M('#d6b37a')}</mesh>
+        <mesh position={[-0.06, 0.04, 0.05]}><boxGeometry args={[0.44, 0.03, 0.3]} />{M('#0ea5e9')}</mesh>
+        <mesh position={[-0.06, 0.06, 0.2]}><boxGeometry args={[0.46, 0.06, 0.008]} />{M('#bae6fd', null, 0.5)}</mesh>
+        <mesh position={[0.24, 0.04, -0.18]}><cylinderGeometry args={[0.07, 0.07, 0.05, 16]} />{M('#e7e5e4')}</mesh><mesh position={[0.24, 0.066, -0.18]}><cylinderGeometry args={[0.058, 0.058, 0.004, 16]} />{M('#67e8f9')}</mesh>
+        <group position={[-0.22, 0.03, -0.2]}>{[[-0.07, -0.05], [0.07, -0.05], [-0.07, 0.05], [0.07, 0.05]].map(([x, z]) => <mesh key={x + ' ' + z} position={[x, 0.08, z]}><cylinderGeometry args={[0.005, 0.005, 0.16]} />{M('#fafaf9')}</mesh>)}
+          <mesh position={[0, 0.17, 0]}><boxGeometry args={[0.17, 0.015, 0.13]} />{M('#fafaf9')}</mesh><mesh position={[0, 0.02, 0]}><boxGeometry args={[0.13, 0.03, 0.09]} />{M('#f5f5f4')}</mesh></group>
+        {[-0.16, 0, 0.16].map((x) => <mesh key={x} position={[x, 0.045, 0.27]} rotation={[0.25, 0, 0]}><boxGeometry args={[0.07, 0.012, 0.12]} />{M('#fafaf9')}</mesh>)}
+        {[-0.08, 0.08].map((x) => <group key={'u' + x} position={[x, 0.03, 0.27]}><mesh position={[0, 0.08, 0]}><cylinderGeometry args={[0.004, 0.004, 0.16]} />{M('#d6d3d1')}</mesh><mesh position={[0, 0.17, 0]}><coneGeometry args={[0.08, 0.04, 8]} />{M('#f472b6')}</mesh></group>)}
+        {[[0.27, 0.2], [0.27, 0.02], [-0.3, 0.24]].map(([x, z], k) => <group key={k} position={[x, 0.03, z]}><mesh position={[0, 0.06, 0]}><cylinderGeometry args={[0.03, 0.025, 0.06, 8]} />{M('#a16207')}</mesh>
+          <mesh position={[0, 0.2, 0]} rotation={[0, 0, 0.08]}><cylinderGeometry args={[0.01, 0.015, 0.26]} />{M('#92400e')}</mesh>
+          {Array.from({length: 6}, (_, j) => <mesh key={j} position={[Math.cos(j * 1.05) * 0.075, 0.32, Math.sin(j * 1.05) * 0.075]} rotation={[Math.sin(j * 1.05) * 0.7, 0, -Math.cos(j * 1.05) * 0.7]}><boxGeometry args={[0.15, 0.008, 0.04]} />{M('#16a34a')}</mesh>)}</group>)}
+        {Array.from({length: 12}, (_, k) => <mesh key={'l' + k} position={[-0.32 + k * 0.058, 0.2 - Math.sin((k / 11) * Math.PI) * 0.04, -0.3]}><sphereGeometry args={[0.012, 6, 6]} />{M('#fde68a', '#facc15')}</mesh>)}
       </group>}
     </group>
   );
@@ -275,10 +329,10 @@ const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
-      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={lot.custom === 'gold3' ? 1.75 : 1.25} />}
+      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={lot.custom === 'gold3' ? 1.95 : 1.25} />}
       <group rotation={[0, rot, 0]}>
       {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
-      {lot.statue && <group position={[-0.32, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue} t={t} /></group>}
+      {lot.statue && <group position={[-0.34, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue.flag ?? lot.statue} look={lot.statue.look} t={t} />{lot.statue.plaque && <Sign text={lot.statue.plaque} y={1.05} bg="#7f1d1d" fg="#ffd23f" w={0.95} />}</group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);
           const y = YARD[(k + (lot.business ? 1 : 0)) % 4]; // the front yard spot goes to the business

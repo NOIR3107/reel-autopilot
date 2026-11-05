@@ -14,8 +14,11 @@
     {
       "user": "tanishq.saxena02",
       "items": [],
-      "statue": "#7 \u00b7 2008",
-      "say": "a Ronaldo statue, 2008 style, right by his door"
+      "statue": {
+        "look": "cr2008",
+        "plaque": "OBRIGADO #7"
+      },
+      "say": "a Ronaldo statue, 2008 style. He just said goodbye to Portugal after 23 years. Obrigado, number 7"
     },
     {
       "user": "idonnnnoooooo",
@@ -33,8 +36,11 @@
     {
       "user": "purnaa03",
       "items": [],
-      "statue": "HALA MADRID",
-      "say": "a statue of themselves outside their door, waving a Hala Madrid flag"
+      "statue": {
+        "look": "madrid",
+        "flag": "HALA MADRID"
+      },
+      "say": "a statue of themselves in a Real Madrid kit outside their door, waving a Hala Madrid flag"
     },
     {
       "user": "__ianskii",
@@ -55,5 +61,7 @@
       "custom": "twostory",
       "say": "a two story house with a pool"
     }
-  ]
+  ],
+  "note": "Obrigado, Cristiano \ud83c\uddf5\ud83c\uddf9 23 years in the number 7 shirt. This statue on Tanishq's lot is for you.",
+  "hashtags": "#ronaldo #cr7 #cristianoronaldo #siuuu #3danimation"
 }
