@@ -12,7 +12,7 @@ permissions: {contents: write}
 jobs:
   reel:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,7 +29,7 @@ jobs:
           ls -la
       - run: npm test
       - run: git config user.name "reel-bot" && git config user.email "reel-bot@users.noreply.github.com"
-      - run: node scripts/daily.mjs
+      - run: PART=$(grep -o 'part=[0-9]' trigger/post-now | cut -d= -f2) node scripts/daily.mjs # 'part=2' in the trigger file posts that reel
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           FORCE: ${{ (inputs.force || github.event_name == 'push') && '1' || '' }}

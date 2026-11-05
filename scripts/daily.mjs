@@ -22,7 +22,7 @@ const extra = [3, 4, 5].filter((n) => fs.existsSync(fileFor(n)));
 const parts = [1, 2, ...extra];
 const s0 = slotFor(now.date, state);
 const slots = extra.length ? [9, 12, 15, 18, 21] : [s0, Math.min(s0 + 5, 21)];
-const part = DRY ? 1 : parts.find((n) => !doneWith(n)) ?? 0;
+const part = DRY ? 1 : process.env.PART ? Number(process.env.PART) : parts.find((n) => !doneWith(n)) ?? 0; // PART: post that one now (manual)
 const slot = slots[parts.indexOf(part)] ?? slots[0];
 const queueFile = fileFor(part || 1);
 
