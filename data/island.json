@@ -1,6 +1,6 @@
 {
-  "day": 3,
-  "houses": 24,
+  "day": 4,
+  "houses": 28,
   "base": 20,
   "specials": [],
   "requests": [
@@ -18,7 +18,8 @@
         "look": "cr2008",
         "plaque": "OBRIGADO #7"
       },
-      "say": "a Ronaldo statue, 2008 style. He just said goodbye to Portugal after 23 years. Obrigado, number 7"
+      "say": "a Ronaldo statue, 2008 style. He just said goodbye to Portugal after 23 years. Obrigado, number 7",
+      "built": 4
     },
     {
       "user": "idonnnnoooooo",
@@ -40,18 +41,21 @@
         "look": "madrid",
         "flag": "HALA MADRID"
       },
-      "say": "a statue of themselves in a Real Madrid kit outside their door, waving a Hala Madrid flag"
+      "say": "a statue of themselves in a Real Madrid kit outside their door, waving a Hala Madrid flag",
+      "built": 4
     },
     {
       "user": "__ianskii",
       "items": [],
       "custom": "gold3",
-      "say": "a three floor gold house, with a fine dining restaurant, their home, and a resort on top"
+      "say": "a three floor gold house, with a fine dining restaurant, their home, and a resort on top",
+      "built": 4
     },
     {
       "user": "bhoomikaaz",
       "items": [],
-      "business": "luxury bag boutique"
+      "business": "luxury bag boutique",
+      "built": 4
     },
     {
       "user": "luckiiii4l",
@@ -59,9 +63,8 @@
         "pool"
       ],
       "custom": "twostory",
-      "say": "a two story house with a pool"
+      "say": "a two story house with a pool",
+      "built": 4
     }
-  ],
-  "note": "Obrigado, Cristiano \ud83c\uddf5\ud83c\uddf9 23 years in the number 7 shirt. This statue on Tanishq's lot is for you.",
-  "hashtags": "#ronaldo #cr7 #cristianoronaldo #siuuu #3danimation"
+  ]
 }
