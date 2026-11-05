@@ -28,6 +28,18 @@
         "Barcelona flag on the roof"
       ],
       "built": 3
+    },
+    {
+      "user": "purnaa03",
+      "items": [],
+      "statue": "HALA MADRID",
+      "say": "a statue of themselves outside their door, waving a Hala Madrid flag"
+    },
+    {
+      "user": "__ianskii",
+      "items": [],
+      "custom": "gold3",
+      "say": "a three floor gold house, with a fine dining restaurant, their home, and a resort on top"
     }
   ]
 }

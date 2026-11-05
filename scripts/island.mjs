@@ -1,5 +1,5 @@
 // Writes each day's Neelville episode from the island's state, so this series needs no weekly writer.
-// data/island.json: {day, houses, specials: [{type, day}], requests: [{user, items: ['pool', ...], business, built?: day}]}
+// data/island.json: {day, houses, specials: [{type, day}], requests: [{user, items: ['pool', ...], business, custom: 'gold3', statue: 'FLAG TEXT', say: 'what the voice says they asked for', built?: day}]}
 // Neel adds requests (what followers commented: things on their lot, the business they want); up to 3 get built per episode.
 export const BUILDS = ['themepark', 'burger', 'icecream', 'skatepark', 'windmill', 'lighthouse', 'factory', 'tower', 'stadium'];
 const SURPRISES = ['themepark']; // kept secret until the episode that unlocks it
@@ -30,7 +30,7 @@ export function episode(state, followers) {
   if (day === 1) S.push({vo: 'Little robots build every house. One for each follower.', key: 'robots', shot: 'close'});
   fresh.forEach((r, k) => {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
-    S.push({vo: wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
+    S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
   });
   if (building) S.push(SURPRISES.includes(building)
     ? {vo: `${base + n * STEP} followers! Time for the surprise. It's ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win'], hold: 2.5}

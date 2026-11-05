@@ -202,15 +202,80 @@ const Shop = ({name, i, t = 0}) => {
     </group>
   );
 };
+// A statue of the lot's owner on a plinth, raising a flag with their words on it (text only, no logos).
+const flagTex = (text) => { const c = document.createElement('canvas'); c.width = 512; c.height = 256; const g = c.getContext('2d');
+  g.fillStyle = '#ffffff'; g.fillRect(0, 0, 512, 256); g.fillStyle = '#d4a017'; g.fillRect(0, 0, 512, 22); g.fillRect(0, 234, 512, 22);
+  g.fillStyle = '#4c1d95'; g.font = 'bold 74px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  const w = String(text).split(' '); if (w.length > 1) { g.fillText(w.slice(0, Math.ceil(w.length / 2)).join(' '), 256, 92, 480); g.fillText(w.slice(Math.ceil(w.length / 2)).join(' '), 256, 170, 480); } else g.fillText(text, 256, 128, 480);
+  return new THREE.CanvasTexture(c); };
+const Statue = ({flag, t}) => {
+  const tex = useMemo(() => flagTex(flag ?? ''), [flag]), B = '#b08d57', M = (c) => <meshStandardMaterial color={c} metalness={0.5} roughness={0.4} />;
+  return (
+    <group>
+      <mesh position={[0, 0.04, 0]}><boxGeometry args={[0.26, 0.08, 0.26]} /><meshStandardMaterial color="#a8a29e" /></mesh>
+      <mesh position={[0, 0.12, 0]}><boxGeometry args={[0.2, 0.08, 0.2]} /><meshStandardMaterial color="#d6d3d1" /></mesh>
+      {[-0.035, 0.035].map((x) => <mesh key={x} position={[x, 0.24, 0]}><boxGeometry args={[0.05, 0.16, 0.05]} />{M(B)}</mesh>)}
+      <mesh position={[0, 0.39, 0]}><boxGeometry args={[0.13, 0.15, 0.07]} />{M(B)}</mesh>
+      <mesh position={[0, 0.51, 0]}><sphereGeometry args={[0.05, 12, 10]} />{M(B)}</mesh>
+      <mesh position={[-0.085, 0.37, 0]} rotation={[0, 0, -0.15]}><boxGeometry args={[0.035, 0.13, 0.035]} />{M(B)}</mesh>
+      <mesh position={[0.09, 0.5, 0]} rotation={[0, 0, -0.5]}><boxGeometry args={[0.035, 0.15, 0.035]} />{M(B)}</mesh>
+      <mesh position={[0.13, 0.62, 0]}><cylinderGeometry args={[0.008, 0.008, 0.36]} />{M('#d6d3d1')}</mesh>
+      <mesh position={[0.24, 0.72, 0]} rotation={[0, Math.sin(t / 10) * 0.15, 0]}><planeGeometry args={[0.22, 0.11]} /><meshBasicMaterial map={tex} side={2} /></mesh>
+    </group>
+  );
+};
+
+// A 3-floor gold building: fine dining restaurant, a home, and a little resort with a rooftop pool and palm trees.
+// `build` plays it floor by floor for the timelapse.
+const GoldTower = ({build = 1, t = 0}) => {
+  const G = '#f2c230', L = '#fde68a', fl = [ramp(build, 0, 0.3), ramp(build, 0.3, 0.55), ramp(build, 0.55, 0.8)], top = ramp(build, 0.8, 0.95);
+  const M = (c, e) => <meshStandardMaterial color={c} metalness={c === G || c === L ? 0.15 : 0} roughness={0.35} emissive={e ?? '#000'} emissiveIntensity={e ? 0.7 : 0} />;
+  const H = 0.36, W = 0.64, D = 0.56;
+  return (
+    <group>
+      <mesh position={[0, 0.03, 0]}><boxGeometry args={[0.74, 0.06, 0.66]} />{M('#78716c')}</mesh>
+      {fl[0] > 0 && <group position={[0, 0.06, 0]} scale={[1, fl[0], 1]}>
+        <mesh position={[0, H / 2, 0]}><boxGeometry args={[W, H, D]} />{M(G)}</mesh>
+        {[-0.2, 0.2].map((x) => <mesh key={x} position={[x, 0.17, D / 2 + 0.006]}><boxGeometry args={[0.16, 0.2, 0.01]} />{M('#fde68a', '#f59e0b')}</mesh>)}
+        <mesh position={[0, 0.12, D / 2 + 0.008]}><boxGeometry args={[0.12, 0.22, 0.012]} />{M('#450a0a')}</mesh>
+        <mesh position={[0, 0.3, D / 2 + 0.07]} rotation={[0.4, 0, 0]}><boxGeometry args={[0.66, 0.02, 0.16]} />{M('#7f1d1d')}</mesh>
+        {[-0.24, 0.24].map((x) => <group key={x} position={[x, 0, D / 2 + 0.2]}><mesh position={[0, 0.05, 0]}><cylinderGeometry args={[0.05, 0.05, 0.01, 12]} />{M('#fafaf9')}</mesh>
+          <mesh position={[0, 0.025, 0]}><cylinderGeometry args={[0.008, 0.008, 0.05]} />{M('#1f2937')}</mesh></group>)}
+      </group>}
+      {fl[1] > 0 && <group position={[0, 0.06 + H, 0]} scale={[1, fl[1], 1]}>
+        <mesh position={[0, H / 2, 0]}><boxGeometry args={[W - 0.02, H, D - 0.02]} />{M(L)}</mesh>
+        {[-0.2, 0, 0.2].map((x) => <mesh key={x} position={[x, 0.18, D / 2 - 0.004]}><boxGeometry args={[0.1, 0.12, 0.01]} />{M('#bfe3f5')}</mesh>)}
+        <mesh position={[0, 0.04, D / 2 + 0.05]}><boxGeometry args={[0.6, 0.02, 0.1]} />{M('#fafaf9')}</mesh>
+        {Array.from({length: 9}, (_, k) => <mesh key={k} position={[-0.28 + k * 0.07, 0.08, D / 2 + 0.095]}><boxGeometry args={[0.01, 0.08, 0.01]} />{M('#fafaf9')}</mesh>)}
+        <mesh position={[0, 0.12, D / 2 + 0.095]}><boxGeometry args={[0.6, 0.012, 0.012]} />{M('#fafaf9')}</mesh>
+      </group>}
+      {fl[2] > 0 && <group position={[0, 0.06 + 2 * H, 0]} scale={[1, fl[2], 1]}>
+        <mesh position={[0, H / 2, 0]}><boxGeometry args={[W - 0.04, H, D - 0.04]} />{M(G)}</mesh>
+        <mesh position={[0, 0.18, D / 2 - 0.015]}><boxGeometry args={[0.5, 0.2, 0.01]} />{M('#a5f3fc')}</mesh>
+      </group>}
+      {top > 0 && <group position={[0, 0.06 + 3 * H, 0]} scale={top}>
+        <mesh position={[0, 0.015, 0]}><boxGeometry args={[W - 0.02, 0.03, D - 0.02]} />{M('#e7e5e4')}</mesh>
+        <mesh position={[-0.08, 0.035, 0]}><boxGeometry args={[0.34, 0.02, 0.28]} />{M('#38bdf8')}</mesh>
+        {[[0.24, -0.18], [0.24, 0.18]].map(([x, z]) => <group key={z} position={[x, 0.02, z]}><mesh position={[0, 0.12, 0]}><cylinderGeometry args={[0.012, 0.016, 0.24]} />{M('#92400e')}</mesh>
+          {[0, 1, 2, 3, 4].map((k) => <mesh key={k} position={[Math.cos(k * 1.26) * 0.07, 0.24, Math.sin(k * 1.26) * 0.07]} rotation={[Math.sin(k * 1.26) * 0.6, 0, -Math.cos(k * 1.26) * 0.6]}><boxGeometry args={[0.13, 0.008, 0.035]} />{M('#16a34a')}</mesh>)}</group>)}
+        {[-0.2, 0.04].map((x) => <mesh key={x} position={[x, 0.05, 0.22]}><boxGeometry args={[0.1, 0.015, 0.05]} />{M('#fafaf9')}</mesh>)}
+        <group position={[0.1, 0.03, 0.2]}><mesh position={[0, 0.08, 0]}><cylinderGeometry args={[0.006, 0.006, 0.16]} />{M('#fafaf9')}</mesh>
+          <mesh position={[0, 0.17, 0]}><coneGeometry args={[0.09, 0.05, 8]} />{M('#f472b6')}</mesh></group>
+      </group>}
+    </group>
+  );
+};
+
 // One person's lot: their house with their name, what they asked for, and their business.
 const YARD = [[0.5, 0.25], [-0.5, 0.25], [0.5, -0.42], [-0.5, -0.42]];
-const Lot = ({lot, i, x, z, rot, rise, t}) => {
+const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
-      {rise > 0.97 && <Sign text={'@' + lot.user} y={1.25} />}
+      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={lot.custom === 'gold3' ? 1.75 : 1.25} />}
       <group rotation={[0, rot, 0]}>
-      <House x={0} z={0} i={i + 5} build={rise} />
+      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : <House x={0} z={0} i={i + 5} build={rise} />}
+      {lot.statue && <group position={[-0.32, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue} t={t} /></group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);
           const y = YARD[(k + (lot.business ? 1 : 0)) % 4]; // the front yard spot goes to the business
@@ -227,7 +292,7 @@ const Cam = ({shot, local, len, R, focus}) => {
   const camera = useThree((st) => st.camera);
   const k = local / Math.max(1, len);
   let p, look = [0, 0, 0];
-  if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = 0.8 + k * 0.6, d = shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3; look = [focus[0], 0.5, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : 2.2) - k * 0.4, focus[1] + Math.sin(a) * d]; }
+  if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = (shot === 'lot' && focus[2] != null ? Math.atan2(Math.cos(focus[2]), Math.sin(focus[2])) - 0.35 : 0.8) + k * 0.6, d = shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3; look = [focus[0], 0.5, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : 2.2) - k * 0.4, focus[1] + Math.sin(a) * d]; }
   else if (shot === 'top') p = [0.01, R * 4.6 - k * R * 0.6, 0.01]; // portrait frame is narrow: pull back so the whole island fits
   else { const a = 0.6 + k * 0.5 + (shot === 'houses' ? 1.2 : 0), d = R * (shot === 'vote' ? 3.6 : 3.1) - k * R * 0.3; p = [Math.cos(a) * d, R * 2.1, Math.sin(a) * d]; }
   camera.position.set(...p);
@@ -280,7 +345,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
     {[[0, -0.55, 1.1, 0.02], [0, 0.55, 1.1, 0.02], [-0.55, 0, 0.02, 1.1], [0.55, 0, 0.02, 1.1]].map(([a, b, w, d]) => <mesh key={a + ' ' + b + 'r'} position={[a, 0.2, b]}><boxGeometry args={[w, 0.02, d]} /><meshStandardMaterial color="#dc2626" /></mesh>)}
     {k === 0 && <Sign text="YOUR HOUSE HERE" y={0.55} bg="#c2853f" fg="#1c1917" w={1.3} />}</group>);
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
-    return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} t={frame} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
+    return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} t={frame} sign={sc.shot !== 'lot' || sc.lot === k} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
   const lastEmpty = plan.empty[0];
   const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
   const building_lot = sc.shot === 'lot' && lots[sc.lot]?.fresh;
