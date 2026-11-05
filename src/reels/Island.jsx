@@ -127,7 +127,12 @@ const ITEMS = {
     {[-0.025, 0.025].map((e) => <mesh key={e} position={[0.13, 0.21, e]}><coneGeometry args={[0.02, 0.05, 4]} /><meshStandardMaterial color="#f97316" /></mesh>)}<mesh position={[-0.13, 0.13, 0]} rotation={[0, 0, 0.8]}><cylinderGeometry args={[0.012, 0.012, 0.16]} /><meshStandardMaterial color="#f97316" /></mesh></group>,
   flag: <><mesh position={[0, 0.45, 0]}><cylinderGeometry args={[0.015, 0.015, 0.9]} /><meshStandardMaterial color="#888" /></mesh><mesh position={[0.15, 0.78, 0]}><boxGeometry args={[0.3, 0.18, 0.01]} /><meshStandardMaterial color="#e5322d" /></mesh></>,
 };
-const itemKey = (t) => Object.keys(ITEMS).find((k) => String(t).toLowerCase().includes(k));
+// Barcelona-colours banner on a little roof pole (club colours only, no crest)
+ITEMS.barcelona = <group position={[0.1, 0.72, 0.02]}><mesh position={[0, 0.16, 0]}><cylinderGeometry args={[0.01, 0.01, 0.34]} /><meshStandardMaterial color="#d6d3d1" /></mesh>
+  {[0, 1, 2, 3, 4].map((k) => <mesh key={k} position={[0.03 + k * 0.032, 0.25, 0]}><boxGeometry args={[0.032, 0.14, 0.008]} /><meshStandardMaterial color={k % 2 ? '#a50044' : '#004d98'} /></mesh>)}
+  <mesh position={[0.11, 0.33, 0]}><boxGeometry args={[0.16, 0.02, 0.009]} /><meshStandardMaterial color="#edbb00" /></mesh></group>;
+const ROOF_ITEMS = ['barcelona'];
+const itemKey = (t) => [...ROOF_ITEMS, ...Object.keys(ITEMS)].find((k) => String(t).toLowerCase().includes(k));
 const Shop = ({name, i}) => (
   <group>
     <mesh position={[0, 0.3, 0]}><boxGeometry args={[0.8, 0.6, 0.6]} /><meshStandardMaterial color="#fff7ed" /></mesh>
@@ -146,7 +151,7 @@ const Lot = ({lot, i, x, z, rot, rise}) => {
       <House x={0} z={0} i={i + 5} build={rise} />
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);
-          return <group key={k} position={[YARD[k][0], 0, YARD[k][1]]}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
+          return <group key={k} position={ROOF_ITEMS.includes(key) ? [0, 0, 0] : [YARD[k][0], 0, YARD[k][1]]}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
         {lot.business && <group position={[0, 0, -0.52]} scale={0.6}><Shop name={lot.business} i={i} /></group>}
       </group>
       </group>
