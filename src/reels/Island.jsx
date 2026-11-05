@@ -38,8 +38,8 @@ const COLORS = ['#e5322d', '#2f7cf6', '#f59e0b', '#16a34a', '#9333ea', '#0ea5e9'
 const ramp = (b, a, z) => Math.min(1, Math.max(0, (b - a) / (z - a)));
 // A detailed house from islandKit. `build` (0 to 1) plays the construction in stages (foundation, frame, walls, roof,
 // windows and fence) for the timelapse; without it the house just rises with `rise`.
-const House = ({x, z, i, rise = 1, build = null, rot = 0}) => {
-  const kit = houseKit(i % 14), b = build ?? 1;
+const House = ({x, z, i, rise = 1, build = null, rot = 0, floors = 1}) => {
+  const kit = houseKit(i % 14, floors), b = build ?? 1;
   const slab = ramp(b, 0, 0.15), frame = ramp(b, 0.15, 0.4), walls = ramp(b, 0.4, 0.65), top = ramp(b, 0.65, 0.82), fin = ramp(b, 0.82, 0.95);
   return (
     <group position={[x, 0, z]} rotation={[0, rot, 0]} scale={[1, Math.max(0.001, rise), 1]}>
@@ -48,7 +48,7 @@ const House = ({x, z, i, rise = 1, build = null, rot = 0}) => {
         <mesh key={k} position={[a, 0.06 + 0.21 * frame, c]} scale={[1, frame, 1]}><boxGeometry args={[0.035, 0.42, 0.035]} /><meshStandardMaterial color="#b7791f" /></mesh>))}
       {build != null && frame > 0.6 && walls < 1 && <mesh position={[0, 0.48, 0]}><boxGeometry args={[0.66, 0.03, 0.03]} /><meshStandardMaterial color="#b7791f" /></mesh>}
       {walls > 0 && <KitMesh g={kit.walls} scale={[1, walls, 1]} />}
-      {top > 0 && <KitMesh g={kit.roof} position={[0, (1 - top) * 0.8, 0]} />}
+      {top > 0 && <KitMesh g={kit.roof} position={[0, (1 - top) * 0.8, 0]} />}{/* roof geometry already sits on the top floor */}
       {fin > 0 && <KitMesh g={kit.details} scale={[1, fin, 1]} />}
     </group>
   );
@@ -183,22 +183,25 @@ ITEMS.barcelona = <group position={[0.1, 0.72, 0.02]}><mesh position={[0, 0.16, 
 const ROOF_ITEMS = ['barcelona'];
 const itemKey = (t) => [...ROOF_ITEMS, ...Object.keys(ITEMS)].find((k) => String(t).toLowerCase().includes(k));
 const Shop = ({name, i, t = 0}) => {
-  const M = (c) => <meshStandardMaterial color={c} />, stripe = COLORS[(i + 3) % COLORS.length], taco = /taco/i.test(name);
+  const M = (c) => <meshStandardMaterial color={c} />, stripe = COLORS[(i + 3) % COLORS.length], taco = /taco/i.test(name), bag = /bag/i.test(name);
   return (
     <group>
       <mesh position={[0, 0.2, 0]}><boxGeometry args={[0.7, 0.4, 0.4]} />{M('#fff7ed')}</mesh>
       <mesh position={[0, 0.41, 0.03]}><boxGeometry args={[0.74, 0.03, 0.46]} />{M('#a16207')}</mesh>
       {[-0.33, 0.33].map((x) => <mesh key={x} position={[x, 0.55, 0.2]}><boxGeometry args={[0.03, 0.3, 0.03]} />{M('#78350f')}</mesh>)}
-      {Array.from({length: 8}, (_, k) => <mesh key={k} position={[-0.315 + k * 0.09, 0.71, 0.13]} rotation={[0.45, 0, 0]}><boxGeometry args={[0.09, 0.025, 0.3]} />{M(k % 2 ? '#fafaf9' : (taco ? '#16a34a' : stripe))}</mesh>)}
+      {Array.from({length: 8}, (_, k) => <mesh key={k} position={[-0.315 + k * 0.09, 0.71, 0.13]} rotation={[0.45, 0, 0]}><boxGeometry args={[0.09, 0.025, 0.3]} />{M(k % 2 ? '#fafaf9' : (taco ? '#16a34a' : bag ? '#1c1917' : stripe))}</mesh>)}
       <mesh position={[-0.12, 0.27, 0.21]}><boxGeometry args={[0.22, 0.16, 0.01]} />{M('#1c1917')}</mesh>
       {[0.2, 0.25, 0.3].map((y) => <mesh key={y} position={[-0.12, y, 0.216]}><boxGeometry args={[0.16, 0.012, 0.005]} />{M('#fde68a')}</mesh>)}
       {[-0.2, 0.05, 0.28].map((x) => <group key={x} position={[x, 0, 0.36]}><mesh position={[0, 0.08, 0]}><cylinderGeometry args={[0.012, 0.012, 0.16]} />{M('#1f2937')}</mesh><mesh position={[0, 0.16, 0]}><cylinderGeometry args={[0.05, 0.05, 0.02, 12]} />{M('#e5322d')}</mesh></group>)}
+      {/bag/i.test(name) && [-0.2, 0, 0.2].map((x, k) => <group key={x} position={[x + 0.05, 0.44, 0.12]}>
+        <mesh position={[0, 0.05, 0]}><boxGeometry args={[0.1, 0.08, 0.04]} />{M(['#be185d', '#1c1917', '#d4a017'][k])}</mesh>
+        <mesh position={[0, 0.11, 0]}><torusGeometry args={[0.03, 0.006, 6, 12, Math.PI]} />{M('#d4a017')}</mesh></group>)}
       {taco && <group position={[0, 1.02, 0]} rotation={[0, t / 14, 0]}>
         <mesh rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.22, 0.22, 0.14, 24, 1, true, 0, Math.PI]} /><meshStandardMaterial color="#f59e0b" side={2} /></mesh>
         <mesh position={[0, 0.02, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.19, 0.19, 0.12, 20, 1, true, 0.2, Math.PI - 0.4]} /><meshStandardMaterial color="#22c55e" side={2} /></mesh>
         {[-0.08, 0, 0.08].map((x) => <mesh key={x} position={[0.02, 0.15, x]}><sphereGeometry args={[0.035, 8, 6]} />{M('#dc2626')}</mesh>)}
         <mesh position={[0, -0.12, 0]}><cylinderGeometry args={[0.012, 0.012, 0.22]} />{M('#94a3b8')}</mesh></group>}
-      <Sign text={taco ? 'TACOS 🌮' : name} y={taco ? 0.95 : 0.9} bg="#151515" fg="#ffd23f" w={0.95} />
+      <Sign text={taco ? 'TACOS 🌮' : /bag/i.test(name) ? 'LUXURY BAGS 👜' : name} y={taco ? 0.95 : 0.9} bg="#151515" fg="#ffd23f" w={0.95} />
     </group>
   );
 };
@@ -274,7 +277,7 @@ const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
     <group position={[x, 0, z]}>
       {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={lot.custom === 'gold3' ? 1.75 : 1.25} />}
       <group rotation={[0, rot, 0]}>
-      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : <House x={0} z={0} i={i + 5} build={rise} />}
+      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
       {lot.statue && <group position={[-0.32, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue} t={t} /></group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);

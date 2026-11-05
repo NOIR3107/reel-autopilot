@@ -14,7 +14,8 @@
     {
       "user": "tanishq.saxena02",
       "items": [],
-      "built": 2
+      "statue": "#7 \u00b7 2008",
+      "say": "a Ronaldo statue, 2008 style, right by his door"
     },
     {
       "user": "idonnnnoooooo",
@@ -40,6 +41,19 @@
       "items": [],
       "custom": "gold3",
       "say": "a three floor gold house, with a fine dining restaurant, their home, and a resort on top"
+    },
+    {
+      "user": "bhoomikaaz",
+      "items": [],
+      "business": "luxury bag boutique"
+    },
+    {
+      "user": "luckiiii4l",
+      "items": [
+        "pool"
+      ],
+      "custom": "twostory",
+      "say": "a two story house with a pool"
     }
   ]
 }

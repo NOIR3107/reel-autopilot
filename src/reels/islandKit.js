@@ -39,8 +39,9 @@ const windowParts = (x, y, dist, v, phi) => {
 };
 
 const houseCache = new Map();
-export const houseKit = (v) => {
-  if (houseCache.has(v)) return houseCache.get(v);
+export const houseKit = (v, floors = 1) => {
+  const ck = v + '-' + floors; if (houseCache.has(ck)) return houseCache.get(ck);
+  const HH = H * floors; // wall height; windows repeat on every floor
   const wall = WALLS[v % WALLS.length], roof = ROOFS[(v * 3) % ROOFS.length], door = DOORS[v % DOORS.length];
   const base = merge([
     box(0.74, F, 0.62, '#9ca3af', [0, F / 2, 0]),
@@ -51,13 +52,14 @@ export const houseKit = (v) => {
   ]);
   const gable = new THREE.Shape(); gable.moveTo(-D / 2, 0); gable.lineTo(D / 2, 0); gable.lineTo(0, RH); gable.closePath();
   const walls = merge([
-    box(W, H, D, wall, [0, F + H / 2, 0]),
-    ...[-1, 1].flatMap((sx) => [-1, 1].map((sz) => box(0.032, H, 0.032, '#fafaf9', [sx * W / 2, F + H / 2, sz * D / 2]))),
-    box(W + 0.024, 0.03, D + 0.024, '#fafaf9', [0, F + H - 0.015, 0]), box(W + 0.03, 0.025, D + 0.03, darker(wall, 0.7), [0, F + 0.012, 0]),
-    ...[1, 2, 3, 4].map((k) => box(W + 0.007, 0.006, D + 0.007, darker(wall, 0.9), [0, F + (k * H) / 5, 0])),
-    part(new THREE.ExtrudeGeometry(gable, {depth: W, bevelEnabled: false}), wall, [-W / 2, F + H, 0], [0, Math.PI / 2, 0]),
+    box(W, HH, D, wall, [0, F + HH / 2, 0]),
+    ...[-1, 1].flatMap((sx) => [-1, 1].map((sz) => box(0.032, HH, 0.032, '#fafaf9', [sx * W / 2, F + HH / 2, sz * D / 2]))),
+    box(W + 0.024, 0.03, D + 0.024, '#fafaf9', [0, F + HH - 0.015, 0]), box(W + 0.03, 0.025, D + 0.03, darker(wall, 0.7), [0, F + 0.012, 0]),
+    ...Array.from({length: 5 * floors - 1}, (_, k) => box(W + 0.007, 0.006, D + 0.007, darker(wall, 0.9), [0, F + ((k + 1) * H) / 5, 0])),
+    ...(floors > 1 ? [box(W + 0.02, 0.025, D + 0.02, '#fafaf9', [0, F + H, 0])] : []),
+    part(new THREE.ExtrudeGeometry(gable, {depth: W, bevelEnabled: false}), wall, [-W / 2, F + HH, 0], [0, Math.PI / 2, 0]),
   ]);
-  const a = Math.atan(RH / (D / 2)), L = Math.hypot(D / 2, RH) + 0.08, top = F + H + RH;
+  const a = Math.atan(RH / (D / 2)), L = Math.hypot(D / 2, RH) + 0.08, top = F + HH + RH;
   const roofG = merge([
     ...[-1, 1].flatMap((s) => [
       box(W + 0.12, 0.035, L, roof, [0, top - (L / 2) * Math.sin(a) + 0.02, s * (L / 2) * Math.cos(a)], [s * a, 0, 0]),
@@ -70,9 +72,10 @@ export const houseKit = (v) => {
   ]);
   const Rb = new THREE.Matrix4().makeRotationY(Math.PI);
   const details = merge([
-    ...windowParts(-0.2, F + 0.25, D / 2, v, 0), ...windowParts(0.2, F + 0.25, D / 2, v, 0),
-    ...windowParts(-0.18, F + 0.25, D / 2, v, Math.PI), ...windowParts(0.18, F + 0.25, D / 2, v, Math.PI),
-    ...windowParts(0, F + 0.25, W / 2, v, Math.PI / 2), ...windowParts(0, F + 0.25, W / 2, v, -Math.PI / 2),
+    ...Array.from({length: floors}, (_, f) => { const y = F + 0.25 + f * H; return [
+      ...windowParts(-0.2, y, D / 2, v, 0), ...(f ? windowParts(0, y, D / 2, v, 0) : []), ...windowParts(0.2, y, D / 2, v, 0),
+      ...windowParts(-0.18, y, D / 2, v, Math.PI), ...windowParts(0.18, y, D / 2, v, Math.PI),
+      ...windowParts(0, y, W / 2, v, Math.PI / 2), ...windowParts(0, y, W / 2, v, -Math.PI / 2)]; }).flat(),
     box(0.15, 0.235, 0.014, '#fafaf9', [0, F + 0.12, D / 2 + 0.006]), box(0.12, 0.205, 0.018, door, [0, F + 0.105, D / 2 + 0.008]),
     box(0.085, 0.07, 0.02, darker(door, 0.75), [0, F + 0.15, D / 2 + 0.01]), box(0.085, 0.07, 0.02, darker(door, 0.75), [0, F + 0.06, D / 2 + 0.01]),
     ball(0.012, '#facc15', [0.04, F + 0.1, D / 2 + 0.022], 6),
@@ -87,7 +90,7 @@ export const houseKit = (v) => {
     box(0.016, 0.13, 0.016, '#57534e', [0.16, 0.065, 0.62]), box(0.05, 0.038, 0.075, '#1d4ed8', [0.16, 0.145, 0.62]), box(0.008, 0.03, 0.02, '#e5322d', [0.19, 0.16, 0.6]),
   ]);
   const kit = {base, walls, roof: roofG, details, Rb};
-  houseCache.set(v, kit);
+  houseCache.set(ck, kit);
   return kit;
 };
 
