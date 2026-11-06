@@ -1,6 +1,6 @@
 {
-  "day": 4,
-  "houses": 28,
+  "day": 5,
+  "houses": 30,
   "base": 20,
   "specials": [],
   "requests": [
@@ -64,7 +64,8 @@
         "mexflag"
       ],
       "custom": "twostory",
-      "say": "a huge Mexican flag outside his two story house"
+      "say": "a huge Mexican flag outside his two story house",
+      "built": 5
     },
     {
       "user": "delusionalthowmas",
@@ -76,7 +77,8 @@
         "look": "hoops24",
         "flag": "ph"
       },
-      "say": "an all black ten floor house with a rainbow basketball court on top, a Kobe Bryant statue by the door holding the Philippines flag, and a water park out back"
+      "say": "an all black ten floor house with a rainbow basketball court on top, a Kobe Bryant statue by the door holding the Philippines flag, and a water park out back",
+      "built": 5
     },
     {
       "user": "ffsffs1234",
@@ -84,7 +86,8 @@
       "statue": {
         "look": "albi10"
       },
-      "say": "a Messi statue outside his home"
+      "say": "a Messi statue outside his home",
+      "built": 5
     }
   ]
 }
