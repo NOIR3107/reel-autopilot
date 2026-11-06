@@ -1,133 +1,117 @@
 {
-  "date": "2026-11-07",
+  "date": "2026-11-05",
   "style": "explainer",
-  "trade": "Claude",
-  "topic": "free marketing skills pack that makes claude write copy without ai tells",
-  "hook": "If your posts sound like ChatGPT wrote them, steal this free skill pack.",
-  "caption": "Comment COPY and I'll DM you the link and the install steps. Follow first so the DM reaches you.\n\nYou know the line. Elevate your experience.\n\nThis free, open source pack gives Claude Code over 50 marketing skills, from copywriting and landing page fixes to SEO, cold email and pricing pages, and the copywriting one is told to drop the usual AI tells and only make claims you can back up.\n\nI tried it on a headline for a made-up plumber in Ohio. It finally sounded like a guy who fixes pipes.\n\n#aitools #artificialintelligence #claudeai #codingtips #claudecode",
+  "trade": "seo",
+  "topic": "mobile basics: viewport tag, 16px text, 48px tap targets",
+  "hook": "If your website needs pinch and zoom on an iPhone, fix these 3 things tonight.",
   "hook_formula": 0,
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nPinch. Zoom. Gone.\n\nIf your website needs that on an iPhone, 3 small fixes help. Add the viewport meta tag Google recommends so the page fits the screen. Use 16 pixel base text so nobody squints, and make every button and link at least 48 by 48 pixels so a thumb can actually hit it.\n\nThat's it.\n\nYour customer is standing in a flooded basement in Ohio at 11 PM with one free hand. Build for that.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
   "props": {
-    "music": "lofi",
+    "music": "funk",
     "narrator": "am_adam",
     "host": "neel",
     "look": "b",
-    "series": "FREE SKILL 5/7",
+    "series": "SEO + DESIGN",
     "scenes": [
       {
         "speaker": "neel",
+        "vo": "If your website needs pinch and zoom on an iPhone, fix these 3 things tonight.",
+        "key": "zoom",
         "pose": "point",
-        "vo": "If your posts sound like ChatGPT wrote them, steal this free skill pack.",
-        "key": "ChatGPT",
+        "prop": {
+          "type": "model3d",
+          "model": "phone",
+          "label": "Pinch. Zoom. Leave."
+        },
         "part": "hook",
-        "mood": "squint",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Three small fixes make your site work on a phone. Fix one: the viewport tag.",
+        "key": "viewport",
+        "pose": "explain",
         "prop": {
           "type": "shot",
-          "url": "your homepage",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
           "lines": [
-            "Elevate your journey.",
-            "It's not just a service, it's an experience.",
-            "Seamless. Innovative. Unmatched."
+            "<head>",
+            "  <meta name=\"viewport\"",
+            "    content=\"width=device-width, initial-scale=1\">"
           ],
           "hl": 1,
-          "stamp": "AI SLOP"
+          "stamp": "ADD THIS"
         }
       },
       {
         "speaker": "neel",
-        "pose": "explain",
-        "vo": "It's a free, open source pack of marketing skills for Claude Code.",
-        "key": "marketing",
-        "mood": "happy",
-        "prop": {
-          "type": "shot",
-          "url": "github.com / ●●●●● / ●●●●●●●●",
-          "heading": "●●●●●●●●●●",
-          "lines": [
-            "A collection of AI agent skills",
-            "focused on marketing tasks."
-          ],
-          "hl": 0,
-          "stamp": "FREE + OPEN SOURCE"
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "explain",
-        "vo": "The copywriting skill is told to drop the usual AI tells.",
-        "key": "copywriting",
-        "prop": {
-          "type": "shot",
-          "url": "copywriting / SKILL.md",
-          "mono": true,
-          "lines": [
-            "Drafts never use AI tells like",
-            "\"it's not X, it's Y\" reveals,",
-            "\"no X, no Y, no Z\" lists."
-          ],
-          "hl": 0,
-          "stamp": "NO SLOP"
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "point",
-        "vo": "And every claim has to be something you can actually back up.",
-        "key": "claim",
-        "prop": {
-          "type": "shot",
-          "url": "copywriting / SKILL.md",
-          "mono": true,
-          "lines": [
-            "Claims must be supportable."
-          ],
-          "hl": 0,
-          "stamp": "HONEST COPY"
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "explain",
-        "vo": "There are dozens more. Landing pages, SEO, cold email, pricing pages.",
-        "key": "dozens",
-        "prop": {
-          "type": "files",
-          "names": [
-            "copywriting",
-            "cro",
-            "seo-audit",
-            "cold-email",
-            "pricing",
-            "popups"
-          ],
-          "count": 6,
-          "label": "SKILLS"
-        }
-      },
-      {
-        "speaker": "neel",
-        "pose": "fistPump",
-        "vo": "Paste in your homepage headline and see what it changes.",
-        "key": "headline",
-        "mood": "happy",
+        "vo": "Google recommends it. Without it, phones show a tiny desktop page.",
+        "key": "tiny",
+        "pose": "facepalm",
         "prop": {
           "type": "stamp",
-          "text": "Roof leak?\\nFixed this week.",
-          "stamp": "HUMAN",
-          "ok": true
+          "text": "Desktop page\nshrunk on a phone",
+          "stamp": "NO VIEWPORT"
+        },
+        "mood": "shocked"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Fix two. Use a base text size of sixteen pixels, so nobody has to squint.",
+        "key": "sixteen",
+        "pose": "explain",
+        "prop": {
+          "type": "big",
+          "text": "16px",
+          "size": 220
         }
       },
       {
         "speaker": "neel",
-        "pose": "wave",
-        "vo": "Follow me and comment COPY. I'll DM you the link and how to install it.",
-        "key": "COPY.",
+        "vo": "Fix three. Make buttons at least forty eight by forty eight pixels, so a thumb can hit them.",
+        "key": "thumb",
+        "pose": "fistPump",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Viewport tag",
+            "16px text",
+            "48px buttons"
+          ]
+        },
+        "part": "drop"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Your customer is standing in a flooded basement with one free hand. Build for that.",
+        "key": "hand",
+        "pose": "explain",
+        "prop": {
+          "type": "model3d",
+          "model": "phone",
+          "label": "Big text. Big buttons."
+        },
         "mood": "happy",
-        "cta": true,
+        "part": "drop2",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "Follow me and comment LEARN, and I'll send you my free SEO starter guide.",
+        "key": "LEARN",
+        "pose": "wave",
         "prop": {
           "type": "comments",
-          "keyword": "COPY",
-          "dm": "Link + install steps 👇"
-        }
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "mood": "happy",
+        "cta": true,
+        "part": "outro"
       }
     ]
   }
