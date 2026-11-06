@@ -30,7 +30,7 @@ export function episode(state, followers) {
   if (day === 1) S.push({vo: 'Little robots build every house. One for each follower.', key: 'robots', shot: 'close'});
   fresh.forEach((r, k) => {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
-    S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
+    S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, far: r.custom === 'black10' ? 1.6 : undefined, part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
   });
   if (building) S.push(SURPRISES.includes(building)
     ? {vo: `${base + n * STEP} followers! Time for the surprise. It's ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win'], hold: 2.5}

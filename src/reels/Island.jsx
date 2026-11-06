@@ -180,8 +180,18 @@ const ITEMS = {
 ITEMS.barcelona = <group position={[0.1, 0.72, 0.02]}><mesh position={[0, 0.16, 0]}><cylinderGeometry args={[0.01, 0.01, 0.34]} /><meshStandardMaterial color="#d6d3d1" /></mesh>
   {[0, 1, 2, 3, 4].map((k) => <mesh key={k} position={[0.03 + k * 0.032, 0.25, 0]}><boxGeometry args={[0.032, 0.14, 0.008]} /><meshStandardMaterial color={k % 2 ? '#a50044' : '#004d98'} /></mesh>)}
   <mesh position={[0.11, 0.33, 0]}><boxGeometry args={[0.16, 0.02, 0.009]} /><meshStandardMaterial color="#edbb00" /></mesh></group>;
-const ROOF_ITEMS = ['barcelona'];
-const itemKey = (t) => [...ROOF_ITEMS, ...Object.keys(ITEMS)].find((k) => String(t).toLowerCase().includes(k));
+ITEMS.waterpark = <group>
+  <mesh position={[0, 0.02, 0]}><boxGeometry args={[1.2, 0.04, 0.5]} /><meshStandardMaterial color="#e0f2fe" /></mesh>
+  <mesh position={[0.15, 0.045, 0]}><boxGeometry args={[0.7, 0.02, 0.4]} /><meshStandardMaterial color="#0ea5e9" /></mesh>
+  <mesh position={[-0.42, 0.25, -0.1]}><boxGeometry args={[0.18, 0.5, 0.18]} /><meshStandardMaterial color="#f97316" /></mesh>
+  <mesh position={[-0.42, 0.52, -0.1]}><coneGeometry args={[0.15, 0.1, 4]} /><meshStandardMaterial color="#facc15" /></mesh>
+  {Array.from({length: 7}, (_, k) => <mesh key={k} position={[-0.38 + k * 0.08, 0.46 - k * 0.065, 0.05 + Math.sin(k * 0.9) * 0.08]} rotation={[0, 0, -0.7]}><cylinderGeometry args={[0.04, 0.04, 0.12, 10, 1, true]} /><meshStandardMaterial color="#e5322d" side={2} /></mesh>)}
+  {Array.from({length: 6}, (_, k) => <mesh key={'b' + k} position={[-0.38 + k * 0.1, 0.4 - k * 0.07, -0.16 - Math.sin(k) * 0.05]} rotation={[0, 0, -0.65]}><cylinderGeometry args={[0.035, 0.035, 0.12, 10, 1, true]} /><meshStandardMaterial color="#22c55e" side={2} /></mesh>)}
+  <mesh position={[0.42, 0.1, 0.12]}><cylinderGeometry args={[0.01, 0.01, 0.18]} /><meshStandardMaterial color="#e5e7eb" /></mesh><mesh position={[0.42, 0.2, 0.12]}><sphereGeometry args={[0.06, 10, 8]} /><meshStandardMaterial color="#facc15" /></mesh>
+  {[0.3, 0.5].map((x) => <mesh key={x} position={[x, 0.07, -0.14]}><torusGeometry args={[0.04, 0.015, 8, 16]} /><meshStandardMaterial color={x > 0.4 ? '#ec4899' : '#a3e635'} /></mesh>)}
+</group>;
+const ROOF_ITEMS = ['barcelona'], BACK_ITEMS = ['waterpark'];
+const itemKey = (t) => ['mexflag', 'waterpark', ...ROOF_ITEMS, ...Object.keys(ITEMS)].find((k) => String(t).toLowerCase().includes(k));
 const Shop = ({name, i, t = 0}) => {
   const M = (c) => <meshStandardMaterial color={c} />, stripe = COLORS[(i + 3) % COLORS.length], taco = /taco/i.test(name), bag = /bag/i.test(name);
   return (
@@ -206,7 +216,17 @@ const Shop = ({name, i, t = 0}) => {
   );
 };
 // A statue of the lot's owner on a plinth, raising a flag with their words on it (text only, no logos).
+const FLAG_ART = {
+  ph: (g) => { g.fillStyle = '#0038a8'; g.fillRect(0, 0, 512, 128); g.fillStyle = '#ce1126'; g.fillRect(0, 128, 512, 128);
+    g.fillStyle = '#ffffff'; g.beginPath(); g.moveTo(0, 0); g.lineTo(222, 128); g.lineTo(0, 256); g.closePath(); g.fill();
+    g.fillStyle = '#fcd116'; g.beginPath(); g.arc(74, 128, 26, 0, 6.29); g.fill();
+    for (let k = 0; k < 8; k++) { const a = (k * Math.PI) / 4; g.save(); g.translate(74, 128); g.rotate(a); g.fillRect(30, -4, 26, 8); g.restore(); }
+    [[22, 30], [22, 226], [176, 128]].forEach(([x, y]) => { g.beginPath(); for (let k = 0; k < 10; k++) { const r = k % 2 ? 6 : 14, a = (k * Math.PI) / 5 - Math.PI / 2; g.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r); } g.fill(); }); },
+  mx: (g) => { ['#006847', '#ffffff', '#ce1126'].forEach((c, k) => { g.fillStyle = c; g.fillRect(k * 171, 0, 171, 256); });
+    g.fillStyle = '#7c4a1e'; g.beginPath(); g.ellipse(256, 124, 34, 40, 0, 0, 6.29); g.fill(); g.fillStyle = '#4d7c0f'; g.beginPath(); g.ellipse(256, 168, 44, 10, 0, 0, Math.PI); g.fill(); },
+};
 const flagTex = (text) => { const c = document.createElement('canvas'); c.width = 512; c.height = 256; const g = c.getContext('2d');
+  if (FLAG_ART[text]) { FLAG_ART[text](g); return new THREE.CanvasTexture(c); }
   g.fillStyle = '#ffffff'; g.fillRect(0, 0, 512, 256); g.fillStyle = '#d4a017'; g.fillRect(0, 0, 512, 22); g.fillRect(0, 234, 512, 22);
   g.fillStyle = '#4c1d95'; g.font = 'bold 74px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
   const w = String(text).split(' '); if (w.length > 1) { g.fillText(w.slice(0, Math.ceil(w.length / 2)).join(' '), 256, 92, 480); g.fillText(w.slice(Math.ceil(w.length / 2)).join(' '), 256, 170, 480); } else g.fillText(text, 256, 128, 480);
@@ -214,20 +234,25 @@ const flagTex = (text) => { const c = document.createElement('canvas'); c.width 
 // Painted statue of a footballer on a plinth. look: 'cr2008' (gelled spiky hair, red #7 shirt, white shorts, black
 // socks, the "SIUU" celebration pose) or 'madrid' (all-white kit with gold trim, raising a flag). Club colours only,
 // never crests or sponsor logos.
-const numTex = (n, bg, fg) => { const c = document.createElement('canvas'); c.width = 128; c.height = 128; const g = c.getContext('2d');
-  g.fillStyle = bg; g.fillRect(0, 0, 128, 128); g.fillStyle = fg; g.font = 'bold 96px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(n, 64, 70); return new THREE.CanvasTexture(c); };
+const numTex = (n, bg, fg, stripe) => { const c = document.createElement('canvas'); c.width = 128; c.height = 128; const g = c.getContext('2d');
+  g.fillStyle = bg; g.fillRect(0, 0, 128, 128); if (stripe) { g.fillStyle = stripe; for (let x = 16; x < 128; x += 32) g.fillRect(x, 0, 16, 128); } g.fillStyle = fg; g.font = 'bold 96px sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(n, 64, 70); return new THREE.CanvasTexture(c); };
 const LOOKS = {
   cr2008: {skin: '#c68e5f', hair: '#1c1410', shirt: '#d1001f', trim: '#ffffff', shorts: '#ffffff', socks: '#111111', boots: '#f8fafc', number: '7', pose: 'siu'},
   madrid: {skin: '#d9a477', hair: '#2b1d14', shirt: '#ffffff', trim: '#d4a017', shorts: '#ffffff', socks: '#ffffff', boots: '#111111', number: '', pose: 'flag'},
+  // basketball legend: purple and gold #24 jersey, shaved head, flag raised
+  hoops24: {skin: '#7a4a2c', hair: null, shirt: '#552583', trim: '#fdb927', shorts: '#552583', socks: '#ffffff', boots: '#111111', number: '24', pose: 'flag', tall: 1.12, sleeveless: true},
+  // light blue and white stripes #10, beard, pointing both hands to the sky
+  albi10: {skin: '#e0b48c', hair: '#5b3a1e', shirt: '#ffffff', stripe: '#75aadb', trim: '#111111', shorts: '#111111', socks: '#ffffff', boots: '#111111', number: '10', pose: 'sky', beard: true, short: 0.94},
 };
 const Statue = ({flag, look = 'madrid', t}) => {
-  const L = LOOKS[look] ?? LOOKS.madrid, siu = L.pose === 'siu';
-  const tex = useMemo(() => flagTex(flag ?? ''), [flag]), num = useMemo(() => L.number && numTex(L.number, L.shirt, L.trim), [look]);
+  const L = LOOKS[look] ?? LOOKS.madrid, siu = L.pose === 'siu', sky = L.pose === 'sky';
+  const tex = useMemo(() => flagTex(flag ?? ''), [flag]), num = useMemo(() => L.number && numTex(L.number, L.shirt, L.trim, L.stripe), [look]);
+  const body = useMemo(() => L.stripe && numTex('', L.shirt, L.trim, L.stripe), [look]);
   const M = (c) => <meshStandardMaterial color={c} roughness={0.55} />;
   const limb = (len, w, c, pos, rot) => <mesh position={pos} rotation={rot}><boxGeometry args={[w, len, w]} />{M(c)}</mesh>;
   const legA = siu ? 0.28 : 0.06, armA = siu ? 0.75 : 0.15; // SIUU: legs wide, arms down and out, chest up
   return (
-    <group scale={1.35}>
+    <group scale={[1.35, 1.35 * (L.tall ?? L.short ?? 1), 1.35]}>
       <mesh position={[0, 0.04, 0]}><boxGeometry args={[0.3, 0.08, 0.3]} /><meshStandardMaterial color="#a8a29e" /></mesh>
       <mesh position={[0, 0.11, 0]}><boxGeometry args={[0.24, 0.06, 0.24]} /><meshStandardMaterial color="#e7e5e4" /></mesh>
       <mesh position={[0, 0.06, 0.151]}><boxGeometry args={[0.16, 0.03, 0.005]} /><meshStandardMaterial color="#d4a017" /></mesh>
@@ -236,18 +261,20 @@ const Statue = ({flag, look = 'madrid', t}) => {
           {limb(0.08, 0.045, L.skin, [0, -0.05, 0])}{limb(0.06, 0.047, L.socks, [0, -0.11, 0])}{limb(0.025, 0.05, L.boots, [0, -0.15, 0.012])}</group>)}
         <mesh position={[0, 0.2, 0]}><boxGeometry args={[0.12, 0.07, 0.07]} />{M(L.shorts)}</mesh>
         <group position={[0, 0.31, 0]} rotation={[siu ? -0.25 : 0, 0, 0]}>
-          <mesh><boxGeometry args={[0.13, 0.16, 0.075]} />{M(L.shirt)}</mesh>
+          <mesh><boxGeometry args={[0.13, 0.16, 0.075]} />{body ? <meshStandardMaterial map={body} roughness={0.55} /> : M(L.shirt)}</mesh>
           <mesh position={[0, 0.075, 0]}><boxGeometry args={[0.135, 0.015, 0.08]} />{M(L.trim)}</mesh>
           {num && <mesh position={[0, 0.005, -0.039]} rotation={[0, Math.PI, 0]}><planeGeometry args={[0.08, 0.08]} /><meshBasicMaterial map={num} /></mesh>}
           {num && <mesh position={[0.035, 0.03, 0.039]}><planeGeometry args={[0.03, 0.03]} /><meshBasicMaterial map={num} /></mesh>}
-          {[-1, 1].map((sd) => { const up = !siu && sd > 0; return <group key={sd} position={[sd * 0.075, 0.06, 0]} rotation={[0, 0, up ? 2.6 : sd * armA]}>
-            {limb(0.06, 0.042, L.shirt, [0, -0.03, 0])}{limb(0.09, 0.036, L.skin, [0, -0.1, 0])}
+          {[-1, 1].map((sd) => { const up = !siu && !sky && sd > 0; return <group key={sd} position={[sd * 0.075, 0.06, 0]} rotation={[0, 0, up ? 2.6 : sky ? sd * 2.75 : sd * armA]}>
+            {limb(0.06, 0.042, L.sleeveless ? L.skin : L.shirt, [0, -0.03, 0])}{limb(0.09, 0.036, L.skin, [0, -0.1, 0])}
+            {sky && <mesh position={[0, -0.165, 0]}><boxGeometry args={[0.012, 0.04, 0.012]} />{M(L.skin)}</mesh>}
             {up && <><mesh position={[0, -0.16, 0]} rotation={[0, 0, -2.6]}><cylinderGeometry args={[0.006, 0.006, 0.42]} />{M('#d6d3d1')}</mesh>
               <mesh position={[-0.12, -0.3, 0]} rotation={[0, Math.sin(t / 10) * 0.2, -2.6 + Math.PI]}><planeGeometry args={[0.24, 0.12]} /><meshBasicMaterial map={tex} side={2} /></mesh></>}</group>; })}
           <group position={[0, 0.13, 0]} rotation={[siu ? -0.25 : 0, 0, 0]}>
             <mesh position={[0, -0.03, 0]}><cylinderGeometry args={[0.022, 0.026, 0.03]} />{M(L.skin)}</mesh>
             <mesh scale={[1, 1.15, 1]}><sphereGeometry args={[0.048, 14, 12]} />{M(L.skin)}</mesh>
-            {siu ? Array.from({length: 7}, (_, k) => <mesh key={k} position={[-0.03 + k * 0.01, 0.05, -0.008 + (k % 2) * 0.008]} rotation={[-0.5, 0, (k - 3) * 0.12]}><coneGeometry args={[0.014, 0.05, 5]} />{M(L.hair)}</mesh>)
+            {L.beard && <mesh position={[0, -0.025, 0.012]} scale={[1, 0.7, 1]}><sphereGeometry args={[0.045, 12, 8, 0, 6.29, 1.5, 1.6]} />{M(L.hair)}</mesh>}
+            {!L.hair ? null : siu ? Array.from({length: 7}, (_, k) => <mesh key={k} position={[-0.03 + k * 0.01, 0.05, -0.008 + (k % 2) * 0.008]} rotation={[-0.5, 0, (k - 3) * 0.12]}><coneGeometry args={[0.014, 0.05, 5]} />{M(L.hair)}</mesh>)
               : <mesh position={[0, 0.022, -0.006]} scale={[1, 0.6, 1]}><sphereGeometry args={[0.05, 12, 8, 0, 6.29, 0, 1.7]} />{M(L.hair)}</mesh>}
             {siu && <mesh position={[0, 0.032, 0]} scale={[1.02, 0.45, 1.05]}><sphereGeometry args={[0.049, 12, 8, 0, 6.29, 0, 1.6]} />{M(L.hair)}</mesh>}
             {[-0.017, 0.017].map((x) => <mesh key={x} position={[x, 0.004, 0.045]}><sphereGeometry args={[0.006, 6, 6]} />{M('#1c1410')}</mesh>)}
@@ -323,20 +350,59 @@ const GoldTower = ({build = 1, t = 0}) => {
   );
 };
 
+const MexFlag = () => { const tex = useMemo(() => flagTex('mx'), []); const t = useCurrentFrame();
+  return <group><mesh position={[0, 0.6, 0]}><cylinderGeometry args={[0.012, 0.016, 1.2]} /><meshStandardMaterial color="#e5e7eb" /></mesh>
+    <mesh position={[0.23, 1.02, 0]} rotation={[0, Math.sin(t / 9) * 0.25, Math.sin(t / 7) * 0.03]}><planeGeometry args={[0.44, 0.25]} /><meshBasicMaterial map={tex} side={2} /></mesh>
+    <mesh position={[0, 1.21, 0]}><sphereGeometry args={[0.02, 8, 8]} /><meshStandardMaterial color="#d4a017" /></mesh></group>; };
+ITEMS.mexflag = <MexFlag />;
+
+// An all-black tower, `floors` high, with lit windows, balconies and gold trim; a rainbow basketball court on the roof.
+const BlackTower = ({build = 1, floors = 10}) => {
+  const H = 0.19, W = 0.6, D = 0.54, n = Math.round(ramp(build, 0, 0.85) * floors), top = ramp(build, 0.85, 0.97);
+  const M = (c, e) => <meshStandardMaterial color={c} roughness={0.3} emissive={e ?? '#000'} emissiveIntensity={e ? 0.8 : 0} />;
+  const RAIN = ['#ef4444', '#f97316', '#facc15', '#22c55e', '#3b82f6', '#8b5cf6'];
+  return (
+    <group>
+      <mesh position={[0, 0.03, 0]}><boxGeometry args={[0.72, 0.06, 0.66]} />{M('#27272a')}</mesh>
+      {Array.from({length: n}, (_, f) => <group key={f} position={[0, 0.06 + f * H, 0]}>
+        <mesh position={[0, H / 2, 0]}><boxGeometry args={[W, H, D]} />{M('#0a0a0a')}</mesh>
+        <mesh position={[0, H - 0.008, 0]}><boxGeometry args={[W + 0.02, 0.016, D + 0.02]} />{M('#d4a017')}</mesh>
+        {[-0.2, -0.07, 0.07, 0.2].map((x, k) => <mesh key={x} position={[x, H / 2, D / 2 + 0.004]}><boxGeometry args={[0.09, 0.11, 0.008]} />{M((f + k) % 3 ? '#fde68a' : '#1e293b', (f + k) % 3 ? '#f59e0b' : null)}</mesh>)}
+        {[-0.15, 0.15].map((z, k) => <mesh key={z} position={[W / 2 + 0.004, H / 2, z]}><boxGeometry args={[0.008, 0.11, 0.12]} />{M((f + k) % 2 ? '#fde68a' : '#1e293b', (f + k) % 2 ? '#f59e0b' : null)}</mesh>)}
+        {f % 2 === 1 && <><mesh position={[0, 0.012, D / 2 + 0.05]}><boxGeometry args={[W - 0.06, 0.014, 0.1]} />{M('#18181b')}</mesh>
+          <mesh position={[0, 0.06, D / 2 + 0.098]}><boxGeometry args={[W - 0.06, 0.07, 0.006]} /><meshStandardMaterial color="#94a3b8" transparent opacity={0.45} /></mesh></>}
+      </group>)}
+      {n === floors && n > 0 && <mesh position={[0, 0.06 + floors * H + 0.01, 0]}><boxGeometry args={[W + 0.04, 0.02, D + 0.04]} />{M('#d4a017')}</mesh>}
+      {top > 0 && <group position={[0, 0.08 + floors * H, 0]} scale={top}>
+        {RAIN.map((c, k) => <mesh key={c} position={[-W / 2 + (k + 0.5) * (W / 6), 0.008, 0]}><boxGeometry args={[W / 6, 0.012, D]} />{M(c)}</mesh>)}
+        <mesh position={[0, 0.016, 0]}><boxGeometry args={[0.006, 0.004, D]} />{M('#ffffff')}</mesh>
+        <mesh position={[0, 0.016, 0]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[0.07, 0.08, 24]} /><meshBasicMaterial color="#ffffff" /></mesh>
+        {[-1, 1].map((sd) => <group key={sd} position={[sd * (W / 2 - 0.04), 0, 0]}>
+          <mesh position={[0, 0.13, 0]}><cylinderGeometry args={[0.008, 0.008, 0.26]} />{M('#d4d4d8')}</mesh>
+          <mesh position={[-sd * 0.02, 0.26, 0]}><boxGeometry args={[0.006, 0.09, 0.13]} />{M('#ffffff')}</mesh>
+          <mesh position={[-sd * 0.05, 0.23, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.028, 0.004, 6, 16]} />{M('#f97316')}</mesh></group>)}
+        <mesh position={[0.08, 0.035, 0.1]}><sphereGeometry args={[0.022, 10, 10]} />{M('#ea580c')}</mesh>
+        {Array.from({length: 16}, (_, k) => { const x = -W / 2 + (k % 8) * (W / 7), z = k < 8 ? D / 2 : -D / 2; return <mesh key={'f' + k} position={[x, 0.09, z]}><boxGeometry args={[0.008, 0.18, 0.008]} />{M('#52525b')}</mesh>; })}
+        {[-1, 1].map((sd) => <mesh key={'n' + sd} position={[0, 0.09, sd * D / 2]}><boxGeometry args={[W, 0.17, 0.003]} /><meshStandardMaterial color="#a1a1aa" transparent opacity={0.25} /></mesh>)}
+      </group>}
+    </group>
+  );
+};
+
 // One person's lot: their house with their name, what they asked for, and their business.
 const YARD = [[0.5, 0.25], [-0.5, 0.25], [0.5, -0.42], [-0.5, -0.42]];
 const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
-      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={lot.custom === 'gold3' ? 1.95 : 1.25} />}
+      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={lot.custom === 'gold3' ? 1.95 : lot.custom === 'black10' ? 2.55 : 1.25} />}
       <group rotation={[0, rot, 0]}>
-      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
-      {lot.statue && <group position={[-0.34, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue.flag ?? lot.statue} look={lot.statue.look} t={t} />{lot.statue.plaque && <Sign text={lot.statue.plaque} y={1.05} bg="#7f1d1d" fg="#ffd23f" w={0.95} />}</group>}
+      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
+      {lot.statue && <group position={[-0.34, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue.flag ?? lot.statue} look={lot.statue.look} t={t} />{sign && lot.statue.plaque && <Sign text={lot.statue.plaque} y={1.05} bg="#7f1d1d" fg="#ffd23f" w={0.95} />}</group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);
           const y = YARD[(k + (lot.business ? 1 : 0)) % 4]; // the front yard spot goes to the business
-          return <group key={k} position={ROOF_ITEMS.includes(key) ? [0, 0, 0] : [y[0], 0, y[1]]}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
+          return <group key={k} position={ROOF_ITEMS.includes(key) ? [0, 0, 0] : BACK_ITEMS.includes(key) ? [0, 0, -0.62] : [y[0], 0, y[1]]}>{key ? ITEMS[key] : <><mesh position={[0, 0.2, 0]}><cylinderGeometry args={[0.02, 0.02, 0.4]} /><meshStandardMaterial color="#7a5230" /></mesh><Sign text={t} y={0.5} w={0.9} /></>}</group>; })}
         {lot.business && <group position={[0.62, 0, 0.32]} rotation={[0, -0.5, 0]} scale={0.8}><Shop name={lot.business} i={i} t={t} /></group>}
       </group>
       </group>
@@ -345,11 +411,11 @@ const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
 };
 
 // Moves the camera every frame; each shot is a slow, simple move.
-const Cam = ({shot, local, len, R, focus}) => {
+const Cam = ({shot, local, len, R, focus, far = 1}) => {
   const camera = useThree((st) => st.camera);
   const k = local / Math.max(1, len);
   let p, look = [0, 0, 0];
-  if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = (shot === 'lot' && focus[2] != null ? Math.atan2(Math.cos(focus[2]), Math.sin(focus[2])) - 0.35 : 0.8) + k * 0.6, d = shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3; look = [focus[0], 0.5, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : 2.2) - k * 0.4, focus[1] + Math.sin(a) * d]; }
+  if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = (shot === 'lot' && focus[2] != null ? Math.atan2(Math.cos(focus[2]), Math.sin(focus[2])) - 0.35 : 0.8) + k * 0.6, d = (shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3) * far; look = [focus[0], 0.5 * far * far, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : 2.2) * far - k * 0.4, focus[1] + Math.sin(a) * d]; }
   else if (shot === 'top') p = [0.01, R * 4.6 - k * R * 0.6, 0.01]; // portrait frame is narrow: pull back so the whole island fits
   else { const a = 0.6 + k * 0.5 + (shot === 'houses' ? 1.2 : 0), d = R * (shot === 'vote' ? 3.6 : 3.1) - k * R * 0.3; p = [Math.cos(a) * d, R * 2.1, Math.sin(a) * d]; }
   camera.position.set(...p);
@@ -423,7 +489,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
       <ThreeCanvas width={1080} height={1920} camera={{fov: 45, position: [10, 10, 10]}}>
         <ambientLight intensity={dusk ? 0.65 : 1.1} color={dusk ? '#c7b8ff' : '#ffffff'} />
         <directionalLight position={building_lot ? [Math.cos(local / 12) * 12, 10, Math.sin(local / 12) * 12] : [8, 14, 6]} intensity={dusk ? 0.9 : 2.4} color={dusk ? '#ffb070' : '#ffffff'} />
-        <Cam shot={sc.shot ?? 'wide'} local={local} len={sc.len} R={R} focus={focus} />
+        <Cam shot={sc.shot ?? 'wide'} local={local} len={sc.len} R={R} focus={focus} far={sc.far ?? 1} />
         <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color="#2f8fd8" /></mesh>
         <mesh position={[0, -0.16, 0]}><cylinderGeometry args={[R + 0.5, R + 0.9, 0.3, 64]} /><meshStandardMaterial color="#f2d79b" /></mesh>
         <mesh position={[0, -0.02, 0]}><cylinderGeometry args={[R, R + 0.3, 0.06, 64]} /><meshStandardMaterial color="#6cc24a" /></mesh>

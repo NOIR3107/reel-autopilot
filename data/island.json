@@ -60,11 +60,31 @@
     {
       "user": "luckiiii4l",
       "items": [
-        "pool"
+        "pool",
+        "mexflag"
       ],
       "custom": "twostory",
-      "say": "a two story house with a pool",
-      "built": 4
+      "say": "a huge Mexican flag outside his two story house"
+    },
+    {
+      "user": "delusionalthowmas",
+      "items": [
+        "waterpark"
+      ],
+      "custom": "black10",
+      "statue": {
+        "look": "hoops24",
+        "flag": "ph"
+      },
+      "say": "an all black ten floor house with a rainbow basketball court on top, a Kobe Bryant statue by the door holding the Philippines flag, and a water park out back"
+    },
+    {
+      "user": "ffsffs1234",
+      "items": [],
+      "statue": {
+        "look": "albi10"
+      },
+      "say": "a Messi statue outside his home"
     }
   ]
 }
