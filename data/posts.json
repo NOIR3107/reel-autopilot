@@ -437,5 +437,23 @@
     "media_id": "18647782966052017",
     "permalink": "https://www.instagram.com/reel/Dfaqfd2ld8n/",
     "story_id": "18073427162786369"
+  },
+  {
+    "date": "2026-11-07",
+    "part": 1,
+    "slot": 17,
+    "hour": 17,
+    "status": "posted",
+    "style": "explainer",
+    "trade": "seo",
+    "topic": "mobile basics: viewport tag, 16px text, 48px tap targets",
+    "hook": "If your website needs pinch and zoom on an iPhone, fix these 3 things tonight.",
+    "formula": 0,
+    "caption": "Comment LEARN and I'll send you my free SEO starter guide. Follow for one SEO and web design lesson a day.\n\nPinch. Zoom. Gone.\n\nIf your website needs that on an iPhone, 3 small fixes help. Add the viewport meta tag Google recommends so the page fits the screen. Use 16 pixel base text so nobody squints, and make every button and link at least 48 by 48 pixels so a thumb can actually hit it.\n\nThat's it.\n\nYour customer is standing in a flooded basement in Ohio at 11 PM with one free hand. Build for that.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+    "file": "media/2026-11-07.mp4",
+    "seconds": 30.976,
+    "media_id": "18152353867613653",
+    "permalink": "https://www.instagram.com/reel/DfdN-6rjNWt/",
+    "story_id": "18222764839353837"
   }
 ]
