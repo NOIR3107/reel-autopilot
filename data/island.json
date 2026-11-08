@@ -88,6 +88,24 @@
       },
       "say": "a Messi statue outside his home",
       "built": 5
+    },
+    {
+      "user": "lvyzg",
+      "items": [
+        "wallst"
+      ],
+      "custom": "skyscraper",
+      "say": "a giant black skyscraper on Wall Street",
+      "built": 6
+    },
+    {
+      "user": "93.jaylaa",
+      "items": [
+        "pickup"
+      ],
+      "custom": "small",
+      "say": "a cozy one person house with a slammed old school pickup outside",
+      "built": 6
     }
   ]
 }
