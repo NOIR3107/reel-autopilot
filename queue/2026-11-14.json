@@ -1,0 +1,141 @@
+{
+  "date": "2026-11-14",
+  "style": "explainer",
+  "trade": "contractor",
+  "topic": "myth: automated texts sound robotic; written in your own words with the customer's name",
+  "hook": "POV: you're on a roof at 2 PM and three customers just got a text from you.",
+  "hook_formula": 0,
+  "caption": "Automated texts that sound like you, for contractors: comment AUTO and I'll reply with how it works.\n\nThe worry I hear most about automation? Customers will hate it. It'll sound like a robot.\n\nOnly if you write it like one. Dear valued customer gets ignored. Hey Maria, it's Dave, running about 20 minutes out, see you at 2. Nobody in Ohio or Texas reads that and thinks software.\n\nWrite it once. It goes out by itself while you're on the roof, for missed calls, on my way texts and Google review requests.\n\n#contractor #smallbusinesstips #automation #n8n #roofing",
+  "props": {
+    "music": "lofi",
+    "narrator": "am_adam",
+    "host": "neel",
+    "series": "AUTOMATION",
+    "look": "b",
+    "bgc": "#1f2a44",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "POV: you're on a roof at 2 PM and three customers just got a text from you.",
+        "key": "text",
+        "pose": "point",
+        "prop": {
+          "type": "model3d",
+          "model": "house",
+          "label": "You, on a roof"
+        },
+        "part": "hook",
+        "mood": "smug"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Myth: automated texts sound like a robot.",
+        "key": "robot.",
+        "pose": "armsCrossed",
+        "prop": {
+          "type": "stamp",
+          "text": "Dear valued customer,\nyour appointment is...",
+          "stamp": "MYTH"
+        },
+        "mood": "squint",
+        "fx": [
+          "fail"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "They only sound robotic if you write them like a robot.",
+        "key": "robotic",
+        "pose": "shrug",
+        "prop": {
+          "type": "model3d",
+          "model": "robot",
+          "label": "Not this voice"
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Yours use their first name, your words and your sign off.",
+        "key": "sign",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Hey Maria, it's Dave. Running about 20 min out, see you soon!"
+            },
+            {
+              "text": "No rush, thanks Dave!"
+            }
+          ]
+        },
+        "part": "drop",
+        "fx": [
+          "win"
+        ],
+        "mood": "happy"
+      },
+      {
+        "speaker": "neel",
+        "vo": "You write each message once. Then it goes out on its own while you work.",
+        "key": "once",
+        "pose": "explain",
+        "prop": {
+          "type": "flow",
+          "scale": 0.9,
+          "upto": 3,
+          "nodes": [
+            {
+              "icon": "✍️",
+              "label": "You write it once"
+            },
+            {
+              "icon": "⚙️",
+              "label": "Trigger: job status"
+            },
+            {
+              "icon": "💬",
+              "label": "Text goes out"
+            },
+            {
+              "icon": "🔨",
+              "label": "You keep working"
+            }
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Missed call text back, on my way texts, review requests. All in your voice.",
+        "key": "voice",
+        "pose": "celebrate",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Missed call text back",
+            "On my way texts",
+            "Review requests"
+          ]
+        },
+        "part": "drop2",
+        "mood": "happy"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Want texts that sound like you? Comment AUTO and I'll reply with how it works.",
+        "key": "AUTO",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "AUTO",
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
+        },
+        "cta": true,
+        "part": "outro",
+        "mood": "happy"
+      }
+    ]
+  }
+}

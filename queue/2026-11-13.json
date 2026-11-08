@@ -1,0 +1,142 @@
+{
+  "date": "2026-11-13",
+  "style": "explainer",
+  "trade": "seo",
+  "topic": "phone number as an image vs a tap to call tel link",
+  "hook": "Your phone number is a picture on your website? Nobody can tap it. Fix this tonight.",
+  "hook_formula": 0,
+  "caption": "Comment WEBSITE and I'll check your site and send you the 3 fixes I'd make first. Free.\n\nPicture a homeowner in Ohio at 10 PM with water coming through the ceiling, phone in one hand and a bucket in the other, finding your site on her iPhone. She taps the number in your banner. Nothing.\n\nIt's a picture.\n\nGoogle's own image guidelines say to keep important text out of images. The fix is 1 line of HTML. A tel link, real text, she taps it and the phone dials. Roofers, HVAC, plumbers in Tampa or Tucson, anyone who wants calls.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "series": "SEO + DESIGN",
+    "look": "b",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "Your phone number is a picture on your website? Nobody can tap it. Fix this tonight.",
+        "key": "tonight",
+        "pose": "point",
+        "prop": {
+          "type": "split",
+          "before": {
+            "title": "Number in an image",
+            "lines": [
+              "Tap... nothing happens",
+              "Has to type it by hand"
+            ]
+          },
+          "after": {
+            "title": "Tap to call link",
+            "lines": [
+              "Tap... phone dials",
+              "One tap, you're talking"
+            ]
+          }
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Lots of contractor sites bake the number right into the logo or a banner.",
+        "key": "banner",
+        "pose": "explain",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<img src=\"header-call-us.png\">",
+            "<!-- the number is inside the picture -->"
+          ],
+          "hl": 0,
+          "stamp": "JUST A PICTURE"
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "On a phone, a homeowner taps it and nothing happens.",
+        "key": "nothing",
+        "pose": "facepalm",
+        "prop": {
+          "type": "stamp",
+          "text": "Tap to call?",
+          "stamp": "NOTHING"
+        },
+        "mood": "shocked",
+        "fx": [
+          "fail"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "And Google's image guidelines say to keep important text out of images. It reads text.",
+        "key": "text.",
+        "pose": "explain",
+        "prop": {
+          "type": "stamp",
+          "text": "Source: Google image\nSEO best practices",
+          "stamp": "FACT",
+          "ok": true
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "The fix is one line. A tel link with your number as real text.",
+        "key": "link",
+        "pose": "fistPump",
+        "prop": {
+          "type": "shot",
+          "url": "view-source: yoursite.com",
+          "mono": true,
+          "dark": true,
+          "lines": [
+            "<a href=\"tel:+15550142290\">",
+            "  (555) 014-2290",
+            "</a>"
+          ],
+          "hl": 0,
+          "stamp": "TAP TO CALL"
+        },
+        "part": "drop",
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "Put it at the top of every page, big enough to hit with your thumb.",
+        "key": "thumb",
+        "pose": "point",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Real text, not an image",
+            "tel: link",
+            "Top of every page",
+            "Big enough for a thumb"
+          ]
+        },
+        "part": "drop2",
+        "mood": "happy"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Comment WEBSITE and I'll check your site and send you the 3 fixes I'd make first.",
+        "key": "WEBSITE",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "WEBSITE",
+          "dm": "Send me your link 👇"
+        },
+        "cta": true,
+        "part": "outro",
+        "mood": "happy"
+      }
+    ]
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "date": "2026-11-12",
+  "style": "explainer",
+  "trade": "Google",
+  "topic": "ai overviews: google says no special ai seo is needed, same search basics",
+  "hook": "Paying for AI SEO? Google says you don't need it. Here's their exact rule.",
+  "hook_formula": 0,
+  "caption": "Comment LEARN and I'll send you my free SEO starter guide. Google AI Overviews and AI SEO, explained for contractors.\n\nAgencies in Dallas, Miami and Phoenix are pitching AI SEO this fall. Sounds expensive.\n\nGoogle's own Search Central page on AI features says there are no extra requirements and no special optimization needed. To be one of the links in an AI Overview, your page has to be indexed and allowed to show a snippet. That's it. Two boxes.\n\nSo the same 3 basics still win for a roofer in Austin: a clear page title, real content about your service and city, a fast site on an iPhone.\n\n#seo #webdesign #seotips #websitetips #seoforbeginners",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "series": "SEO + DESIGN",
+    "look": "b",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "Paying for AI SEO? Google says you don't need it. Here's their exact rule.",
+        "key": "rule",
+        "pose": "point",
+        "prop": {
+          "type": "stamp",
+          "text": "You need special\nAI SEO",
+          "stamp": "MYTH"
+        },
+        "part": "hook",
+        "mood": "squint",
+        "fx": [
+          "fail"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "Those AI answers at the top of Google are called AI Overviews.",
+        "key": "Overviews",
+        "pose": "explain",
+        "prop": {
+          "type": "shot",
+          "url": "google.com/search",
+          "heading": "roof leak repair near me",
+          "lines": [
+            "AI Overview",
+            "Most leaks start at flashing...",
+            "Sources: 3 sites"
+          ],
+          "hl": 0
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Google's own page on AI features says there are no extra requirements to show up there.",
+        "key": "requirements",
+        "pose": "explain",
+        "prop": {
+          "type": "stamp",
+          "text": "Source: Google Search\nCentral, AI features",
+          "stamp": "FACT",
+          "ok": true
+        },
+        "mood": "smug",
+        "part": "drop"
+      },
+      {
+        "speaker": "neel",
+        "vo": "To be a link in one, your page just has to be indexed and allowed to show a snippet.",
+        "key": "snippet",
+        "pose": "explain",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Page is indexed",
+            "Allowed to show a snippet",
+            "No special AI tricks"
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "So the same basics still win.",
+        "key": "basics",
+        "pose": "fistPump",
+        "prop": {
+          "type": "big",
+          "text": "🔍 = 🤖",
+          "size": 200
+        },
+        "fx": [
+          "win"
+        ]
+      },
+      {
+        "speaker": "neel",
+        "vo": "A clear page title, real content about your service and city, and a site that works on a phone.",
+        "key": "phone",
+        "pose": "explain",
+        "prop": {
+          "type": "checklist",
+          "items": [
+            "Title: service + city",
+            "Real content, real photos",
+            "Fast on a phone"
+          ]
+        },
+        "part": "drop2",
+        "mood": "happy"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Follow me and comment LEARN, and I'll send you my free SEO starter guide.",
+        "key": "LEARN",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "LEARN",
+          "dm": "Your free SEO starter guide 👇"
+        },
+        "cta": true,
+        "part": "outro",
+        "mood": "happy"
+      }
+    ]
+  }
+}

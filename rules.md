@@ -44,16 +44,16 @@ The weekly writer reads this file and styles.md before writing the week's script
 ## What competitors are doing
 
 <!-- COMPETITORS:START -->
-Week of 2026-11-02 evening slots (4 searches, headlines and listings only, no view counts seen, so no ig-viral ranking possible):
-- "Watch me make 20 reels in 10 minutes with Claude Code" style build-in-public videos keep showing up. Formula:
-  surprising true process ("An AI wrote this reel"). We used it for the 11-04 behind-the-scenes wildcard.
-- Free GitHub skills that script, clip and caption content are being pushed to creators with "comment WORD for the link".
-  Lead with the visible pain (generic AI websites, AI-sounding copy), never a top-10 list.
-- Algorithm guides all point at sends (DM shares) as the top reach signal. Use "Send this to [person] who [situation]"
-  at least twice a week, and say why the person should get it.
-- Instagram SEO advice is unchanged: searchable words (Claude, Google, SEO, website, roofer, HVAC) on screen and in the
-  caption's first two lines.
-- Myth vs fact keeps working for SEO when the source is named on screen ("Google's own starter guide"). Name the source.
+Week of 2026-11-09 (4 searches, headlines and listings only, no view counts seen, so no ig-viral ranking possible):
+- "AI search era" is the contractor-marketing headline this fall (agency guides, "AI SEO" pitches). Formula:
+  contradiction backed by Google's own docs ("Paying for AI SEO? Google says you don't need it"). Used for the 11-12 wildcard.
+- Creator guides are pushing AI hook libraries and "reverse-engineer viral hooks". Everyone has templates now, so the
+  edge is a concrete trade moment (on a roof at 2 PM, water through the ceiling at 10 PM), not the formula itself.
+- Algorithm guides still rank sends and saves above likes. Keep "Send this to [person] who [situation]" twice a week
+  and give the viewer a reason the other person needs it.
+- Instagram SEO guides for contractors: say the trade and the service in the first caption line and on screen.
+- Small-business AI news angle "your existing tools are getting a silent upgrade" is common; pair any AI news with
+  one thing a contractor can do with it today.
 <!-- COMPETITORS:END -->
 
 ## Learned

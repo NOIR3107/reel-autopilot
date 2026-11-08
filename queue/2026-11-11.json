@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-11",
+  "style": "explainer",
+  "trade": "contractor",
+  "topic": "one customer start to finish: the chain of texts that send themselves",
+  "hook": "You don't need an office manager. You need texts that send themselves.",
+  "hook_formula": 0,
+  "caption": "Texts that send themselves for contractors: comment AUTO and I'll reply with how it works.\n\nPicture a roofer in Tulsa named Dave. Tuesday at 2 PM he's on a steep roof when a caller rings, and he can't pick up. Wednesday he's running 20 minutes late. Thursday the job wraps and nobody asks Mrs. Lopez for a review.\n\nThree texts fix all of it. Missed call text back. On my way. A thank you with one link to his Google reviews.\n\nDave typed none of them. Works for roofers, HVAC techs, plumbers in Dallas or Denver.\n\n#contractor #smallbusinesstips #automation #n8n #roofing",
+  "props": {
+    "music": "funk",
+    "narrator": "am_adam",
+    "host": "neel",
+    "series": "AUTOMATION",
+    "look": "b",
+    "bgc": "#1f2a44",
+    "scenes": [
+      {
+        "speaker": "neel",
+        "vo": "You don't need an office manager. You need texts that send themselves.",
+        "key": "themselves",
+        "pose": "point",
+        "prop": {
+          "type": "phone",
+          "notify": {
+            "title": "Missed call",
+            "text": "(555) 014-2290"
+          },
+          "msgs": [],
+          "buzz": true
+        },
+        "part": "hook",
+        "mood": "squint"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Watch one customer, start to finish. She calls while you're up on a roof.",
+        "key": "roof",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "notify": {
+            "title": "Missed call",
+            "text": "Can't answer, on a job"
+          },
+          "msgs": [],
+          "buzz": true
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "She gets a text back before she can dial the next roofer.",
+        "key": "next",
+        "pose": "fistPump",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Sorry I missed you! I'm on a job. What do you need help with?"
+            },
+            {
+              "text": "Leak in the kitchen ceiling"
+            }
+          ]
+        },
+        "fx": [
+          "win"
+        ],
+        "part": "drop"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Job day. She gets a text when you're on your way.",
+        "key": "way",
+        "pose": "explain",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "On my way! See you in about 20 minutes 🚚"
+            },
+            {
+              "text": "Great, the gate's open"
+            }
+          ]
+        }
+      },
+      {
+        "speaker": "neel",
+        "vo": "Job done. She gets a thank you with one link to your Google reviews.",
+        "key": "reviews",
+        "pose": "celebrate",
+        "prop": {
+          "type": "phone",
+          "msgs": [
+            {
+              "me": true,
+              "text": "Thanks for having us! Mind leaving a quick review? ⭐"
+            },
+            {
+              "text": "Done! ⭐⭐⭐⭐⭐"
+            }
+          ]
+        },
+        "fx": [
+          "win"
+        ],
+        "mood": "happy"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Three texts. You typed none of them.",
+        "key": "none",
+        "pose": "point",
+        "prop": {
+          "type": "flow",
+          "scale": 0.9,
+          "upto": 3,
+          "nodes": [
+            {
+              "icon": "📞",
+              "label": "Missed call text back"
+            },
+            {
+              "icon": "🚚",
+              "label": "On my way text"
+            },
+            {
+              "icon": "⭐",
+              "label": "Review request"
+            },
+            {
+              "icon": "😎",
+              "label": "You just do the work"
+            }
+          ]
+        },
+        "part": "drop2",
+        "mood": "smug"
+      },
+      {
+        "speaker": "neel",
+        "vo": "Want this for your business? Comment AUTO and I'll reply with how it works.",
+        "key": "AUTO",
+        "pose": "wave",
+        "prop": {
+          "type": "comments",
+          "keyword": "AUTO",
+          "dm": "Replied to your comment 👇",
+          "scale": 0.8
+        },
+        "cta": true,
+        "part": "outro",
+        "mood": "happy"
+      }
+    ]
+  }
+}
