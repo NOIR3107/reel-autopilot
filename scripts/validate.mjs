@@ -4,7 +4,7 @@ import {py} from './lib.mjs';
 import {BUSINESSES} from '../src/biz.js';
 
 const MIN_HOOK = 40; // the scorer only reliably catches weak lines (greetings, preambles); it marks down proven formats like "Send this to", so keep the bar low
-const STYLES = ['explainer', 'survival', 'story', 'kinetic', 'teardown', 'mike', 'ad'];
+const STYLES = ['explainer', 'survival', 'story', 'kinetic', 'teardown', 'mike', 'ad', 'blueprint'];
 const FX = ['closed', 'shake', 'hail', 'glow'];
 const PARTS = ['hook', 'drop', 'break', 'rise', 'drop2', 'outro'];
 const LAYOUTS = ['phone', 'duo', 'closeup', 'screen', 'split'];
@@ -115,6 +115,26 @@ function checkStyle(s, errs) {
       if (x.layout === 'duo' && (x.cast ?? []).length !== 2) errs.push(`${n}: duo needs "cast": [left, right]`);
       if (x.say && !str(x.say, 40)) errs.push(`${n}: say over 40 characters`);
     });
+  } else if (s.style === 'blueprint') {
+    const sc = p.scenes ?? [], last = sc.at(-1) ?? {}, ids = new Set(sc.flatMap((x) => x.reveal ?? []));
+    if (!str(p.title, 70)) errs.push('blueprint: title required, 70 characters max ([brackets] mark the highlight)');
+    if (!Array.isArray(p.agents) || p.agents.length < 4 || p.agents.length > 12) errs.push('blueprint: 4-12 agents');
+    (p.agents ?? []).forEach((a) => { if (!ids.has(a.id)) errs.push(`blueprint: agent ${a.id} is never revealed`);
+      if (!str(a.name, 24) || !(a.lines?.length >= 2 && a.lines.every((l) => str(l, 40)))) errs.push(`blueprint: agent ${a.id} needs a name (24) and 2-3 lines (40)`); });
+    const allIds = [...(p.agents ?? []), ...(p.apps ?? [])].map((x) => x.id);
+    if (new Set(allIds).size !== allIds.length) errs.push('blueprint: agent and app ids must all be different');
+    // the running cost is the one number we show, so it must add up from a real, dated breakdown
+    const c = p.cost, sum = (c?.items ?? []).reduce((t, i) => t + i.usd, 0);
+    if (!c || !Number.isFinite(c.total) || !c.items?.length || Math.abs(sum - c.total) > 3 || !/checked \w+ 20\d\d/i.test(c.note ?? '')) errs.push('blueprint: cost needs total, items that add up to it (within $3) and a note saying when prices were checked');
+    if (!ids.has('cost') || !ids.has('cta')) errs.push('blueprint: reveal "cost" and then "cta" in the last scenes');
+    if (!last.cta || !/^[A-Z]{3,10}$/.test(p.keyword ?? '') || !String(last.vo).toUpperCase().includes(p.keyword)) errs.push('blueprint: last scene is the ask, saying the keyword: {"cta": true, "vo": "Comment WORD..."}');
+    if (p.keyword && !JSON.parse(fs.readFileSync(new URL('../data/dms.json', import.meta.url), 'utf8'))[p.keyword]) errs.push(`blueprint: add the DM for ${p.keyword} to data/dms.json`);
+    if (!new RegExp(`comment ${p.keyword}`, 'i').test(s.caption ?? '')) errs.push(`blueprint: caption must say "Comment ${p.keyword}"`);
+    const words = sc.reduce((t, x) => t + String(x.vo ?? '').split(/\s+/).filter(Boolean).length, 0);
+    if (words < 45 || words > 140) errs.push(`blueprint: ${words} spoken words, want 45-140`);
+    // never promise results: say what each agent does, not what it will bring in
+    const promise = JSON.stringify(sc).match(/\b(more|double|triple|extra)\s+(leads|calls|jobs|customers|sales|revenue)\b|never miss|get you (leads|jobs|calls)/i);
+    if (promise) errs.push(`blueprint: "${promise[0]}" promises results; say what the agent does instead`);
   } else if (s.style === 'ad') {
     if (!BUSINESSES[p.trade]) errs.push(`ad: trade must be one of ${Object.keys(BUSINESSES)}`);
     if (p.hook && (!Array.isArray(p.hook) || p.hook.length > 8)) errs.push('ad: hook = up to 8 words like [["Your"], ["jobs.", 1]]');
@@ -132,7 +152,7 @@ export function validate(s, {quality = true} = {}) {
     if (/(^|\s)#\w+/.test(s.caption)) errs.push('caption: no hashtags, end with a line of SEO keywords instead');
     if (!/comment\s+\S+/i.test(s.caption)) errs.push('caption must ask people to comment a word');
   }
-  const banned = JSON.stringify(s).match(BANNED);
+  const banned = JSON.stringify({...s, props: {...s.props, cost: undefined}}).match(BANNED); // a blueprint's checked running cost is the one allowed price
   if (banned) errs.push(`remove "${banned[0]}": no stats, prices, guarantees, em dashes or banned phrases`);
   checkStyle(s, errs);
   if (quality && !errs.length) {

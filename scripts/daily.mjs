@@ -104,10 +104,10 @@ try {
   // Story reels: the voiceover sets each scene's length, so the sound tool writes the props.
   // Human-sounding voice (Chatterbox, in the host's voice) when the ticker has it installed; Kokoro otherwise.
   const voDir = `public/vo/${queueFile.split('/').pop().slice(0, -5)}`;
-  if (['explainer', 'survival', 'island'].includes(script.style) && !fs.existsSync(`${voDir}/00.wav`) && process.env.CHATTERBOX === '1') {
+  if (['explainer', 'survival', 'island', 'blueprint'].includes(script.style) && !fs.existsSync(`${voDir}/00.wav`) && process.env.CHATTERBOX === '1') {
     try { sh('python3', ['tools/chatter_vo.py', queueFile], {stdio: 'inherit'}); } catch { console.log('human voice failed, using the standard voice'); fs.rmSync(voDir, {recursive: true, force: true}); }
   }
-  if (['story', 'explainer', 'survival', 'island', 'mindset'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
+  if (['story', 'explainer', 'survival', 'island', 'mindset', 'blueprint'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
   // story_sound rewrites the props from the script, so put the rotated look back on top
   fs.writeFileSync(`${tmp}/props.json`, JSON.stringify({...JSON.parse(fs.readFileSync(`${tmp}/props.json`, 'utf8')), ...look}));
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];

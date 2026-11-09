@@ -1,17 +1,21 @@
-# Series (current)
+# Series (current, Nov 2026)
 
-1. FREE SKILL (style "explainer", look "b"): hook naming a pain, real screenshots with red boxes and stamps, the repo's name and
-   link hidden (●●●●), ends on "Follow me and comment KEYWORD, I'll DM you the link". Example: queue/2026-10-27.json.
-2. SURVIVAL (style "survival"): blackout story, status bar (hour, water, power, outside), cold open on action, a twist,
-   ends on two options and "Comment A or B. The most votes decides the next part." Example: queue/2026-10-28.json.
-3. SEO + DESIGN (style "explainer", look "b"): one true fact per scene, code or search-result screenshots, ends on
-   "Follow me and comment LEARN for my free starter guide". Example: queue/2026-10-29.json.
-Hashtags: exactly these 5 as the caption's last line (Instagram allows 5; 2 broad, 2 medium, 1 niche works best):
-   FREE SKILL: #aitools #artificialintelligence #claudeai #codingtips #claudecode
-   SEO + DESIGN: #seo #webdesign #seotips #websitetips #seoforbeginners
-   SURVIVAL: #storytime #survival #animation #whatwouldyoudo #chooseyourownadventure
-   Never #reels, #explore, #viral or #fyp. Put the searchable words (Claude, SEO, website, Google) in the caption text too.
-Props for explainers: shot (url, heading, lines, hl, stamp, dark, mono), terminal, files, checklist, stamp, big, chart, comments.
+1. NEELVILLE (style "island", evenings): written by code from data/island.json. One lot per follower.
+2. RING RACE (style "race", alternate mornings): written by code from data/race.json.
+3. MINDSET (style "mindset", alternate mornings): stickman episodes in data/mindset.json, calm voice.
+4. SYSTEM BLUEPRINT (style "blueprint", hand-written, Neel previews before it posts): one big AI-system diagram on
+   grid paper that builds up agent by agent, ends on the full packed diagram. Reference: @restructureai.eu.
+   - props: title ([brackets] = highlight), hub {name, lines}, agents (4-12: id, emoji, name, color, 2-3 short lines,
+     apps), apps (id, emoji, label; generic icons only, never brand logos), keyword, music, cost, scenes
+     ({vo, reveal: [ids], cam: "out"}; the first scene shows a faint outline of the whole system, then
+     "cost" and a {"cta": true} scene revealing "cta").
+   - cost: our twist. {total, note, items: [{what, usd}]}. The items must add up to the total, from prices
+     checked that month (say so in note). Leave out anything whose price swings a lot (like AI phone minutes).
+   - Caption: short title, 2-3 concrete lines, "Comment WORD and I'll send you the blueprint.", keyword line.
+     New WORD every reel (ROOF used), plus its DM in data/dms.json with the agent list and the cost breakdown.
+   - Say what each agent does. Never promise more leads, calls or jobs (validate blocks it).
+   - Example: drafts/blueprint-roof.json. Drafts stay in drafts/ until Neel approves; then copy to queue/DATE.json.
+No hashtags anywhere: end captions with a line of search phrases instead.
 
 # Script format, one file per day
 

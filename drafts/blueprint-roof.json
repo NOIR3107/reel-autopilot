@@ -1,0 +1,354 @@
+{
+ "date": "2026-11-12",
+ "style": "blueprint",
+ "hold": true,
+ "trade": "roofing",
+ "topic": "blueprint: roofing office with 12 AI agents",
+ "hook": "Here's how you could run a roofing office with 12 AI agents and no office staff.",
+ "caption": "How you could run a roofing office with 12 AI agents 🧠\n\nMissed call? It texts them back. Quotes get chased on day 3 and day 7 and stop the second they reply, invoices go out the minute the job closes, and every Monday morning you get one short report with what's open and who still owes you. No new app to learn.\n\nComment ROOF and I'll send you the blueprint.\n\nAI automation for roofers, roofing business tips, AI agents for small business, roofing office automation, n8n automation.",
+ "props": {
+  "title": "How 1 roofer could run the office with [12 AI agents]",
+  "music": "lofi",
+  "keyword": "ROOF",
+  "hub": {
+   "name": "AI office manager",
+   "lines": [
+    "Routes every call, text and email",
+    "Knows every job and customer",
+    "Hands off to the right agent"
+   ]
+  },
+  "agents": [
+   {
+    "id": "missed",
+    "emoji": "📞",
+    "name": "Missed-call text back",
+    "lines": [
+     "Texts back when you miss a call",
+     "Asks what the job is",
+     "Logs them as a new lead"
+    ],
+    "apps": [
+     "phone",
+     "texts"
+    ],
+    "color": "#e4572e"
+   },
+   {
+    "id": "forms",
+    "emoji": "🌐",
+    "name": "Lead catcher",
+    "lines": [
+     "Grabs every website form",
+     "Adds them to your customer list",
+     "Pings you with the details"
+    ],
+    "apps": [
+     "web",
+     "crm"
+    ],
+    "color": "#2e86de"
+   },
+   {
+    "id": "quote",
+    "emoji": "📝",
+    "name": "Quote writer",
+    "lines": [
+     "Drafts the quote from your notes",
+     "Uses your own prices",
+     "You tap approve to send"
+    ],
+    "apps": [
+     "email",
+     "crm"
+    ],
+    "color": "#17a589"
+   },
+   {
+    "id": "chase",
+    "emoji": "🔁",
+    "name": "Quote follow-up",
+    "lines": [
+     "Checks in on day 3 and day 7",
+     "Stops the second they reply",
+     "Never sends twice"
+    ],
+    "apps": [
+     "texts",
+     "email"
+    ],
+    "color": "#8e44ad"
+   },
+   {
+    "id": "book",
+    "emoji": "📅",
+    "name": "Inspection booker",
+    "lines": [
+     "Offers open slots from your calendar",
+     "Books it, sends the address",
+     "Moves it if they reschedule"
+    ],
+    "apps": [
+     "cal",
+     "texts"
+    ],
+    "color": "#f39c12"
+   },
+   {
+    "id": "remind",
+    "emoji": "⏰",
+    "name": "Reminder",
+    "lines": [
+     "Texts the night before",
+     "Confirms or reschedules",
+     "Updates the calendar"
+    ],
+    "apps": [
+     "texts",
+     "cal"
+    ],
+    "color": "#c0392b"
+   },
+   {
+    "id": "omw",
+    "emoji": "🚚",
+    "name": "On my way",
+    "lines": [
+     "Crew taps one button",
+     "Customer gets an on my way text",
+     "With a rough arrival time"
+    ],
+    "apps": [
+     "texts"
+    ],
+    "color": "#16a085"
+   },
+   {
+    "id": "photos",
+    "emoji": "📸",
+    "name": "Job photo filer",
+    "lines": [
+     "Crew texts photos from the roof",
+     "Filed under the right job",
+     "Before and after, ready to share"
+    ],
+    "apps": [
+     "gallery",
+     "crm"
+    ],
+    "color": "#d35400"
+   },
+   {
+    "id": "invoice",
+    "emoji": "💳",
+    "name": "Invoice sender",
+    "lines": [
+     "Sends the invoice when the job closes",
+     "Pay by card link",
+     "Marks it paid in your list"
+    ],
+    "apps": [
+     "pay",
+     "email"
+    ],
+    "color": "#2c3e50"
+   },
+   {
+    "id": "nudge",
+    "emoji": "💬",
+    "name": "Payment nudge",
+    "lines": [
+     "Polite reminder after 7 days",
+     "Second one after 14",
+     "Flags it to you after that"
+    ],
+    "apps": [
+     "texts",
+     "pay"
+    ],
+    "color": "#27ae60"
+   },
+   {
+    "id": "review",
+    "emoji": "⭐",
+    "name": "Review asker",
+    "lines": [
+     "Asks happy customers for a review",
+     "Sends the direct review link",
+     "One ask, no spam"
+    ],
+    "apps": [
+     "reviews",
+     "texts"
+    ],
+    "color": "#e84393"
+   },
+   {
+    "id": "report",
+    "emoji": "📊",
+    "name": "Monday report",
+    "lines": [
+     "New leads, quotes out, unpaid jobs",
+     "One message to you every Monday",
+     "Nothing else to log into"
+    ],
+    "apps": [
+     "email"
+    ],
+    "color": "#0984e3"
+   }
+  ],
+  "apps": [
+   {
+    "id": "phone",
+    "emoji": "📞",
+    "label": "Phone"
+   },
+   {
+    "id": "texts",
+    "emoji": "💬",
+    "label": "Texts"
+   },
+   {
+    "id": "email",
+    "emoji": "📧",
+    "label": "Email"
+   },
+   {
+    "id": "cal",
+    "emoji": "📅",
+    "label": "Calendar"
+   },
+   {
+    "id": "web",
+    "emoji": "🌐",
+    "label": "Website"
+   },
+   {
+    "id": "crm",
+    "emoji": "🗂️",
+    "label": "Customers"
+   },
+   {
+    "id": "gallery",
+    "emoji": "📸",
+    "label": "Photos"
+   },
+   {
+    "id": "pay",
+    "emoji": "💳",
+    "label": "Payments"
+   },
+   {
+    "id": "reviews",
+    "emoji": "⭐",
+    "label": "Reviews"
+   }
+  ],
+  "cost": {
+   "total": 25,
+   "note": "Self-hosted automation server, texting number with ~800 texts, light AI use. Your phone, email and calendar stay as they are. Prices checked Nov 2026; one-time texting signup fees not included.",
+   "items": [
+    {
+     "what": "Automation server (small cloud computer)",
+     "usd": 6
+    },
+    {
+     "what": "Texting number + monthly carrier registration",
+     "usd": 5.15
+    },
+    {
+     "what": "About 800 texts in and out",
+     "usd": 10
+    },
+    {
+     "what": "AI model use (a few million words a month)",
+     "usd": 3
+    }
+   ]
+  },
+  "scenes": [
+   {
+    "vo": "Here's how you could run a roofing office with twelve AI agents and no office staff.",
+    "reveal": [],
+    "part": "hook",
+    "cam": "out"
+   },
+   {
+    "vo": "In the middle sits one AI office manager. Every call, text and email goes through it.",
+    "reveal": [
+     "hub",
+     "phone",
+     "texts",
+     "email"
+    ]
+   },
+   {
+    "vo": "Miss a call? Agent one texts them back. Agent two catches every website form.",
+    "reveal": [
+     "missed",
+     "forms",
+     "web",
+     "crm"
+    ]
+   },
+   {
+    "vo": "Three drafts the quote with your prices. Four follows up on day three and day seven.",
+    "reveal": [
+     "quote",
+     "chase"
+    ]
+   },
+   {
+    "vo": "Five books the inspection on your calendar. Six sends a reminder the night before.",
+    "reveal": [
+     "book",
+     "remind",
+     "cal"
+    ]
+   },
+   {
+    "vo": "Seven sends the on my way text. Eight files the crew's job photos.",
+    "reveal": [
+     "omw",
+     "photos",
+     "gallery"
+    ]
+   },
+   {
+    "vo": "Nine sends the invoice, and ten nudges anyone who hasn't paid.",
+    "reveal": [
+     "invoice",
+     "nudge",
+     "pay"
+    ]
+   },
+   {
+    "vo": "Eleven asks for the review. Twelve sends you a report every Monday.",
+    "reveal": [
+     "review",
+     "report",
+     "reviews"
+    ],
+    "cam": "out"
+   },
+   {
+    "vo": "The whole thing runs for about twenty five dollars a month.",
+    "reveal": [
+     "cost"
+    ],
+    "cam": "out",
+    "hold": 1.5
+   },
+   {
+    "vo": "Comment ROOF and I'll send you the full blueprint.",
+    "reveal": [
+     "cta"
+    ],
+    "cam": "out",
+    "cta": true,
+    "hold": 2.5
+   }
+  ]
+ }
+}
