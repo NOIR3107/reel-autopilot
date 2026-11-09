@@ -14,7 +14,9 @@ const withA = (t) => (/^[aeiou]/i.test(t) ? 'an ' : 'a ') + t;
 export function episode(state, followers) {
   const day = (state.day ?? 0) + 1, old = state.houses ?? 0, pop = Math.max(followers, 0), added = Math.max(0, pop - old);
   const requests = state.requests ?? [];
-  const built = requests.filter((r) => r.built), fresh = requests.filter((r) => !r.built).slice(0, PER_EPISODE);
+  const built = requests.filter((r) => r.built), has = new Set(built.map((r) => r.user));
+  // No repeats: one lot per follower, so a second request from someone who already has one is skipped.
+  const fresh = requests.filter((r) => !r.built && !has.has(r.user) && has.add(r.user)).slice(0, PER_EPISODE);
   const lots = [...built, ...fresh.map((r) => ({...r, fresh: true}))];
   // More followers, more amenities: one unlocks for every STEP followers gained since launch (one per episode).
   const base = state.base ?? pop, have = state.specials ?? [];
@@ -30,7 +32,7 @@ export function episode(state, followers) {
   if (day === 1) S.push({vo: 'Little robots build every house. One for each follower.', key: 'robots', shot: 'close'});
   fresh.forEach((r, k) => {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
-    S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, far: {black10: 1.6, skyscraper: 2.1}[r.custom], part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
+    S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, far: {black10: 1.6, skyscraper: 2.1, techtower: 1.9}[r.custom], part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
   });
   if (building) S.push(SURPRISES.includes(building)
     ? {vo: `${base + n * STEP} followers! Time for the surprise. It's ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win'], hold: 2.5}

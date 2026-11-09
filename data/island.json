@@ -106,6 +106,25 @@
       "custom": "small",
       "say": "a cozy one person house with a slammed old school pickup outside",
       "built": 6
+    },
+    {
+      "user": "nic.d._",
+      "items": [],
+      "custom": "mechanic",
+      "say": "a mechanic shop, because someone's gotta fix the cars"
+    },
+    {
+      "user": "macdonald.finlay",
+      "items": [],
+      "custom": "warehouse",
+      "say": "a modern warehouse with some sick cars"
+    },
+    {
+      "user": "ohsoliman",
+      "items": [],
+      "custom": "techtower",
+      "name": "ARASAKA",
+      "say": "a tech corporation tower called Arasaka"
     }
   ]
 }

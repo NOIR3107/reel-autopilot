@@ -163,8 +163,8 @@ const signTex = (text, bg, fg) => {
 };
 const Sign = ({text, y = 1.1, bg = '#ffffff', fg = '#151515', w = 1.3}) => {
   const tex = useMemo(() => signTex(text, bg, fg), [text, bg, fg]);
-  const q = useThree((st) => st.camera).quaternion.clone();
-  return <mesh position={[0, y, 0]} quaternion={q}><planeGeometry args={[w, w / 4]} /><meshBasicMaterial map={tex} side={2} /></mesh>;
+  // Face the camera in world space, so signs inside rotated lots aren't mirrored.
+  return <mesh onBeforeRender={function (r, s, cam) { this.parent.getWorldQuaternion(this.quaternion); this.quaternion.invert().multiply(cam.quaternion); this.updateMatrixWorld(); }} position={[0, y, 0]}><planeGeometry args={[w, w / 4]} /><meshBasicMaterial map={tex} side={2} /></mesh>;
 };
 // Things people ask for on their lot; anything else gets a labelled sign.
 const ITEMS = {
@@ -377,6 +377,84 @@ ITEMS.wallst = <group position={[0, 0, 0]}><mesh position={[0, 0.25, 0]}><cylind
 // An all-black tower, `floors` high, with lit windows, balconies and gold trim; a rainbow basketball court on the roof.
 // A giant black glass skyscraper: podium with a glass lobby, a shaft with vertical fins and lit floor bands,
 // two setbacks, a crown, and an antenna with a blinking red light. Built bottom to top in the timelapse.
+// Generic sports car: low wedge body, cabin glass, spoiler, wheels. No maker's badges.
+const SportsCar = ({color = '#e5322d', x = 0, z = 0, r = 0}) => (
+  <group position={[x, 0, z]} rotation={[0, r, 0]}>
+    <mesh position={[0, 0.05, 0]}><boxGeometry args={[0.3, 0.045, 0.14]} /><meshStandardMaterial color={color} metalness={0.5} roughness={0.25} /></mesh>
+    <mesh position={[0.11, 0.06, 0]} rotation={[0, 0, -0.35]}><boxGeometry args={[0.1, 0.03, 0.135]} /><meshStandardMaterial color={color} metalness={0.5} roughness={0.25} /></mesh>
+    <mesh position={[-0.02, 0.085, 0]}><boxGeometry args={[0.13, 0.035, 0.11]} /><meshStandardMaterial color="#0f172a" metalness={0.6} roughness={0.1} /></mesh>
+    <mesh position={[-0.14, 0.095, 0]}><boxGeometry args={[0.03, 0.008, 0.14]} /><meshStandardMaterial color="#111" /></mesh>
+    {[[0.09, 1], [0.09, -1], [-0.09, 1], [-0.09, -1]].map(([a, sd]) => <mesh key={a + ' ' + sd} position={[a, 0.025, sd * 0.07]} rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[0.025, 0.025, 0.02, 14]} /><meshStandardMaterial color="#111" /></mesh>)}
+    {[-1, 1].map((sd) => <mesh key={'l' + sd} position={[0.151, 0.055, sd * 0.045]}><boxGeometry args={[0.004, 0.012, 0.03]} /><meshStandardMaterial color="#fff" emissive="#fff" emissiveIntensity={0.6} /></mesh>)}
+  </group>
+);
+
+// Mechanic shop: two roll-up doors (one open, a car up on the lift inside), sign, tyre stacks, oil drums, tool chest.
+const Mechanic = ({build = 1}) => { const g = ramp(build, 0, 0.7), fin = ramp(build, 0.7, 0.95), M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 0.6 : 0} />;
+  return <group>
+    <mesh position={[0, 0.02, 0.1]}><boxGeometry args={[0.8, 0.04, 0.8]} />{M('#9ca3af')}</mesh>
+    {g > 0 && <group scale={[1, g, 1]}>
+      <mesh position={[0, 0.24, -0.08]}><boxGeometry args={[0.74, 0.44, 0.46]} />{M('#e5e7eb')}</mesh>
+      <mesh position={[0, 0.47, -0.08]}><boxGeometry args={[0.78, 0.03, 0.5]} />{M('#1e3a8a')}</mesh>
+      <mesh position={[0.18, 0.19, 0.152]}><boxGeometry args={[0.28, 0.3, 0.01]} />{M('#1f2937')}</mesh>
+      {Array.from({length: 8}, (_, k) => <mesh key={k} position={[-0.18, 0.06 + k * 0.038, 0.153]}><boxGeometry args={[0.28, 0.03, 0.012]} />{M('#d1d5db')}</mesh>)}
+      <mesh position={[0.18, 0.19, 0.1]}><boxGeometry args={[0.26, 0.28, 0.1]} />{M('#111827', '#1e293b')}</mesh>
+    </group>}
+    {fin > 0 && <group scale={fin}>
+      <mesh position={[0.18, 0.12, 0.05]}><boxGeometry args={[0.24, 0.015, 0.06]} />{M('#eab308')}</mesh>
+      {[-0.1, 0.1].map((x) => <mesh key={x} position={[0.18 + x, 0.07, 0.05]}><boxGeometry args={[0.02, 0.1, 0.02]} />{M('#eab308')}</mesh>)}
+      <group position={[0.18, 0.13, 0.05]} scale={0.8}><SportsCar color="#2563eb" r={0} /></group>
+      <Sign text="MECHANIC 🔧" y={0.62} bg="#1e3a8a" fg="#facc15" w={0.75} />
+      {[[-0.36, 0.3], [-0.3, 0.38]].map(([x, z], k) => <group key={k} position={[x, 0, z]}>{[0, 1, 2].map((j) => <mesh key={j} position={[0, 0.02 + j * 0.035, 0]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.045, 0.018, 8, 16]} />{M('#111')}</mesh>)}</group>)}
+      {[0.36, 0.3].map((x, k) => <mesh key={x} position={[x, 0.05, 0.36 - k * 0.07]}><cylinderGeometry args={[0.03, 0.03, 0.1, 12]} />{M(k ? '#dc2626' : '#2563eb')}</mesh>)}
+      <mesh position={[-0.2, 0.08, 0.2]}><boxGeometry args={[0.12, 0.16, 0.07]} />{M('#dc2626')}</mesh>
+      {[0.05, 0.1].map((y) => <mesh key={y} position={[-0.2, y, 0.236]}><boxGeometry args={[0.1, 0.006, 0.004]} />{M('#9ca3af')}</mesh>)}
+    </group>}
+  </group>; };
+
+// Modern warehouse: long dark-metal shed with ribbed walls, a glass corner showroom, roof lights, a loading door, sports cars out front.
+const Warehouse = ({build = 1}) => { const g = ramp(build, 0, 0.7), fin = ramp(build, 0.7, 0.95), M = (c, e, o) => <meshStandardMaterial color={c} metalness={0.3} roughness={0.4} emissive={e ?? '#000'} emissiveIntensity={e ? 0.7 : 0} transparent={o != null} opacity={o ?? 1} />;
+  return <group>
+    <mesh position={[0, 0.02, 0.05]}><boxGeometry args={[0.92, 0.04, 0.9]} />{M('#4b5563')}</mesh>
+    {g > 0 && <group scale={[1, g, 1]}>
+      <mesh position={[-0.08, 0.2, -0.15]}><boxGeometry args={[0.7, 0.36, 0.44]} />{M('#27272a')}</mesh>
+      {Array.from({length: 14}, (_, k) => <mesh key={k} position={[-0.42 + k * 0.05, 0.2, 0.072]}><boxGeometry args={[0.012, 0.36, 0.006]} />{M('#3f3f46')}</mesh>)}
+      <mesh position={[0.3, 0.19, 0.0]}><boxGeometry args={[0.24, 0.34, 0.3]} />{M('#fef3c7', '#f59e0b')}</mesh>
+      <mesh position={[0.3, 0.19, 0.0]}><boxGeometry args={[0.26, 0.36, 0.32]} />{M('#93c5fd', null, 0.4)}</mesh>
+      <mesh position={[-0.2, 0.13, 0.075]}><boxGeometry args={[0.2, 0.22, 0.01]} />{M('#52525b')}</mesh>
+      {Array.from({length: 6}, (_, k) => <mesh key={'d' + k} position={[-0.2, 0.04 + k * 0.035, 0.08]}><boxGeometry args={[0.2, 0.008, 0.006]} />{M('#71717a')}</mesh>)}
+      {[-0.3, -0.08, 0.14].map((x) => <mesh key={x} position={[x, 0.39, -0.15]}><boxGeometry args={[0.12, 0.03, 0.3]} />{M('#bfdbfe', '#60a5fa')}</mesh>)}
+      <mesh position={[-0.08, 0.38, -0.15]}><boxGeometry args={[0.72, 0.012, 0.46]} />{M('#18181b')}</mesh>
+    </group>}
+    {fin > 0 && <group scale={fin}>
+      <SportsCar color="#e5322d" x={-0.25} z={0.3} r={0.3} /><SportsCar color="#facc15" x={0.05} z={0.34} r={0.1} /><SportsCar color="#111827" x={0.32} z={0.3} r={-0.2} />
+      <Sign text="GARAGE 01" y={0.6} bg="#0a0a0a" fg="#e5e7eb" w={0.6} />
+    </group>}
+  </group>; };
+
+// Tech-corporation tower: dark glass, red light strips up the corners, a crown, a big vertical name sign (plain lettering).
+const vSignTex = (text) => { const c = document.createElement('canvas'); c.width = 128; c.height = 640; const g = c.getContext('2d');
+  g.fillStyle = '#0a0a0a'; g.fillRect(0, 0, 128, 640); g.fillStyle = '#ef4444'; g.font = 'bold 84px sans-serif'; g.textAlign = 'center';
+  String(text).toUpperCase().split('').forEach((ch, k, a) => g.fillText(ch, 64, 90 + k * (520 / Math.max(1, a.length - 1)) - (a.length > 7 ? 10 : 0)));
+  return new THREE.CanvasTexture(c); };
+const TechTower = ({build = 1, name = '', t = 0}) => { const g = ramp(build, 0, 0.88), top = ramp(build, 0.88, 1), H = 2.6 * g;
+  const tex = useMemo(() => vSignTex(name), [name]);
+  return <group>
+    <mesh position={[0, 0.03, 0]}><boxGeometry args={[0.8, 0.06, 0.72]} /><meshStandardMaterial color="#27272a" /></mesh>
+    {H > 0.01 && <group>
+      <mesh position={[0, 0.06 + H / 2, 0]}><boxGeometry args={[0.56, H, 0.5]} /><meshStandardMaterial color="#111827" metalness={0.6} roughness={0.15} /></mesh>
+      {[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([a, b]) => <mesh key={a + ' ' + b} position={[a * 0.285, 0.06 + H / 2, b * 0.255]}><boxGeometry args={[0.02, H, 0.02]} /><meshStandardMaterial color="#ef4444" emissive="#ef4444" emissiveIntensity={1.2} /></mesh>)}
+      {Array.from({length: Math.floor(H / 0.13)}, (_, j) => <mesh key={j} position={[0, 0.12 + j * 0.13, 0]}><boxGeometry args={[0.565, 0.012, 0.505]} /><meshStandardMaterial color="#334155" emissive={j % 4 ? '#0ea5e9' : '#f43f5e'} emissiveIntensity={0.3} /></mesh>)}
+      {g > 0.6 && <mesh position={[0, 0.06 + H * 0.55, 0.252]}><planeGeometry args={[0.16, Math.min(1.4, H * 0.8)]} /><meshBasicMaterial map={tex} /></mesh>}
+    </group>}
+    {top > 0 && <group position={[0, 0.06 + 2.6, 0]} scale={top}>
+      <mesh position={[0, 0.08, 0]}><boxGeometry args={[0.44, 0.16, 0.38]} /><meshStandardMaterial color="#0a0a0a" metalness={0.6} roughness={0.2} /></mesh>
+      <mesh position={[0, 0.2, 0]} rotation={[0, Math.PI / 4, 0]}><coneGeometry args={[0.24, 0.16, 4]} /><meshStandardMaterial color="#111827" metalness={0.6} roughness={0.2} /></mesh>
+      <mesh position={[0, 0.4, 0]}><cylinderGeometry args={[0.006, 0.01, 0.3]} /><meshStandardMaterial color="#a1a1aa" /></mesh>
+      <mesh position={[0, 0.56, 0]}><sphereGeometry args={[0.02, 8, 8]} /><meshStandardMaterial color="#ef4444" emissive="#ef4444" emissiveIntensity={Math.sin(t / 6) > 0 ? 2 : 0.2} /></mesh>
+    </group>}
+  </group>; };
+
 const Skyscraper = ({build = 1, t = 0}) => {
   const g = ramp(build, 0, 0.9), top = ramp(build, 0.9, 1);
   const M = (c, e, x) => <meshStandardMaterial color={c} metalness={0.5} roughness={0.15} emissive={e ?? '#000'} emissiveIntensity={x ?? (e ? 0.8 : 0)} />;
@@ -442,9 +520,9 @@ const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
-      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={{gold3: 1.95, black10: 2.55, skyscraper: 3.7, small: 1.0}[lot.custom] ?? 1.25} />}
+      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={{gold3: 1.95, black10: 2.55, skyscraper: 3.7, small: 1.0, techtower: 3.4, mechanic: 0.95, warehouse: 0.95}[lot.custom] ?? 1.25} />}
       <group rotation={[0, rot, 0]}>
-      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <Skyscraper build={rise} t={t} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
+      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <Skyscraper build={rise} t={t} /> : lot.custom === 'mechanic' ? <Mechanic build={rise} /> : lot.custom === 'warehouse' ? <Warehouse build={rise} /> : lot.custom === 'techtower' ? <TechTower build={rise} name={lot.name} t={t} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
       {lot.statue && <group position={[-0.34, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue.flag ?? lot.statue} look={lot.statue.look} t={t} />{sign && lot.statue.plaque && <Sign text={lot.statue.plaque} y={1.05} bg="#7f1d1d" fg="#ffd23f" w={0.95} />}</group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);
