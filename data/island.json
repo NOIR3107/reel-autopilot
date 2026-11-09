@@ -1,6 +1,6 @@
 {
-  "day": 7,
-  "houses": 32,
+  "day": 8,
+  "houses": 36,
   "base": 20,
   "specials": [],
   "requests": [
@@ -111,20 +111,23 @@
       "user": "nic.d._",
       "items": [],
       "custom": "mechanic",
-      "say": "a mechanic shop, because someone's gotta fix the cars"
+      "say": "a mechanic shop, because someone's gotta fix the cars",
+      "built": 8
     },
     {
       "user": "macdonald.finlay",
       "items": [],
       "custom": "warehouse",
-      "say": "a modern warehouse with some sick cars"
+      "say": "a modern warehouse with some sick cars",
+      "built": 8
     },
     {
       "user": "ohsoliman",
       "items": [],
       "custom": "techtower",
       "name": "ARASAKA",
-      "say": "a tech corporation tower called Arasaka"
+      "say": "a tech corporation tower called Arasaka",
+      "built": 8
     }
   ]
 }
