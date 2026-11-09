@@ -1,315 +1,315 @@
 {
- "next": 0,
- "episodes": [
-  {
-   "title": "Nobody claps at 5 AM",
-   "scenes": [
+  "next": 1,
+  "episodes": [
     {
-     "kind": "alarm",
-     "text": "5:00 AM.",
-     "vo": "Five A.M. Nobody's watching."
+      "title": "Nobody claps at 5 AM",
+      "scenes": [
+        {
+          "kind": "alarm",
+          "text": "5:00 AM.",
+          "vo": "Five A.M. Nobody's watching."
+        },
+        {
+          "kind": "alone",
+          "text": "No crowd. No likes.",
+          "vo": "No crowd. No likes. Just you, and the work."
+        },
+        {
+          "kind": "stairs",
+          "text": "Day 1. Day 30. Day 90.",
+          "vo": "Day one feels like nothing. So does day thirty.",
+          "labels": [
+            "Day 1",
+            "Day 30",
+            "Day 90"
+          ]
+        },
+        {
+          "kind": "future",
+          "text": "Then one day…",
+          "vo": "Then one day, someone asks how you got so lucky."
+        },
+        {
+          "kind": "words",
+          "text": "It was never luck.",
+          "vo": "It was never luck. It was every quiet morning nobody saw."
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "comment 'ready' if you're up early tomorrow."
     },
     {
-     "kind": "alone",
-     "text": "No crowd. No likes.",
-     "vo": "No crowd. No likes. Just you, and the work."
+      "title": "Look who's carrying who now",
+      "scenes": [
+        {
+          "kind": "carry",
+          "text": "Remember these shoulders?",
+          "vo": "Remember when you were small, and the whole world looked bigger from up there?"
+        },
+        {
+          "kind": "carry",
+          "text": "They never said they were tired.",
+          "vo": "They carried you everywhere. Not once did they say they were tired."
+        },
+        {
+          "kind": "carry",
+          "text": "Now it's your turn.",
+          "vo": "Now their steps are slower. Now it's your turn.",
+          "reverse": true
+        },
+        {
+          "kind": "words",
+          "text": "Call them today.",
+          "vo": "Call them today. Not tomorrow. Today."
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "tag someone who carried you."
     },
     {
-     "kind": "stairs",
-     "text": "Day 1. Day 30. Day 90.",
-     "vo": "Day one feels like nothing. So does day thirty.",
-     "labels": [
-      "Day 1",
-      "Day 30",
-      "Day 90"
-     ]
+      "title": "Same 24 hours",
+      "scenes": [
+        {
+          "kind": "two",
+          "text": "Same 24 hours.",
+          "vo": "Same twenty four hours. Same phone. Same excuses."
+        },
+        {
+          "kind": "two",
+          "text": "One scrolls.\nOne builds.",
+          "vo": "One scrolls till midnight. One builds, one hour at a time."
+        },
+        {
+          "kind": "stairs",
+          "text": "1% a day.",
+          "vo": "One percent better a day doesn't look like much.",
+          "labels": [
+            "1%",
+            "1%",
+            "1%"
+          ]
+        },
+        {
+          "kind": "future",
+          "text": "A year later…",
+          "vo": "But a year later, these two are complete strangers.",
+          "who": "a year later"
+        },
+        {
+          "kind": "words",
+          "text": "Which one are\nyou today?",
+          "vo": "So which one are you going to be today?"
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "comment which one you're choosing today."
     },
     {
-     "kind": "future",
-     "text": "Then one day…",
-     "vo": "Then one day, someone asks how you got so lucky."
+      "title": "Get up anyway",
+      "scenes": [
+        {
+          "kind": "fall",
+          "text": "You fell.",
+          "vo": "So you fell. And everyone saw it."
+        },
+        {
+          "kind": "rise",
+          "text": "Get up anyway.",
+          "vo": "Here's what they didn't see. You got up anyway."
+        },
+        {
+          "kind": "boulder",
+          "text": "It's heavy. Push.",
+          "vo": "The weight doesn't get lighter. You get stronger."
+        },
+        {
+          "kind": "path",
+          "text": "Easy or hard?",
+          "vo": "The easy road was right there. You took the hard one."
+        },
+        {
+          "kind": "words",
+          "text": "That's the\nwhole secret.",
+          "vo": "That's it. That's the whole secret."
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "comment 'up' if you're getting back up."
     },
     {
-     "kind": "words",
-     "text": "It was never luck.",
-     "vo": "It was never luck. It was every quiet morning nobody saw."
+      "title": "Just two minutes",
+      "scenes": [
+        {
+          "kind": "alone",
+          "text": "Can't start?",
+          "vo": "Can't make yourself start? Then don't try to finish."
+        },
+        {
+          "kind": "words",
+          "text": "Just 2 minutes.",
+          "vo": "Just do two minutes. Two pushups. Two pages. Two lines."
+        },
+        {
+          "kind": "stairs",
+          "text": "2 → 10 → habit.",
+          "vo": "Two minutes turns into ten. Ten turns into a habit.",
+          "labels": [
+            "2 min",
+            "10 min",
+            "habit"
+          ]
+        },
+        {
+          "kind": "future",
+          "text": "Habits build you.",
+          "vo": "And habits quietly build the person you want to be."
+        },
+        {
+          "kind": "words",
+          "text": "Start small.\nStart now.",
+          "vo": "Start small. But start now."
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "comment your two minute task for today."
     },
     {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
+      "title": "Make future you proud",
+      "scenes": [
+        {
+          "kind": "future",
+          "text": "He's watching.",
+          "vo": "Somewhere ahead, there's a version of you who made it."
+        },
+        {
+          "kind": "two",
+          "text": "Every choice\nis a vote.",
+          "vo": "Every choice today is a vote. For him, or against him."
+        },
+        {
+          "kind": "path",
+          "text": "Choose.",
+          "vo": "The couch or the gym. The phone, or the book.",
+          "easy": "couch",
+          "hard": "gym"
+        },
+        {
+          "kind": "stairs",
+          "text": "Keep climbing.",
+          "vo": "He isn't waiting at the top. He's built on every step.",
+          "labels": [
+            "today",
+            "soon",
+            "him"
+          ]
+        },
+        {
+          "kind": "words",
+          "text": "Make him proud.",
+          "vo": "Make him proud."
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "comment one thing you're doing for future you."
+    },
+    {
+      "title": "Work in silence",
+      "scenes": [
+        {
+          "kind": "alone",
+          "text": "Midnight. Lamp on.",
+          "vo": "While they sleep, the lamp is still on."
+        },
+        {
+          "kind": "boulder",
+          "text": "No one sees the push.",
+          "vo": "No one sees the push. They only see the top."
+        },
+        {
+          "kind": "words",
+          "text": "Work in silence.",
+          "vo": "So work in silence."
+        },
+        {
+          "kind": "future",
+          "text": "Let it speak.",
+          "vo": "And let the results do the talking.",
+          "who": "results"
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "comment 🔥 if you're working tonight."
+    },
+    {
+      "title": "Motivation leaves",
+      "scenes": [
+        {
+          "kind": "words",
+          "text": "Motivation leaves.",
+          "vo": "Motivation shows up when it feels like it."
+        },
+        {
+          "kind": "alarm",
+          "text": "Discipline stays.",
+          "vo": "Discipline shows up at five A.M. when it doesn't."
+        },
+        {
+          "kind": "two",
+          "text": "One waits.\nOne starts.",
+          "vo": "One waits to feel ready. One just starts.",
+          "left": "waiting",
+          "right": "starting"
+        },
+        {
+          "kind": "stairs",
+          "text": "Day by day.",
+          "vo": "And day by day, the gap gets bigger.",
+          "labels": [
+            "Day 1",
+            "Day 50",
+            "Day 100"
+          ]
+        },
+        {
+          "kind": "words",
+          "text": "Be the one\nwho shows up.",
+          "vo": "Be the one who shows up."
+        },
+        {
+          "kind": "cta",
+          "text": "Follow for one small\npush a day 👊",
+          "vo": "Follow, for one small push a day."
+        }
+      ],
+      "ask": "comment 'here' if you showed up today."
     }
-   ],
-   "ask": "comment 'ready' if you're up early tomorrow."
-  },
-  {
-   "title": "Look who's carrying who now",
-   "scenes": [
-    {
-     "kind": "carry",
-     "text": "Remember these shoulders?",
-     "vo": "Remember when you were small, and the whole world looked bigger from up there?"
-    },
-    {
-     "kind": "carry",
-     "text": "They never said they were tired.",
-     "vo": "They carried you everywhere. Not once did they say they were tired."
-    },
-    {
-     "kind": "carry",
-     "text": "Now it's your turn.",
-     "vo": "Now their steps are slower. Now it's your turn.",
-     "reverse": true
-    },
-    {
-     "kind": "words",
-     "text": "Call them today.",
-     "vo": "Call them today. Not tomorrow. Today."
-    },
-    {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
-    }
-   ],
-   "ask": "tag someone who carried you."
-  },
-  {
-   "title": "Same 24 hours",
-   "scenes": [
-    {
-     "kind": "two",
-     "text": "Same 24 hours.",
-     "vo": "Same twenty four hours. Same phone. Same excuses."
-    },
-    {
-     "kind": "two",
-     "text": "One scrolls.\nOne builds.",
-     "vo": "One scrolls till midnight. One builds, one hour at a time."
-    },
-    {
-     "kind": "stairs",
-     "text": "1% a day.",
-     "vo": "One percent better a day doesn't look like much.",
-     "labels": [
-      "1%",
-      "1%",
-      "1%"
-     ]
-    },
-    {
-     "kind": "future",
-     "text": "A year later…",
-     "vo": "But a year later, these two are complete strangers.",
-     "who": "a year later"
-    },
-    {
-     "kind": "words",
-     "text": "Which one are\nyou today?",
-     "vo": "So which one are you going to be today?"
-    },
-    {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
-    }
-   ],
-   "ask": "comment which one you're choosing today."
-  },
-  {
-   "title": "Get up anyway",
-   "scenes": [
-    {
-     "kind": "fall",
-     "text": "You fell.",
-     "vo": "So you fell. And everyone saw it."
-    },
-    {
-     "kind": "rise",
-     "text": "Get up anyway.",
-     "vo": "Here's what they didn't see. You got up anyway."
-    },
-    {
-     "kind": "boulder",
-     "text": "It's heavy. Push.",
-     "vo": "The weight doesn't get lighter. You get stronger."
-    },
-    {
-     "kind": "path",
-     "text": "Easy or hard?",
-     "vo": "The easy road was right there. You took the hard one."
-    },
-    {
-     "kind": "words",
-     "text": "That's the\nwhole secret.",
-     "vo": "That's it. That's the whole secret."
-    },
-    {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
-    }
-   ],
-   "ask": "comment 'up' if you're getting back up."
-  },
-  {
-   "title": "Just two minutes",
-   "scenes": [
-    {
-     "kind": "alone",
-     "text": "Can't start?",
-     "vo": "Can't make yourself start? Then don't try to finish."
-    },
-    {
-     "kind": "words",
-     "text": "Just 2 minutes.",
-     "vo": "Just do two minutes. Two pushups. Two pages. Two lines."
-    },
-    {
-     "kind": "stairs",
-     "text": "2 → 10 → habit.",
-     "vo": "Two minutes turns into ten. Ten turns into a habit.",
-     "labels": [
-      "2 min",
-      "10 min",
-      "habit"
-     ]
-    },
-    {
-     "kind": "future",
-     "text": "Habits build you.",
-     "vo": "And habits quietly build the person you want to be."
-    },
-    {
-     "kind": "words",
-     "text": "Start small.\nStart now.",
-     "vo": "Start small. But start now."
-    },
-    {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
-    }
-   ],
-   "ask": "comment your two minute task for today."
-  },
-  {
-   "title": "Make future you proud",
-   "scenes": [
-    {
-     "kind": "future",
-     "text": "He's watching.",
-     "vo": "Somewhere ahead, there's a version of you who made it."
-    },
-    {
-     "kind": "two",
-     "text": "Every choice\nis a vote.",
-     "vo": "Every choice today is a vote. For him, or against him."
-    },
-    {
-     "kind": "path",
-     "text": "Choose.",
-     "vo": "The couch or the gym. The phone, or the book.",
-     "easy": "couch",
-     "hard": "gym"
-    },
-    {
-     "kind": "stairs",
-     "text": "Keep climbing.",
-     "vo": "He isn't waiting at the top. He's built on every step.",
-     "labels": [
-      "today",
-      "soon",
-      "him"
-     ]
-    },
-    {
-     "kind": "words",
-     "text": "Make him proud.",
-     "vo": "Make him proud."
-    },
-    {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
-    }
-   ],
-   "ask": "comment one thing you're doing for future you."
-  },
-  {
-   "title": "Work in silence",
-   "scenes": [
-    {
-     "kind": "alone",
-     "text": "Midnight. Lamp on.",
-     "vo": "While they sleep, the lamp is still on."
-    },
-    {
-     "kind": "boulder",
-     "text": "No one sees the push.",
-     "vo": "No one sees the push. They only see the top."
-    },
-    {
-     "kind": "words",
-     "text": "Work in silence.",
-     "vo": "So work in silence."
-    },
-    {
-     "kind": "future",
-     "text": "Let it speak.",
-     "vo": "And let the results do the talking.",
-     "who": "results"
-    },
-    {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
-    }
-   ],
-   "ask": "comment 🔥 if you're working tonight."
-  },
-  {
-   "title": "Motivation leaves",
-   "scenes": [
-    {
-     "kind": "words",
-     "text": "Motivation leaves.",
-     "vo": "Motivation shows up when it feels like it."
-    },
-    {
-     "kind": "alarm",
-     "text": "Discipline stays.",
-     "vo": "Discipline shows up at five A.M. when it doesn't."
-    },
-    {
-     "kind": "two",
-     "text": "One waits.\nOne starts.",
-     "vo": "One waits to feel ready. One just starts.",
-     "left": "waiting",
-     "right": "starting"
-    },
-    {
-     "kind": "stairs",
-     "text": "Day by day.",
-     "vo": "And day by day, the gap gets bigger.",
-     "labels": [
-      "Day 1",
-      "Day 50",
-      "Day 100"
-     ]
-    },
-    {
-     "kind": "words",
-     "text": "Be the one\nwho shows up.",
-     "vo": "Be the one who shows up."
-    },
-    {
-     "kind": "cta",
-     "text": "Follow for one small\npush a day 👊",
-     "vo": "Follow, for one small push a day."
-    }
-   ],
-   "ask": "comment 'here' if you showed up today."
-  }
- ]
+  ]
 }
