@@ -9,6 +9,8 @@ import {StoryReel, storyFrames} from './reels/StoryReel.jsx';
 import {Explainer, explainerFrames} from './reels/Explainer.jsx';
 import {Survival, survivalFrames} from './reels/Survival.jsx';
 import {Island, islandFrames} from './reels/Island.jsx';
+import {Race, raceFrames} from './reels/Race.jsx';
+import {Mindset, mindsetFrames} from './reels/Mindset.jsx';
 
 // One composition per style. The daily robot renders the one named in today's script, with the script's props.
 const FPS = 30;
@@ -31,5 +33,9 @@ registerRoot(() => (
       calculateMetadata={({props}) => ({durationInFrames: survivalFrames(props.scenes)})} />
     <Composition id="island" component={Island} {...size} durationInFrames={1} defaultProps={{scenes: [{sec: 2, vo: 'hi'}], music: false}}
       calculateMetadata={({props}) => ({durationInFrames: islandFrames(props.scenes)})} />
+    <Composition id="race" component={Race} {...size} durationInFrames={1} defaultProps={{end: 60, music: false}}
+      calculateMetadata={({props}) => ({durationInFrames: raceFrames(props)})} />
+    <Composition id="mindset" component={Mindset} {...size} durationInFrames={1} defaultProps={{scenes: [{sec: 2, vo: 'hi'}], music: false}}
+      calculateMetadata={({props}) => ({durationInFrames: mindsetFrames(props.scenes)})} />
   </>
 ));

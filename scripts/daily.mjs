@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import {ROOT, eastern, slotFor, loadState, loadPosts, write, sh, gitCommit, ig, read} from './lib.mjs';
 import {validate} from './validate.mjs';
 import {episode} from './island.mjs';
+import {race} from './race.mjs';
+import {mindset} from './mindset.mjs';
 
 const DRY = process.env.DRY_RUN === '1'; // render only: no git, no Instagram
 const FORCE = process.env.FORCE === '1'; // manual "Run workflow" button: ignore the time slot
@@ -19,10 +21,15 @@ const doneWith = (n) => { const t = posts.filter((p) => p.date === now.date && (
 const day = process.env.DATE || now.date;
 const fileFor = (n) => `queue/${day}${n > 1 ? '-' + n : ''}.json`;
 const extra = [3, 4, 5].filter((n) => fs.existsSync(fileFor(n)));
-// Island-only (Nov 9): part 1 runs only when a morning script is queued; part 2 is always the Neelville episode.
-const parts = [...(fs.existsSync(fileFor(1)) ? [1] : []), 2, ...extra];
+// Part 1 (morning) is a queued script if there is one, otherwise a reel written by code (the ring race);
+// part 2 (evening) is the Neelville episode.
+// Mornings alternate by date: the country ring race one day, a mindset reel the next (race when those run out).
+const MORNING = {race: 'data/race.json', mindset: 'data/mindset.json'}, WRITERS = {race, mindset};
+const odd = Math.round(Date.parse(day) / 864e5) % 2 === 0; // Nov 10 2026 (first day) is a race day
+const morningStyle = (odd && fs.existsSync(`${ROOT}${MORNING.mindset}`) && mindset(read(MORNING.mindset, {})) ? 'mindset' : fs.existsSync(`${ROOT}${MORNING.race}`) ? 'race' : null);
+const parts = [...(fs.existsSync(fileFor(1)) || morningStyle ? [1] : []), 2, ...extra];
 const s0 = slotFor(now.date, state);
-const slots = extra.length ? [9, 12, 15, 18, 21] : [s0, Math.min(s0 + 5, 21)];
+const slots = extra.length ? [9, 12, 15, 18, 21] : [10, Math.min(s0 + 5, 21)];
 const part = DRY ? 1 : process.env.PART ? Number(process.env.PART) : parts.find((n) => !doneWith(n)) ?? 0; // PART: post that one now (manual)
 const slot = slots[Math.min(part || 1, slots.length) - 1]; // slot follows the part number, so the island keeps its evening time
 const queueFile = fileFor(part || 1);
@@ -60,9 +67,14 @@ async function publish(file, fields) {
 // Makes the sound for scripts whose timing depends on the script; the others use a fixed track in public/.
 function soundtrack(script) {
   if (script.style === 'kinetic') sh('python3', ['tools/kinetic_sound.py', 'public/kinetic-sound.wav', queueFile]);
+  if (script.style === 'race') sh('python3', ['tools/race_sound.py', queueFile, 'public/race-sound.wav']);
   if (script.style === 'mike') sh('python3', ['tools/mike_sound.py', queueFile, 'public/mike-sound.wav']);
 }
 
+if (part === 1 && !fs.existsSync(queueFile) && morningStyle) {
+  const {script: ep, next} = WRITERS[morningStyle](read(MORNING[morningStyle], {}));
+  write(queueFile, {...ep, date: day, next});
+}
 if (island) {
   const {followers_count} = await ig('/me', {params: {fields: 'followers_count'}});
   const {script: ep, next} = episode(read('data/island.json', {}), followers_count);
@@ -79,7 +91,7 @@ if (!script) {
   process.exit(0);
 }
 try {
-  const problems = script.style === 'island' ? [] : validate(script); // island episodes are written by code, not by hand
+  const problems = ['island', 'race', 'mindset'].includes(script.style) ? [] : validate(script); // island episodes are written by code, not by hand
   if (problems.length) throw new Error(`today's script fails the checks:\n- ${problems.join('\n- ')}`);
   Object.assign(entry, {style: script.style, trade: script.trade, topic: script.topic, hook: script.hook, formula: script.hook_formula, caption: script.caption});
 
@@ -95,7 +107,7 @@ try {
   if (['explainer', 'survival', 'island'].includes(script.style) && !fs.existsSync(`${voDir}/00.wav`) && process.env.CHATTERBOX === '1') {
     try { sh('python3', ['tools/chatter_vo.py', queueFile], {stdio: 'inherit'}); } catch { console.log('human voice failed, using the standard voice'); fs.rmSync(voDir, {recursive: true, force: true}); }
   }
-  if (['story', 'explainer', 'survival', 'island'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
+  if (['story', 'explainer', 'survival', 'island', 'mindset'].includes(script.style)) sh('python3', ['tools/story_sound.py', queueFile, `${tmp}/props.json`], {stdio: 'inherit'});
   // story_sound rewrites the props from the script, so put the rotated look back on top
   fs.writeFileSync(`${tmp}/props.json`, JSON.stringify({...JSON.parse(fs.readFileSync(`${tmp}/props.json`, 'utf8')), ...look}));
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
@@ -116,7 +128,7 @@ try {
     entry.media_id = await publish(entry.file, {media_type: 'REELS', caption: script.caption, share_to_feed: 'true', thumb_offset: '500'});
     entry.permalink = (await ig(`/${entry.media_id}`, {params: {fields: 'permalink'}})).permalink;
     entry.status = 'posted';
-    if (script.next) write('data/island.json', script.next);
+    if (script.next) write(script.style === 'island' ? 'data/island.json' : MORNING[script.style], script.next);
     // The same video as a story keeps the profile active daily. A failed story never fails the day.
     try { entry.story_id = await publish(entry.file, {media_type: 'STORIES'}); }
     catch (e) { entry.story_error = e.message.slice(0, 300); console.log(`story not posted: ${entry.story_error}`); }

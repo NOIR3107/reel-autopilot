@@ -134,7 +134,7 @@ def main(queue_file, props_out):
             s = s[max(0, on[0] - 800): on[-1] + 2400] / np.abs(s).max() * 0.45  # trim silence, match Kokoro's level
         else:
             k = k or Kokoro(os.path.join(KD, 'kokoro-v1.0.onnx'), os.path.join(KD, 'voices-v1.0.bin'))
-            s, sr = k.create(sc['vo'], voice=voice, speed=1.15 if sc.get('speaker') else 1.18, lang='en-us')
+            s, sr = k.create(sc['vo'], voice=voice, speed=sc.get('speed') or (1.15 if sc.get('speaker') else 1.18), lang='en-us')
             s = resample_poly(s, SR, sr)
         sec = len(s) / SR + 0.12 + (0.4 if sc.get('part') == 'hook' else 0) + (1.2 if sc.get('cta') else 0) + sc.get('hold', 0)
         sec = round(sec, 2)
@@ -144,7 +144,7 @@ def main(queue_file, props_out):
         lv = [float(np.sqrt(np.mean(s[j:j + hop] ** 2))) if j < len(s) else 0.0 for j in range(0, int(sec * SR), hop)]
         top = max(lv) or 1
         mouth.append([round(min(1, v / top * 1.3), 2) if sc.get('speaker') else 0 for v in lv])
-        out = {k2: v for k2, v in sc.items() if k2 not in ('voice', 'part', 'hold')}
+        out = {k2: v for k2, v in sc.items() if k2 not in ('voice', 'part', 'hold', 'speed')}
         out['sec'] = sec
         if sc.get('cta'): out.pop('vo', None)  # spoken, not shown
         scenes.append(out)
