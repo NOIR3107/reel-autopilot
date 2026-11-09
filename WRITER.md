@@ -30,6 +30,9 @@ Budget: this whole job must stay small. At most 4 web searches, no rendering, no
    - Survival: write the next part only if `survival/next.md` says which option won; otherwise write an extra SEO reel.
    - Every reel ends with a reason to follow and a comment keyword. A new keyword needs its DM in `data/dms.json` (the link
      or the offer, plus a question back; under 1000 characters). Comments with the keyword get that DM automatically.
+   - No hashtags (validate fails on any). Use SEO keywords instead: work the search phrase into the first caption line,
+     and end the caption with one plain line of 4–6 phrases people would type into Instagram search
+     (e.g. "Local SEO for contractors, how to rank on Google, roofing website tips.").
    - Automation reels only offer what Neel sells: quote follow-up, instant lead reply, review requests, missed-call text back,
      on-my-way texts. Never invent a claim about Neel ("I use this every day") that he hasn't said.
    - The only on-screen character is Neel: `"host": "neel"` in explainers, `"who": "neel"` (speaker "neel") in survival. No other characters.

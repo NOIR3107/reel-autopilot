@@ -129,7 +129,7 @@ export function validate(s, {quality = true} = {}) {
   if (!str(s.topic, 120) || !str(s.trade, 30) || !str(s.hook, 120)) errs.push('topic, trade and hook are required');
   if (typeof s.caption !== 'string' || s.caption.length < 80) errs.push('caption missing or under 80 characters');
   else {
-    if ((s.caption.match(/#\w+/g) ?? []).length > 5) errs.push('caption: at most 5 hashtags (Instagram limit)');
+    if (/(^|\s)#\w+/.test(s.caption)) errs.push('caption: no hashtags, end with a line of SEO keywords instead');
     if (!/comment\s+\S+/i.test(s.caption)) errs.push('caption must ask people to comment a word');
   }
   const banned = JSON.stringify(s).match(BANNED);
@@ -138,7 +138,7 @@ export function validate(s, {quality = true} = {}) {
   if (quality && !errs.length) {
     const hook = s.style === 'story' ? {score: 100} : py('hookscore.py', ['--hook', s.hook]);
     if (hook.score < MIN_HOOK) errs.push(`hook "${s.hook}" scored ${hook.score}, needs ${MIN_HOOK}+ (weakest: ${hook.weakest}) ${hook.flags.join(' ')}`);
-    const human = py('detect.py', ['-'], s.caption);
+    const human = py('detect.py', ['-'], s.caption.replace(/\n\n[^\n]*$/, '')); // last line is the SEO keyword list, not prose
     if (human.verdict !== 'PASS') errs.push(`caption sounds machine-written (${human.human_score}): ${Object.entries(human.checks).filter(([, c]) => c.score < 55).map(([k, c]) => `${k} ${c.detail}`).join('; ')}`);
     const lint = py('caption.py', ['-', '--keywords', s.trade], s.caption);
     if (lint.verdict === 'FIX') errs.push(`caption: ${lint.checks.filter((c) => c.status === 'FAIL').map((c) => `${c.check} ${c.detail}`).join('; ')}`);

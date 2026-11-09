@@ -4,7 +4,8 @@
 export const BUILDS = ['themepark', 'burger', 'icecream', 'skatepark', 'windmill', 'lighthouse', 'factory', 'tower', 'stadium'];
 const SURPRISES = ['themepark']; // kept secret until the episode that unlocks it
 const NAMES = {themepark: 'mini theme park', burger: 'burger joint', icecream: 'ice cream shop', skatepark: 'skate park', lighthouse: 'lighthouse', windmill: 'windmill', factory: 'robot factory', tower: 'skyscraper', stadium: 'stadium'};
-const HASHTAGS = '#3danimation #buildinpublic #robots #followtrain #satisfying';
+// SEO keywords, not hashtags: Instagram search reads caption words.
+const KEYWORDS = '3D animation, robots building a city, satisfying build timelapse, city builder game, a house for every follower.';
 const PER_EPISODE = 5; // requests built per episode (each adds ~6s of timelapse)
 export const STEP = 20; // every 20 followers past launch unlock the next amenity, in BUILDS order
 const spoken = (u) => u.replace(/^@/, '').replace(/[._\d]+/g, ' ').trim() || 'someone';
@@ -51,11 +52,11 @@ export function episode(state, followers) {
   const done = fresh.map((r) => `@${r.user.replace(/^@/, '')}`);
   const caption = `Comment what you want on your lot 🏡 and the business you want to own 🏪\n\nDay ${day} of Neelville. Every person who follows me gets a house on this island, built by tiny robots. `
     + `${done.length ? `Built today: ${list(done)}'s requests.` : added ? `${added} moved in since yesterday.` : 'Nobody new moved in yesterday.'} Population: ${pop}.${nextAmenity ? (nextAmenity.startsWith('a surprise') ? ` At ${nextAt} followers something big lands on the island 🎁` : ` At ${nextAt} followers the island gets ${withA(nextAmenity)}.`) : ''}\n\n`
-    + `Follow, comment your wish, and the robots build it.\n\n${state.note ? state.note + '\n\n' : ''}${state.hashtags ?? HASHTAGS}`;
+    + `Follow, comment your wish, and the robots build it.\n\n${state.note ? state.note + '\n\n' : ''}${state.keywords ?? KEYWORDS}`;
   return {
     script: {style: 'island', topic: `neelville day ${day}`, hook: S[0].vo, caption,
       props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: state.specials ?? [], building, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
-    next: {...state, note: undefined, hashtags: undefined, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])],
+    next: {...state, note: undefined, keywords: undefined, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])],
       requests: requests.map((r) => (fresh.includes(r) ? {...r, built: day} : r))},
   };
 }
