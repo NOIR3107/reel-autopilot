@@ -29,10 +29,23 @@ const LOTS = CELLS.filter((c) => !c.road).sort((a, b) => a.d - b.d || a.gx - b.g
 // lot roles: 0-3 square, then amenities on every 6th lot, owners' lots and houses in between
 export const faceRoad = (c) => (((c.gz % 3) + 3) % 3 === 1 ? 0 : Math.PI); // front door toward the road beside the lot
 const PLAZA = 4, amenityRank = (k) => PLAZA + 2 + k * 6;
-const layout = (houses, owners, amenities) => {
-  const taken = new Set(Array.from({length: amenities}, (_, k) => amenityRank(k)));
+// Big amenities (stadium, follower parks) each fill a whole 2x2 city block, picked in a fixed order out past the
+// owners' lots so nobody's lot moves. Small ones keep a single lot.
+const BIG = ['stadium', 'funpark'];
+const rankOf = new Map(LOTS.map((c, r) => [c.gx + ',' + c.gz, r]));
+const BLOCKS = [];
+for (let bx = -5; bx <= 5; bx++) for (let bz = -5; bz <= 5; bz++) {
+  const x = (bx * 3 + 1) * P, z = (bz * 3 + 1) * P, d = Math.hypot(x, z);
+  if (d >= 6.5) BLOCKS.push({x, z, d, bx, bz, ranks: [[0, 0], [1, 0], [0, 1], [1, 1]].map(([a, b]) => rankOf.get(bx * 3 + a + ',' + (bz * 3 + b)))});
+}
+BLOCKS.sort((a, b) => a.d - b.d || a.bx - b.bx || a.bz - b.bz);
+const layout = (houses, owners, types) => {
+  let small = 0, big = 0;
+  const taken = new Set(), spots = types.map((t) => {
+    if (BIG.includes(t)) { const b = BLOCKS[big++]; b.ranks.forEach((r) => taken.add(r)); return {...b, big: true}; }
+    const r = amenityRank(small++); taken.add(r); return {...LOTS[r]}; });
   const free = []; for (let r = PLAZA; free.length < houses + 8; r++) if (!taken.has(r)) free.push(r);
-  return {owner: (k) => LOTS[free[k]], house: (k) => LOTS[free[owners + k]], empty: free.slice(houses, houses + 8).map((r) => LOTS[r]), amenity: (k) => LOTS[amenityRank(k)]};
+  return {owner: (k) => LOTS[free[k]], house: (k) => LOTS[free[owners + k]], empty: free.slice(houses, houses + 8).map((r) => LOTS[r]), amenity: (k) => spots[k]};
 };
 const COLORS = ['#e5322d', '#2f7cf6', '#f59e0b', '#16a34a', '#9333ea', '#0ea5e9', '#f97316', '#db2777'];
 
@@ -86,7 +99,7 @@ const GiftBox = ({x, z, k}) => { // k: frames since the reveal scene started
   );
 };
 const Special = ({type, name, x, z, rise = 1, t}) => {
-  if (type === 'funpark') return <group position={[x, 0, z]} scale={2}><FunPark build={rise} t={t} name={name} /></group>; // a follower's park fills a whole amenity plot
+  if (type === 'funpark') return <group position={[x, 0, z]} scale={2.9}><FunPark build={rise} t={t} name={name} /></group>; // a follower's park fills a whole amenity plot
   const s = Math.max(0.001, rise);
   const M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 1 : 0} />;
   const parts = {
@@ -167,7 +180,8 @@ const Special = ({type, name, x, z, rise = 1, t}) => {
       <mesh position={[0, 0.55, -0.62]}><boxGeometry args={[0.5, 0.2, 0.04]} />{M('#111827')}</mesh>
       <mesh position={[0, 0.55, -0.598]}><boxGeometry args={[0.42, 0.13, 0.005]} />{M('#22d3ee', '#22d3ee')}</mesh></>,
   };
-  return <group position={[x, 0, z]} scale={[1, s, 1]}>{parts[type] ?? parts.tower}</group>;
+  const k = type === 'stadium' ? 1.4 : 1; // the stadium fills its block
+  return <group position={[x, 0, z]} scale={[k, s * k, k]}>{parts[type] ?? parts.tower}</group>;
 };
 
 // Text signs: drawn on a 2D canvas, used as a texture, turned to face the camera.
@@ -530,12 +544,32 @@ const FunPark = ({build = 1, t = 0, name = 'FUN LAND'}) => { const g = ramp(buil
     {fin > 0 && <group scale={fin}>
       {[0, 0.02, 0.04].map(car)}
       <mesh position={[0.3, drop, 0.32]}><torusGeometry args={[0.055, 0.018, 6, 16]} />{M('#22d3ee')}</mesh>
-      <mesh position={[-0.22, 0.05, 0.25]}><boxGeometry args={[0.32, 0.02, 0.26]} />{M('#334155')}</mesh>
-      {[0, 1, 2, 3].map((k) => { const a = t / 25 + k * 1.6; return <mesh key={k} position={[-0.22 + Math.cos(a) * 0.1, 0.075, 0.25 + Math.sin(a * 1.3) * 0.08]}><boxGeometry args={[0.05, 0.03, 0.04]} />{M(['#f97316', '#22c55e', '#ec4899', '#3b82f6'][k])}</mesh>; })}
-      {[-0.1, 0.1].map((x) => <mesh key={x} position={[x, 0.15, 0.44]}><boxGeometry args={[0.03, 0.26, 0.03]} />{M('#f472b6')}</mesh>)}
-      <mesh position={[0, 0.29, 0.44]}><boxGeometry args={[0.26, 0.04, 0.03]} />{M('#f472b6')}</mesh>
-      {Array.from({length: 6}, (_, k) => <mesh key={k} position={[-0.1 + k * 0.04, 0.315, 0.44]}><sphereGeometry args={[0.01, 6, 6]} />{M('#fde047', Math.sin(t / 4 + k) > 0 ? '#fde047' : undefined)}</mesh>)}
-      <Sign text={name} y={1.05} bg="#e11d48" fg="#fff" w={0.95} />
+      <mesh position={[-0.04, 0.05, 0.3]}><boxGeometry args={[0.24, 0.02, 0.16]} />{M('#334155')}</mesh>
+      {[0, 1, 2, 3].map((k) => { const a = t / 25 + k * 1.6; return <mesh key={k} position={[-0.04 + Math.cos(a) * 0.08, 0.075, 0.3 + Math.sin(a * 1.3) * 0.05]}><boxGeometry args={[0.05, 0.03, 0.04]} />{M(['#f97316', '#22c55e', '#ec4899', '#3b82f6'][k])}</mesh>; })}
+      {/* Ferris wheel */}
+      <group position={[-0.32, 0.17, 0.3]}>
+        {[-0.03, 0.03].map((z) => <mesh key={z} position={[0, -0.07, z]} rotation={[z * 8, 0, 0]}><boxGeometry args={[0.012, 0.2, 0.012]} />{M('#e5e7eb')}</mesh>)}
+        <group rotation={[0, 0, t / 40]}>
+          <mesh><torusGeometry args={[0.12, 0.006, 6, 32]} />{M('#38bdf8')}</mesh>
+          {Array.from({length: 8}, (_, k) => <group key={k} rotation={[0, 0, (k * Math.PI) / 4]}><mesh position={[0.06, 0, 0]}><boxGeometry args={[0.12, 0.004, 0.004]} />{M('#e5e7eb')}</mesh>
+            <mesh position={[0.12, 0, 0]} rotation={[0, 0, -t / 40 - (k * Math.PI) / 4]}><boxGeometry args={[0.03, 0.025, 0.035]} />{M(COLORS[k % COLORS.length])}</mesh></group>)}
+        </group></group>
+      {/* food stalls, trees, lamps, benches, people on the paths */}
+      {[[-0.22, '#f59e0b'], [0.3, '#22c55e']].map(([x, c]) => <group key={x} position={[x, 0, 0.43]}><mesh position={[0, 0.04, 0]}><boxGeometry args={[0.09, 0.07, 0.05]} />{M('#fff7ed')}</mesh>
+        {[0, 1, 2, 3].map((k) => <mesh key={k} position={[-0.0338 + k * 0.0225, 0.085, 0.01]} rotation={[0.4, 0, 0]}><boxGeometry args={[0.0225, 0.006, 0.06]} />{M(k % 2 ? '#fff' : c)}</mesh>)}</group>)}
+      {[[-0.43, -0.43], [0.43, -0.43], [-0.43, 0.05], [0.43, 0.08], [-0.43, 0.43], [0.43, 0.43], [0, -0.43]].map(([x, z], k) => <group key={k} position={[x, 0, z]}>
+        <mesh position={[0, 0.03, 0]}><cylinderGeometry args={[0.006, 0.008, 0.06]} />{M('#78350f')}</mesh><mesh position={[0, 0.08, 0]}><coneGeometry args={[0.035, 0.08, 7]} />{M(k % 2 ? '#15803d' : '#16a34a')}</mesh></group>)}
+      {[[-0.12, 0.2], [0.18, 0.2], [0.18, -0.2], [-0.12, -0.2]].map(([x, z], k) => <group key={k} position={[x, 0, z]}><mesh position={[0, 0.05, 0]}><cylinderGeometry args={[0.003, 0.003, 0.1]} />{M('#1f2937')}</mesh>
+        <mesh position={[0, 0.1, 0]}><sphereGeometry args={[0.008, 6, 6]} />{M('#fef3c7', '#fde68a')}</mesh></group>)}
+      {[[0.06, 0.18], [-0.3, 0.13]].map(([x, z], k) => <mesh key={k} position={[x, 0.05, z]}><boxGeometry args={[0.05, 0.01, 0.015]} />{M('#92400e')}</mesh>)}
+      {Array.from({length: 12}, (_, k) => { const u = ((t / 300 + k / 12) % 1), along = k % 2 ? [0.12, 0.44 - u * 0.88] : [-0.44 + u * 0.88, 0.16];
+        return <mesh key={'p' + k} position={[along[0] + (k % 3) * 0.01, 0.055, along[1]]}><boxGeometry args={[0.012, 0.025, 0.012]} />{M(COLORS[(k * 3) % COLORS.length])}</mesh>; })}
+      <mesh position={[0.12, 0.042, 0]}><boxGeometry args={[0.05, 0.004, 0.88]} />{M('#e7e5e4')}</mesh>
+      <mesh position={[0, 0.042, 0.16]}><boxGeometry args={[0.88, 0.004, 0.05]} />{M('#e7e5e4')}</mesh>
+      {[0.02, 0.22].map((x) => <mesh key={x} position={[x, 0.15, 0.44]}><boxGeometry args={[0.03, 0.26, 0.03]} />{M('#f472b6')}</mesh>)}
+      <mesh position={[0.12, 0.29, 0.44]}><boxGeometry args={[0.26, 0.04, 0.03]} />{M('#f472b6')}</mesh>
+      {Array.from({length: 6}, (_, k) => <mesh key={k} position={[0.02 + k * 0.04, 0.315, 0.44]}><sphereGeometry args={[0.01, 6, 6]} />{M('#fde047', Math.sin(t / 4 + k) > 0 ? '#fde047' : undefined)}</mesh>)}
+      <group position={[0.12, 0, 0.44]} scale={0.45}><Sign text={name} y={1.05} bg="#e11d48" fg="#fff" w={0.95} /></group>
     </group>}
   </group>; };
 
@@ -624,7 +658,7 @@ const Cam = ({shot, local, len, R, focus, far = 1}) => {
   const camera = useThree((st) => st.camera);
   const k = local / Math.max(1, len);
   let p, look = [0, 0, 0];
-  if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = (shot === 'lot' && focus[2] != null ? Math.atan2(Math.cos(focus[2]), Math.sin(focus[2])) - 0.35 : 0.8) + k * 0.6, d = (shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3) * far; look = [focus[0], 0.5 * far * far, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : shot === 'build' ? 3.6 : 2.2) * far - k * 0.4, focus[1] + Math.sin(a) * d]; }
+  if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = (shot === 'lot' && focus[2] != null ? Math.atan2(Math.cos(focus[2]), Math.sin(focus[2])) - 0.35 : shot === 'build' && focus[2] != null ? focus[2] : 0.8) + k * 0.6, d = (shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3) * far; look = [focus[0], 0.5 * far * far, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : shot === 'build' ? 3.6 : 2.2) * far - k * 0.4, focus[1] + Math.sin(a) * d]; }
   else if (shot === 'race' || shot === 'racewin') { look = focus.slice(0, 3); p = focus.slice(3); } // Island works out both points
   else if (shot === 'top') p = [0.01, R * 4.6 - k * R * 0.6, 0.01]; // portrait frame is narrow: pull back so the whole island fits
   else { const a = 0.6 + k * 0.5 + (shot === 'houses' ? 1.2 : 0), d = R * (shot === 'vote' ? 3.6 : 3.1) - k * R * 0.3; p = [Math.cos(a) * d, R * 2.1, Math.sin(a) * d]; }
@@ -644,8 +678,8 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const shown = Math.min(sc.preview ?? population, MAX_HOUSES);
   const allSpecials = [...specials, ...(building ? [{type: building}] : []), ...parks];
   const spiral = Math.max(0, shown - lots.length, dusk ? 0 : residents.length); // people with their own lot count toward the population too
-  const plan = layout(spiral + lots.length, lots.length, allSpecials.length);
-  const R = Math.max(...plan.empty.map((c) => c.d), LOTS[PLAZA + 8].d) + 2.2; // the island ends a little past the last empty plot
+  const plan = layout(spiral + lots.length, lots.length, allSpecials.map((sp) => sp.type));
+  const R = Math.max(...plan.empty.map((c) => c.d), LOTS[PLAZA + 8].d, ...allSpecials.map((_, k) => (plan.amenity(k).big ? plan.amenity(k).d + 0.6 : 0))) + 2.2; // the island ends a little past the last empty plot
   const housePos = (k) => { const c = plan.house(k); return [c.x, c.z]; };
   const ownerAt = (k) => { const c = plan.owner(k); return [c.x, c.z, faceRoad(c)]; };
   const specialPos = (k) => { const c = plan.amenity(k); return [c.x, c.z]; };
@@ -705,7 +739,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
     return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} t={frame} sign={sc.shot === 'lot' ? sc.lot === k : !['build', 'vote', 'race', 'racewin'].includes(sc.shot)} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
   const lastEmpty = plan.empty[0];
-  const focus = raceFocus && (sc.shot === 'race' || sc.shot === 'racewin') ? raceFocus : sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(sc.spec ?? allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : sc.house != null ? housePos(sc.house) : spiral ? housePos(spiral - 1) : [0, 0];
+  const focus = raceFocus && (sc.shot === 'race' || sc.shot === 'racewin') ? raceFocus : sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? [...specialPos(sc.spec ?? allSpecials.length - 1), sc.angle] : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : sc.house != null ? housePos(sc.house) : spiral ? housePos(spiral - 1) : [0, 0];
   const building_lot = sc.shot === 'lot' && lots[sc.lot]?.fresh;
   const robots = Array.from({length: 6}, (_, k) => { if (building_lot && local > sc.len - 28) return null; // robots leave for the finished reveal
     if (building_lot) { const [x, z] = ownerAt(sc.lot), a = k * 1.05 + frame / 18; return <Robot key={k} i={k} t={frame * 3} size={0.7} x={x + Math.cos(a) * 0.5} z={z + Math.sin(a) * 0.5} />; }

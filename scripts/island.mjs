@@ -47,7 +47,7 @@ export function episode(state, followers) {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
     S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, far: {black10: 1.6, skyscraper: 2.1, techtower: 1.9}[r.custom], part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
   });
-  parks.forEach((r, k) => S.push({vo: `${spoken(r.user)} asked for ${r.say}. Done.`, key: 'Done', shot: 'build', spec: all.length + (building ? 1 : 0) + k, far: 1.3, part: 'drop', fx: ['win'], hold: 3.5}));
+  parks.forEach((r, k) => S.push({vo: `${spoken(r.user)} asked for ${r.say}. Done.`, key: 'Done', shot: 'build', spec: all.length + (building ? 1 : 0) + k, far: 1.3, angle: 3.9, part: 'drop', fx: ['win'], hold: 3.5}));
   if (building) S.push(gift
     ? {vo: `${base + n * STEP} followers! Time for the surprise. It's ${building === 'stadium' ? 'a stadium! Comment RACE, and you\'ll race in it next time' : withA(NAMES[building])}.`, key: NAMES[building].split(' ').pop(), shot: 'build', spec: all.length, part: 'drop', fx: ['win'], hold: 2.5}
     : {vo: `${base + n * STEP} followers unlocked ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', spec: all.length, part: 'drop', fx: ['win']});
