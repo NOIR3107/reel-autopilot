@@ -1,8 +1,19 @@
 {
-  "day": 8,
-  "houses": 36,
+  "day": 9,
+  "houses": 43,
   "base": 20,
-  "specials": [],
+  "specials": [
+    {
+      "type": "stadium",
+      "day": 9
+    },
+    {
+      "type": "funpark",
+      "owner": "tanishq.saxena02",
+      "name": "TANISHQ LAND 🎢",
+      "day": 9
+    }
+  ],
   "requests": [
     {
       "user": "isaackitty13",
@@ -95,12 +106,14 @@
         "wallst"
       ],
       "custom": "skyscraper",
-      "say": "a giant black skyscraper on Wall Street",
+      "say": "wanted a taller tower. Fine. One time only.",
       "built": 6,
       "upgrade": {
         "tall": 1.55,
-        "say": "wanted a taller tower. Fine. One time only."
-      }
+        "say": "wanted a taller tower. Fine. One time only.",
+        "built": 9
+      },
+      "tall": 1.55
     },
     {
       "user": "93.jaylaa",
@@ -137,20 +150,23 @@
       "user": "jrys_15",
       "items": [],
       "custom": "robotrepair",
-      "say": "a robot repair shop, teaming up with nic d's garage. Nic fixes the cars, jrys fixes the robots"
+      "say": "a robot repair shop, teaming up with nic d's garage. Nic fixes the cars, jrys fixes the robots",
+      "built": 9
     },
     {
       "user": "moshi_ozu",
       "items": [],
       "business": "robot parts shop",
-      "say": "a shop selling spare parts for the robots"
+      "say": "a shop selling spare parts for the robots",
+      "built": 9
     },
     {
       "user": "tanishq.saxena02",
       "items": [],
-      "name": "TANISHQ LAND \ud83c\udfa2",
+      "name": "TANISHQ LAND 🎢",
       "say": "his very own amusement park. One time exception",
-      "park": true
+      "park": true,
+      "built": 9
     }
   ],
   "residents": [
@@ -183,5 +199,8 @@
     "dusripersonality",
     "tucsonsecretgem",
     "tanulraj"
-  ]
+  ],
+  "racers": [],
+  "races": [],
+  "namesShown": 9
 }
