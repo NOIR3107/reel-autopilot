@@ -85,8 +85,8 @@ const GiftBox = ({x, z, k}) => { // k: frames since the reveal scene started
     </group>
   );
 };
-export const SURPRISES = ['stadium']; // comes out of a gift box
-const Special = ({type, x, z, rise = 1, t}) => {
+const Special = ({type, name, x, z, rise = 1, t}) => {
+  if (type === 'funpark') return <group position={[x, 0, z]} scale={2}><FunPark build={rise} t={t} name={name} /></group>; // a follower's park fills a whole amenity plot
   const s = Math.max(0.001, rise);
   const M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 1 : 0} />;
   const parts = {
@@ -633,7 +633,7 @@ const Cam = ({shot, local, len, R, focus, far = 1}) => {
   return null;
 };
 
-export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, vote = null, race = null, lots = [], nextAt = null, nextAmenity = null, music = true}) => {
+export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, gift = false, parks = [], residents = [], vote = null, race = null, lots = [], nextAt = null, nextAmenity = null, music = true}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   let acc = 0;
@@ -642,8 +642,8 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const sc = timed[i], local = frame - sc.start;
   const dusk = !!sc.preview; // preview scenes show the future town at dusk, lamps on
   const shown = Math.min(sc.preview ?? population, MAX_HOUSES);
-  const allSpecials = [...specials.map((s) => s.type), ...(building ? [building] : [])];
-  const spiral = Math.max(0, shown - lots.length); // people with their own lot count toward the population too
+  const allSpecials = [...specials, ...(building ? [{type: building}] : []), ...parks];
+  const spiral = Math.max(0, shown - lots.length, dusk ? 0 : residents.length); // people with their own lot count toward the population too
   const plan = layout(spiral + lots.length, lots.length, allSpecials.length);
   const R = Math.max(...plan.empty.map((c) => c.d), LOTS[PLAZA + 8].d) + 2.2; // the island ends a little past the last empty plot
   const housePos = (k) => { const c = plan.house(k); return [c.x, c.z]; };
@@ -656,15 +656,16 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const houses = Array.from({length: spiral}, (_, k) => {
     const c = plan.house(k), [x, z] = [c.x, c.z];
     const rise = dusk || k < oldHouses ? 1 : hs ? riseAt(hs.start, hs.len, k - oldHouses, nNew) : 1;
-    return <House key={k} x={x} z={z} i={k} rise={rise} rot={faceRoad(c)} />;
+    return <group key={k}><House x={x} z={z} i={k} rise={rise} rot={faceRoad(c)} />
+      {residents[k] && rise > 0.97 && !dusk && !['lot', 'build', 'vote', 'race', 'racewin'].includes(sc.shot) && sc.shot !== 'close' || residents[k] && sc.house != null && <group position={[x, 0, z]} scale={0.55}><Sign text={'@' + residents[k]} y={1.95} /></group>}</group>;
   });
-  const spec = allSpecials.map((type, k) => { const [x, z] = specialPos(k);
-    const fresh = building && k === allSpecials.length - 1, gift = fresh && SURPRISES.includes(type);
-    const at = bs ? bs.start + (gift ? 48 : 6) : 0; // a surprise rises out of the gift box after it bursts
-    const rise = fresh ? (bs ? interpolate(frame, [at, at + 34], [0, 1], cl) : 1) : 1;
-    return <group key={k}><Special type={type} x={x} z={z} rise={rise} t={frame} />{gift && bs && frame >= bs.start && <GiftBox x={x} z={z} k={frame - bs.start} />}</group>; });
+  const spec = allSpecials.map((sp, k) => { const [x, z] = specialPos(k), fresh = k >= specials.length;
+    const ss = timed.find((t) => t.shot === 'build' && (t.spec ?? specials.length) === k), box = fresh && gift && !sp.owner;
+    const at = ss ? ss.start + (box ? 48 : 6) : 0; // a surprise rises out of the gift box after it bursts
+    const rise = fresh ? (ss ? interpolate(frame, [at, at + (sp.owner ? 70 : 34)], [0, 1], cl) : 0) : 1;
+    return <group key={k}><Special type={sp.type} name={sp.name} x={x} z={z} rise={rise} t={frame} />{box && ss && frame >= ss.start && <GiftBox x={x} z={z} k={frame - ss.start} />}</group>; });
   // the stadium marble race: commenters' marbles roll down the track onto the pitch
-  const si = allSpecials.indexOf('stadium'), rs = timed.find((t) => t.shot === 'race');
+  const si = allSpecials.findIndex((sp) => sp.type === 'stadium'), rs = timed.find((t) => t.shot === 'race');
   const sim = useMemo(() => (race ? marbleRace(race.racers.length, race.seed) : null), [race]);
   let raceFocus = null, marbles = null;
   if (race && si >= 0 && sim) {
@@ -704,7 +705,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
     return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} t={frame} sign={sc.shot === 'lot' ? sc.lot === k : !['build', 'vote', 'race', 'racewin'].includes(sc.shot)} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
   const lastEmpty = plan.empty[0];
-  const focus = raceFocus && (sc.shot === 'race' || sc.shot === 'racewin') ? raceFocus : sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
+  const focus = raceFocus && (sc.shot === 'race' || sc.shot === 'racewin') ? raceFocus : sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(sc.spec ?? allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : sc.house != null ? housePos(sc.house) : spiral ? housePos(spiral - 1) : [0, 0];
   const building_lot = sc.shot === 'lot' && lots[sc.lot]?.fresh;
   const robots = Array.from({length: 6}, (_, k) => { if (building_lot && local > sc.len - 28) return null; // robots leave for the finished reveal
     if (building_lot) { const [x, z] = ownerAt(sc.lot), a = k * 1.05 + frame / 18; return <Robot key={k} i={k} t={frame * 3} size={0.7} x={x + Math.cos(a) * 0.5} z={z + Math.sin(a) * 0.5} />; }

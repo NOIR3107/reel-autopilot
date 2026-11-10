@@ -148,10 +148,40 @@
     {
       "user": "tanishq.saxena02",
       "items": [],
-      "custom": "funpark",
       "name": "TANISHQ LAND \ud83c\udfa2",
-      "extra": true,
-      "say": "his very own amusement park. One time exception"
+      "say": "his very own amusement park. One time exception",
+      "park": true
     }
+  ],
+  "residents": [
+    "newmarkroofing",
+    "louireck",
+    "hollyss_18",
+    "mujjushoemaker",
+    "studio.de.erica",
+    "getdigitalcrafts",
+    "ddcustomcontractors",
+    "spooky_ugly_muffin101",
+    "obsidian.tearss",
+    "__.blingo.__",
+    "kenzies957",
+    "lakevikingconstruction",
+    "dirtyyy_martiiniii",
+    "austin.simplifiesfitness",
+    "jblroofingandconstruction",
+    "7foldrestoreusa",
+    "vivek906058",
+    "promisejokers6",
+    "ruchayr0aches",
+    "neel__tripathi",
+    "tripathi__ruchi",
+    "royalbeauty_and_brows",
+    "southern.style50",
+    "mavs_corner14",
+    "sydneyclientrelation124",
+    "lexywithandersonroofing",
+    "dusripersonality",
+    "tucsonsecretgem",
+    "tanulraj"
   ]
 }

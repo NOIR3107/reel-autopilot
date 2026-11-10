@@ -3,8 +3,9 @@
 // Neel adds requests (what followers commented: things on their lot, the business they want); up to 3 get built per episode.
 import {marbleRace} from '../src/reels/marbleSim.mjs';
 
-export const BUILDS = ['stadium', 'burger', 'icecream', 'skatepark', 'windmill', 'lighthouse', 'factory', 'tower', 'stadium'];
-const SURPRISES = ['stadium']; // kept secret until the episode that unlocks it
+// 'mystery' is the 60-follower surprise: it stays secret until Neel picks it (state.mystery = an amenity type).
+export const BUILDS = ['stadium', 'mystery', 'icecream', 'skatepark', 'windmill', 'lighthouse', 'factory', 'tower'];
+const SURPRISES = ['stadium', 'mystery']; // kept secret until the episode that unlocks it
 const NAMES = {themepark: 'mini theme park', burger: 'burger joint', icecream: 'ice cream shop', skatepark: 'skate park', lighthouse: 'lighthouse', windmill: 'windmill', factory: 'robot factory', tower: 'skyscraper', stadium: 'stadium'};
 // SEO keywords, not hashtags: Instagram search reads caption words.
 const KEYWORDS = '3D animation, robots building a city, satisfying build timelapse, city builder game, a house for every follower.';
@@ -20,16 +21,19 @@ export function episode(state, followers) {
   const built = requests.filter((r) => r.built), has = new Set(built.map((r) => r.user));
   // No repeats: one lot per follower, so a second request from someone who already has one is skipped.
   // extra: a one-time second lot Neel approved himself (e.g. tanishq's amusement park).
-  const fresh = requests.filter((r) => !r.built && (r.extra || (!has.has(r.user) && has.add(r.user)))).slice(0, PER_EPISODE);
+  // park: a follower's own big amusement park, built on an amenity plot instead of a lot.
+  const parks = requests.filter((r) => r.park && !r.built);
+  const fresh = requests.filter((r) => !r.built && !r.park && (r.extra || (!has.has(r.user) && has.add(r.user)))).slice(0, PER_EPISODE);
   // Upgrade: a one-off rebuild Neel grants on an existing lot ({upgrade: {say, ...changes}}). It keeps its spot.
   const upgrades = built.filter((r) => r.upgrade && !r.upgrade.built);
   const lots = [...built.map((r) => (upgrades.includes(r) ? {...r, ...r.upgrade, fresh: true} : r)), ...fresh.map((r) => ({...r, fresh: true}))];
   // More followers, more amenities: one unlocks for every STEP followers gained since launch (one per episode).
-  const base = state.base ?? pop, have = state.specials ?? [];
+  const base = state.base ?? pop, all = state.specials ?? [], have = all.filter((h) => !h.owner); // follower parks don't count as unlocks
   const unlocked = Math.min(BUILDS.length, Math.floor(Math.max(0, pop - base) / STEP));
   // The stadium is the 40-follower surprise (it comes out of a gift box); the later 'stadium' in the list is dropped.
-  const order = BUILDS.filter((b, i, a) => a.indexOf(b) === i);
-  const building = have.length < unlocked ? order[have.length] : null;
+  const order = BUILDS.map((b) => (b === 'mystery' && state.mystery ? state.mystery : b));
+  const next = have.length < unlocked ? order[have.length] : null, building = next === 'mystery' ? null : next; // undecided surprise: wait
+  const gift = !!building && SURPRISES.includes(BUILDS[have.length]);
   const n = have.length + (building ? 1 : 0), nextAmenity = order[n] ? (SURPRISES.includes(order[n]) ? 'a surprise 🎁' : NAMES[order[n]]) : null, nextAt = base + (n + 1) * STEP;
 
   const hook = day === 1 ? ['This island is empty. Every person who follows me gets a house on it.', 'empty']
@@ -43,13 +47,18 @@ export function episode(state, followers) {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
     S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, far: {black10: 1.6, skyscraper: 2.1, techtower: 1.9}[r.custom], part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
   });
-  if (building) S.push(SURPRISES.includes(building)
-    ? {vo: `${base + n * STEP} followers! Time for the surprise. It's a stadium! Comment RACE, and you'll race in it next time.`, key: 'stadium', shot: 'build', part: 'drop', fx: ['win'], hold: 2.5}
-    : {vo: `${base + n * STEP} followers unlocked ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win']});
+  parks.forEach((r, k) => S.push({vo: `${spoken(r.user)} asked for ${r.say}. Done.`, key: 'Done', shot: 'build', spec: all.length + (building ? 1 : 0) + k, far: 1.3, part: 'drop', fx: ['win'], hold: 3.5}));
+  if (building) S.push(gift
+    ? {vo: `${base + n * STEP} followers! Time for the surprise. It's ${building === 'stadium' ? 'a stadium! Comment RACE, and you\'ll race in it next time' : withA(NAMES[building])}.`, key: NAMES[building].split(' ').pop(), shot: 'build', spec: all.length, part: 'drop', fx: ['win'], hold: 2.5}
+    : {vo: `${base + n * STEP} followers unlocked ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', spec: all.length, part: 'drop', fx: ['win']});
   S.push(day === 1
     ? {vo: `I already have ${pop} followers, so today the robots build ${pop} houses.`, key: 'houses', shot: 'houses', part: 'rise'}
     : added ? {vo: `${added} new ${added === 1 ? 'follower' : 'followers'}, so ${added} new ${added === 1 ? 'house' : 'houses'}.`, key: 'houses', shot: 'houses', part: 'rise'}
     : {vo: 'No new followers yesterday. The robots are bored.', key: 'bored', shot: 'close'});
+  // residents: followers Neel sent by name get it on their house (state.residents); say so the first time
+  const residents = state.residents ?? [];
+  if (residents.length && !state.namesShown) S.push({vo: 'And every house now has its owner\'s name on it.', key: 'name', shot: 'close', house: Math.floor(residents.length / 4), far: 1.5},
+    {vo: 'Go find yours.', key: 'yours', shot: 'close', house: Math.floor((residents.length * 3) / 4), far: 1.5, hold: 1.5});
   S.push(nextAmenity ? {vo: nextAmenity.startsWith('a surprise') ? `At ${nextAt} followers, a surprise lands on Neelville.` : `At ${nextAt} followers, Neelville gets ${withA(nextAmenity)}.`, key: String(nextAt), shot: 'top', part: 'drop2'}
     : {vo: `Neelville now has ${pop} ${pop === 1 ? 'home' : 'homes'}.`, key: String(pop), shot: 'top', part: 'drop2'});
   // Stadium marble race: up to 8 people who commented RACE (Neel forwards them into state.racers).
@@ -69,8 +78,8 @@ export function episode(state, followers) {
     + `Follow, comment your wish, and the robots build it.${stadium || building === 'stadium' ? ' Comment RACE to race in the stadium 🏁' : ''}\n\n${state.note ? state.note + '\n\n' : ''}${state.keywords ?? KEYWORDS}`;
   return {
     script: {style: 'island', topic: `neelville day ${day}`, hook: S[0].vo, caption,
-      props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: state.specials ?? [], building, race, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
-    next: {...state, racers: (state.racers ?? []).filter((u) => !racers.includes(u)), races: [...(state.races ?? []), ...(race ? [{day, racers, winner}] : [])], note: undefined, keywords: undefined, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])],
-      requests: requests.map((r) => (fresh.includes(r) ? {...r, built: day} : upgrades.includes(r) ? {...r, ...r.upgrade, upgrade: {...r.upgrade, built: day}} : r))},
+      props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: all, building, gift, parks: parks.map((r) => ({type: 'funpark', owner: r.user, name: r.name})), residents, race, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
+    next: {...state, racers: (state.racers ?? []).filter((u) => !racers.includes(u)), races: [...(state.races ?? []), ...(race ? [{day, racers, winner}] : [])], note: undefined, keywords: undefined, day, houses: pop, base, specials: [...all, ...(building ? [{type: building, day}] : []), ...parks.map((r) => ({type: 'funpark', owner: r.user, name: r.name, day}))], namesShown: state.namesShown ?? (residents.length ? day : undefined),
+      requests: requests.map((r) => (fresh.includes(r) || parks.includes(r) ? {...r, built: day} : upgrades.includes(r) ? {...r, ...r.upgrade, upgrade: {...r.upgrade, built: day}} : r))},
   };
 }
