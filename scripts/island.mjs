@@ -3,7 +3,7 @@
 // Neel adds requests (what followers commented: things on their lot, the business they want); up to 3 get built per episode.
 export const BUILDS = ['themepark', 'burger', 'icecream', 'skatepark', 'windmill', 'lighthouse', 'factory', 'tower', 'stadium'];
 const SURPRISES = ['themepark']; // kept secret until the episode that unlocks it
-const NAMES = {themepark: 'mini theme park', burger: 'burger joint', icecream: 'ice cream shop', skatepark: 'skate park', lighthouse: 'lighthouse', windmill: 'windmill', factory: 'robot factory', tower: 'skyscraper', stadium: 'stadium'};
+const NAMES = {robothq: 'robot HQ', themepark: 'mini theme park', burger: 'burger joint', icecream: 'ice cream shop', skatepark: 'skate park', lighthouse: 'lighthouse', windmill: 'windmill', factory: 'robot factory', tower: 'skyscraper', stadium: 'stadium'};
 // SEO keywords, not hashtags: Instagram search reads caption words.
 const KEYWORDS = '3D animation, robots building a city, satisfying build timelapse, city builder game, a house for every follower.';
 const PER_EPISODE = 5; // requests built per episode (each adds ~6s of timelapse)
@@ -25,8 +25,14 @@ export function episode(state, followers) {
   // More followers, more amenities: one unlocks for every STEP followers gained since launch (one per episode).
   const base = state.base ?? pop, have = state.specials ?? [];
   const unlocked = Math.min(BUILDS.length, Math.floor(Math.max(0, pop - base) / STEP));
-  const building = have.length < unlocked ? BUILDS[have.length] : null;
-  const n = have.length + (building ? 1 : 0), nextAmenity = BUILDS[n] ? (SURPRISES.includes(BUILDS[n]) ? 'a surprise 🎁' : NAMES[BUILDS[n]]) : null, nextAt = base + (n + 1) * STEP;
+  // The first unlock is the surprise box. It lands shut and followers vote A or B on what's inside (state.box);
+  // the next episode opens it with box.winner (Neel reports the comments; robot HQ if he doesn't).
+  const box = state.box, VOTE = {a: 'robothq', b: 'stadium'};
+  const order = BUILDS.map((b) => (b === 'themepark' && box ? box.winner ?? box.a : b)).filter((b, i, a) => a.indexOf(b) === i);
+  let building = have.length < unlocked ? order[have.length] : null;
+  const landing = building === 'themepark', opening = !!building && have.length === 0 && !!box;
+  if (landing) building = null;
+  const n = have.length + (building || landing ? 1 : 0), nextAmenity = order[n] ? (order[n] === 'themepark' ? 'a surprise 🎁' : NAMES[order[n]]) : null, nextAt = base + (n + 1) * STEP;
 
   const hook = day === 1 ? ['This island is empty. Every person who follows me gets a house on it.', 'empty']
     : fresh.length || upgrades.length ? [`Day ${day}. You told me what you wanted on your lot. The robots built it.`, 'built']
@@ -39,7 +45,11 @@ export function episode(state, followers) {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
     S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, far: {black10: 1.6, skyscraper: 2.1, techtower: 1.9}[r.custom], part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
   });
-  if (building) S.push(SURPRISES.includes(building)
+  if (landing) S.push({vo: `${pop} followers! The surprise box just landed. But it's locked.`, key: 'locked', shot: 'build', part: 'drop', fx: ['win'], hold: 2},
+    {vo: `What's inside is up to you. Comment A for a robot HQ, or B for a stadium.`, key: 'you', shot: 'vote'});
+  if (building) S.push(opening
+    ? {vo: `The votes are in. The box opens, and it's ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win'], hold: 2.5}
+    : SURPRISES.includes(building)
     ? {vo: `${base + n * STEP} followers! Time for the surprise. It's ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win'], hold: 2.5}
     : {vo: `${base + n * STEP} followers unlocked ${withA(NAMES[building])}!`, key: NAMES[building].split(' ').pop(), shot: 'build', part: 'drop', fx: ['win']});
   S.push(day === 1
@@ -59,8 +69,8 @@ export function episode(state, followers) {
     + `Follow, comment your wish, and the robots build it.\n\n${state.note ? state.note + '\n\n' : ''}${state.keywords ?? KEYWORDS}`;
   return {
     script: {style: 'island', topic: `neelville day ${day}`, hook: S[0].vo, caption,
-      props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: state.specials ?? [], building, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
-    next: {...state, note: undefined, keywords: undefined, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])],
+      props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: state.specials ?? [], building, box: landing, surprise: opening, vote: landing ? {a: 'Robot HQ 🤖', b: 'Stadium 🏟️'} : null, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
+    next: {...state, note: undefined, keywords: undefined, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])], box: landing ? {...VOTE, day} : opening ? {...box, opened: day} : box,
       requests: requests.map((r) => (fresh.includes(r) ? {...r, built: day} : upgrades.includes(r) ? {...r, ...r.upgrade, upgrade: {...r.upgrade, built: day}} : r))},
   };
 }
