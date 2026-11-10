@@ -1,1 +1,8 @@
-{"race": 0, "seed": 0, "requests": [], "wins": {}}
+{
+  "race": 1,
+  "seed": 26,
+  "requests": [],
+  "wins": {
+    "UK": 1
+  }
+}
