@@ -84,7 +84,7 @@ const GiftBox = ({x, z, k}) => { // k: frames since the reveal scene started
     </group>
   );
 };
-export const SURPRISES = ['themepark']; // the vote prizes reveal through the box via the `surprise` prop
+export const SURPRISES = ['stadium']; // comes out of a gift box
 const Special = ({type, x, z, rise = 1, t}) => {
   const s = Math.max(0.001, rise);
   const M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 1 : 0} />;
@@ -165,27 +165,6 @@ const Special = ({type, x, z, rise = 1, t}) => {
         <mesh position={[0, 1.02, 0]} rotation={[0, Math.atan2(-x, -z), 0.4]}><boxGeometry args={[0.16, 0.1, 0.03]} />{M('#fff', '#fff7cc')}</mesh></group>)}
       <mesh position={[0, 0.55, -0.62]}><boxGeometry args={[0.5, 0.2, 0.04]} />{M('#111827')}</mesh>
       <mesh position={[0, 0.55, -0.598]}><boxGeometry args={[0.42, 0.13, 0.005]} />{M('#22d3ee', '#22d3ee')}</mesh></>,
-    robothq: <>
-      <mesh position={[0, 0.02, 0]}><boxGeometry args={[1.8, 0.04, 1.4]} />{M('#475569')}</mesh>
-      <mesh position={[-0.25, 0.04, 0]} rotation={[0, 0, 0]}><cylinderGeometry args={[0.55, 0.55, 0.02, 32]} />{M('#334155')}</mesh>
-      <mesh position={[-0.25, 0.05, 0]} scale={[1, 0.62, 1]}><sphereGeometry args={[0.5, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />{M('#e2e8f0')}</mesh>
-      {Array.from({length: 8}, (_, k) => <mesh key={k} position={[-0.25 + Math.cos(k * 0.785) * 0.42, 0.18, Math.sin(k * 0.785) * 0.42]} rotation={[0, -k * 0.785, 0]}><boxGeometry args={[0.02, 0.1, 0.12]} />{M('#22d3ee', '#22d3ee')}</mesh>)}
-      <mesh position={[-0.25, 0.08, 0.5]}><boxGeometry args={[0.3, 0.16, 0.04]} />{M('#0f172a')}</mesh>
-      <mesh position={[-0.25, 0.35, 0]}><cylinderGeometry args={[0.02, 0.02, 0.12]} />{M('#94a3b8')}</mesh>
-      <group position={[-0.25, 0.44, 0]} rotation={[0.6, t / 30, 0]}><mesh><sphereGeometry args={[0.12, 16, 8, 0, Math.PI * 2, 0, 1.1]} /><meshStandardMaterial color="#cbd5e1" side={2} /></mesh></group>
-      {[0, 1, 2, 3].map((k) => <group key={k} position={[0.42, 0, -0.45 + k * 0.3]}>
-        <mesh position={[0, 0.12, 0]}><boxGeometry args={[0.2, 0.22, 0.16]} />{M('#1e293b')}</mesh>
-        <mesh position={[0, 0.12, 0.081]}><boxGeometry args={[0.16, 0.18, 0.005]} />{M('#38bdf8', '#38bdf8')}</mesh>
-        <mesh position={[0, 0.1, 0.09]}><boxGeometry args={[0.07, 0.08, 0.05]} />{M(COLORS[k])}</mesh>
-        <mesh position={[0, 0.16, 0.09]}><boxGeometry args={[0.05, 0.04, 0.045]} />{M(COLORS[k + 2])}</mesh>
-        <mesh position={[0.08, 0.24, 0.085]}><boxGeometry args={[0.02, 0.02, 0.005]} />{M(k === Math.floor(t / 20) % 4 ? '#facc15' : '#4ade80', '#4ade80')}</mesh></group>)}
-      <mesh position={[0.25, 0.045, 0.55]}><cylinderGeometry args={[0.18, 0.18, 0.01, 24]} />{M('#facc15')}</mesh>
-      <mesh position={[0.25, 0.051, 0.55]}><cylinderGeometry args={[0.14, 0.14, 0.01, 24]} />{M('#111827')}</mesh>
-      <mesh position={[0.25, 0.058, 0.55]}><boxGeometry args={[0.14, 0.004, 0.025]} />{M('#facc15')}</mesh>
-      {[-0.05, 0.05].map((x) => <mesh key={x} position={[0.25 + x, 0.058, 0.55]}><boxGeometry args={[0.025, 0.004, 0.12]} />{M('#facc15')}</mesh>)}
-      <group position={[0.25, 0.2 + Math.abs(Math.sin(t / 25)) * 0.35, 0.55]}><mesh><boxGeometry args={[0.1, 0.1, 0.08]} />{M('#f97316')}</mesh>
-        <mesh position={[0, 0.08, 0]}><boxGeometry args={[0.07, 0.06, 0.06]} />{M('#fbbf24')}</mesh>
-        <mesh position={[0, -0.07, 0]}><coneGeometry args={[0.03, 0.06, 8]} />{M('#fde047', '#f97316')}</mesh></group></>,
   };
   return <group position={[x, 0, z]} scale={[1, s, 1]}>{parts[type] ?? parts.tower}</group>;
 };
@@ -652,7 +631,7 @@ const Cam = ({shot, local, len, R, focus, far = 1}) => {
   return null;
 };
 
-export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, box = false, surprise = false, vote = null, lots = [], nextAt = null, nextAmenity = null, music = true}) => {
+export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, vote = null, lots = [], nextAt = null, nextAmenity = null, music = true}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   let acc = 0;
@@ -678,12 +657,10 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
     return <House key={k} x={x} z={z} i={k} rise={rise} rot={faceRoad(c)} />;
   });
   const spec = allSpecials.map((type, k) => { const [x, z] = specialPos(k);
-    const fresh = building && k === allSpecials.length - 1, gift = fresh && (surprise || SURPRISES.includes(type));
+    const fresh = building && k === allSpecials.length - 1, gift = fresh && SURPRISES.includes(type);
     const at = bs ? bs.start + (gift ? 48 : 6) : 0; // a surprise rises out of the gift box after it bursts
     const rise = fresh ? (bs ? interpolate(frame, [at, at + 34], [0, 1], cl) : 1) : 1;
     return <group key={k}><Special type={type} x={x} z={z} rise={rise} t={frame} />{gift && bs && frame >= bs.start && <GiftBox x={x} z={z} k={frame - bs.start} />}</group>; });
-  // the vote episode: the box lands and keeps rumbling, still shut
-  if (box && bs && frame >= bs.start) { const [x, z] = specialPos(allSpecials.length), k = frame - bs.start; spec.push(<GiftBox key="box" x={x} z={z} k={k < 14 ? k : 14 + ((k - 14) % 22)} />); }
   const town = R - 2.2; // trees ring the town, between the last plots and the beach
   const trees = Array.from({length: 56}, (_, k) => { const a = rand(k + 7) * 6.28, r = town + 0.45 + rand(k + 3) * 0.95;
     return <KitMesh key={k} g={treeKit(k % 2)} position={[Math.cos(a) * r, 0, Math.sin(a) * r]} scale={0.75 + rand(k) * 0.6} rotation={[0, rand(k + 1) * 6, 0]} />; });
@@ -701,7 +678,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
     return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} t={frame} sign={sc.shot === 'lot' ? sc.lot === k : !['build', 'vote'].includes(sc.shot)} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
   const lastEmpty = plan.empty[0];
-  const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && (box || allSpecials.length) ? specialPos(box ? allSpecials.length : allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
+  const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
   const building_lot = sc.shot === 'lot' && lots[sc.lot]?.fresh;
   const robots = Array.from({length: 6}, (_, k) => { if (building_lot && local > sc.len - 28) return null; // robots leave for the finished reveal
     if (building_lot) { const [x, z] = ownerAt(sc.lot), a = k * 1.05 + frame / 18; return <Robot key={k} i={k} t={frame * 3} size={0.7} x={x + Math.cos(a) * 0.5} z={z + Math.sin(a) * 0.5} />; }
