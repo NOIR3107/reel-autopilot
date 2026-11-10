@@ -193,25 +193,33 @@ ITEMS.waterpark = <group>
 const ROOF_ITEMS = ['barcelona'], BACK_ITEMS = ['waterpark'];
 const itemKey = (t) => ['mexflag', 'waterpark', 'pickup', 'wallst', ...ROOF_ITEMS, ...Object.keys(ITEMS)].find((k) => String(t).toLowerCase().includes(k));
 const Shop = ({name, i, t = 0}) => {
-  const M = (c) => <meshStandardMaterial color={c} />, stripe = COLORS[(i + 3) % COLORS.length], taco = /taco/i.test(name), bag = /bag/i.test(name);
+  const M = (c) => <meshStandardMaterial color={c} />, stripe = COLORS[(i + 3) % COLORS.length], taco = /taco/i.test(name), bag = /bag/i.test(name), parts = /part/i.test(name);
   return (
     <group>
       <mesh position={[0, 0.2, 0]}><boxGeometry args={[0.7, 0.4, 0.4]} />{M('#fff7ed')}</mesh>
       <mesh position={[0, 0.41, 0.03]}><boxGeometry args={[0.74, 0.03, 0.46]} />{M('#a16207')}</mesh>
       {[-0.33, 0.33].map((x) => <mesh key={x} position={[x, 0.55, 0.2]}><boxGeometry args={[0.03, 0.3, 0.03]} />{M('#78350f')}</mesh>)}
-      {Array.from({length: 8}, (_, k) => <mesh key={k} position={[-0.315 + k * 0.09, 0.71, 0.13]} rotation={[0.45, 0, 0]}><boxGeometry args={[0.09, 0.025, 0.3]} />{M(k % 2 ? '#fafaf9' : (taco ? '#16a34a' : bag ? '#1c1917' : stripe))}</mesh>)}
+      {Array.from({length: 8}, (_, k) => <mesh key={k} position={[-0.315 + k * 0.09, 0.71, 0.13]} rotation={[0.45, 0, 0]}><boxGeometry args={[0.09, 0.025, 0.3]} />{M(k % 2 ? '#fafaf9' : (taco ? '#16a34a' : bag ? '#1c1917' : parts ? '#475569' : stripe))}</mesh>)}
       <mesh position={[-0.12, 0.27, 0.21]}><boxGeometry args={[0.22, 0.16, 0.01]} />{M('#1c1917')}</mesh>
       {[0.2, 0.25, 0.3].map((y) => <mesh key={y} position={[-0.12, y, 0.216]}><boxGeometry args={[0.16, 0.012, 0.005]} />{M('#fde68a')}</mesh>)}
       {[-0.2, 0.05, 0.28].map((x) => <group key={x} position={[x, 0, 0.36]}><mesh position={[0, 0.08, 0]}><cylinderGeometry args={[0.012, 0.012, 0.16]} />{M('#1f2937')}</mesh><mesh position={[0, 0.16, 0]}><cylinderGeometry args={[0.05, 0.05, 0.02, 12]} />{M('#e5322d')}</mesh></group>)}
       {/bag/i.test(name) && [-0.2, 0, 0.2].map((x, k) => <group key={x} position={[x + 0.05, 0.44, 0.12]}>
         <mesh position={[0, 0.05, 0]}><boxGeometry args={[0.1, 0.08, 0.04]} />{M(['#be185d', '#1c1917', '#d4a017'][k])}</mesh>
         <mesh position={[0, 0.11, 0]}><torusGeometry args={[0.03, 0.006, 6, 12, Math.PI]} />{M('#d4a017')}</mesh></group>)}
+      {parts && <group position={[0, 0.42, 0.12]}>
+        {[[-0.22, 0.045, '#94a3b8'], [-0.08, 0.035, '#f59e0b'], [0.2, 0.05, '#64748b']].map(([x, r, c], k) => <mesh key={k} position={[x, r + 0.01, 0]} rotation={[Math.PI / 2, 0, t / (9 + k * 3)]}>
+          <torusGeometry args={[r, r * 0.38, 6, 10]} />{M(c)}</mesh>)}
+        {[0.02, 0.06, 0.1].map((x) => <mesh key={x} position={[x, 0.03, 0.05]}><cylinderGeometry args={[0.008, 0.008, 0.05, 6]} />{M('#cbd5e1')}</mesh>)}
+        <group position={[0.06, 0.02, -0.05]} rotation={[0, 0, Math.sin(t / 20) * 0.3]}>
+          <mesh position={[0, 0.07, 0]}><boxGeometry args={[0.03, 0.14, 0.03]} />{M('#f97316')}</mesh>
+          <mesh position={[0.04, 0.15, 0]} rotation={[0, 0, -0.9]}><boxGeometry args={[0.025, 0.1, 0.025]} />{M('#f97316')}</mesh>
+          <mesh position={[0.08, 0.18, 0]}><boxGeometry args={[0.04, 0.02, 0.03]} />{M('#1f2937')}</mesh></group></group>}
       {taco && <group position={[0, 1.02, 0]} rotation={[0, t / 14, 0]}>
         <mesh rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.22, 0.22, 0.14, 24, 1, true, 0, Math.PI]} /><meshStandardMaterial color="#f59e0b" side={2} /></mesh>
         <mesh position={[0, 0.02, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.19, 0.19, 0.12, 20, 1, true, 0.2, Math.PI - 0.4]} /><meshStandardMaterial color="#22c55e" side={2} /></mesh>
         {[-0.08, 0, 0.08].map((x) => <mesh key={x} position={[0.02, 0.15, x]}><sphereGeometry args={[0.035, 8, 6]} />{M('#dc2626')}</mesh>)}
         <mesh position={[0, -0.12, 0]}><cylinderGeometry args={[0.012, 0.012, 0.22]} />{M('#94a3b8')}</mesh></group>}
-      <Sign text={taco ? 'TACOS 🌮' : /bag/i.test(name) ? 'LUXURY BAGS 👜' : name} y={taco ? 0.95 : 0.9} bg="#151515" fg="#ffd23f" w={0.95} />
+      <Sign text={taco ? 'TACOS 🌮' : bag ? 'LUXURY BAGS 👜' : parts ? 'ROBOT PARTS ⚙️' : name} y={taco ? 0.95 : 0.9} bg="#151515" fg="#ffd23f" w={0.95} />
     </group>
   );
 };
@@ -455,6 +463,38 @@ const TechTower = ({build = 1, name = '', t = 0}) => { const g = ramp(build, 0, 
     </group>}
   </group>; };
 
+const RobotRepair = ({build = 1, t = 0}) => { const g = ramp(build, 0, 0.7), fin = ramp(build, 0.7, 0.95), M = (c, e, x) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={x ?? (e ? 0.8 : 0)} />;
+  const spark = Math.sin(t * 1.7) > 0.2;
+  return <group>
+    <mesh position={[0, 0.02, 0.05]}><boxGeometry args={[0.84, 0.04, 0.84]} />{M('#94a3b8')}</mesh>
+    {Array.from({length: 4}, (_, k) => <mesh key={k} position={[-0.3 + k * 0.2, 0.042, 0.35]}><boxGeometry args={[0.1, 0.004, 0.04]} />{M('#facc15')}</mesh>)}
+    {g > 0 && <group scale={[1, g, 1]}>
+      <mesh position={[0, 0.25, -0.3]}><boxGeometry args={[0.8, 0.46, 0.06]} />{M('#e2e8f0')}</mesh>
+      {[-0.37, 0.37].map((x) => <mesh key={x} position={[x, 0.25, -0.08]}><boxGeometry args={[0.06, 0.46, 0.5]} />{M('#e2e8f0')}</mesh>)}
+      <mesh position={[0, 0.5, -0.08]}><boxGeometry args={[0.86, 0.04, 0.56]} />{M('#0f766e')}</mesh>
+      {Array.from({length: 7}, (_, k) => <mesh key={k} position={[-0.36 + k * 0.12, 0.515, 0.2]}><boxGeometry args={[0.1, 0.02, 0.06]} />{M(k % 2 ? '#fafaf9' : '#0f766e')}</mesh>)}
+      <mesh position={[-0.2, 0.3, -0.265]}><boxGeometry args={[0.3, 0.2, 0.01]} />{M('#334155')}</mesh>
+      {[-0.3, -0.24, -0.18, -0.12].map((x, k) => <mesh key={x} position={[x, 0.3 + (k % 2) * 0.03, -0.255]}><boxGeometry args={[0.015, 0.1, 0.012]} />{M(['#ef4444', '#facc15', '#3b82f6', '#a3a3a3'][k])}</mesh>)}
+    </group>}
+    {fin > 0 && <group scale={fin}>
+      <mesh position={[0.05, 0.08, -0.05]}><boxGeometry args={[0.3, 0.08, 0.22]} />{M('#475569')}</mesh>
+      <group position={[0.05, 0.12, -0.05]}>
+        <mesh position={[0, 0.1, 0]}><boxGeometry args={[0.14, 0.14, 0.11]} />{M('#f59e0b')}</mesh>
+        <mesh position={[0, 0.22, 0]}><boxGeometry args={[0.1, 0.08, 0.09]} />{M('#fbbf24')}</mesh>
+        {[-0.025, 0.025].map((x) => <mesh key={x} position={[x, 0.23, 0.046]}><boxGeometry args={[0.018, 0.018, 0.005]} />{M('#22d3ee', '#22d3ee', 1.2)}</mesh>)}
+        <mesh position={[-0.1, 0.1, 0]} rotation={[0, 0, 0.6]}><boxGeometry args={[0.03, 0.1, 0.03]} />{M('#f59e0b')}</mesh>
+        <mesh position={[0.11, 0.07, 0.02]}><boxGeometry args={[0.03, 0.03, 0.03]} />{M('#64748b')}</mesh>
+      </group>
+      <mesh position={[0.24, 0.2, 0.05]} rotation={[0, 0, 0.5]}><cylinderGeometry args={[0.012, 0.012, 0.18]} />{M('#1f2937')}</mesh>
+      {spark && [0, 1, 2, 3, 4].map((k) => <mesh key={k} position={[0.17 + Math.cos(k * 1.3 + t) * 0.04, 0.2 + Math.sin(k * 2.1) * 0.04, 0.05 + Math.sin(k + t) * 0.03]}>
+        <boxGeometry args={[0.012, 0.012, 0.012]} />{M('#fde047', '#fde047', 2)}</mesh>)}
+      <group position={[-0.3, 0, 0.25]}><mesh position={[0, 0.1, 0]}><boxGeometry args={[0.08, 0.2, 0.06]} />{M('#1e293b')}</mesh>
+        <mesh position={[0, 0.17, 0.031]}><boxGeometry args={[0.04, 0.03, 0.004]} />{M('#4ade80', '#4ade80', 1)}</mesh></group>
+      {[[0.3, 0.3], [0.33, 0.22]].map(([x, z], k) => <mesh key={k} position={[x, 0.04, z]}><boxGeometry args={[0.07, 0.07, 0.07]} />{M(k ? '#a16207' : '#78350f')}</mesh>)}
+      <Sign text="ROBOT REPAIR 🤖" y={0.75} bg="#0f766e" fg="#fff" w={0.8} />
+    </group>}
+  </group>; };
+
 const Skyscraper = ({build = 1, t = 0}) => {
   const g = ramp(build, 0, 0.9), top = ramp(build, 0.9, 1);
   const M = (c, e, x) => <meshStandardMaterial color={c} metalness={0.5} roughness={0.15} emissive={e ?? '#000'} emissiveIntensity={x ?? (e ? 0.8 : 0)} />;
@@ -520,9 +560,9 @@ const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
-      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={{gold3: 1.95, black10: 2.55, skyscraper: 3.7, small: 1.0, techtower: 3.4, mechanic: 0.95, warehouse: 0.95}[lot.custom] ?? 1.25} />}
+      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={({gold3: 1.95, black10: 2.55, skyscraper: 3.7, small: 1.0, techtower: 3.4, mechanic: 0.95, warehouse: 0.95, robotrepair: 1.0}[lot.custom] ?? 1.25) * (lot.tall ?? 1)} />}
       <group rotation={[0, rot, 0]}>
-      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <Skyscraper build={rise} t={t} /> : lot.custom === 'mechanic' ? <Mechanic build={rise} /> : lot.custom === 'warehouse' ? <Warehouse build={rise} /> : lot.custom === 'techtower' ? <TechTower build={rise} name={lot.name} t={t} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
+      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <group scale={[1, lot.tall ?? 1, 1]}><Skyscraper build={rise} t={t} /></group> : lot.custom === 'robotrepair' ? <RobotRepair build={rise} t={t} /> : lot.custom === 'mechanic' ? <Mechanic build={rise} /> : lot.custom === 'warehouse' ? <Warehouse build={rise} /> : lot.custom === 'techtower' ? <TechTower build={rise} name={lot.name} t={t} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
       {lot.statue && <group position={[-0.34, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue.flag ?? lot.statue} look={lot.statue.look} t={t} />{sign && lot.statue.plaque && <Sign text={lot.statue.plaque} y={1.05} bg="#7f1d1d" fg="#ffd23f" w={0.95} />}</group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);

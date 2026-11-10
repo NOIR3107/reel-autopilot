@@ -96,7 +96,11 @@
       ],
       "custom": "skyscraper",
       "say": "a giant black skyscraper on Wall Street",
-      "built": 6
+      "built": 6,
+      "upgrade": {
+        "tall": 1.55,
+        "say": "wanted a taller tower. Fine. One time only."
+      }
     },
     {
       "user": "93.jaylaa",
@@ -128,6 +132,18 @@
       "name": "ARASAKA",
       "say": "a tech corporation tower called Arasaka",
       "built": 8
+    },
+    {
+      "user": "jrys_15",
+      "items": [],
+      "custom": "robotrepair",
+      "say": "a robot repair shop, teaming up with nic d's garage. Nic fixes the cars, jrys fixes the robots"
+    },
+    {
+      "user": "moshi_ozu",
+      "items": [],
+      "business": "robot parts shop",
+      "say": "a shop selling spare parts for the robots"
     }
   ]
 }

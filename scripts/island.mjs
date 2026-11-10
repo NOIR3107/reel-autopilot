@@ -18,7 +18,9 @@ export function episode(state, followers) {
   const built = requests.filter((r) => r.built), has = new Set(built.map((r) => r.user));
   // No repeats: one lot per follower, so a second request from someone who already has one is skipped.
   const fresh = requests.filter((r) => !r.built && !has.has(r.user) && has.add(r.user)).slice(0, PER_EPISODE);
-  const lots = [...built, ...fresh.map((r) => ({...r, fresh: true}))];
+  // Upgrade: a one-off rebuild Neel grants on an existing lot ({upgrade: {say, ...changes}}). It keeps its spot.
+  const upgrades = built.filter((r) => r.upgrade && !r.upgrade.built);
+  const lots = [...built.map((r) => (upgrades.includes(r) ? {...r, ...r.upgrade, fresh: true} : r)), ...fresh.map((r) => ({...r, fresh: true}))];
   // More followers, more amenities: one unlocks for every STEP followers gained since launch (one per episode).
   const base = state.base ?? pop, have = state.specials ?? [];
   const unlocked = Math.min(BUILDS.length, Math.floor(Math.max(0, pop - base) / STEP));
@@ -26,11 +28,12 @@ export function episode(state, followers) {
   const n = have.length + (building ? 1 : 0), nextAmenity = BUILDS[n] ? (SURPRISES.includes(BUILDS[n]) ? 'a surprise 🎁' : NAMES[BUILDS[n]]) : null, nextAt = base + (n + 1) * STEP;
 
   const hook = day === 1 ? ['This island is empty. Every person who follows me gets a house on it.', 'empty']
-    : fresh.length ? [`Day ${day}. You told me what you wanted on your lot. The robots built it.`, 'built']
+    : fresh.length || upgrades.length ? [`Day ${day}. You told me what you wanted on your lot. The robots built it.`, 'built']
     : added ? [`Day ${day}. ${added} new ${added === 1 ? 'person' : 'people'} moved to Neelville overnight.`, 'new']
     : [`Day ${day} on the island. The robots got creative.`, 'creative'];
   const S = [{vo: hook[0], key: hook[1], shot: day === 1 ? 'top' : 'wide', part: 'hook'}];
   if (day === 1) S.push({vo: 'Little robots build every house. One for each follower.', key: 'robots', shot: 'close'});
+  upgrades.forEach((r) => S.push({vo: `${spoken(r.user)} ${r.upgrade.say}`, key: 'Done', shot: 'lot', lot: built.indexOf(r), far: 2.4, part: 'drop', fx: ['win'], hold: 3.5}));
   fresh.forEach((r, k) => {
     const wants = [...(r.items ?? []).map(withA), ...(r.business ? [`their own ${r.business}`] : [])];
     S.push({vo: r.say ? `${spoken(r.user)} asked for ${r.say}. Done.` : wants.length ? `${spoken(r.user)} asked for ${list(wants)}. Done.` : `Welcome to Neelville, ${spoken(r.user)}. This one's yours.`, key: 'Done', shot: 'lot', lot: built.length + k, far: {black10: 1.6, skyscraper: 2.1, techtower: 1.9}[r.custom], part: 'drop', fx: ['win'], hold: 3.5}); // hold: seconds of timelapse after the line
@@ -57,6 +60,6 @@ export function episode(state, followers) {
     script: {style: 'island', topic: `neelville day ${day}`, hook: S[0].vo, caption,
       props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: state.specials ?? [], building, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
     next: {...state, note: undefined, keywords: undefined, day, houses: pop, base, specials: [...(state.specials ?? []), ...(building ? [{type: building, day}] : [])],
-      requests: requests.map((r) => (fresh.includes(r) ? {...r, built: day} : r))},
+      requests: requests.map((r) => (fresh.includes(r) ? {...r, built: day} : upgrades.includes(r) ? {...r, ...r.upgrade, upgrade: {...r.upgrade, built: day}} : r))},
   };
 }
