@@ -17,7 +17,8 @@ export function episode(state, followers) {
   const requests = state.requests ?? [];
   const built = requests.filter((r) => r.built), has = new Set(built.map((r) => r.user));
   // No repeats: one lot per follower, so a second request from someone who already has one is skipped.
-  const fresh = requests.filter((r) => !r.built && !has.has(r.user) && has.add(r.user)).slice(0, PER_EPISODE);
+  // extra: a one-time second lot Neel approved himself (e.g. tanishq's amusement park).
+  const fresh = requests.filter((r) => !r.built && (r.extra || (!has.has(r.user) && has.add(r.user)))).slice(0, PER_EPISODE);
   // Upgrade: a one-off rebuild Neel grants on an existing lot ({upgrade: {say, ...changes}}). It keeps its spot.
   const upgrades = built.filter((r) => r.upgrade && !r.upgrade.built);
   const lots = [...built.map((r) => (upgrades.includes(r) ? {...r, ...r.upgrade, fresh: true} : r)), ...fresh.map((r) => ({...r, fresh: true}))];

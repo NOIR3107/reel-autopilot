@@ -495,6 +495,34 @@ const RobotRepair = ({build = 1, t = 0}) => { const g = ramp(build, 0, 0.7), fin
     </group>}
   </group>; };
 
+// A follower's own amusement park: roller coaster with a moving train, drop tower, bumper cars, entrance gate.
+const FunPark = ({build = 1, t = 0, name = 'FUN LAND'}) => { const g = ramp(build, 0, 0.6), fin = ramp(build, 0.6, 0.95), M = (c, e) => <meshStandardMaterial color={c} emissive={e ?? '#000'} emissiveIntensity={e ? 0.9 : 0} />;
+  const curve = useMemo(() => new THREE.CatmullRomCurve3([[-0.32, 0.12, -0.3], [-0.05, 0.62, -0.32], [0.18, 0.2, -0.3], [0.34, 0.42, -0.05], [0.3, 0.14, 0.18], [0.05, 0.36, 0.1], [-0.2, 0.15, 0.05], [-0.36, 0.3, -0.12]].map((p) => new THREE.Vector3(...p)), true), []);
+  const pillars = useMemo(() => Array.from({length: 14}, (_, k) => curve.getPointAt(k / 14)), [curve]);
+  const car = (o) => { const u = ((t / 160 + o) % 1 + 1) % 1, p = curve.getPointAt(u), q = curve.getPointAt((u + 0.01) % 1);
+    return <mesh key={o} position={p.toArray()} rotation={[0, Math.atan2(q.x - p.x, q.z - p.z), 0]}><boxGeometry args={[0.05, 0.035, 0.07]} />{M(['#ef4444', '#facc15', '#3b82f6'][Math.round(o * 30) % 3])}</mesh>; };
+  const drop = 0.18 + Math.abs(Math.sin(t / 30)) * 0.5;
+  return <group>
+    <mesh position={[0, 0.02, 0]}><boxGeometry args={[0.9, 0.04, 0.9]} />{M('#86efac')}</mesh>
+    <mesh position={[0, 0.042, 0.3]}><boxGeometry args={[0.16, 0.004, 0.32]} />{M('#d6d3d1')}</mesh>
+    {g > 0 && <group scale={[1, g, 1]}>
+      <mesh><tubeGeometry args={[curve, 160, 0.012, 6, true]} />{M('#e11d48')}</mesh>
+      {pillars.map((p, k) => <mesh key={k} position={[p.x, p.y / 2, p.z]}><cylinderGeometry args={[0.006, 0.006, p.y]} />{M('#f8fafc')}</mesh>)}
+      <mesh position={[0.3, 0.42, 0.32]}><cylinderGeometry args={[0.025, 0.03, 0.84, 10]} />{M('#7c3aed')}</mesh>
+      <mesh position={[0.3, 0.86, 0.32]}><coneGeometry args={[0.05, 0.08, 10]} />{M('#facc15')}</mesh>
+    </group>}
+    {fin > 0 && <group scale={fin}>
+      {[0, 0.02, 0.04].map(car)}
+      <mesh position={[0.3, drop, 0.32]}><torusGeometry args={[0.055, 0.018, 6, 16]} />{M('#22d3ee')}</mesh>
+      <mesh position={[-0.22, 0.05, 0.25]}><boxGeometry args={[0.32, 0.02, 0.26]} />{M('#334155')}</mesh>
+      {[0, 1, 2, 3].map((k) => { const a = t / 25 + k * 1.6; return <mesh key={k} position={[-0.22 + Math.cos(a) * 0.1, 0.075, 0.25 + Math.sin(a * 1.3) * 0.08]}><boxGeometry args={[0.05, 0.03, 0.04]} />{M(['#f97316', '#22c55e', '#ec4899', '#3b82f6'][k])}</mesh>; })}
+      {[-0.1, 0.1].map((x) => <mesh key={x} position={[x, 0.15, 0.44]}><boxGeometry args={[0.03, 0.26, 0.03]} />{M('#f472b6')}</mesh>)}
+      <mesh position={[0, 0.29, 0.44]}><boxGeometry args={[0.26, 0.04, 0.03]} />{M('#f472b6')}</mesh>
+      {Array.from({length: 6}, (_, k) => <mesh key={k} position={[-0.1 + k * 0.04, 0.315, 0.44]}><sphereGeometry args={[0.01, 6, 6]} />{M('#fde047', Math.sin(t / 4 + k) > 0 ? '#fde047' : undefined)}</mesh>)}
+      <Sign text={name} y={1.05} bg="#e11d48" fg="#fff" w={0.95} />
+    </group>}
+  </group>; };
+
 const Skyscraper = ({build = 1, t = 0}) => {
   const g = ramp(build, 0, 0.9), top = ramp(build, 0.9, 1);
   const M = (c, e, x) => <meshStandardMaterial color={c} metalness={0.5} roughness={0.15} emissive={e ?? '#000'} emissiveIntensity={x ?? (e ? 0.8 : 0)} />;
@@ -560,9 +588,9 @@ const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
-      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={({gold3: 1.95, black10: 2.55, skyscraper: 3.7, small: 1.0, techtower: 3.4, mechanic: 0.95, warehouse: 0.95, robotrepair: 1.0}[lot.custom] ?? 1.25) * (lot.tall ?? 1)} />}
+      {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={({gold3: 1.95, black10: 2.55, skyscraper: 3.7, small: 1.0, techtower: 3.4, mechanic: 0.95, warehouse: 0.95, robotrepair: 1.0, funpark: 1.35}[lot.custom] ?? 1.25) * (lot.tall ?? 1)} />}
       <group rotation={[0, rot, 0]}>
-      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <group scale={[1, lot.tall ?? 1, 1]}><Skyscraper build={rise} t={t} /></group> : lot.custom === 'robotrepair' ? <RobotRepair build={rise} t={t} /> : lot.custom === 'mechanic' ? <Mechanic build={rise} /> : lot.custom === 'warehouse' ? <Warehouse build={rise} /> : lot.custom === 'techtower' ? <TechTower build={rise} name={lot.name} t={t} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
+      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <group scale={[1, lot.tall ?? 1, 1]}><Skyscraper build={rise} t={t} /></group> : lot.custom === 'robotrepair' ? <RobotRepair build={rise} t={t} /> : lot.custom === 'funpark' ? <FunPark build={rise} t={t} name={lot.name} /> : lot.custom === 'mechanic' ? <Mechanic build={rise} /> : lot.custom === 'warehouse' ? <Warehouse build={rise} /> : lot.custom === 'techtower' ? <TechTower build={rise} name={lot.name} t={t} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
       {lot.statue && <group position={[-0.34, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue.flag ?? lot.statue} look={lot.statue.look} t={t} />{sign && lot.statue.plaque && <Sign text={lot.statue.plaque} y={1.05} bg="#7f1d1d" fg="#ffd23f" w={0.95} />}</group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);

@@ -144,6 +144,14 @@
       "items": [],
       "business": "robot parts shop",
       "say": "a shop selling spare parts for the robots"
+    },
+    {
+      "user": "tanishq.saxena02",
+      "items": [],
+      "custom": "funpark",
+      "name": "TANISHQ LAND \ud83c\udfa2",
+      "extra": true,
+      "say": "his very own amusement park. One time exception"
     }
   ]
 }
