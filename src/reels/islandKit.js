@@ -181,3 +181,28 @@ export const treeKit = (kind) => {
     : merge([cyl(0.04, 0.06, 0.24, '#6b4423', [0, 0.12, 0], 7), cone(0.26, 0.36, '#166534', [0, 0.36, 0], 8), cone(0.21, 0.3, '#15803d', [0, 0.54, 0], 8), cone(0.15, 0.24, '#16a34a', [0, 0.7, 0], 8)]);
   houseCache.set('t' + kind, g); return g;
 };
+
+// Marble-race track for the stadium: a railed chute that zigzags down from a start tower onto the pitch.
+// pts are the track's control points (marbleSim.mjs TRACK); returns {g, curve}.
+export const trackKit = (pts) => {
+  const key = 'track' + pts.length; if (houseCache.has(key)) return houseCache.get(key);
+  const curve = new THREE.CatmullRomCurve3(pts.map((p) => new THREE.Vector3(...p)));
+  const parts = [], o = new THREE.Object3D(), N = 150, up = new THREE.Vector3(0, 1, 0);
+  for (let i = 0; i < N; i++) {
+    const a = curve.getPointAt(i / N), b = curve.getPointAt((i + 1) / N), mid = a.clone().add(b).multiplyScalar(0.5), len = a.distanceTo(b);
+    o.position.copy(mid); o.lookAt(b); const rot = [o.rotation.x, o.rotation.y, o.rotation.z];
+    const side = b.clone().sub(a).normalize().cross(up).normalize();
+    parts.push(box(0.3, 0.02, len + 0.01, '#f8fafc', mid.toArray(), rot));
+    for (const s of [-1, 1]) parts.push(box(0.022, 0.07, len + 0.01, Math.floor(i / 4) % 2 ? '#e5322d' : '#facc15', mid.clone().addScaledVector(side, s * 0.155).add(up.clone().multiplyScalar(0.03)).toArray(), rot));
+    if (i % 9 === 0 && mid.y > 0.2) parts.push(cyl(0.012, 0.016, mid.y, '#94a3b8', [mid.x, mid.y / 2, mid.z], 6));
+  }
+  const s = pts[0];
+  parts.push(box(0.36, s[1], 0.36, '#334155', [s[0], s[1] / 2 - 0.02, s[2]]));
+  for (let k = 0; k < 6; k++) parts.push(box(0.37, 0.02, 0.37, '#facc15', [s[0], 0.3 + k * 0.33, s[2]]));
+  parts.push(box(0.42, 0.04, 0.42, '#e5322d', [s[0], s[1] + 0.02, s[2]]));
+  const e = pts.at(-1);
+  for (const z of [-0.14, 0.14]) parts.push(box(0.02, 0.3, 0.02, '#f8fafc', [e[0], 0.15, e[2] + z]));
+  for (let k = 0; k < 8; k++) for (let j = 0; j < 2; j++) parts.push(box(0.012, 0.035, 0.035, (k + j) % 2 ? '#111111' : '#ffffff', [e[0], 0.27 + j * 0.035, e[2] - 0.122 + k * 0.035]));
+  const out = {g: merge(parts), curve};
+  houseCache.set(key, out); return out;
+};

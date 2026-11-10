@@ -5,9 +5,10 @@ import {ThreeCanvas} from '@remotion/three';
 import {useThree} from '@react-three/fiber';
 import React, {useMemo} from 'react';
 import * as THREE from 'three';
+import {marbleRace, RACE_FRAMES, TRACK} from './marbleSim.mjs';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource-variable/bricolage-grotesque/opsz.css';
-import {houseKit, streetKit, shoreKit, plazaKit, treeKit} from './islandKit.js';
+import {houseKit, streetKit, shoreKit, plazaKit, treeKit, trackKit} from './islandKit.js';
 
 const KitMesh = ({g, ...p}) => <mesh geometry={g} {...p}><meshStandardMaterial vertexColors roughness={0.85} /></mesh>;
 
@@ -624,6 +625,7 @@ const Cam = ({shot, local, len, R, focus, far = 1}) => {
   const k = local / Math.max(1, len);
   let p, look = [0, 0, 0];
   if (shot === 'close' || shot === 'build' || shot === 'lot' || shot === 'empty') { const a = (shot === 'lot' && focus[2] != null ? Math.atan2(Math.cos(focus[2]), Math.sin(focus[2])) - 0.35 : 0.8) + k * 0.6, d = (shot === 'build' ? 4.2 : shot === 'lot' ? 5.2 : 3) * far; look = [focus[0], 0.5 * far * far, focus[1]]; p = [focus[0] + Math.cos(a) * d, (shot === 'lot' ? 3.4 : shot === 'build' ? 3.6 : 2.2) * far - k * 0.4, focus[1] + Math.sin(a) * d]; }
+  else if (shot === 'race' || shot === 'racewin') { look = focus.slice(0, 3); p = focus.slice(3); } // Island works out both points
   else if (shot === 'top') p = [0.01, R * 4.6 - k * R * 0.6, 0.01]; // portrait frame is narrow: pull back so the whole island fits
   else { const a = 0.6 + k * 0.5 + (shot === 'houses' ? 1.2 : 0), d = R * (shot === 'vote' ? 3.6 : 3.1) - k * R * 0.3; p = [Math.cos(a) * d, R * 2.1, Math.sin(a) * d]; }
   camera.position.set(...p);
@@ -631,7 +633,7 @@ const Cam = ({shot, local, len, R, focus, far = 1}) => {
   return null;
 };
 
-export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, vote = null, lots = [], nextAt = null, nextAmenity = null, music = true}) => {
+export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, vote = null, race = null, lots = [], nextAt = null, nextAmenity = null, music = true}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   let acc = 0;
@@ -661,6 +663,30 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
     const at = bs ? bs.start + (gift ? 48 : 6) : 0; // a surprise rises out of the gift box after it bursts
     const rise = fresh ? (bs ? interpolate(frame, [at, at + 34], [0, 1], cl) : 1) : 1;
     return <group key={k}><Special type={type} x={x} z={z} rise={rise} t={frame} />{gift && bs && frame >= bs.start && <GiftBox x={x} z={z} k={frame - bs.start} />}</group>; });
+  // the stadium marble race: commenters' marbles roll down the track onto the pitch
+  const si = allSpecials.indexOf('stadium'), rs = timed.find((t) => t.shot === 'race');
+  const sim = useMemo(() => (race ? marbleRace(race.racers.length, race.seed) : null), [race]);
+  let raceFocus = null, marbles = null;
+  if (race && si >= 0 && sim) {
+    const [sx, sz] = specialPos(si), {curve} = trackKit(TRACK), n = race.racers.length;
+    const rf = !rs || frame < rs.start ? 0 : Math.min(RACE_FRAMES, Math.round(((frame - rs.start) * RACE_FRAMES) / rs.len));
+    const pts = race.racers.map((_, i) => { const pr = sim.p[i][rf], a = curve.getPointAt(pr), b = curve.getPointAt(Math.min(1, pr + 0.002)), side = b.clone().sub(a).normalize().cross(new THREE.Vector3(0, 1, 0)).normalize();
+      return a.addScaledVector(side, (i - (n - 1) / 2) * 0.034).add(new THREE.Vector3(sx, 0.075, sz)); });
+    const first = sim.order[0];
+    const lead = race.racers.map((_, i) => i).sort((a, b) => sim.p[b][rf] - sim.p[a][rf]).slice(0, 3);
+    // race: high over the stadium, leaning toward the leaders; win: down at the finish line
+    const pack = [0, 1, 2].map((c) => lead.reduce((t, i) => t + pts[i].toArray()[c], 0) / lead.length), mid = [sx, 0.6, sz];
+    raceFocus = sc.shot === 'racewin' ? [...pts[first].toArray(), pts[first].x + 1.5, pts[first].y + 1.2, pts[first].z + 1.9]
+      : (() => { const l = mid.map((v, c) => v + (pack[c] - v) * 0.55); return [...l, l[0] + 2.6, l[1] + 3.1, l[2] + 3.3]; })();
+    marbles = <group>
+      <group position={[sx, 0, sz]}><KitMesh g={trackKit(TRACK).g} /></group>
+      {pts.map((p, i) => { const win = sc.shot === 'racewin' && i === first, hop = win ? Math.abs(Math.sin(local / 5)) * 0.08 : 0;
+        return <group key={i} position={[p.x, p.y + hop, p.z]}>
+          <mesh scale={win ? 1.6 : 1} rotation={[0, 0, -sim.p[i][rf] * 120]}><sphereGeometry args={[0.06, 16, 12]} /><meshStandardMaterial color={COLORS[i % COLORS.length]} metalness={0.3} roughness={0.25} /></mesh>
+          {(win || (sc.shot === 'race' && i === lead[0])) && <group scale={win ? 0.55 : 0.45}><Sign text={(win ? '🏆 @' : '@') + race.racers[i]} y={win ? 0.5 : 0.4} /></group>}
+        </group>; })}
+    </group>;
+  }
   const town = R - 2.2; // trees ring the town, between the last plots and the beach
   const trees = Array.from({length: 56}, (_, k) => { const a = rand(k + 7) * 6.28, r = town + 0.45 + rand(k + 3) * 0.95;
     return <KitMesh key={k} g={treeKit(k % 2)} position={[Math.cos(a) * r, 0, Math.sin(a) * r]} scale={0.75 + rand(k) * 0.6} rotation={[0, rand(k + 1) * 6, 0]} />; });
@@ -676,9 +702,9 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
     {[[0, -0.55, 1.1, 0.02], [0, 0.55, 1.1, 0.02], [-0.55, 0, 0.02, 1.1], [0.55, 0, 0.02, 1.1]].map(([a, b, w, d]) => <mesh key={a + ' ' + b + 'r'} position={[a, 0.2, b]}><boxGeometry args={[w, 0.02, d]} /><meshStandardMaterial color="#dc2626" /></mesh>)}
     {k === 0 && <Sign text="YOUR HOUSE HERE" y={0.55} bg="#c2853f" fg="#1c1917" w={1.3} />}</group>);
   const owned = lots.map((lot, k) => { const [x, z, a] = ownerAt(k), ls = timed.find((t) => t.shot === 'lot' && t.lot === k);
-    return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} t={frame} sign={sc.shot === 'lot' ? sc.lot === k : !['build', 'vote'].includes(sc.shot)} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
+    return <Lot key={k} lot={lot} i={k} x={x} z={z} rot={a} t={frame} sign={sc.shot === 'lot' ? sc.lot === k : !['build', 'vote', 'race', 'racewin'].includes(sc.shot)} rise={lot.fresh ? (ls ? interpolate(frame, [ls.start + 4, ls.start + ls.len - 24], [0, 1], cl) : 0) : 1} />; });
   const lastEmpty = plan.empty[0];
-  const focus = sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
+  const focus = raceFocus && (sc.shot === 'race' || sc.shot === 'racewin') ? raceFocus : sc.shot === 'lot' ? ownerAt(sc.lot ?? 0) : sc.shot === 'build' && allSpecials.length ? specialPos(allSpecials.length - 1) : sc.shot === 'empty' ? [lastEmpty.x, lastEmpty.z] : spiral ? housePos(spiral - 1) : [0, 0];
   const building_lot = sc.shot === 'lot' && lots[sc.lot]?.fresh;
   const robots = Array.from({length: 6}, (_, k) => { if (building_lot && local > sc.len - 28) return null; // robots leave for the finished reveal
     if (building_lot) { const [x, z] = ownerAt(sc.lot), a = k * 1.05 + frame / 18; return <Robot key={k} i={k} t={frame * 3} size={0.7} x={x + Math.cos(a) * 0.5} z={z + Math.sin(a) * 0.5} />; }
@@ -702,7 +728,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
         <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color="#2f8fd8" /></mesh>
         <mesh position={[0, -0.16, 0]}><cylinderGeometry args={[R + 0.5, R + 0.9, 0.3, 64]} /><meshStandardMaterial color="#f2d79b" /></mesh>
         <mesh position={[0, -0.02, 0]}><cylinderGeometry args={[R, R + 0.3, 0.06, 64]} /><meshStandardMaterial color="#6cc24a" /></mesh>
-        {plaza}{roads}{trees}{houses}{spec}{owned}{empties}{robots}<KitMesh g={shoreKit(R)} />
+        {plaza}{roads}{trees}{houses}{spec}{owned}{empties}{robots}{marbles}<KitMesh g={shoreKit(R)} />
       </ThreeCanvas>
       <div style={{position: 'absolute', left: 50, top: 190, fontFamily: FONT, fontWeight: 800}}>
         <div style={{display: 'inline-block', background: '#ffd23f', color: '#151515', fontSize: 52, padding: '4px 22px', borderRadius: 10}}>DAY {day}</div>
