@@ -1,6 +1,6 @@
 {
-  "day": 12,
-  "houses": 67,
+  "day": 13,
+  "houses": 72,
   "base": 20,
   "specials": [
     {
@@ -10,7 +10,7 @@
     {
       "type": "funpark",
       "owner": "tanishq.saxena02",
-      "name": "TANISHQ LAND \ud83c\udfa2",
+      "name": "TANISHQ LAND 🎢",
       "day": 9
     }
   ],
@@ -163,7 +163,7 @@
     {
       "user": "tanishq.saxena02",
       "items": [],
-      "name": "TANISHQ LAND \ud83c\udfa2",
+      "name": "TANISHQ LAND 🎢",
       "say": "his very own amusement park. One time exception",
       "park": true,
       "built": 9
@@ -172,7 +172,8 @@
       "user": "ruchayr0aches",
       "custom": "twostory",
       "v": 100,
-      "say": "a pink two-storey house"
+      "say": "a pink two-storey house",
+      "built": 13
     },
     {
       "user": "annalisse_85",
@@ -180,13 +181,15 @@
       "items": [
         "backpool"
       ],
-      "say": "a two-storey house with a pool in the backyard"
+      "say": "a two-storey house with a pool in the backyard",
+      "built": 13
     },
     {
       "user": "gh0sti_poison",
       "custom": "ranch",
       "name": "GENTILDONNA",
-      "say": "a ranch with a racehorse"
+      "say": "a ranch with a racehorse",
+      "built": 13
     },
     {
       "user": "prime_dinooo",
@@ -194,7 +197,8 @@
       "label": "24",
       "labelY": 0.95,
       "labelW": 0.7,
-      "say": "a house with a big 24"
+      "say": "a house with a big 24",
+      "built": 13
     },
     {
       "user": "michaelren0314",
@@ -203,12 +207,14 @@
       "labelBg": "#1d4ed8",
       "labelY": 3.25,
       "labelW": 1.3,
-      "say": "a tower called Vought"
+      "say": "a tower called Vought",
+      "built": 13
     },
     {
       "user": "_usman_ju11",
       "custom": "spanish",
-      "say": "a Spanish house"
+      "say": "a Spanish house",
+      "built": 13
     }
   ],
   "residents": [
