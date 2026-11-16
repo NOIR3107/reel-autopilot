@@ -1,10 +1,10 @@
 {
-  "race": 3,
-  "seed": 60,
+  "race": 4,
+  "seed": 63,
   "requests": [],
   "wins": {
     "UK": 1,
     "Italy": 1,
-    "Australia": 1
+    "Australia": 2
   }
 }
