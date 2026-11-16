@@ -6,18 +6,19 @@
       "scenes": [
         {
           "kind": "alarm",
-          "text": "5:00 AM.",
-          "vo": "Five A.M. Nobody's watching."
+          "text": "5 AM.\nNobody's watching.",
+          "vo": "Five A.M. Nobody's watching. Nobody's clapping.",
+          "key": "watching"
         },
         {
           "kind": "alone",
-          "text": "No crowd. No likes.",
-          "vo": "No crowd. No likes. Just you, and the work."
+          "text": "No crowd.\nNo likes.",
+          "vo": "No crowd. No likes. Just you, a lamp, and a promise nobody else knows about."
         },
         {
           "kind": "stairs",
-          "text": "Day 1. Day 30. Day 90.",
-          "vo": "Day one feels like nothing. So does day thirty.",
+          "text": "Nothing. Nothing.\nNothing.",
+          "vo": "Day one, nothing changes. Day thirty, nothing changes. Day ninety, still nothing.",
           "labels": [
             "Day 1",
             "Day 30",
@@ -26,13 +27,16 @@
         },
         {
           "kind": "future",
-          "text": "Then one day…",
-          "vo": "Then one day, someone asks how you got so lucky."
+          "text": "Day 91.",
+          "vo": "Then day ninety one, it finally shows. And everyone calls it luck.",
+          "who": "Day 91",
+          "key": "Day 91"
         },
         {
           "kind": "words",
           "text": "It was never luck.",
-          "vo": "It was never luck. It was every quiet morning nobody saw."
+          "vo": "It was never luck. It was ninety mornings nobody clapped for.",
+          "key": "luck"
         },
         {
           "kind": "cta",
@@ -47,24 +51,27 @@
       "scenes": [
         {
           "kind": "carry",
-          "text": "Remember these shoulders?",
-          "vo": "Remember when you were small, and the whole world looked bigger from up there?"
+          "text": "Remember\nthe shoulders?",
+          "vo": "Remember being small, when the whole world looked different from up there?"
         },
         {
           "kind": "carry",
-          "text": "They never said they were tired.",
-          "vo": "They carried you everywhere. Not once did they say they were tired."
+          "text": "Never tired.",
+          "vo": "They carried you everywhere. And never once said they were tired.",
+          "key": "Never tired"
         },
         {
           "kind": "carry",
-          "text": "Now it's your turn.",
-          "vo": "Now their steps are slower. Now it's your turn.",
-          "reverse": true
+          "text": "Now it's\nyour turn.",
+          "vo": "Look at them now. Slower steps. Same love. Now it's your turn.",
+          "reverse": true,
+          "key": "your turn"
         },
         {
           "kind": "words",
-          "text": "Call them today.",
-          "vo": "Call them today. Not tomorrow. Today."
+          "text": "Call them\ntoday.",
+          "vo": "Don't wait for a better time. Call them today.",
+          "key": "today"
         },
         {
           "kind": "cta",
@@ -80,33 +87,37 @@
         {
           "kind": "two",
           "text": "Same 24 hours.",
-          "vo": "Same twenty four hours. Same phone. Same excuses."
+          "vo": "Two people. Same twenty four hours. Same phone in the pocket.",
+          "key": "24"
         },
         {
           "kind": "two",
           "text": "One scrolls.\nOne builds.",
-          "vo": "One scrolls till midnight. One builds, one hour at a time."
+          "vo": "One scrolls until midnight. The other builds, one hour at a time.",
+          "key": "builds"
         },
         {
           "kind": "stairs",
           "text": "1% a day.",
-          "vo": "One percent better a day doesn't look like much.",
+          "vo": "One percent a day looks like nothing. For a whole month, it looks like nothing.",
           "labels": [
             "1%",
             "1%",
             "1%"
-          ]
+          ],
+          "key": "1%"
         },
         {
           "kind": "future",
           "text": "A year later…",
-          "vo": "But a year later, these two are complete strangers.",
+          "vo": "But a year later, you won't believe they started in the same place.",
           "who": "a year later"
         },
         {
           "kind": "words",
           "text": "Which one are\nyou today?",
-          "vo": "So which one are you going to be today?"
+          "vo": "So which one are you going to be today?",
+          "key": "today"
         },
         {
           "kind": "cta",
@@ -121,28 +132,33 @@
       "scenes": [
         {
           "kind": "fall",
-          "text": "You fell.",
-          "vo": "So you fell. And everyone saw it."
+          "text": "You fell.\nEveryone saw.",
+          "vo": "You fell. And everyone saw it happen.",
+          "key": "fell"
         },
         {
           "kind": "rise",
-          "text": "Get up anyway.",
-          "vo": "Here's what they didn't see. You got up anyway."
+          "text": "You got up.",
+          "vo": "What they didn't see is you getting back up. Again, and again.",
+          "key": "up"
         },
         {
           "kind": "boulder",
-          "text": "It's heavy. Push.",
-          "vo": "The weight doesn't get lighter. You get stronger."
+          "text": "Not lighter.\nYou, stronger.",
+          "vo": "The weight never gets lighter. You get stronger.",
+          "key": "stronger"
         },
         {
           "kind": "path",
           "text": "Easy or hard?",
-          "vo": "The easy road was right there. You took the hard one."
+          "vo": "The easy road was right there. You looked at it. And chose the hard one.",
+          "key": "hard"
         },
         {
           "kind": "words",
           "text": "That's the\nwhole secret.",
-          "vo": "That's it. That's the whole secret."
+          "vo": "That's it. That's the whole secret. Get up anyway.",
+          "key": "secret"
         },
         {
           "kind": "cta",
@@ -158,32 +174,37 @@
         {
           "kind": "alone",
           "text": "Can't start?",
-          "vo": "Can't make yourself start? Then don't try to finish."
+          "vo": "Can't make yourself start? Good. Then don't try to finish.",
+          "key": "start"
         },
         {
           "kind": "words",
           "text": "Just 2 minutes.",
-          "vo": "Just do two minutes. Two pushups. Two pages. Two lines."
+          "vo": "Two minutes. Two pushups. Two pages. Two lines of code.",
+          "key": "2"
         },
         {
           "kind": "stairs",
           "text": "2 → 10 → habit.",
-          "vo": "Two minutes turns into ten. Ten turns into a habit.",
+          "vo": "Two minutes becomes ten. Ten becomes a habit. And the habit does the rest.",
           "labels": [
             "2 min",
             "10 min",
             "habit"
-          ]
+          ],
+          "key": "habit"
         },
         {
           "kind": "future",
           "text": "Habits build you.",
-          "vo": "And habits quietly build the person you want to be."
+          "vo": "Quietly, those tiny habits are building the person you want to be.",
+          "key": "build"
         },
         {
           "kind": "words",
           "text": "Start small.\nStart now.",
-          "vo": "Start small. But start now."
+          "vo": "Start small. But start now.",
+          "key": "now"
         },
         {
           "kind": "cta",
@@ -198,35 +219,43 @@
       "scenes": [
         {
           "kind": "future",
-          "text": "He's watching.",
-          "vo": "Somewhere ahead, there's a version of you who made it."
+          "text": "He's ahead\nof you.",
+          "vo": "Somewhere ahead of you, there's a version of you who made it.",
+          "who": "future you",
+          "key": "ahead"
         },
         {
           "kind": "two",
           "text": "Every choice\nis a vote.",
-          "vo": "Every choice today is a vote. For him, or against him."
+          "vo": "Every choice today is a vote. For him, or against him.",
+          "left": "couch",
+          "right": "gym",
+          "key": "vote"
         },
         {
           "kind": "path",
           "text": "Choose.",
-          "vo": "The couch or the gym. The phone, or the book.",
+          "vo": "The couch, or the gym. The scroll, or the book. He's counting.",
           "easy": "couch",
-          "hard": "gym"
+          "hard": "gym",
+          "key": "Choose"
         },
         {
           "kind": "stairs",
           "text": "Keep climbing.",
-          "vo": "He isn't waiting at the top. He's built on every step.",
+          "vo": "He isn't waiting at the top. He's built on every single step.",
           "labels": [
             "today",
             "soon",
             "him"
-          ]
+          ],
+          "key": "climbing"
         },
         {
           "kind": "words",
           "text": "Make him proud.",
-          "vo": "Make him proud."
+          "vo": "So make him proud.",
+          "key": "proud"
         },
         {
           "kind": "cta",
@@ -241,24 +270,28 @@
       "scenes": [
         {
           "kind": "alone",
-          "text": "Midnight. Lamp on.",
-          "vo": "While they sleep, the lamp is still on."
+          "text": "Midnight.\nLamp on.",
+          "vo": "Midnight. Everyone's asleep. The lamp is still on.",
+          "key": "Midnight"
         },
         {
           "kind": "boulder",
-          "text": "No one sees the push.",
-          "vo": "No one sees the push. They only see the top."
+          "text": "Nobody sees\nthe push.",
+          "vo": "Nobody sees the pushing. They only see the top, and call you lucky.",
+          "key": "push"
         },
         {
           "kind": "words",
-          "text": "Work in silence.",
-          "vo": "So work in silence."
+          "text": "Work in\nsilence.",
+          "vo": "So stop announcing it. Work in silence.",
+          "key": "silence"
         },
         {
           "kind": "future",
-          "text": "Let it speak.",
-          "vo": "And let the results do the talking.",
-          "who": "results"
+          "text": "Let results\nspeak.",
+          "vo": "And let your results make all the noise.",
+          "who": "results",
+          "key": "results"
         },
         {
           "kind": "cta",
@@ -273,25 +306,28 @@
       "scenes": [
         {
           "kind": "words",
-          "text": "Motivation leaves.",
-          "vo": "Motivation shows up when it feels like it."
+          "text": "Motivation\nleaves.",
+          "vo": "Motivation shows up when it feels like it. And leaves when it doesn't.",
+          "key": "leaves"
         },
         {
           "kind": "alarm",
-          "text": "Discipline stays.",
-          "vo": "Discipline shows up at five A.M. when it doesn't."
+          "text": "Discipline\nstays.",
+          "vo": "Discipline shows up at five A.M. when nothing feels good.",
+          "key": "stays"
         },
         {
           "kind": "two",
           "text": "One waits.\nOne starts.",
-          "vo": "One waits to feel ready. One just starts.",
+          "vo": "One waits to feel ready. One just starts. Ready never comes.",
           "left": "waiting",
-          "right": "starting"
+          "right": "starting",
+          "key": "starts"
         },
         {
           "kind": "stairs",
           "text": "Day by day.",
-          "vo": "And day by day, the gap gets bigger.",
+          "vo": "And day by day, the gap between them gets huge.",
           "labels": [
             "Day 1",
             "Day 50",
@@ -301,7 +337,8 @@
         {
           "kind": "words",
           "text": "Be the one\nwho shows up.",
-          "vo": "Be the one who shows up."
+          "vo": "Be the one who shows up.",
+          "key": "shows up"
         },
         {
           "kind": "cta",

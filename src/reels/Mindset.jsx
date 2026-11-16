@@ -9,6 +9,8 @@ export const mindsetFrames = (scenes) => Math.round(scenes.reduce((t, s) => t + 
 const cl = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'};
 const ink = (d = 1, w = 7, c = INK) => ({pathLength: 1, strokeDasharray: 1, strokeDashoffset: 1 - d, fill: 'none', stroke: c, strokeWidth: w, strokeLinecap: 'round', strokeLinejoin: 'round'});
 const rad = (a) => (a * Math.PI) / 180;
+const ease = (x) => x * x * (3 - 2 * x);
+const mixPose = (a, b, k) => ({arms: a.arms.map((p, i) => p.map((v, j) => v + (b.arms[i][j] - v) * k)), legs: a.legs.map((p, i) => p.map((v, j) => v + (b.legs[i][j] - v) * k)), lean: (a.lean ?? 0) + ((b.lean ?? 0) - (a.lean ?? 0)) * k, head: (a.head ?? 0) + ((b.head ?? 0) - (a.head ?? 0)) * k});
 
 // Angles are from straight down; positive swings toward the way the figure faces.
 const POSES = {
@@ -26,20 +28,23 @@ const POSES = {
 };
 
 // A stickman. walk/run = stride cycle 0..1 (undefined = still). dir 1 faces right, -1 left.
-const Stick = ({x, y, s = 1, pose = 'stand', walk, run, dir = 1, color = INK, rot = 0, glow, d = 1}) => {
-  const P = {...POSES[pose]}, cyc = walk ?? run;
+const Stick = ({x, y, s = 1, pose = 'stand', to, k = 0, walk, run, dir = 1, color = INK, rot = 0, glow, d = 1}) => {
+  const f = useCurrentFrame(), P = to ? mixPose(POSES[pose], POSES[to], ease(Math.min(1, Math.max(0, k)))) : {...POSES[pose]}, cyc = walk ?? run;
+  const breath = cyc == null ? Math.sin(f / 13) : 0; // idle: breathing and a slow arm sway, so a held pose never freezes
+  if (cyc == null) { P.arms = P.arms.map(([a, b], i) => [a + breath * 3 * (i ? -1 : 1), b + breath * 5 * (i ? -1 : 1)]); }
   if (cyc != null) {
     const a = Math.sin(cyc * Math.PI * 2) * (run != null ? 42 : 26);
     P.legs = [[a, a - (a < 0 ? 22 : 0)], [-a, -a - (-a < 0 ? 22 : 0)]];
     if (pose === 'stand') P.arms = [[-a * 0.8, -a * 0.8 + 20], [a * 0.8, a * 0.8 + 20]];
     if (run != null) P.lean = 14;
   }
-  const lean = P.lean ?? 0, bob = cyc != null ? Math.abs(Math.cos(cyc * Math.PI * 2)) * 6 : 0;
+  const lean = P.lean ?? 0, bob = cyc != null ? Math.abs(Math.cos(cyc * Math.PI * 2)) * 6 : breath * 2;
   const hip = [0, -116 - bob], neck = [hip[0] + Math.sin(rad(lean)) * 100, hip[1] - Math.cos(rad(lean)) * 100];
   const seg = (o, [a, b], L = 52) => { const k = [o[0] + Math.sin(rad(a)) * L, o[1] + Math.cos(rad(a)) * L]; return [k, [k[0] + Math.sin(rad(b)) * L, k[1] + Math.cos(rad(b)) * L]]; };
   const limb = (o, ang, i) => { const [k, e] = seg(o, ang, i < 2 ? 46 : 56); return <path key={i} d={`M${o[0]} ${o[1]} L${k[0]} ${k[1]} L${e[0]} ${e[1]}`} {...ink(d, 9, color)} />; };
   const sh = [neck[0] + Math.sin(rad(lean)) * -8, neck[1] + 10], hd = rad(lean + (P.head ?? 0));
   return <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${dir * s} ${s})`} style={glow ? {filter: `drop-shadow(0 0 18px ${color})`} : undefined}>
+    <ellipse cx={0} cy={3} rx={46 + bob} ry={8} fill="#1d1b19" opacity={0.13 * d} />
     {P.arms.map((a, i) => limb(sh, a, i))}
     {P.legs.map((a, i) => limb(hip, a, i + 2))}
     <path d={`M${hip[0]} ${hip[1]} L${neck[0]} ${neck[1]}`} {...ink(d, 10, color)} />
@@ -61,7 +66,7 @@ function Scene({sc, t, lf}) {
         <g transform={`translate(${860 + ring} 1170)`}><circle r={62} {...ink(d)} /><Label x={0} y={18} size={44}>5:00</Label>
           {ring ? <path d="M-80 -60 L-100 -80 M80 -60 L100 -80 M0 -80 L0 -105" {...ink(1, 6)} /> : null}</g>
         <path d="M820 1240 L900 1240 L900 1320" {...ink(d, 6)} />
-        <Stick x={300 + sit * 60} y={sit ? 1150 : 1135} pose={sit ? 'sit' : 'stand'} rot={(1 - sit) * -90} d={d} />
+        <Stick x={300 + ease(sit) * 60} y={1150 - (1 - ease(sit)) * 15} pose="stand" to="sit" k={sit} rot={(1 - ease(sit)) * -90} d={d} />
       </g>;
     }
     case 'alone': {
@@ -154,22 +159,50 @@ function Scene({sc, t, lf}) {
   }
 }
 
+// Backdrop: far hills, drifting clouds, a sun (or a moon for night scenes) and floating gold dust. All behind the drawing.
+const Backdrop = ({f, night, idx}) => <g opacity={0.9}>
+  <rect width={1080} height={1920} fill="url(#vig)" />
+  <g transform={`translate(${-(f * 0.35) % 1400} 0)`} stroke={INK} strokeWidth={4} fill="none" opacity={0.16} strokeLinecap="round">
+    {[0, 1, 2].map((r) => <path key={r} transform={`translate(${r * 700} 0)`} d={`M${100 + r * 40} 520 q 40 -50 90 -10 q 40 -50 100 0 q 50 0 40 30 z M${420} ${760 - r * 30} q 30 -40 80 -8 q 40 -40 90 0 q 40 5 30 24 z`} />)}
+  </g>
+  <g transform={`translate(${860 + Math.sin(f / 70) * 10} ${480 + Math.cos(f / 90) * 8})`}>
+    {night ? <><circle r={70} fill="#f3e9c6" stroke={INK} strokeWidth={5} opacity={0.9} /><circle cx={28} cy={-14} r={62} fill={PAPER} /></>
+      : <><circle r={62} fill={GOLD} opacity={0.35} /><circle r={62} fill="none" stroke={GOLD} strokeWidth={6} />{Array.from({length: 10}, (_, i) => <path key={i} d={`M${Math.cos(i * 0.628 + f / 90) * 84} ${Math.sin(i * 0.628 + f / 90) * 84} L${Math.cos(i * 0.628 + f / 90) * 108} ${Math.sin(i * 0.628 + f / 90) * 108}`} stroke={GOLD} strokeWidth={6} strokeLinecap="round" />)}</>}
+  </g>
+  <path d={`M0 1330 Q 200 ${1260 + idx % 3 * 10} 420 1320 T 820 1310 T 1080 1300`} stroke={INK} strokeWidth={4} fill="none" opacity={0.14} />
+  {Array.from({length: 22}, (_, i) => { const sp = 0.4 + (i % 5) * 0.18, y = 1900 - ((f * sp * 2 + i * 173) % 1900), x = (i * 331) % 1080 + Math.sin(f / 30 + i) * 14;
+    return <circle key={i} cx={x} cy={y} r={3 + (i % 3)} fill={GOLD} opacity={0.35} />; })}
+</g>;
+
 export const Mindset = ({scenes = [], music = true}) => {
   const f = useCurrentFrame();
   let acc = 0, i = 0;
   for (; i < scenes.length - 1 && f >= acc + scenes[i].sec * FPS; i++) acc += scenes[i].sec * FPS;
   const sc = scenes[i] ?? {}, lf = f - acc, len = (sc.sec ?? 3) * FPS, t = lf / len;
   const big = !sc.kind || sc.kind === 'words' || sc.kind === 'cta', text = sc.text ?? sc.vo ?? '';
-  const boil = Math.floor(f / 4);
+  const boil = Math.floor(f / 4), night = ['alone', 'alarm'].includes(sc.kind) && !(sc.kind === 'alarm' && t > 0.5);
+  // camera: a slow push-in on every scene, drifting to the side the action goes, plus a shake when someone falls
+  const push = 1.12 + 0.14 * ease(Math.min(1, t)), drift = (i % 2 ? -1 : 1) * (t - 0.5) * 60;
+  const hit = sc.kind === 'fall' ? Math.max(0, 1 - Math.abs(t - 0.48) * 14) : 0, shx = Math.sin(f * 3.1) * 14 * hit, shy = Math.cos(f * 2.3) * 10 * hit;
+  // captions: words pop in one by one across the first part of the scene; the key words land on a gold chip
+  const lines = text.split('\n').map((l) => l.split(' ')), n = lines.flat().length, stagger = Math.max(2, Math.min(6, (len * 0.45) / Math.max(1, n)));
+  const keyOf = (w) => sc.key && sc.key.toLowerCase().split(' ').includes(w.toLowerCase().replace(/[^\w%]/g, ''));
+  let wi = 0;
   return <AbsoluteFill style={{background: PAPER}}>
     {music && <Audio src={staticFile('story-sound.wav')} />}
     <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
-      <defs><filter id="boil"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves={2} seed={boil % 9} /><feDisplacementMap in="SourceGraphic" scale={5} /></filter></defs>
-      <g filter="url(#boil)" opacity={interpolate(lf, [0, 5], [0, 1], cl)} transform="translate(540 1150) scale(1.18) translate(-540 -1150)"><Scene sc={sc} t={t} lf={lf} /></g>
+      <defs>
+        <filter id="boil"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves={2} seed={boil % 9} /><feDisplacementMap in="SourceGraphic" scale={5} /></filter>
+        <radialGradient id="vig" cx="50%" cy="50%" r="75%"><stop offset="60%" stopColor={PAPER} stopOpacity={0} /><stop offset="100%" stopColor="#c9bfa5" stopOpacity={0.55} /></radialGradient>
+      </defs>
+      <Backdrop f={f} night={night} idx={i} />
+      <g filter="url(#boil)" opacity={interpolate(lf, [0, 5], [0, 1], cl)} transform={`translate(${540 + shx + drift} ${1150 + shy}) scale(${push}) translate(-540 -1150)`}><Scene sc={sc} t={t} lf={lf} /></g>
+      {i > 0 && lf < 9 && <g><rect x={interpolate(lf, [0, 9], [0, 1180], cl)} y={0} width={1080} height={1920} fill={PAPER} opacity={0.0} /><rect x={interpolate(lf, [0, 9], [-40, 1100], cl)} y={0} width={36} height={1920} fill={GOLD} opacity={0.85} /></g>}
     </svg>
-    <div style={{position: 'absolute', left: 70, right: 70, top: big ? 640 : 250, textAlign: 'center', fontFamily: MARKER, color: INK,
-      fontSize: big ? 96 : 72, lineHeight: 1.15, opacity: interpolate(lf, [3, 10], [0, 1], cl), transform: `translateY(${interpolate(lf, [3, 12], [14, 0], cl)}px)`}}>
-      {text.split('\n').map((l, k) => <div key={k}><span style={{background: `linear-gradient(transparent 62%, ${GOLD}66 62%)`}}>{l}</span></div>)}
+    <div style={{position: 'absolute', left: 60, right: 60, top: big ? 600 : 230, textAlign: 'center', fontFamily: MARKER, color: INK, fontSize: big ? 104 : 80, lineHeight: 1.12}}>
+      {lines.map((ws, li) => <div key={li}>{ws.map((w, wk) => { const at = 2 + wi++ * stagger, k = interpolate(lf, [at, at + 4, at + 8], [0, 1.14, 1], cl), key = keyOf(w);
+        return <span key={wk} style={{display: 'inline-block', margin: '0 10px', opacity: k > 0 ? 1 : 0, transform: `scale(${k}) translateY(${(1 - Math.min(1, k)) * 24}px) rotate(${key ? (1 - Math.min(1, k)) * -5 : 0}deg)`,
+          background: key ? GOLD : `linear-gradient(transparent 64%, ${GOLD}66 64%)`, color: INK, padding: key ? '0 16px' : 0, borderRadius: key ? 14 : 0}}>{w}</span>; })}</div>)}
     </div>
   </AbsoluteFill>;
 };
