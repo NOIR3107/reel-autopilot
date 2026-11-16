@@ -206,6 +206,7 @@ const ITEMS = {
     {[-0.025, 0.025].map((e) => <mesh key={e} position={[0.13, 0.21, e]}><coneGeometry args={[0.02, 0.05, 4]} /><meshStandardMaterial color="#f97316" /></mesh>)}<mesh position={[-0.13, 0.13, 0]} rotation={[0, 0, 0.8]}><cylinderGeometry args={[0.012, 0.012, 0.16]} /><meshStandardMaterial color="#f97316" /></mesh></group>,
   flag: <><mesh position={[0, 0.45, 0]}><cylinderGeometry args={[0.015, 0.015, 0.9]} /><meshStandardMaterial color="#888" /></mesh><mesh position={[0.15, 0.78, 0]}><boxGeometry args={[0.3, 0.18, 0.01]} /><meshStandardMaterial color="#e5322d" /></mesh></>,
 };
+ITEMS.backpool = ITEMS.pool;
 // Barcelona-colours banner on a little roof pole (club colours only, no crest)
 ITEMS.barcelona = <group position={[0.1, 0.72, 0.02]}><mesh position={[0, 0.16, 0]}><cylinderGeometry args={[0.01, 0.01, 0.34]} /><meshStandardMaterial color="#d6d3d1" /></mesh>
   {[0, 1, 2, 3, 4].map((k) => <mesh key={k} position={[0.03 + k * 0.032, 0.25, 0]}><boxGeometry args={[0.032, 0.14, 0.008]} /><meshStandardMaterial color={k % 2 ? '#a50044' : '#004d98'} /></mesh>)}
@@ -220,8 +221,8 @@ ITEMS.waterpark = <group>
   <mesh position={[0.42, 0.1, 0.12]}><cylinderGeometry args={[0.01, 0.01, 0.18]} /><meshStandardMaterial color="#e5e7eb" /></mesh><mesh position={[0.42, 0.2, 0.12]}><sphereGeometry args={[0.06, 10, 8]} /><meshStandardMaterial color="#facc15" /></mesh>
   {[0.3, 0.5].map((x) => <mesh key={x} position={[x, 0.07, -0.14]}><torusGeometry args={[0.04, 0.015, 8, 16]} /><meshStandardMaterial color={x > 0.4 ? '#ec4899' : '#a3e635'} /></mesh>)}
 </group>;
-const ROOF_ITEMS = ['barcelona'], BACK_ITEMS = ['waterpark'];
-const itemKey = (t) => ['mexflag', 'waterpark', 'pickup', 'wallst', ...ROOF_ITEMS, ...Object.keys(ITEMS)].find((k) => String(t).toLowerCase().includes(k));
+const ROOF_ITEMS = ['barcelona'], BACK_ITEMS = ['waterpark', 'backpool'];
+const itemKey = (t) => ['backpool', 'mexflag', 'waterpark', 'pickup', 'wallst', ...ROOF_ITEMS, ...Object.keys(ITEMS)].find((k) => String(t).toLowerCase().includes(k));
 const Shop = ({name, i, t = 0}) => {
   const M = (c) => <meshStandardMaterial color={c} />, stripe = COLORS[(i + 3) % COLORS.length], taco = /taco/i.test(name), bag = /bag/i.test(name), parts = /part/i.test(name);
   return (
@@ -634,13 +635,42 @@ const BlackTower = ({build = 1, floors = 10}) => {
 
 // One person's lot: their house with their name, what they asked for, and their business.
 const YARD = [[0.5, 0.25], [-0.5, 0.25], [0.5, -0.42], [-0.5, -0.42]];
+const Ranch = ({build = 1, i, t = 0}) => { // wide one-storey house, paddock fence and a racehorse
+  const M = (c) => <meshStandardMaterial color={c} />;
+  const trot = Math.sin(t / 10) * 0.08;
+  return <group>
+    <group scale={[1.35, 1, 1]} position={[-0.25, 0, -0.1]}><House x={0} z={0} i={i + 5} build={build} /></group>
+    {build >= 0.95 && <>
+      {[[-1, 0], [1, 0]].map(([a]) => <mesh key={a} position={[0.55 + a * 0.4, 0.07, 0.35]}><boxGeometry args={[0.02, 0.14, 0.02]} />{M('#7a5230')}</mesh>)}
+      {[0.045, 0.1].map((y) => <React.Fragment key={y}><mesh position={[0.55, y + 0.02, 0.75]}><boxGeometry args={[0.85, 0.015, 0.015]} />{M('#a8794a')}</mesh><mesh position={[0.55, y + 0.02, -0.0]}><boxGeometry args={[0.85, 0.015, 0.015]} />{M('#a8794a')}</mesh></React.Fragment>)}
+      <group position={[0.55 + trot, 0.12, 0.4]} rotation={[0, 0.4, 0]} scale={0.9}>
+        <mesh position={[0, 0.08, 0]}><boxGeometry args={[0.26, 0.1, 0.09]} />{M('#7c3f1d')}</mesh>
+        <mesh position={[0.15, 0.15, 0]} rotation={[0, 0, -0.6]}><boxGeometry args={[0.1, 0.05, 0.05]} />{M('#7c3f1d')}</mesh>
+        <mesh position={[0.2, 0.17, 0]}><boxGeometry args={[0.07, 0.05, 0.05]} />{M('#5b2d12')}</mesh>
+        {[[-0.1, -0.03], [-0.1, 0.03], [0.1, -0.03], [0.1, 0.03]].map(([a, c], k) => <mesh key={k} position={[a, -0.0, c]}><boxGeometry args={[0.02, 0.1, 0.02]} />{M('#5b2d12')}</mesh>)}
+        <mesh position={[-0.15, 0.1, 0]} rotation={[0, 0, 0.5]}><boxGeometry args={[0.1, 0.02, 0.02]} />{M('#1c1917')}</mesh>
+      </group>
+    </>}
+  </group>;
+};
+const Spanish = ({build = 1, i}) => ( // cream stucco house, bell tower and terracotta roof
+  <group>
+    <House x={0} z={0} i={8} build={build} />
+    {build >= 0.95 && <group position={[-0.42, 0, -0.05]}>
+      <mesh position={[0, 0.34, 0]}><boxGeometry args={[0.18, 0.68, 0.18]} /><meshStandardMaterial color="#fde7c7" /></mesh>
+      <mesh position={[0, 0.74, 0]}><coneGeometry args={[0.15, 0.16, 4]} /><meshStandardMaterial color="#c2410c" /></mesh>
+      <mesh position={[0, 0.58, 0.095]}><boxGeometry args={[0.07, 0.12, 0.01]} /><meshStandardMaterial color="#7c2d12" /></mesh>
+    </group>}
+  </group>
+);
 const Lot = ({lot, i, x, z, rot, rise, t, sign = true}) => {
   const s = rise >= 0.95 ? 1 : 0.001; // items, sign and shop appear at the end of the timelapse
   return (
     <group position={[x, 0, z]}>
       {sign && rise > 0.97 && <Sign text={'@' + lot.user} y={({gold3: 1.95, black10: 2.55, skyscraper: 3.7, small: 1.0, techtower: 3.4, mechanic: 0.95, warehouse: 0.95, robotrepair: 1.0, funpark: 1.35}[lot.custom] ?? 1.25) * (lot.tall ?? 1)} />}
+      {sign && rise > 0.97 && lot.label && <Sign text={lot.label} bg={lot.labelBg ?? '#facc15'} y={(lot.labelY ?? 0.7)} w={lot.labelW ?? 0.8} />}
       <group rotation={[0, rot, 0]}>
-      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <group scale={[1, lot.tall ?? 1, 1]}><Skyscraper build={rise} t={t} /></group> : lot.custom === 'robotrepair' ? <RobotRepair build={rise} t={t} /> : lot.custom === 'funpark' ? <FunPark build={rise} t={t} name={lot.name} /> : lot.custom === 'mechanic' ? <Mechanic build={rise} /> : lot.custom === 'warehouse' ? <Warehouse build={rise} /> : lot.custom === 'techtower' ? <TechTower build={rise} name={lot.name} t={t} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
+      {lot.custom === 'gold3' ? <GoldTower build={rise} t={t} /> : lot.custom === 'black10' ? <BlackTower build={rise} /> : lot.custom === 'skyscraper' ? <group scale={[1, lot.tall ?? 1, 1]}><Skyscraper build={rise} t={t} /></group> : lot.custom === 'robotrepair' ? <RobotRepair build={rise} t={t} /> : lot.custom === 'funpark' ? <FunPark build={rise} t={t} name={lot.name} /> : lot.custom === 'mechanic' ? <Mechanic build={rise} /> : lot.custom === 'warehouse' ? <Warehouse build={rise} /> : lot.custom === 'techtower' ? <TechTower build={rise} name={lot.name} t={t} /> : lot.custom === 'ranch' ? <Ranch build={rise} i={i} t={t} /> : lot.custom === 'spanish' ? <Spanish build={rise} i={i} /> : lot.custom === 'small' ? <group scale={0.74}><House x={0} z={0.15} i={i + 5} build={rise} /></group> : <House x={0} z={0} i={lot.v ?? i + 5} build={rise} floors={lot.custom === 'twostory' ? 2 : 1} />}
       {lot.statue && <group position={[-0.34, 0, 0.5]} scale={[1, rise >= 0.95 ? 1 : 0.001, 1]}><Statue flag={lot.statue.flag ?? lot.statue} look={lot.statue.look} t={t} />{sign && lot.statue.plaque && <Sign text={lot.statue.plaque} y={1.05} bg="#7f1d1d" fg="#ffd23f" w={0.95} />}</group>}
       <group scale={[s, s, s]}>
         {(lot.items ?? []).slice(0, 4).map((t, k) => { const key = itemKey(t);
