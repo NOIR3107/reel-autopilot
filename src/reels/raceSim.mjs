@@ -61,10 +61,10 @@ export function simulate(n, seed, maxSec = 70) {
 }
 
 // Seeds are tried in order until a race lasts a watchable 22-40 seconds.
-export function pickRace(n, from = 1) {
-  for (let seed = from; seed < from + 500; seed++) {
+export function pickRace(n, from = 1, want = null) {
+  for (let seed = from; seed < from + 3000; seed++) {
     const s = simulate(n, seed, 42);
-    if (s.winner != null && s.end > 22 * FPS && s.end < 40 * FPS && s.breaks.every((b, k) => b.frame - (k ? s.breaks[k - 1].frame : 0) > 3 * FPS)) return {seed, ...s};
+    if (s.winner != null && (want == null || s.winner === want) && s.end > 22 * FPS && s.end < 40 * FPS && s.breaks.every((b, k) => b.frame - (k ? s.breaks[k - 1].frame : 0) > 3 * FPS)) return {seed, ...s};
   }
   throw new Error('no watchable race found');
 }

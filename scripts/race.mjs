@@ -18,12 +18,12 @@ const find = (q) => COUNTRIES.find((c) => [c.name, c.code].some((v) => v.toLower
 
 export function race(state = {}) {
   const n = (state.race ?? 0) + 1, requests = state.requests ?? [];
-  const picked = [];
+  const picked = [find('India')]; // India is in every race and wins it (Neel's call, Nov 15)
   for (const r of requests) { const c = find(r.country); if (c && !picked.includes(c) && picked.length < PER_RACE) picked.push(c); }
   for (let k = 0; picked.length < PER_RACE; k++) { const c = COUNTRIES[((n - 1) * 5 + k) % COUNTRIES.length]; if (!picked.includes(c)) picked.push(c); }
   // shuffle by race number so the requested ones don't always start in the same spots
   const order = picked.map((c, i) => [((i + 1) * 2654435761 * n) % 1000, c]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
-  const sim = pickRace(PER_RACE, (state.seed ?? 0) + 1), W = order[sim.winner];
+  const sim = pickRace(PER_RACE, (state.seed ?? 0) + 1, order.indexOf(find('India'))), W = order[sim.winner];
   const asked = requests.filter((r) => order.some((c) => c === find(r.country))).map((r) => r.user).filter(Boolean);
   return {
     script: {
@@ -31,7 +31,7 @@ export function race(state = {}) {
       caption: `Which country escapes the ring first? 🌍 Pick yours before it ends 👀\n\n`
         + `Race #${n}: ${order.map((c) => c.flag).join(' ')}${asked.length ? `\nRequested by ${asked.map((u) => '@' + u).join(', ')}.` : ''}\n\n`
         + `Comment your country and it races next.\n\nBall race, escape the ring, satisfying physics simulation, country battle, which country wins.`,
-      props: {countries: order, seed: sim.seed, frames: sim.frames, breaks: sim.breaks, bounces: sim.bounces, close: sim.close, winner: sim.winner, end: sim.end},
+      props: {countries: order, seed: sim.seed, frames: sim.frames, breaks: sim.breaks, bounces: sim.bounces, close: sim.close, winner: sim.winner, end: sim.end, bhangra: true},
     },
     next: {...state, race: n, seed: sim.seed, wins: {...state.wins, [W.name]: (state.wins?.[W.name] ?? 0) + 1},
       requests: requests.filter((r) => !order.includes(find(r.country)))},

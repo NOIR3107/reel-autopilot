@@ -41,5 +41,14 @@ m.place(sum(note(h, 2.2, 0.004) for h in (523.25, 659.25, 783.99)) / 3 * np.exp(
 for i in range(6):
     m.place(pop(500 + 120 * i, 1400 + 150 * i, 0.3), end + 0.5 + i * 0.13, 0.45, pan=(-1) ** i * 0.5)
 
+if p.get('bhangra'):  # original dhol + tumbi-style loop (not any existing song), 100 bpm, louder at the finish
+    beat = 60 / 100
+    for k in range(int(DUR / beat)):
+        at = k * beat; v = 0.55 if at * 30 > S else 0.28
+        m.place(kick(), at, v)
+        m.place(clap(), at + beat / 2 if k % 2 else at + beat * 0.75, v * 0.7)
+        m.place(hat(), at + beat / 4, v * 0.35); m.place(hat(), at + beat * 0.75, v * 0.35)
+        hz = 392.0 * 2 ** ([0, 3, 5, 7, 5, 3, 0, -2][k % 8] / 12)
+        m.place(np.sin(2 * np.pi * hz * t(0.3)) * np.exp(-t(0.3) * 9) * 0.6 + np.sin(2 * np.pi * hz * 2.0 * t(0.3)) * np.exp(-t(0.3) * 14) * 0.2, at, v * 0.8)
 m.write(sys.argv[2])
 print(f'wrote {sys.argv[2]}: {DUR:.1f}s, {len(p["bounces"])} bounces, {len(breaks)} breaks')
