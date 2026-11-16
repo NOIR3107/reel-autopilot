@@ -42,7 +42,7 @@ const houseCache = new Map();
 export const houseKit = (v, floors = 1) => {
   const ck = v + '-' + floors; if (houseCache.has(ck)) return houseCache.get(ck);
   const HH = H * floors; // wall height; windows repeat on every floor
-  const wall = WALLS[v % WALLS.length], roof = ROOFS[(v * 3) % ROOFS.length], door = DOORS[v % DOORS.length];
+  const wall = v >= 100 ? '#f472b6' : WALLS[v % WALLS.length], roof = ROOFS[(v * 3) % ROOFS.length], door = DOORS[v % DOORS.length];
   const base = merge([
     box(0.74, F, 0.62, '#9ca3af', [0, F / 2, 0]),
     ...[[-0.3, -0.27], [0.3, -0.27], [-0.3, 0.27], [0.3, 0.27]].map(([a, b]) => box(0.05, F + 0.005, 0.05, '#78716c', [a, F / 2, b])),

@@ -53,7 +53,7 @@ const ramp = (b, a, z) => Math.min(1, Math.max(0, (b - a) / (z - a)));
 // A detailed house from islandKit. `build` (0 to 1) plays the construction in stages (foundation, frame, walls, roof,
 // windows and fence) for the timelapse; without it the house just rises with `rise`.
 const House = ({x, z, i, rise = 1, build = null, rot = 0, floors = 1}) => {
-  const kit = houseKit(i % 14, floors), b = build ?? 1;
+  const kit = houseKit(i >= 100 ? i : i % 14, floors), b = build ?? 1;
   const slab = ramp(b, 0, 0.15), frame = ramp(b, 0.15, 0.4), walls = ramp(b, 0.4, 0.65), top = ramp(b, 0.65, 0.82), fin = ramp(b, 0.82, 0.95);
   return (
     <group position={[x, 0, z]} rotation={[0, rot, 0]} scale={[1, Math.max(0.001, rise), 1]}>

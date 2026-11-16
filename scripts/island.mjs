@@ -9,7 +9,7 @@ const SURPRISES = ['stadium', 'mystery']; // kept secret until the episode that 
 const NAMES = {themepark: 'mini theme park', burger: 'burger joint', icecream: 'ice cream shop', skatepark: 'skate park', lighthouse: 'lighthouse', windmill: 'windmill', factory: 'robot factory', tower: 'skyscraper', stadium: 'stadium'};
 // SEO keywords, not hashtags: Instagram search reads caption words.
 const KEYWORDS = '3D animation, robots building a city, satisfying build timelapse, city builder game, a house for every follower.';
-const PER_EPISODE = 5; // requests built per episode (each adds ~6s of timelapse)
+const PER_EPISODE = 6; // requests built per episode (each adds ~6s of timelapse)
 export const STEP = 20; // every 20 followers past launch unlock the next amenity, in BUILDS order
 const spoken = (u) => u.replace(/^@/, '').replace(/[._\d]+/g, ' ').trim() || 'someone';
 const list = (xs) => xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs.at(-1)}`;
