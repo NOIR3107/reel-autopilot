@@ -821,5 +821,19 @@
     "file": "media/2026-11-25.mp4",
     "seconds": 35.666667,
     "error": "Instagram /me: {\"message\":\"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"AEcAiNgi81LBjWGtjJtwyLT\"}"
+  },
+  {
+    "date": "2026-11-25",
+    "part": 1,
+    "slot": 3,
+    "hour": 8,
+    "status": "failed",
+    "style": "clip",
+    "topic": "pirate eye patch",
+    "hook": "What if pirate eye patches had nothing to do with missing eyes?",
+    "caption": "What if pirate eye patches had nothing to do with missing eyes? 🏴‍☠️\n\nThe idea: flip the patch to the other eye and you can see in the dark below deck. MythBusters tested it and called it plausible.\n\nFollow for a new animated what-if every day 🎬\n\n#pirates #history #didyouknow #animation #storytime #reels",
+    "file": "media/2026-11-25.mp4",
+    "seconds": 35.666667,
+    "error": "Instagram /me: {\"message\":\"Invalid OAuth access token - Cannot parse access token\",\"type\":\"OAuthException\",\"code\":190,\"fbtrace_id\":\"AMVjxOnpWYYLBi_mbRhlXn2\"}"
   }
 ]
