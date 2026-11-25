@@ -1,1 +1,35 @@
-{"next": 0, "clips": []}
+{
+  "next": 0,
+  "clips": [
+    {
+      "file": "clips/unneel-missed-calls.mp4",
+      "topic": "missed-calls",
+      "hook": "Every missed call is a customer you already paid for.",
+      "caption": "Every missed call is a customer you already paid for.\n\nAn AI agent picks up in seconds, day or night, books the job and sends you the details.\n\nWant to see what it would look like for your business? Message us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#aiautomation #aiagents #smallbusiness #businessautomation #contractors #workflowautomation"
+    },
+    {
+      "file": "clips/unneel-copy-paste.mp4",
+      "topic": "copy-paste",
+      "hook": "You're copying data between apps by hand.",
+      "caption": "If you retype the same lead into three different apps, that's a process problem, not a people problem.\n\nAutomation does it once, instantly, and gives you the hours back.\n\nMessage us \"AUDIT\" and we'll map where your hours go. Free.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#automation #businessautomation #aiautomation #productivity #smallbusiness #workflow"
+    },
+    {
+      "file": "clips/unneel-ai-fails.mp4",
+      "topic": "ai-fails",
+      "hook": "Most AI projects fail for one reason.",
+      "caption": "Most AI projects fail for one reason: they automate a broken process.\n\nFaster chaos is still chaos. We understand the problem first, rethink the process, then build the solution.\n\nMessage us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#aiconsulting #aiautomation #businessstrategy #smallbusiness #aiagents #automation"
+    },
+    {
+      "file": "clips/unneel-fast-quotes.mp4",
+      "topic": "fast-quotes",
+      "hook": "Whoever replies first usually gets the job.",
+      "caption": "Whoever replies first usually gets the job.\n\nAn AI assistant can draft the quote in minutes. You review it, send it, and move on.\n\nMessage us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#quotes #contractors #smallbusiness #aiautomation #businessgrowth #automation"
+    },
+    {
+      "file": "clips/unneel-ai-employee.mp4",
+      "topic": "ai-employee",
+      "hook": "What does an AI employee actually do all day?",
+      "caption": "What does an AI employee actually do all day?\n\nAnswers every lead. Follows up so nobody slips. Books appointments. Updates your records. Never calls in sick.\n\nMessage us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#aiemployee #aiagents #aiautomation #smallbusiness #businessautomation #futureofwork"
+    }
+  ]
+}

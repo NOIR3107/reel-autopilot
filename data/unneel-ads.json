@@ -1,0 +1,48 @@
+[
+  {"id": "missed-calls", "hook": "Every missed call is a customer you already paid for.", "caption": "Every missed call is a customer you already paid for.\n\nAn AI agent picks up in seconds, day or night, books the job and sends you the details.\n\nWant to see what it would look like for your business? Message us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#aiautomation #aiagents #smallbusiness #businessautomation #contractors #workflowautomation",
+   "cards": [
+    {"vo": "Every missed call is a customer you already paid for.", "text": "Every *missed call* is a customer you already *paid for.*", "bg": "navy"},
+    {"vo": "They won't leave a voicemail.", "text": "They won't leave a *voicemail.*", "bg": "cream"},
+    {"vo": "They call the next company on the list.", "text": "They call the *next company.*", "bg": "slate"},
+    {"vo": "An AI agent answers in seconds. Day, night, weekends.", "text": "An *AI agent* answers in seconds.", "bg": "navy"},
+    {"vo": "It books the job and sends you the details.", "text": "It *books the job.* You get the details.", "bg": "cream"},
+    {"vo": "No extra hire. No missed jobs.", "text": "No extra hire.\nNo *missed jobs.*", "bg": "orange"},
+    {"vo": "Want this for your business? Message us AUDIT for a free workflow audit.", "text": "Free workflow audit.\nDM us *AUDIT.*", "bg": "navy", "cta": true}
+  ]},
+  {"id": "copy-paste", "hook": "You're copying data between apps by hand.", "caption": "If you retype the same lead into three different apps, that's a process problem, not a people problem.\n\nAutomation does it once, instantly, and gives you the hours back.\n\nMessage us \"AUDIT\" and we'll map where your hours go. Free.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#automation #businessautomation #aiautomation #productivity #smallbusiness #workflow",
+   "cards": [
+    {"vo": "You're copying data between apps by hand.", "text": "You're *copying data* between apps by hand.", "bg": "navy"},
+    {"vo": "A lead comes in. You retype it.", "text": "A lead comes in.\nYou *retype it.*", "bg": "cream"},
+    {"vo": "Then you retype it again for the invoice.", "text": "Then *again.*\nFor the invoice.", "bg": "slate"},
+    {"vo": "Automation does it once. Instantly.", "text": "Automation does it *once.*", "bg": "navy"},
+    {"vo": "Hours back, every single week.", "text": "*Hours back.*\nEvery week.", "bg": "orange"},
+    {"vo": "Want to see where your hours go? Message us AUDIT for a free workflow audit.", "text": "Free workflow audit.\nDM us *AUDIT.*", "bg": "navy", "cta": true}
+  ]},
+  {"id": "ai-fails", "hook": "Most AI projects fail for one reason.", "caption": "Most AI projects fail for one reason: they automate a broken process.\n\nFaster chaos is still chaos. We understand the problem first, rethink the process, then build the solution.\n\nMessage us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#aiconsulting #aiautomation #businessstrategy #smallbusiness #aiagents #automation",
+   "cards": [
+    {"vo": "Most AI projects fail for one reason.", "text": "Most AI projects fail for *one reason.*", "bg": "navy"},
+    {"vo": "They automate a broken process.", "text": "They automate a *broken process.*", "bg": "cream"},
+    {"vo": "Faster chaos is still chaos.", "text": "Faster chaos is *still chaos.*", "bg": "slate"},
+    {"vo": "Understand the problem. Rethink the process. Build the solution.", "text": "Understand.\nRethink.\n*Build.*", "bg": "navy"},
+    {"vo": "That's the order we work in.", "text": "That's the *order.*", "bg": "orange"},
+    {"vo": "Want a second opinion on your process? Message us AUDIT for a free workflow audit.", "text": "Free workflow audit.\nDM us *AUDIT.*", "bg": "navy", "cta": true}
+  ]},
+  {"id": "fast-quotes", "hook": "Whoever replies first usually gets the job.", "caption": "Whoever replies first usually gets the job.\n\nAn AI assistant can draft the quote in minutes. You review it, send it, and move on.\n\nMessage us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#quotes #contractors #smallbusiness #aiautomation #businessgrowth #automation",
+   "cards": [
+    {"vo": "Whoever replies first usually gets the job.", "text": "Whoever replies *first* usually gets the job.", "bg": "navy"},
+    {"vo": "A quote that takes two days? The customer already hired someone.", "text": "A quote in *two days?*\nThey already hired someone.", "bg": "cream"},
+    {"vo": "An AI assistant drafts it in minutes.", "text": "An AI assistant drafts it in *minutes.*", "bg": "slate"},
+    {"vo": "You review it. You send it. Done.", "text": "You review.\nYou send.\n*Done.*", "bg": "orange"},
+    {"vo": "Want faster quotes? Message us AUDIT for a free workflow audit.", "text": "Free workflow audit.\nDM us *AUDIT.*", "bg": "navy", "cta": true}
+  ]},
+  {"id": "ai-employee", "hook": "What does an AI employee actually do all day?", "caption": "What does an AI employee actually do all day?\n\nAnswers every lead. Follows up so nobody slips. Books appointments. Updates your records. Never calls in sick.\n\nMessage us \"AUDIT\" for a free workflow audit.\n\nUnneel Works: AI automation and agents for US and UK businesses.\n\n#aiemployee #aiagents #aiautomation #smallbusiness #businessautomation #futureofwork",
+   "cards": [
+    {"vo": "What does an AI employee actually do all day?", "text": "What does an *AI employee* actually do all day?", "bg": "navy"},
+    {"vo": "Answers every lead.", "text": "Answers *every lead.*", "bg": "cream"},
+    {"vo": "Follows up so nobody slips through.", "text": "*Follows up.*\nNobody slips.", "bg": "slate"},
+    {"vo": "Books the appointments.", "text": "Books the *appointments.*", "bg": "navy"},
+    {"vo": "Keeps your records up to date.", "text": "Updates your *records.*", "bg": "cream"},
+    {"vo": "And never calls in sick.", "text": "Never calls *in sick.*", "bg": "orange"},
+    {"vo": "Want to meet yours? Message us AUDIT for a free workflow audit.", "text": "Free workflow audit.\nDM us *AUDIT.*", "bg": "navy", "cta": true}
+  ]}
+]

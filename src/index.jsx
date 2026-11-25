@@ -12,6 +12,7 @@ import {Island, islandFrames} from './reels/Island.jsx';
 import {Race, raceFrames} from './reels/Race.jsx';
 import {Mindset, mindsetFrames} from './reels/Mindset.jsx';
 import {Blueprint, blueprintFrames} from './reels/Blueprint.jsx';
+import {Unneel, unneelFrames} from './reels/Unneel.jsx';
 
 // One composition per style. The daily robot renders the one named in today's script, with the script's props.
 const FPS = 30;
@@ -36,6 +37,8 @@ registerRoot(() => (
       calculateMetadata={({props}) => ({durationInFrames: islandFrames(props.scenes)})} />
     <Composition id="race" component={Race} {...size} durationInFrames={1} defaultProps={{end: 60, music: false}}
       calculateMetadata={({props}) => ({durationInFrames: raceFrames(props)})} />
+    <Composition id="unneel" component={Unneel} {...size} durationInFrames={1} defaultProps={{cards: [], sec: 2}}
+      calculateMetadata={({props}) => ({durationInFrames: unneelFrames(props)})} />
     <Composition id="mindset" component={Mindset} {...size} durationInFrames={1} defaultProps={{scenes: [{sec: 2, vo: 'hi'}], music: false}}
       calculateMetadata={({props}) => ({durationInFrames: mindsetFrames(props.scenes)})} />
     <Composition id="blueprint" component={Blueprint} {...size} durationInFrames={1} defaultProps={{scenes: [{sec: 2, vo: 'hi'}], music: false}}
