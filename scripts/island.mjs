@@ -73,7 +73,7 @@ export function episode(state, followers) {
   S.push({vo: stadium || building === 'stadium' ? 'Follow, then comment what you want on your lot, or comment race to race in the stadium.' : 'Follow, then comment what you want on your lot, and the business you want to own.', key: stadium || building === 'stadium' ? 'race' : 'business', shot: 'wide', part: 'outro', cta: true});
 
   const done = fresh.map((r) => `@${r.user.replace(/^@/, '')}`);
-  const caption = `Comment what you want on your lot 🏡 and the business you want to own 🏪\n\nDay ${day} of Neelville. Every person who follows me gets a house on this island, built by tiny robots. `
+  const caption = `Comment what you want on your lot 🏡 and the business you want to own 🏪\n\nDay ${day} of ${state.look === "night" && pop < (state.nightUntil ?? 200) ? "Neelville Nights" : "Neelville"}. Every person who follows me gets a house on this island, built by tiny robots. `
     + `${done.length ? `Built today: ${list(done)}'s requests.` : added ? `${added} moved in since yesterday.` : 'Nobody new moved in yesterday.'} Population: ${pop}.${nextAmenity ? (nextAmenity.startsWith('a surprise') ? ` At ${nextAt} followers something big lands on the island 🎁` : ` At ${nextAt} followers the island gets ${withA(nextAmenity)}.`) : ''}\n\n`
     + `Follow, comment your wish, and the robots build it.${stadium || building === 'stadium' ? ' Comment RACE to race in the stadium 🏁' : ''}\n\n${state.note ? state.note + '\n\n' : ''}${state.keywords ?? KEYWORDS}`;
   return {

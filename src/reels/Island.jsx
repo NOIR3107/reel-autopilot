@@ -798,7 +798,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
       </ThreeCanvas>
       <div style={{position: 'absolute', left: 50, top: 190, fontFamily: FONT, fontWeight: 800}}>
         <div style={{display: 'inline-block', background: '#ffd23f', color: '#151515', fontSize: 52, padding: '4px 22px', borderRadius: 10}}>DAY {day}</div>
-        <div style={{marginTop: 14, background: 'rgba(21,21,21,.85)', color: '#fff', fontSize: 64, padding: '8px 30px', borderRadius: 60, display: 'inline-block', clear: 'both'}}>🏝 Neelville · {popNow}</div>
+        <div style={{marginTop: 14, background: 'rgba(21,21,21,.85)', color: '#fff', fontSize: 64, padding: '8px 30px', borderRadius: 60, display: 'inline-block', clear: 'both'}}>{night ? "🌃 Neelville Nights" : "🏝 Neelville"} · {popNow}</div>
         {dusk && <div style={{marginTop: 12, color: '#151515', background: '#ffd23f', fontSize: 38, padding: '6px 22px', borderRadius: 12, display: 'table'}}>PREVIEW · {sc.preview} residents</div>}
         {nextAt && !dusk && <div style={{marginTop: 12, color: '#151515', background: 'rgba(255,255,255,.88)', fontSize: 36, padding: '6px 22px', borderRadius: 30, display: 'table'}}>Next: {nextAmenity} at {nextAt}</div>}
       </div>
