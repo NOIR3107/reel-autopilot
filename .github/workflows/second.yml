@@ -1,0 +1,20 @@
+name: Second account
+# Posts one clip a day to the second Instagram account (secret IG_TOKEN_B). Run with "check" to only confirm the key works.
+on:
+  workflow_dispatch:
+    inputs: {mode: {description: 'check or post', default: 'check'}}
+  schedule:
+    - cron: '30 11 * * *' # 5:00 PM IST
+permissions: {contents: write}
+concurrency: {group: second, cancel-in-progress: false}
+jobs:
+  second:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm}
+      - run: npm ci
+      - run: git config user.name "reel-bot" && git config user.email "reel-bot@users.noreply.github.com"
+      - run: node scripts/second.mjs ${{ github.event.inputs.mode || 'post' }}
+        env: {IG_TOKEN: '${{ secrets.IG_TOKEN_B }}'}
