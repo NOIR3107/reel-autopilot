@@ -24,12 +24,15 @@ const extra = [3, 4, 5].filter((n) => fs.existsSync(fileFor(n)));
 // Part 1 (morning) is a queued script if there is one, otherwise a reel written by code (the ring race);
 // part 2 (evening) is the Neelville episode.
 // Mornings alternate by date: the country ring race one day, a mindset reel the next (race when those run out).
-const MORNING = {race: 'data/race.json', mindset: 'data/mindset.json'}, WRITERS = {race, mindset};
+// Ready-made animation clips (stick-figure, low-poly, 3D cartoon) go first; data/clips.json holds them and `next` counts the ones used.
+const clips = (st) => { const c = st.clips?.[st.next ?? 0]; return c && {script: {style: 'clip', topic: c.topic, hook: c.hook, caption: c.caption, file: c.file}, next: {...st, next: (st.next ?? 0) + 1}}; };
+const MORNING = {clip: 'data/clips.json', race: 'data/race.json', mindset: 'data/mindset.json'}, WRITERS = {clip: clips, race, mindset};
 const odd = Math.round(Date.parse(day) / 864e5) % 2 === 0; // Nov 10 2026 (first day) is a race day
-const morningStyle = (odd && fs.existsSync(`${ROOT}${MORNING.mindset}`) && mindset(read(MORNING.mindset, {})) ? 'mindset' : fs.existsSync(`${ROOT}${MORNING.race}`) ? 'race' : null);
+const morningStyle = (clips(read(MORNING.clip, {})) ? 'clip' : odd && fs.existsSync(`${ROOT}${MORNING.mindset}`) && mindset(read(MORNING.mindset, {})) ? 'mindset' : fs.existsSync(`${ROOT}${MORNING.race}`) ? 'race' : null);
 const parts = [...(fs.existsSync(fileFor(1)) || morningStyle ? [1] : []), 2, ...extra];
 const s0 = slotFor(now.date, state);
-const slots = extra.length ? [9, 12, 15, 18, 21] : [10, Math.min(s0 + 5, 21)];
+// India first: 3 ET = 1:30 PM IST and 10 ET = 8:30 PM IST (Nov 25 2026: the strongest hours for Indian reach)
+const slots = extra.length ? [9, 12, 15, 18, 21] : [3, 10];
 const part = DRY ? 1 : process.env.PART ? Number(process.env.PART) : parts.find((n) => !doneWith(n)) ?? 0; // PART: post that one now (manual)
 const slot = slots[Math.min(part || 1, slots.length) - 1]; // slot follows the part number, so the island keeps its evening time
 const queueFile = fileFor(part || 1);
@@ -44,6 +47,10 @@ if (stop) {
   console.log(stop);
   process.exit(0);
 }
+
+// Hashtags (on since Nov 25 2026): a few that fit the reel, added unless the caption already has some.
+const TAGS = {island: '#neelville #3danimation #satisfying #citybuilder #reels', race: '#escapethering #countries #marblerace #satisfying #reels', mindset: '#motivation #mindset #discipline #selfimprovement #reels'};
+const withTags = (sc) => (/#\w/.test(sc.caption) || !TAGS[sc.style] ? sc.caption : `${sc.caption}\n\n${TAGS[sc.style]}`);
 
 async function publish(file, fields) {
   const {user_id} = await ig('/me', {params: {fields: 'user_id'}});
@@ -91,11 +98,11 @@ if (!script) {
   process.exit(0);
 }
 try {
-  const problems = ['island', 'race', 'mindset'].includes(script.style) ? [] : validate(script); // island episodes are written by code, not by hand
+  const problems = ['island', 'race', 'mindset', 'clip'].includes(script.style) ? [] : validate(script); // island episodes are written by code, not by hand
   if (problems.length) throw new Error(`today's script fails the checks:\n- ${problems.join('\n- ')}`);
   Object.assign(entry, {style: script.style, trade: script.trade, topic: script.topic, hook: script.hook, formula: script.hook_formula, caption: script.caption});
 
-  soundtrack(script);
+  if (script.style !== 'clip') soundtrack(script);
   const tmp = fs.mkdtempSync('/tmp/reel-');
   // Rotate the explainer look and colours so back-to-back reels never look the same (2 full-screen, 1 classic).
   const n = posts.filter((p) => p.status === 'posted').length;
@@ -113,7 +120,8 @@ try {
   const browser = process.env.BROWSER ? [`--browser-executable=${process.env.BROWSER}`] : [];
   // 'angle' draws 2D cards cleanly; 'swangle' (software 3D) garbles some 2D transforms but is the safe bet for the island.
   const render = (gl) => sh('npx', ['remotion', 'render', 'src/index.jsx', script.style, `${tmp}/raw.mp4`, `--props=${tmp}/props.json`, `--gl=${gl}`, ...browser], {stdio: 'inherit'});
-  try { render(script.style === 'island' ? 'swangle' : 'angle'); } catch { console.log('render failed, retrying with software 3D'); render('swangle'); }
+  if (script.style === 'clip') fs.copyFileSync(`${ROOT}${script.file}`, `${tmp}/raw.mp4`); // already rendered
+  else try { render(script.style === 'island' ? 'swangle' : 'angle'); } catch { console.log('render failed, retrying with software 3D'); render('swangle'); }
   entry.file = `media/${now.date}${part > 1 ? '-' + part : ''}.mp4`;
   // The ad is designed at 36s and played 1.2x to land on 30s. Then re-encode to Instagram's spec:
   // standard-range 4:2:0 H.264, AAC 48 kHz, index at the front.
@@ -125,7 +133,7 @@ try {
   if (DRY) entry.status = 'dry-run';
   else {
     gitCommit(`reel ${now.date} #${part}`, [entry.file]);
-    entry.media_id = await publish(entry.file, {media_type: 'REELS', caption: script.caption, share_to_feed: 'true', thumb_offset: '500'});
+    entry.media_id = await publish(entry.file, {media_type: 'REELS', caption: withTags(script), share_to_feed: 'true', thumb_offset: '500'});
     entry.permalink = (await ig(`/${entry.media_id}`, {params: {fields: 'permalink'}})).permalink;
     entry.status = 'posted';
     if (script.next) write(script.style === 'island' ? 'data/island.json' : MORNING[script.style], script.next);
