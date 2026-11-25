@@ -28,9 +28,10 @@ const DOORS = ['#7c2d12', '#991b1b', '#1e3a8a', '#14532d', '#3f3f46'];
 export const W = 0.66, D = 0.54, H = 0.42, F = 0.06, RH = 0.24;
 
 // One window on the front face (z = dist): frame, glass, cross bars, sill, shutters, flower box. Then turned to its face.
+export const GLOW = {on: false}; // night city: windows glow warm (over-bright vertex colour)
 const windowParts = (x, y, dist, v, phi) => {
   const R = new THREE.Matrix4().makeRotationY(phi), z = dist + 0.006, sh = SHUT[v % SHUT.length];
-  return [box(0.14, 0.13, 0.012, '#fafaf9', [x, y, z], 0, R), box(0.112, 0.102, 0.016, '#bfe3f5', [x, y, z + 0.002], 0, R),
+  return [box(0.14, 0.13, 0.012, '#fafaf9', [x, y, z], 0, R), box(0.112, 0.102, 0.016, GLOW.on ? new THREE.Color('#ffcf66').multiplyScalar(2.4) : '#bfe3f5', [x, y, z + 0.002], 0, R),
     box(0.008, 0.102, 0.02, '#fafaf9', [x, y, z + 0.003], 0, R), box(0.112, 0.008, 0.02, '#fafaf9', [x, y, z + 0.003], 0, R),
     box(0.17, 0.016, 0.035, '#e7e5e4', [x, y - 0.072, z + 0.012], 0, R),
     box(0.04, 0.13, 0.01, sh, [x - 0.095, y, z], 0, R), box(0.04, 0.13, 0.01, sh, [x + 0.095, y, z], 0, R),
@@ -40,7 +41,7 @@ const windowParts = (x, y, dist, v, phi) => {
 
 const houseCache = new Map();
 export const houseKit = (v, floors = 1) => {
-  const ck = v + '-' + floors; if (houseCache.has(ck)) return houseCache.get(ck);
+  const ck = v + '-' + floors + (GLOW.on ? 'n' : ''); if (houseCache.has(ck)) return houseCache.get(ck);
   const HH = H * floors; // wall height; windows repeat on every floor
   const wall = v >= 100 ? '#f472b6' : WALLS[v % WALLS.length], roof = ROOFS[(v * 3) % ROOFS.length], door = DOORS[v % DOORS.length];
   const base = merge([

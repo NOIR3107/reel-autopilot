@@ -78,7 +78,7 @@ export function episode(state, followers) {
     + `Follow, comment your wish, and the robots build it.${stadium || building === 'stadium' ? ' Comment RACE to race in the stadium 🏁' : ''}\n\n${state.note ? state.note + '\n\n' : ''}${state.keywords ?? KEYWORDS}`;
   return {
     script: {style: 'island', topic: `neelville day ${day}`, hook: S[0].vo, caption,
-      props: {music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: all, building, gift, parks: parks.map((r) => ({type: 'funpark', owner: r.user, name: r.name})), residents, race, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
+      props: {night: state.look === 'night' && pop < (state.nightUntil ?? 200), music: 'lofi', narrator: 'am_adam', day, population: pop, oldHouses: Math.min(old, pop), specials: all, building, gift, parks: parks.map((r) => ({type: 'funpark', owner: r.user, name: r.name})), residents, race, lots, nextAt: nextAmenity && nextAt, nextAmenity, scenes: S}},
     next: {...state, racers: (state.racers ?? []).filter((u) => !racers.includes(u)), races: [...(state.races ?? []), ...(race ? [{day, racers, winner}] : [])], note: undefined, keywords: undefined, day, houses: pop, base, specials: [...all, ...(building ? [{type: building, day}] : []), ...parks.map((r) => ({type: 'funpark', owner: r.user, name: r.name, day}))], namesShown: state.namesShown ?? (residents.length ? day : undefined),
       requests: requests.map((r) => (fresh.includes(r) || parks.includes(r) ? {...r, built: day} : upgrades.includes(r) ? {...r, ...r.upgrade, upgrade: {...r.upgrade, built: day}} : r))},
   };

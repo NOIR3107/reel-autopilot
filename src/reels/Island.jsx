@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import {marbleRace, RACE_FRAMES, TRACK} from './marbleSim.mjs';
 import {AbsoluteFill, Audio, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import '@fontsource-variable/bricolage-grotesque/opsz.css';
-import {houseKit, streetKit, shoreKit, plazaKit, treeKit, trackKit} from './islandKit.js';
+import {houseKit, GLOW, streetKit, shoreKit, plazaKit, treeKit, trackKit} from './islandKit.js';
 
 const KitMesh = ({g, ...p}) => <mesh geometry={g} {...p}><meshStandardMaterial vertexColors roughness={0.85} /></mesh>;
 
@@ -697,7 +697,8 @@ const Cam = ({shot, local, len, R, focus, far = 1}) => {
   return null;
 };
 
-export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, gift = false, parks = [], residents = [], vote = null, race = null, lots = [], nextAt = null, nextAmenity = null, music = true}) => {
+export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials = [], building = null, gift = false, parks = [], residents = [], vote = null, race = null, lots = [], nextAt = null, nextAmenity = null, music = true, night = false}) => {
+  GLOW.on = night;
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   let acc = 0;
@@ -757,7 +758,7 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
     return <KitMesh key={k} g={treeKit(k % 2)} position={[Math.cos(a) * r, 0, Math.sin(a) * r]} scale={0.75 + rand(k) * 0.6} rotation={[0, rand(k + 1) * 6, 0]} />; });
   // Streets: asphalt, lane lines, curbs, sidewalks, crosswalks, benches, lamps (glowing heads) and street signs
   const sk = streetKit(CELLS, isRoad, P, town, Math.round(town * 10));
-  const roads = <group><KitMesh g={sk.g} />{sk.heads && <mesh geometry={sk.heads}><meshStandardMaterial vertexColors emissive="#facc15" emissiveIntensity={dusk ? 2 : 0.6} /></mesh>}</group>;
+  const roads = <group><KitMesh g={sk.g} />{sk.heads && <mesh geometry={sk.heads}><meshStandardMaterial vertexColors emissive="#facc15" emissiveIntensity={dusk || night ? 2.5 : 0.6} /></mesh>}</group>;
   // Town square: paved, with the town sign
   const plaza = <group><KitMesh g={plazaKit(P)} /><Sign text="NEELVILLE" y={1.15} bg="#1f2a44" fg="#ffd23f" w={1.6} /></group>;
   // Empty plots for the next followers: roped-off squares, the nearest one with a sign
@@ -784,13 +785,13 @@ export const Island = ({scenes, day = 1, population = 0, oldHouses = 0, specials
   const keyOf = (w) => sc.key && w.replace(/[^\w']/g, '').toLowerCase() === String(sc.key).toLowerCase();
   const pop = spring({frame: local, fps, config: {damping: 12}});
   return (
-    <AbsoluteFill style={{background: dusk ? 'linear-gradient(#1e1b4b, #f59e0b)' : 'linear-gradient(#8fd3ff, #d8f0ff)'}}>
+    <AbsoluteFill style={{background: night ? 'radial-gradient(1.5px 1.5px at 12% 8%,#fff,transparent),radial-gradient(1.5px 1.5px at 78% 14%,#fff,transparent),radial-gradient(2px 2px at 40% 5%,#fff,transparent),radial-gradient(1.5px 1.5px at 90% 30%,#fff,transparent),radial-gradient(1.5px 1.5px at 25% 22%,#fff,transparent),linear-gradient(#050816, #1b2a5c)' : dusk ? 'linear-gradient(#1e1b4b, #f59e0b)' : 'linear-gradient(#8fd3ff, #d8f0ff)'}}>
       {music && <Audio src={staticFile('story-sound.wav')} />}
       <ThreeCanvas width={1080} height={1920} camera={{fov: 45, position: [10, 10, 10]}}>
-        <ambientLight intensity={dusk ? 0.65 : 1.1} color={dusk ? '#c7b8ff' : '#ffffff'} />
-        <directionalLight position={building_lot ? [Math.cos(local / 12) * 12, 10, Math.sin(local / 12) * 12] : [8, 14, 6]} intensity={dusk ? 0.9 : 2.4} color={dusk ? '#ffb070' : '#ffffff'} />
+        <ambientLight intensity={night ? 0.55 : dusk ? 0.65 : 1.1} color={night ? '#8fa8ff' : dusk ? '#c7b8ff' : '#ffffff'} />
+        <directionalLight position={building_lot ? [Math.cos(local / 12) * 12, 10, Math.sin(local / 12) * 12] : [8, 14, 6]} intensity={night ? 0.9 : dusk ? 0.9 : 2.4} color={night ? '#a9c0ff' : dusk ? '#ffb070' : '#ffffff'} />
         <Cam shot={sc.shot ?? 'wide'} local={local} len={sc.len} R={R} focus={focus} far={sc.far ?? 1} />
-        <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color="#2f8fd8" /></mesh>
+        <mesh position={[0, -0.3, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[R * 6, 64]} /><meshStandardMaterial color={night ? "#0b2250" : "#2f8fd8"} /></mesh>
         <mesh position={[0, -0.16, 0]}><cylinderGeometry args={[R + 0.5, R + 0.9, 0.3, 64]} /><meshStandardMaterial color="#f2d79b" /></mesh>
         <mesh position={[0, -0.02, 0]}><cylinderGeometry args={[R, R + 0.3, 0.06, 64]} /><meshStandardMaterial color="#6cc24a" /></mesh>
         {plaza}{roads}{trees}{houses}{spec}{owned}{empties}{robots}{marbles}<KitMesh g={shoreKit(R)} />

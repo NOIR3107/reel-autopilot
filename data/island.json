@@ -10,7 +10,7 @@
     {
       "type": "funpark",
       "owner": "tanishq.saxena02",
-      "name": "TANISHQ LAND 🎢",
+      "name": "TANISHQ LAND \ud83c\udfa2",
       "day": 9
     }
   ],
@@ -163,7 +163,7 @@
     {
       "user": "tanishq.saxena02",
       "items": [],
-      "name": "TANISHQ LAND 🎢",
+      "name": "TANISHQ LAND \ud83c\udfa2",
       "say": "his very own amusement park. One time exception",
       "park": true,
       "built": 9
@@ -249,5 +249,7 @@
   ],
   "racers": [],
   "races": [],
-  "namesShown": 9
+  "namesShown": 9,
+  "look": "night",
+  "nightUntil": 200
 }
