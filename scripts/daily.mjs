@@ -29,7 +29,8 @@ const clips = (st) => { const c = st.clips?.[st.next ?? 0]; return c && {script:
 const MORNING = {clip: 'data/clips.json', race: 'data/race.json', mindset: 'data/mindset.json'}, WRITERS = {clip: clips, race, mindset};
 const odd = Math.round(Date.parse(day) / 864e5) % 2 === 0; // Nov 10 2026 (first day) is a race day
 const morningStyle = (clips(read(MORNING.clip, {})) ? 'clip' : odd && fs.existsSync(`${ROOT}${MORNING.mindset}`) && mindset(read(MORNING.mindset, {})) ? 'mindset' : fs.existsSync(`${ROOT}${MORNING.race}`) ? 'race' : null);
-const parts = [...(fs.existsSync(fileFor(1)) || morningStyle ? [1] : []), 2, ...extra];
+// Neelville (the island) no longer posts by itself (Nov 25 2026): only on request (PART=2 / trigger/post-now with part=2), or when queue/DATE-2.json exists.
+const parts = [...(fs.existsSync(fileFor(1)) || morningStyle ? [1] : []), ...(fs.existsSync(fileFor(2)) ? [2] : []), ...extra];
 const s0 = slotFor(now.date, state);
 // India first: 3 ET = 1:30 PM IST and 10 ET = 8:30 PM IST (Nov 25 2026: the strongest hours for Indian reach)
 const slots = extra.length ? [9, 12, 15, 18, 21] : [3, 10];
