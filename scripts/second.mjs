@@ -1,4 +1,4 @@
-// Second Instagram account (token IG_TOKEN_B, passed in as IG_TOKEN). Posts the next clip in data/clips-b.json, at most one per day.
+// Second Instagram account (token IG_TOKEN_2, passed in as IG_TOKEN). Posts the next clip in data/clips-b.json, at most one per day.
 // Usage: node scripts/second.mjs check   (prints the account name, posts nothing)
 import {ig, read, write, sh, gitCommit, eastern} from './lib.mjs';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
