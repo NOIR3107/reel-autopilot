@@ -207,3 +207,4 @@ export const trackKit = (pts) => {
   const out = {g: merge(parts), curve};
   houseCache.set(key, out); return out;
 };
+export {part, merge, box, cyl, ball, cone};
