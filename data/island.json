@@ -1,6 +1,6 @@
 {
-  "day": 13,
-  "houses": 72,
+  "day": 14,
+  "houses": 67,
   "base": 20,
   "specials": [
     {
@@ -10,7 +10,7 @@
     {
       "type": "funpark",
       "owner": "tanishq.saxena02",
-      "name": "TANISHQ LAND \ud83c\udfa2",
+      "name": "TANISHQ LAND 🎢",
       "day": 9
     }
   ],
@@ -163,7 +163,7 @@
     {
       "user": "tanishq.saxena02",
       "items": [],
-      "name": "TANISHQ LAND \ud83c\udfa2",
+      "name": "TANISHQ LAND 🎢",
       "say": "his very own amusement park. One time exception",
       "park": true,
       "built": 9
