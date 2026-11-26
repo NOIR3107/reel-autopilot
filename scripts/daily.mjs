@@ -30,7 +30,9 @@ const MORNING = {clip: 'data/clips.json', race: 'data/race.json', mindset: 'data
 const odd = Math.round(Date.parse(day) / 864e5) % 2 === 0; // Nov 10 2026 (first day) is a race day
 const morningStyle = (clips(read(MORNING.clip, {})) ? 'clip' : odd && fs.existsSync(`${ROOT}${MORNING.mindset}`) && mindset(read(MORNING.mindset, {})) ? 'mindset' : fs.existsSync(`${ROOT}${MORNING.race}`) ? 'race' : null);
 // Neelville (the island) no longer posts by itself (Nov 25 2026): only on request (PART=2 / trigger/post-now with part=2), or when queue/DATE-2.json exists.
-const parts = [...(fs.existsSync(fileFor(1)) || morningStyle ? [1] : []), ...(fs.existsSync(fileFor(2)) ? [2] : []), ...extra];
+// Two clips a day (Nov 26 2026): while the pool has clips left, part 2 (8:30 PM IST) is the next clip too, unless Neelville was asked for by hand (PART=2).
+const clipLeft = !!clips(read(MORNING.clip, {}));
+const parts = [...(fs.existsSync(fileFor(1)) || morningStyle ? [1] : []), ...(fs.existsSync(fileFor(2)) || clipLeft ? [2] : []), ...extra];
 const s0 = slotFor(now.date, state);
 // India first: 3 ET = 1:30 PM IST and 10 ET = 8:30 PM IST (Nov 25 2026: the strongest hours for Indian reach)
 const slots = extra.length ? [9, 12, 15, 18, 21] : [3, 10];
@@ -42,8 +44,9 @@ let stop = null;
 if (!part) stop = 'all of today\'s reels are done';
 else if (!FORCE && !DRY && now.hour < slot) stop = `not time yet (reel ${part} at ${slot}:00 ET, now ${now.hour}:00 ET)`;
 // With no evening script, the evening reel is that day's Neelville episode (written from data/island.json).
-const island = part === 2 && !fs.existsSync(queueFile) && fs.existsSync(`${ROOT}data/island.json`);
-if (!stop && part === 2 && !fs.existsSync(queueFile) && !island) stop = 'no second reel today';
+const clipSecond = part === 2 && !process.env.PART && !fs.existsSync(queueFile) && clipLeft;
+const island = part === 2 && !fs.existsSync(queueFile) && !clipSecond && fs.existsSync(`${ROOT}data/island.json`);
+if (!stop && part === 2 && !fs.existsSync(queueFile) && !island && !clipSecond) stop = 'no second reel today';
 if (stop) {
   console.log(stop);
   process.exit(0);
@@ -79,8 +82,9 @@ function soundtrack(script) {
   if (script.style === 'mike') sh('python3', ['tools/mike_sound.py', queueFile, 'public/mike-sound.wav']);
 }
 
-if (part === 1 && !fs.existsSync(queueFile) && morningStyle) {
-  const {script: ep, next} = WRITERS[morningStyle](read(MORNING[morningStyle], {}));
+if ((part === 1 && !fs.existsSync(queueFile) && morningStyle) || clipSecond) {
+  const style = clipSecond ? 'clip' : morningStyle;
+  const {script: ep, next} = WRITERS[style](read(MORNING[style], {}));
   write(queueFile, {...ep, date: day, next});
 }
 if (island) {
