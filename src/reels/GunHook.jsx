@@ -14,10 +14,14 @@ export const HOOK_LINES = [[0.15, 'When you fire a bullet'], [1.9, 'into a round
 export const SHOT_AT = 0.45, ENTER_AT = 2.5, LOOP_END = 7.8;
 
 const MUZZLE = new THREE.Vector3(0.98, 1.46, 0.22);
+// A clean circle like the original: a short straight from the tube mouth, a true circle (centre C, radius R) turning left,
+// then a gentle bend that brings the open end back round to face the shooter's chest.
+const R = 2.6, C = [2.2, 1.46, 0.22 - 2.6];
 const PATH = new THREE.CatmullRomCurve3([
-  [1.45, 1.46, 0.22], [2.6, 1.47, 0.28], [3.9, 1.5, -0.6], [4.3, 1.5, -2.4], [3.4, 1.5, -4.1], [1.5, 1.5, -4.8],
-  [-0.5, 1.5, -4.1], [-1.6, 1.48, -2.5], [-1.6, 1.44, -0.8], [-0.9, 1.4, 0.35], [-0.2, 1.38, 0.55], [0.32, 1.36, 0.36],
-].map((p) => new THREE.Vector3(...p)), false, 'catmullrom', 0.3);
+  [1.45, 1.46, 0.22], [1.85, 1.46, 0.22],
+  ...Array.from({length: 49}, (_, i) => { const a = (i / 48) * Math.PI * 1.5; return [C[0] + R * Math.sin(a), 1.46, C[2] + R * Math.cos(a)]; }),
+  [-0.3, 1.44, -1.5], [0.15, 1.4, -0.85], [0.7, 1.36, -0.4], [0.8, 1.34, -0.08], [0.3, 1.33, 0.0],
+].map((p) => new THREE.Vector3(...p)), false, 'centripetal');
 
 const gridTex = (bg, line, n, lw) => {
   const c = document.createElement('canvas'); c.width = c.height = 512;
@@ -51,7 +55,8 @@ const Man = ({aim}) => { // aim: 1 = arm straight out with the gun, 0 = arm down
       <Cap a={[0, 0.06, 0.1]} b={[0, 0.85, 0.1]} r={0.075} c="#b79a6e" /><Cap a={[0, 0.06, -0.1]} b={[0, 0.85, -0.1]} r={0.075} c="#b79a6e" />
       {[0.1, -0.1].map((z) => <mesh key={z} castShadow position={[0.05, 0.05, z]}><boxGeometry args={[0.26, 0.09, 0.1]} /><M c="#6b4426" /></mesh>)}
       <mesh castShadow position={[0, 1.15, 0]}><capsuleGeometry args={[0.17, 0.42, 8, 18]} /><M c="#8cc3e6" r={0.8} /></mesh>
-      <mesh castShadow position={[0, 0.9, 0]}><cylinderGeometry args={[0.18, 0.18, 0.06, 18]} /><M c="#5a3b22" /></mesh>
+      <mesh castShadow position={[0, 0.8, 0]}><cylinderGeometry args={[0.175, 0.15, 0.26, 18]} /><M c="#b79a6e" /></mesh>
+      <mesh castShadow position={[0, 0.93, 0]}><cylinderGeometry args={[0.18, 0.18, 0.05, 18]} /><M c="#5a3b22" /></mesh>
       <Cap a={[0, 1.5, 0]} b={[0, 1.58, 0]} r={0.05} c="#e0ac85" />
       <mesh castShadow position={[0, 1.7, 0]} scale={[1, 1.12, 0.95]}><sphereGeometry args={[0.11, 24, 18]} /><M c="#e6b38e" r={0.55} /></mesh>
       <mesh castShadow position={[-0.015, 1.76, 0]} scale={[1.02, 0.7, 0.98]}><sphereGeometry args={[0.113, 24, 18, 0, Math.PI * 2, 0, Math.PI / 2]} /><M c="#3b2a1e" r={0.9} /></mesh>
@@ -64,9 +69,9 @@ const Man = ({aim}) => { // aim: 1 = arm straight out with the gun, 0 = arm down
   );
 };
 
-const Cam = ({pos, look, fov}) => {
+const Cam = ({pos, look, fov, up = [0, 1, 0]}) => {
   const {camera} = useThree();
-  camera.position.set(...pos); camera.fov = fov; camera.near = 0.02; camera.updateProjectionMatrix(); camera.lookAt(...look);
+  camera.up.set(...up); camera.position.set(...pos); camera.fov = fov; camera.near = 0.02; camera.updateProjectionMatrix(); camera.lookAt(...look);
   return null;
 };
 
@@ -77,8 +82,8 @@ const shotFor = (t) => {
   if (t < 2.9) return {pos: [2.7 - k(2, 2.9) * 0.2, 1.62, 1.35], look: [1.45, 1.46, 0.22], fov: 42};
   if (t < 3.8) return {pos: [0.4, 1.78, 1.35], look: [0.85, 1.48, 0.22], fov: 40};
   if (t < 4.6) return {pos: [4.9, 1.75, -0.2 - k(3.8, 4.6) * 0.4], look: [3.7, 1.5, -2.2], fov: 45};
-  if (t < 6.5) { const a = k(4.6, 6.5) * 0.35; return {pos: [1.3 + Math.sin(a) * 0.5, 13.5, -2.0], look: [1.3, 0, -2.05], fov: 44}; }
-  return {pos: [2.2 - k(6.5, 8.4) * 0.5, 1.75, 2.4 - k(6.5, 8.4) * 0.5], look: [0.1, 1.35, 0], fov: 42};
+  if (t < 6.5) { const a = k(4.6, 6.5) * 0.35; return {pos: [2.1, 14 - a * 2, -2.4], look: [2.1, 0, -2.4], fov: 44, up: [Math.cos(a * 0.4), 0, -Math.sin(a * 0.4)]}; }
+  return {pos: [2.3 - k(6.5, 8.4) * 0.3, 1.55, -1.3 + k(6.5, 8.4) * 0.2], look: [0.25, 1.4, 0], fov: 40};
 };
 
 export const GunHook = () => {
@@ -118,8 +123,8 @@ export const GunHook = () => {
           <mesh castShadow><cylinderGeometry args={[0.018, 0.018, 0.04, 14]} /><M c="#b86b2e" r={0.3} m={0.8} /></mesh>
           <mesh position={[0, 0.03, 0]}><sphereGeometry args={[0.018, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2]} /><M c="#c27838" r={0.3} m={0.8} /></mesh>
         </group>}
-        {glow && t > 4.6 && <mesh position={glow}><sphereGeometry args={[0.16, 16, 12]} /><meshBasicMaterial color="#ff5a2a" transparent opacity={0.85} toneMapped={false} /></mesh>}
-        {glow && t > 4.6 && <pointLight position={glow} color="#ff6a30" intensity={3} distance={2} />}
+        {glow && t > 4.6 && t < 6.5 && <mesh position={glow}><sphereGeometry args={[0.16, 16, 12]} /><meshBasicMaterial color="#ff5a2a" transparent opacity={0.85} toneMapped={false} /></mesh>}
+        {glow && t > 4.6 && t < 6.5 && <pointLight position={glow} color="#ff6a30" intensity={3} distance={2} />}
         {flash > 0 && <group position={[MUZZLE.x + 0.04, MUZZLE.y + 0.04, MUZZLE.z]}>
           <mesh scale={[1.6 * flash, flash, flash]}><sphereGeometry args={[0.07, 12, 8]} /><meshBasicMaterial color="#ffd27a" transparent opacity={flash} toneMapped={false} /></mesh>
           <pointLight color="#ffb347" intensity={8 * flash} distance={3} /></group>}

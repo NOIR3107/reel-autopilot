@@ -1,0 +1,246 @@
+{
+ "bpm": 60,
+ "tail": 0,
+ "segments": [
+  {
+   "beat": 0,
+   "beats": 1.4,
+   "scene": "screen",
+   "lines": [
+    [
+     "s",
+     "IS KNOWING"
+    ],
+    [
+     "b",
+     "EXACTLY"
+    ]
+   ]
+  },
+  {
+   "beat": 1.4,
+   "beats": 1.4,
+   "scene": "desk",
+   "lines": [
+    [
+     "y",
+     "WHO YOU"
+    ],
+    [
+     "m",
+     "COULD HAVE"
+    ],
+    [
+     "b",
+     "BEEN"
+    ]
+   ]
+  },
+  {
+   "beat": 2.8,
+   "beats": 2.7,
+   "scene": "chart",
+   "hook": [
+    "LOVE",
+    "ME"
+   ],
+   "hookStyle": "serif",
+   "wordAt": [
+    0.15,
+    0.45
+   ]
+  },
+  {
+   "beat": 5.5,
+   "beats": 1.7,
+   "scene": "desk",
+   "lines": [
+    [
+     "s",
+     "YEARS"
+    ],
+    [
+     "b",
+     "BUILDING"
+    ],
+    [
+     "m",
+     "IN SILENCE"
+    ]
+   ]
+  },
+  {
+   "beat": 7.2,
+   "beats": 1.7,
+   "scene": "screen",
+   "lines": [
+    [
+     "y",
+     "DAYS"
+    ],
+    [
+     "b",
+     "DOUBTING"
+    ],
+    [
+     "m",
+     "YOURSELF"
+    ]
+   ]
+  },
+  {
+   "beat": 8.9,
+   "beats": 2.7,
+   "scene": "chart",
+   "hook": [
+    "LOVE",
+    "ME"
+   ],
+   "hookStyle": "serif",
+   "wordAt": [
+    0.15,
+    0.45
+   ]
+  },
+  {
+   "beat": 11.6,
+   "beats": 1.4,
+   "scene": "walk",
+   "lines": [
+    [
+     "s",
+     "AND STILL"
+    ],
+    [
+     "b",
+     "YOU SHOW"
+    ],
+    [
+     "b",
+     "UP"
+    ]
+   ]
+  },
+  {
+   "beat": 13.0,
+   "beats": 1.4,
+   "scene": "window",
+   "lines": [
+    [
+     "y",
+     "NOBODY"
+    ],
+    [
+     "m",
+     "SEES THE"
+    ],
+    [
+     "b",
+     "ROOTS"
+    ]
+   ]
+  },
+  {
+   "beat": 14.4,
+   "beats": 1.5,
+   "scene": "screen",
+   "lines": [
+    [
+     "s",
+     "YOUR"
+    ],
+    [
+     "b",
+     "POTENTIAL"
+    ],
+    [
+     "m",
+     "ISN'T A PROMISE"
+    ]
+   ]
+  },
+  {
+   "beat": 15.9,
+   "beats": 1.4,
+   "scene": "stairs",
+   "lines": [
+    [
+     "y",
+     "IT'S A"
+    ],
+    [
+     "b",
+     "PRACTICE"
+    ]
+   ]
+  },
+  {
+   "beat": 17.3,
+   "beats": 2.8,
+   "scene": "chart",
+   "hook": [
+    "LOVE",
+    "ME"
+   ],
+   "hookStyle": "serif",
+   "wordAt": [
+    0.15,
+    0.45
+   ]
+  },
+  {
+   "beat": 20.1,
+   "beats": 3.2,
+   "scene": "walk",
+   "lines": [
+    [
+     "s",
+     "YOU SPEND"
+    ],
+    [
+     "b",
+     "HOURS"
+    ],
+    [
+     "m",
+     "PLANNING WHO YOU'LL BE"
+    ]
+   ]
+  },
+  {
+   "beat": 23.3,
+   "beats": 3.3,
+   "scene": "desk",
+   "lines": [
+    [
+     "y",
+     "BUT WON'T SPEND"
+    ],
+    [
+     "b",
+     "ONE HOUR"
+    ],
+    [
+     "m",
+     "BECOMING IT"
+    ]
+   ]
+  },
+  {
+   "beat": 26.6,
+   "beats": 5.7,
+   "scene": "chart",
+   "hook": [
+    "LOVE",
+    "ME"
+   ],
+   "hookStyle": "serif",
+   "wordAt": [
+    0.15,
+    0.45
+   ],
+   "outro": "follow for daily growth",
+   "outroAt": 3.6
+  }
+ ]
+}

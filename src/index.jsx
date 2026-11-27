@@ -18,6 +18,7 @@ import {Ring, ringSeconds} from './reels/Ring.jsx';
 import {Lyric, lyricSeconds} from './reels/Lyric.jsx';
 import {GunHook, HOOK_SECONDS} from './reels/GunHook.jsx';
 import {GunGrowth, gunGrowthSeconds} from './reels/GunGrowth.jsx';
+import {GunLove, gunLoveSeconds} from './reels/GunLove.jsx';
 import growth from '../data/lyric-growth.json';
 import {Bridge, bridgeSeconds} from './reels/Bridge.jsx';
 
@@ -47,6 +48,7 @@ registerRoot(() => (
     <Composition id="unneel" component={Unneel} {...size} durationInFrames={1} defaultProps={{cards: [], sec: 2}}
       calculateMetadata={({props}) => ({durationInFrames: unneelFrames(props)})} />
     <Composition id="arena" component={Arena} {...size} durationInFrames={Math.round(arenaSeconds() * 30)} defaultProps={{music: true}} />
+    <Composition id="gunlove" component={GunLove} {...size} durationInFrames={Math.round(gunLoveSeconds() * 30)} defaultProps={{audio: null}} />
     <Composition id="gungrowth" component={GunGrowth} {...size} durationInFrames={Math.round(gunGrowthSeconds() * 30)} defaultProps={{audio: null}} />
     <Composition id="gunhook" component={GunHook} {...size} durationInFrames={Math.round(HOOK_SECONDS * 30)} />
     <Composition id="lyric" component={Lyric} {...size} durationInFrames={Math.round(lyricSeconds(growth) * 30)} defaultProps={{script: growth, audio: null}} />

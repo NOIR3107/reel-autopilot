@@ -111,7 +111,7 @@ export const Lyric = ({script, audio}) => {
   const segs = script.segments;
   const seg = [...segs].reverse().find((s) => t >= s.beat * beat) || segs[0];
   const si = segs.indexOf(seg), st = t - seg.beat * beat, len = seg.beats * beat;
-  const flash = interpolate(st, [0, 0.12], [0.5, 0], clamp);
+  const flash = interpolate(st, [0, 0.12], [0.5, 0], clamp), serif = seg.hookStyle === 'serif';
   const shake = Math.sin(f * 1.7) * 2 + Math.cos(f * 2.3) * 2;
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
@@ -137,13 +137,13 @@ export const Lyric = ({script, audio}) => {
         </div>
       )}
       {seg.hook && (
-        <div style={{position: 'absolute', top: 700, left: 0, right: 0, textAlign: 'center', fontFamily: '"Kaushan Script"', color: '#ec1c24', lineHeight: 0.85,
-          textShadow: '0 4px 0 #9b0d12, 0 10px 40px #0005', transform: `rotate(-6deg) scale(${interpolate(st, [0, 0.12], [1.3, 1], clamp) * (1 + st * 0.02)})`}}>
+        <div style={{position: 'absolute', top: serif ? 640 : 700, left: 0, right: 0, textAlign: 'center', fontFamily: serif ? 'Lora, Georgia, serif' : '"Kaushan Script"', fontWeight: serif ? 700 : 400, color: '#ec1c24', lineHeight: serif ? 0.95 : 0.85,
+          textShadow: serif ? '0 6px 30px #0004' : '0 4px 0 #9b0d12, 0 10px 40px #0005', transform: `rotate(${serif ? 0 : -6}deg) scale(${interpolate(st, [0, 0.12], [1.3, 1], clamp) * (1 + st * 0.02)})`}}>
           {seg.hook.map((w, i) => (
-            <div key={i} style={{fontSize: 215 - i * 5, opacity: st >= i * beat * 0.5 ? 1 : 0, marginLeft: i ? 60 : -120}}>{w}</div>
+            <div key={i} style={{fontSize: serif ? 300 : 215 - i * 5, letterSpacing: serif ? -8 : 0, opacity: st >= (seg.wordAt ? seg.wordAt[i] : i * beat * 0.5) ? 1 : 0, marginLeft: serif ? 0 : i ? 60 : -120}}>{w}</div>
           ))}
-          {seg.outro && <div style={{fontFamily: 'Montserrat', fontWeight: 900, fontSize: 46, color: '#fff', background: '#111', display: 'inline-block', padding: '14px 28px', marginTop: 260, transform: 'rotate(6deg)',
-            opacity: interpolate(st, [beat * 2.5, beat * 3], [0, 1], clamp)}}>{seg.outro.toUpperCase()}</div>}
+          {seg.outro && <div style={{fontFamily: 'Montserrat', fontWeight: 900, fontSize: 46, color: '#fff', background: '#111', display: 'inline-block', padding: '14px 28px', marginTop: serif ? 120 : 260, transform: `rotate(${serif ? 0 : 6}deg)`,
+            opacity: interpolate(st, seg.outroAt ? [seg.outroAt, seg.outroAt + 0.3] : [beat * 2.5, beat * 3], [0, 1], clamp)}}>{seg.outro.toUpperCase()}</div>}
         </div>
       )}
       {audio && <Audio src={staticFile(audio)} />}
