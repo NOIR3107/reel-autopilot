@@ -1,0 +1,16 @@
+{
+  "bpm": 92,
+  "tail": 2,
+  "segments": [
+    {"beat": 0, "beats": 2, "scene": "desk", "lines": [["s", "YEARS"], ["b", "BUILDING"], ["m", "IN SILENCE"]]},
+    {"beat": 2, "beats": 2, "scene": "screen", "lines": [["y", "DAYS"], ["b", "DOUBTING"], ["m", "YOURSELF"]]},
+    {"beat": 4, "beats": 2, "scene": "chart", "hook": ["keep", "growing"]},
+    {"beat": 6, "beats": 2, "scene": "walk", "lines": [["s", "AND STILL"], ["b", "YOU SHOW"], ["b", "UP"]]},
+    {"beat": 8, "beats": 2, "scene": "window", "lines": [["y", "NOBODY"], ["m", "SEES THE"], ["b", "ROOTS"]]},
+    {"beat": 10, "beats": 2, "scene": "chart", "hook": ["keep", "growing"]},
+    {"beat": 12, "beats": 2, "scene": "screen", "lines": [["s", "YOUR"], ["b", "POTENTIAL"]]},
+    {"beat": 14, "beats": 2, "scene": "desk", "lines": [["s", "ISN'T A"], ["b", "PROMISE"]]},
+    {"beat": 16, "beats": 2, "scene": "stairs", "lines": [["y", "IT'S A"], ["b", "PRACTICE"]]},
+    {"beat": 18, "beats": 4, "scene": "chart", "hook": ["keep", "growing"], "outro": "follow for daily growth"}
+  ]
+}

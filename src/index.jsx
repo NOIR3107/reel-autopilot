@@ -15,6 +15,8 @@ import {Blueprint, blueprintFrames} from './reels/Blueprint.jsx';
 import {Unneel, unneelFrames} from './reels/Unneel.jsx';
 import {Arena, arenaSeconds} from './reels/Arena.jsx';
 import {Ring, ringSeconds} from './reels/Ring.jsx';
+import {Lyric, lyricSeconds} from './reels/Lyric.jsx';
+import growth from '../data/lyric-growth.json';
 import {Bridge, bridgeSeconds} from './reels/Bridge.jsx';
 
 // One composition per style. The daily robot renders the one named in today's script, with the script's props.
@@ -43,6 +45,7 @@ registerRoot(() => (
     <Composition id="unneel" component={Unneel} {...size} durationInFrames={1} defaultProps={{cards: [], sec: 2}}
       calculateMetadata={({props}) => ({durationInFrames: unneelFrames(props)})} />
     <Composition id="arena" component={Arena} {...size} durationInFrames={Math.round(arenaSeconds() * 30)} defaultProps={{music: true}} />
+    <Composition id="lyric" component={Lyric} {...size} durationInFrames={Math.round(lyricSeconds(growth) * 30)} defaultProps={{script: growth, audio: null}} />
     <Composition id="ring" component={Ring} {...size} durationInFrames={Math.round(ringSeconds() * 30)} defaultProps={{music: true}} />
     <Composition id="bridge" component={Bridge} {...size} durationInFrames={Math.round(bridgeSeconds() * 30)} defaultProps={{music: true}} />
     <Composition id="mindset" component={Mindset} {...size} durationInFrames={1} defaultProps={{scenes: [{sec: 2, vo: 'hi'}], music: false}}
